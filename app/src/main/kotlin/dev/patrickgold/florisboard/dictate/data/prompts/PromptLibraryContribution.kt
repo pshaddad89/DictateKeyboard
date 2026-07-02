@@ -25,12 +25,17 @@ import java.util.Locale
  */
 object PromptLibraryContribution {
 
+    /** The controlled category vocabulary offered when contributing, matching the seed library. */
+    val CATEGORIES = listOf("Editing", "Tone", "Length", "Format", "Translation", "Fun")
+
     /**
      * Builds the pre-filled GitHub "new file" URL for [model]. The submission file is a single
      * [PromptLibraryEntry] wrapped as `{"version":1,"prompts":[…]}` so the same schema/validation the
-     * hosted library uses applies to submissions too. [author] (optional) is embedded as attribution.
+     * hosted library uses applies to submissions too. [category] and [description] (both optional)
+     * keep the community library sorted and readable; the author is stamped automatically on merge, so
+     * it is intentionally not sent here.
      */
-    fun buildSubmissionUrl(model: PromptModel, author: String? = null): String {
+    fun buildSubmissionUrl(model: PromptModel, category: String? = null, description: String? = null): String {
         val slug = slugify(model.name)
         val entry = JSONObject()
             .put("id", slug)
@@ -38,7 +43,8 @@ object PromptLibraryContribution {
             .put("prompt", model.prompt.orEmpty().trim())
             .put("requiresSelection", model.requiresSelection)
             .put("autoApply", model.autoApply)
-        if (!author.isNullOrBlank()) entry.put("author", author.trim())
+        if (!category.isNullOrBlank()) entry.put("category", category.trim())
+        if (!description.isNullOrBlank()) entry.put("description", description.trim())
         val doc = JSONObject()
             .put("version", 1)
             .put("prompts", org.json.JSONArray().put(entry))

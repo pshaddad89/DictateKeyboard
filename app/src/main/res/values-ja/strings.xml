@@ -1303,6 +1303,9 @@
     <string name="dictate__prompt_share_title">コミュニティに共有</string>
     <string name="dictate__prompt_share_message">お使いのブラウザで GitHub が開き、あなたのプロンプトが投稿として事前入力されます。サインインして確認すると、それをコミュニティライブラリに追加するプルリクエストが開きます。無料の GitHub アカウントが必要です。GitHub で確認するまで、何もアップロードされません。</string>
     <string name="dictate__prompt_share_continue">GitHub を開く</string>
+    <string name="dictate__prompt_share_category">カテゴリ（任意）</string>
+    <string name="dictate__prompt_share_description">説明（任意）</string>
+    <string name="dictate__prompt_share_description_placeholder">例：意味を変えずに文法を整えます</string>
     <string name="dictate__file_preparing">ファイルを準備中…</string>
     <string name="dictate__file_too_large">ファイルが大きすぎます – プロバイダーは最大25 MBまで受け付けます。</string>
     <string name="dictate__file_read_error">選択したファイルを読み取れませんでした。</string>

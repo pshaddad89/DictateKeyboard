@@ -65,6 +65,18 @@ object PromptLibraryManager {
     }
 
     /**
+     * The snapshot bundled inside the APK (`assets/prompt-library.json`), or null if unreadable. Used
+     * as the deepest fallback so the browser shows a useful library even on a first, offline open — it
+     * is overwritten by the live fetch as soon as the network is available.
+     */
+    suspend fun bundled(context: Context): List<PromptLibraryEntry>? = withContext(Dispatchers.IO) {
+        runCatching {
+            context.applicationContext.assets.open("prompt-library.json").use { it.readBytes() }
+                .toString(Charsets.UTF_8)
+        }.mapCatching { parse(it) }.getOrNull()
+    }
+
+    /**
      * Loads the library. When [forceRefresh] is false, a fresh-enough network fetch is attempted and,
      * on any failure, falls back to the on-disk cache (if present). When true, always hits the network
      * and only falls back to cache on failure. The returned [Result] is never null: on a cold cache and
@@ -92,19 +104,25 @@ object PromptLibraryManager {
                         runCatching { cache.writeText(body) } // best-effort cache update
                         Result(entries, fromCache = false)
                     },
-                    onFailure = { err -> fallbackToCache(cache, err) },
+                    onFailure = { err -> fallback(context, cache, err) },
                 )
             },
-            onFailure = { err -> fallbackToCache(cache, err) },
+            onFailure = { err -> fallback(context, cache, err) },
         )
     }
 
-    private fun fallbackToCache(cache: File, error: Throwable): Result {
+    // Network/parse failed: try the on-disk cache, then the APK-bundled snapshot, then give up (empty).
+    private fun fallback(context: Context, cache: File, error: Throwable): Result {
         val cached = if (cache.isFile && cache.length() > 0) {
             runCatching { parse(cache.readText()) }.getOrNull()
         } else null
-        return if (cached != null) {
-            Result(cached, fromCache = true, error = error)
+        if (cached != null) return Result(cached, fromCache = true, error = error)
+        val bundled = runCatching {
+            context.applicationContext.assets.open("prompt-library.json").use { it.readBytes() }
+                .toString(Charsets.UTF_8).let { parse(it) }
+        }.getOrNull()
+        return if (bundled != null) {
+            Result(bundled, fromCache = true, error = error)
         } else {
             Result(emptyList(), fromCache = false, error = error)
         }

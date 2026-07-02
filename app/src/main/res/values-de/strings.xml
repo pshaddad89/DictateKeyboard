@@ -1245,6 +1245,9 @@
     <string name="dictate__prompt_share_title">Mit der Community teilen</string>
     <string name="dictate__prompt_share_message">Dadurch wird GitHub in deinem Browser geöffnet, wobei dein Prompt bereits als Einreichung ausgefüllt ist. Melde dich an und bestätige, um einen Pull Request zu öffnen, der ihn zur Community-Bibliothek hinzufügt. Ein kostenloses GitHub-Konto ist erforderlich; es wird nichts hochgeladen, bis du auf GitHub bestätigst.</string>
     <string name="dictate__prompt_share_continue">GitHub öffnen</string>
+    <string name="dictate__prompt_share_category">Kategorie (optional)</string>
+    <string name="dictate__prompt_share_description">Beschreibung (optional)</string>
+    <string name="dictate__prompt_share_description_placeholder">z. B. Bereinigt die Grammatik, ohne die Bedeutung zu ändern</string>
     <string name="dictate__file_preparing">Datei wird vorbereitet…</string>
     <string name="dictate__file_too_large">Datei ist zu groß – der Anbieter akzeptiert höchstens 25 MB.</string>
     <string name="dictate__file_read_error">Die ausgewählte Datei konnte nicht gelesen werden.</string>

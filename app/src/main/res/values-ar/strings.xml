@@ -1228,6 +1228,9 @@
     <string name="dictate__prompt_share_title">المشاركة مع المجتمع</string>
     <string name="dictate__prompt_share_message">يفتح هذا GitHub في متصفّحك مع تعبئة مطالبتك مسبقًا كطلب إرسال. سجّل الدخول وأكّد لفتح طلب سحب يضيفها إلى مكتبة المجتمع. يلزم حساب GitHub مجاني؛ لا يُرفع أي شيء حتى تؤكّد على GitHub.</string>
     <string name="dictate__prompt_share_continue">فتح GitHub</string>
+    <string name="dictate__prompt_share_category">الفئة (اختياري)</string>
+    <string name="dictate__prompt_share_description">الوصف (اختياري)</string>
+    <string name="dictate__prompt_share_description_placeholder">مثال: يُصلح القواعد دون تغيير المعنى</string>
     <string name="dictate__file_preparing">جارٍ تحضير الملف…</string>
     <string name="dictate__file_too_large">الملف كبير جدًا – يقبل المزوّد 25 ميغابايت كحد أقصى.</string>
     <string name="dictate__file_read_error">تعذّرت قراءة الملف المحدّد.</string>

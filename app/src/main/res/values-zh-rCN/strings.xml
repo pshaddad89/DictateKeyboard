@@ -1368,6 +1368,9 @@
     <string name="dictate__prompt_share_title">分享到社区</string>
     <string name="dictate__prompt_share_message">这会在浏览器中打开 GitHub，并将你的提示词预填为提交内容。登录并确认后即可打开一个拉取请求，将其添加到社区库。需要一个免费的 GitHub 账户；在你于 GitHub 上确认之前，不会上传任何内容。</string>
     <string name="dictate__prompt_share_continue">打开 GitHub</string>
+    <string name="dictate__prompt_share_category">类别（可选）</string>
+    <string name="dictate__prompt_share_description">描述（可选）</string>
+    <string name="dictate__prompt_share_description_placeholder">例如：在不改变含义的情况下修正语法</string>
     <string name="dictate__file_preparing">正在准备文件…</string>
     <string name="dictate__file_too_large">文件过大——服务商最多接受 25 MB。</string>
     <string name="dictate__file_read_error">无法读取所选文件。</string>

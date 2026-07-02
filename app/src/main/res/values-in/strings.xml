@@ -1326,6 +1326,9 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__prompt_share_title">Bagikan ke komunitas</string>
     <string name="dictate__prompt_share_message">Ini membuka GitHub di browser Anda dengan perintah Anda yang sudah terisi sebagai kiriman. Masuk dan konfirmasi untuk membuka pull request yang menambahkannya ke pustaka komunitas. Diperlukan akun GitHub gratis; tidak ada yang diunggah hingga Anda mengonfirmasi di GitHub.</string>
     <string name="dictate__prompt_share_continue">Buka GitHub</string>
+    <string name="dictate__prompt_share_category">Kategori (opsional)</string>
+    <string name="dictate__prompt_share_description">Deskripsi (opsional)</string>
+    <string name="dictate__prompt_share_description_placeholder">mis. Merapikan tata bahasa tanpa mengubah maknanya</string>
     <string name="dictate__file_preparing">Menyiapkan berkas…</string>
     <string name="dictate__file_too_large">Berkas terlalu besar – penyedia menerima maksimal 25 MB.</string>
     <string name="dictate__file_read_error">Tidak dapat membaca berkas yang dipilih.</string>

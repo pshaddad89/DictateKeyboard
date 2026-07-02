@@ -1273,6 +1273,9 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__prompt_share_title">Delen met de community</string>
     <string name="dictate__prompt_share_message">Hiermee wordt GitHub in je browser geopend met je prompt al ingevuld als inzending. Meld je aan en bevestig om een pull request te openen die deze aan de communitybibliotheek toevoegt. Een gratis GitHub-account is vereist; er wordt niets geüpload totdat je op GitHub bevestigt.</string>
     <string name="dictate__prompt_share_continue">GitHub openen</string>
+    <string name="dictate__prompt_share_category">Categorie (optioneel)</string>
+    <string name="dictate__prompt_share_description">Beschrijving (optioneel)</string>
+    <string name="dictate__prompt_share_description_placeholder">bijv. Corrigeert de grammatica zonder de betekenis te wijzigen</string>
     <string name="dictate__file_preparing">Bestand voorbereiden…</string>
     <string name="dictate__file_too_large">Bestand is te groot – de aanbieder accepteert maximaal 25 MB.</string>
     <string name="dictate__file_read_error">Kan het geselecteerde bestand niet lezen.</string>

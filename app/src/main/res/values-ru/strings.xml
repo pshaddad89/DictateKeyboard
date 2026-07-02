@@ -1377,6 +1377,9 @@
     <string name="dictate__prompt_share_title">Поделиться с сообществом</string>
     <string name="dictate__prompt_share_message">Откроется GitHub в вашем браузере, где ваш промпт уже подставлен как заявка. Войдите и подтвердите, чтобы открыть пул-реквест, добавляющий его в библиотеку сообщества. Требуется бесплатный аккаунт GitHub; ничего не загружается, пока вы не подтвердите на GitHub.</string>
     <string name="dictate__prompt_share_continue">Открыть GitHub</string>
+    <string name="dictate__prompt_share_category">Категория (необязательно)</string>
+    <string name="dictate__prompt_share_description">Описание (необязательно)</string>
+    <string name="dictate__prompt_share_description_placeholder">напр. Исправляет грамматику, не меняя смысла</string>
     <string name="dictate__file_preparing">Подготовка файла…</string>
     <string name="dictate__file_too_large">Файл слишком большой — поставщик принимает не более 25 МБ.</string>
     <string name="dictate__file_read_error">Не удалось прочитать выбранный файл.</string>

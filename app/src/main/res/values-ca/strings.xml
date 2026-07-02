@@ -1247,6 +1247,9 @@
     <string name="dictate__prompt_share_title">Comparteix amb la comunitat</string>
     <string name="dictate__prompt_share_message">Això obre GitHub al teu navegador amb el teu prompt emplenat prèviament com a proposta. Inicia la sessió i confirma per obrir una pull request que l\'afegeix a la biblioteca de la comunitat. Cal un compte gratuït de GitHub; no es puja res fins que no ho confirmes a GitHub.</string>
     <string name="dictate__prompt_share_continue">Obre GitHub</string>
+    <string name="dictate__prompt_share_category">Categoria (opcional)</string>
+    <string name="dictate__prompt_share_description">Descripció (opcional)</string>
+    <string name="dictate__prompt_share_description_placeholder">p. ex. Neteja la gramàtica sense canviar-ne el significat</string>
     <string name="dictate__file_preparing">Preparant el fitxer…</string>
     <string name="dictate__file_too_large">El fitxer és massa gran – el proveïdor accepta com a màxim 25 MB.</string>
     <string name="dictate__file_read_error">No s\'ha pogut llegir el fitxer seleccionat.</string>

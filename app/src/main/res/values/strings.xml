@@ -1644,6 +1644,9 @@
     <string name="dictate__prompt_share_title" comment="Action/dialog title for contributing a prompt to the community">Share to community</string>
     <string name="dictate__prompt_share_message" comment="Explains what happens when the user contributes a prompt">This opens GitHub in your browser with your prompt pre-filled as a submission. Sign in and confirm to open a pull request that adds it to the community library. A free GitHub account is required; nothing is uploaded until you confirm on GitHub.</string>
     <string name="dictate__prompt_share_continue" comment="Confirm button that opens GitHub to submit the prompt">Open GitHub</string>
+    <string name="dictate__prompt_share_category" comment="Label above the category chips in the share dialog">Category (optional)</string>
+    <string name="dictate__prompt_share_description" comment="Label for the optional description field in the share dialog">Description (optional)</string>
+    <string name="dictate__prompt_share_description_placeholder" comment="Placeholder for the share description field">e.g. Cleans up grammar without changing the meaning</string>
 
     <!-- Dictate file transcription (long-press the mic to pick an audio/video file) -->
     <string name="dictate__file_preparing" comment="Toast shown while the picked file is copied to the cache">Preparing file…</string>

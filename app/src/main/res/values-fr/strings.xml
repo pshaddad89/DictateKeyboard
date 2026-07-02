@@ -1249,6 +1249,9 @@
     <string name="dictate__prompt_share_title">Partager avec la communauté</string>
     <string name="dictate__prompt_share_message">Cela ouvre GitHub dans votre navigateur avec votre prompt pré-rempli en tant que soumission. Connectez-vous et confirmez pour ouvrir une pull request qui l\'ajoute à la bibliothèque communautaire. Un compte GitHub gratuit est requis ; rien n\'est envoyé tant que vous n\'avez pas confirmé sur GitHub.</string>
     <string name="dictate__prompt_share_continue">Ouvrir GitHub</string>
+    <string name="dictate__prompt_share_category">Catégorie (facultatif)</string>
+    <string name="dictate__prompt_share_description">Description (facultatif)</string>
+    <string name="dictate__prompt_share_description_placeholder">p. ex. Corrige la grammaire sans changer le sens</string>
     <string name="dictate__file_preparing">Préparation du fichier…</string>
     <string name="dictate__file_too_large">Le fichier est trop volumineux – le fournisseur accepte 25 Mo au maximum.</string>
     <string name="dictate__file_read_error">Impossible de lire le fichier sélectionné.</string>

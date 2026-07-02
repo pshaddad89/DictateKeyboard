@@ -1373,6 +1373,9 @@
     <string name="dictate__prompt_share_title">Споделяне с общността</string>
     <string name="dictate__prompt_share_message">Това отваря GitHub във вашия браузър с предварително попълнена ваша подкана като заявка. Влезте и потвърдете, за да отворите заявка за изтегляне (pull request), която я добавя към библиотеката на общността. Изисква се безплатен акаунт в GitHub; нищо не се качва, докато не потвърдите в GitHub.</string>
     <string name="dictate__prompt_share_continue">Отвори GitHub</string>
+    <string name="dictate__prompt_share_category">Категория (по избор)</string>
+    <string name="dictate__prompt_share_description">Описание (по избор)</string>
+    <string name="dictate__prompt_share_description_placeholder">напр. Изчиства граматиката, без да променя смисъла</string>
     <string name="dictate__file_preparing">Подготовка на файла…</string>
     <string name="dictate__file_too_large">Файлът е твърде голям – доставчикът приема най-много 25 MB.</string>
     <string name="dictate__file_read_error">Избраният файл не може да бъде прочетен.</string>

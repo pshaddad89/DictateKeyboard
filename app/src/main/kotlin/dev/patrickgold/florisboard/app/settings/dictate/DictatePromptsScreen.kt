@@ -19,6 +19,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,6 +49,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -400,8 +403,8 @@ fun DictatePromptsScreen(
         if (share != null) {
             ShareConfirmDialog(
                 onDismiss = { pendingShare = null },
-                onConfirm = {
-                    val url = PromptLibraryContribution.buildSubmissionUrl(share)
+                onConfirm = { category, description ->
+                    val url = PromptLibraryContribution.buildSubmissionUrl(share, category, description)
                     runCatching {
                         context.startActivity(
                             Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
@@ -416,20 +419,52 @@ fun DictatePromptsScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ShareConfirmDialog(
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
+    onConfirm: (category: String?, description: String?) -> Unit,
 ) {
+    // Optional metadata the contributor supplies so the community library stays sorted and readable.
+    // Category is a fixed vocabulary (matching the library); description is a free one-liner.
+    var category by remember { mutableStateOf<String?>(null) }
+    var description by remember { mutableStateOf("") }
+
     JetPrefAlertDialog(
         title = stringRes(R.string.dictate__prompt_share_title),
         confirmLabel = stringRes(R.string.dictate__prompt_share_continue),
-        onConfirm = onConfirm,
+        onConfirm = { onConfirm(category, description.trim().ifBlank { null }) },
         dismissLabel = stringRes(R.string.action__cancel),
         onDismiss = onDismiss,
         allowOutsideDismissal = true,
     ) {
-        Text(text = stringRes(R.string.dictate__prompt_share_message))
+        Column {
+            Text(text = stringRes(R.string.dictate__prompt_share_message))
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = stringRes(R.string.dictate__prompt_share_category),
+                style = MaterialTheme.typography.labelLarge,
+            )
+            Spacer(Modifier.height(4.dp))
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                PromptLibraryContribution.CATEGORIES.forEach { option ->
+                    FilterChip(
+                        selected = category == option,
+                        onClick = { category = if (category == option) null else option },
+                        label = { Text(option) },
+                    )
+                }
+            }
+            Spacer(Modifier.height(12.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = description,
+                onValueChange = { description = it },
+                label = { Text(stringRes(R.string.dictate__prompt_share_description)) },
+                placeholder = { Text(stringRes(R.string.dictate__prompt_share_description_placeholder)) },
+                singleLine = true,
+            )
+        }
     }
 }
 

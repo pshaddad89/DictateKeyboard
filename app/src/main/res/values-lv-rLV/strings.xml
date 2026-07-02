@@ -1317,6 +1317,9 @@
     <string name="dictate__prompt_share_title">Kopīgot ar kopienu</string>
     <string name="dictate__prompt_share_message">Tas atver GitHub jūsu pārlūkā ar jūsu uzvedni, kas jau ir aizpildīta kā iesniegums. Piesakieties un apstipriniet, lai atvērtu vilkšanas pieprasījumu (pull request), kas to pievieno kopienas bibliotēkai. Nepieciešams bezmaksas GitHub konts; nekas netiek augšupielādēts, kamēr jūs neapstiprināt GitHub.</string>
     <string name="dictate__prompt_share_continue">Atvērt GitHub</string>
+    <string name="dictate__prompt_share_category">Kategorija (neobligāti)</string>
+    <string name="dictate__prompt_share_description">Apraksts (neobligāti)</string>
+    <string name="dictate__prompt_share_description_placeholder">piem. Sakārto gramatiku, nemainot nozīmi</string>
     <string name="dictate__file_preparing">Sagatavo failu…</string>
     <string name="dictate__file_too_large">Fails ir pārāk liels – pakalpojuma sniedzējs pieņem ne vairāk kā 25 MB.</string>
     <string name="dictate__file_read_error">Neizdevās nolasīt atlasīto failu.</string>

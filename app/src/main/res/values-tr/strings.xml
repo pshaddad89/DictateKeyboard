@@ -1351,6 +1351,9 @@
     <string name="dictate__prompt_share_title">Toplulukla paylaş</string>
     <string name="dictate__prompt_share_message">Bu, komutunuz gönderim olarak önceden doldurulmuş şekilde tarayıcınızda GitHub\'ı açar. Onu topluluk kütüphanesine ekleyen bir çekme isteği (pull request) açmak için oturum açıp onaylayın. Ücretsiz bir GitHub hesabı gereklidir; GitHub\'da onaylayana kadar hiçbir şey yüklenmez.</string>
     <string name="dictate__prompt_share_continue">GitHub\'ı aç</string>
+    <string name="dictate__prompt_share_category">Kategori (isteğe bağlı)</string>
+    <string name="dictate__prompt_share_description">Açıklama (isteğe bağlı)</string>
+    <string name="dictate__prompt_share_description_placeholder">örn. Anlamı değiştirmeden dil bilgisini düzeltir</string>
     <string name="dictate__file_preparing">Dosya hazırlanıyor…</string>
     <string name="dictate__file_too_large">Dosya çok büyük – sağlayıcı en fazla 25 MB kabul eder.</string>
     <string name="dictate__file_read_error">Seçilen dosya okunamadı.</string>

@@ -1155,6 +1155,9 @@
     <string name="dictate__prompt_share_title">Condividi con la community</string>
     <string name="dictate__prompt_share_message">Questo apre GitHub nel tuo browser con il tuo prompt già compilato come proposta. Accedi e conferma per aprire una pull request che lo aggiunge alla libreria della community. È necessario un account GitHub gratuito; non viene caricato nulla finché non confermi su GitHub.</string>
     <string name="dictate__prompt_share_continue">Apri GitHub</string>
+    <string name="dictate__prompt_share_category">Categoria (facoltativo)</string>
+    <string name="dictate__prompt_share_description">Descrizione (facoltativo)</string>
+    <string name="dictate__prompt_share_description_placeholder">es. Corregge la grammatica senza cambiare il significato</string>
     <string name="dictate__file_preparing">Preparazione del file…</string>
     <string name="dictate__file_too_large">Il file è troppo grande – il fornitore accetta al massimo 25 MB.</string>
     <string name="dictate__file_read_error">Impossibile leggere il file selezionato.</string>

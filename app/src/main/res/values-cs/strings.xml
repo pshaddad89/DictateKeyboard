@@ -1388,6 +1388,9 @@
     <string name="dictate__prompt_share_title">Sdílet s komunitou</string>
     <string name="dictate__prompt_share_message">Tímto se ve vašem prohlížeči otevře GitHub s vaším promptem předvyplněným jako příspěvek. Přihlaste se a potvrďte otevření pull requestu, který jej přidá do komunitní knihovny. Je vyžadován bezplatný účet GitHub; nic se nenahraje, dokud to nepotvrdíte na GitHub.</string>
     <string name="dictate__prompt_share_continue">Otevřít GitHub</string>
+    <string name="dictate__prompt_share_category">Kategorie (volitelné)</string>
+    <string name="dictate__prompt_share_description">Popis (volitelný)</string>
+    <string name="dictate__prompt_share_description_placeholder">např. Opraví gramatiku beze změny významu</string>
     <string name="dictate__file_preparing">Příprava souboru…</string>
     <string name="dictate__file_too_large">Soubor je příliš velký – poskytovatel přijímá nejvýše 25 MB.</string>
     <string name="dictate__file_read_error">Vybraný soubor nelze přečíst.</string>

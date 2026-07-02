@@ -1371,6 +1371,9 @@
     <string name="dictate__prompt_share_title">Megosztás a közösséggel</string>
     <string name="dictate__prompt_share_message">Ez megnyitja a GitHubot a böngésződben az utasításoddal előre kitöltve, beküldésként. Jelentkezz be, és erősítsd meg egy pull request megnyitásához, amely hozzáadja a közösségi könyvtárhoz. Ingyenes GitHub-fiók szükséges; semmi nem töltődik fel, amíg meg nem erősíted a GitHubon.</string>
     <string name="dictate__prompt_share_continue">GitHub megnyitása</string>
+    <string name="dictate__prompt_share_category">Kategória (opcionális)</string>
+    <string name="dictate__prompt_share_description">Leírás (opcionális)</string>
+    <string name="dictate__prompt_share_description_placeholder">pl. Kijavítja a nyelvtant a jelentés megváltoztatása nélkül</string>
     <string name="dictate__file_preparing">Fájl előkészítése…</string>
     <string name="dictate__file_too_large">A fájl túl nagy – a szolgáltató legfeljebb 25 MB-ot fogad el.</string>
     <string name="dictate__file_read_error">A kiválasztott fájl nem olvasható.</string>
