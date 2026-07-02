@@ -132,8 +132,9 @@ object InputMethodUtils {
     @RequiresApi(api = 34)
     @Composable
     private fun timedObserveIsFlorisBoardEnabled(): State<Boolean> {
-        val state = remember { mutableStateOf(false) }
         val context = LocalContext.current
+        // Seed with the real value so the "not enabled" banner doesn't flash on open before the first poll.
+        val state = remember { mutableStateOf(isFlorisboardEnabled(context)) }
         LaunchedEffect(Unit) {
             while (true) {
                 state.value = isFlorisboardEnabled(context)
@@ -146,8 +147,9 @@ object InputMethodUtils {
     @RequiresApi(api = 34)
     @Composable
     private fun timedObserveIsFlorisBoardSelected(): State<Boolean> {
-        val state = remember { mutableStateOf(false) }
         val context = LocalContext.current
+        // Seed with the real value so the "not selected" banner doesn't flash on open before the first poll.
+        val state = remember { mutableStateOf(isFlorisboardSelected(context)) }
         LaunchedEffect(Unit) {
             while (true) {
                 state.value = isFlorisboardSelected(context)
