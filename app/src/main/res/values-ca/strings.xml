@@ -1041,7 +1041,7 @@
     <string name="dictate__back_to_keyboard">Torna al teclat</string>
     <string name="dictate__error_recording_failed">Ha fallat la gravació – concedeix el permís del micròfon. (%s)</string>
     <string name="dictate__error_no_audio">No s\'ha detectat cap gravació – parla una mica més.</string>
-    <string name="dictate__no_speech_detected">No s\'ha detectat cap veu – res per transcriure.</string>
+    <string name="dictate__no_speech_detected">No s\'ha detectat cap veu</string>
     <string name="dictate__error_no_api_key">No hi ha cap clau d\'API – configura-la a la configuració del Dictate.</string>
     <string name="dictate__error_transcription_failed">Ha fallat la transcripció.</string>
     <string name="dictate__error_unknown">Error desconegut durant la transcripció.</string>
@@ -1138,7 +1138,7 @@
     <string name="dictate__keep_screen_awake_title">Mantén la pantalla encesa</string>
     <string name="dictate__keep_screen_awake_summary">Evita que la pantalla s\'apagui durant la gravació</string>
     <string name="dictate__skip_silent_title">Omet les gravacions silencioses</string>
-    <string name="dictate__skip_silent_summary">Detecta la veu al dispositiu i omet les gravacions buides, evitant text al·lucinat i crides a l\'API innecessàries</string>
+    <string name="dictate__skip_silent_summary">Evita el text al·lucinat i les crides a l\'API inútils en àudio silenciós</string>
     <string name="dictate__instant_recording_title">Gravació instantània</string>
     <string name="dictate__instant_recording_summary">Comença a gravar automàticament en obrir el teclat</string>
     <string name="dictate__instant_recording_info_title">Atenció</string>

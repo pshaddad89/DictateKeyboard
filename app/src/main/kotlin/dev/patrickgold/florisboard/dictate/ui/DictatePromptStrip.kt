@@ -129,6 +129,8 @@ fun DictatePromptRow(
             onClick = { DictateController.startLivePrompt(context) },
             modifier = Modifier.padding(horizontal = 1.5.dp),
             tapPadding = rowChipPadding,
+            // Compact row: show only the voice icon to leave more width for the saved-prompt chips.
+            iconOnly = true,
         )
         prompts.forEach { prompt ->
             DictatePromptChip(
@@ -184,6 +186,9 @@ internal fun DictatePromptChip(
     tapPadding: PaddingValues = PaddingValues(0.dp),
     highlighted: Boolean = false,
     onLongClick: (() -> Unit)? = null,
+    // Icon-only variant: drops the label and adds a little side padding so the pill stays a comfortable
+    // tap target while taking less width — used for the live-prompt chip in the compact row.
+    iconOnly: Boolean = false,
 ) {
     val prefs by FlorisPreferenceStore
     val accent by prefs.theme.accentColor.collectAsState() // follows the user's keyboard accent.
@@ -209,17 +214,24 @@ internal fun DictatePromptChip(
         SnyggIcon(
             elementName = "${FlorisImeUi.SmartbarActionTile.elementName}-icon",
             imageVector = icon,
-            // Slightly smaller than the theme default so the icon reads as a hint, not the focus.
-            modifier = Modifier.size(iconSize),
+            // Icon-only chips hide the label, so the icon carries the accessibility name instead.
+            contentDescription = if (iconOnly) text else null,
+            // Slightly smaller than the theme default so the icon reads as a hint, not the focus. When
+            // there's no label, a little horizontal padding keeps the pill from collapsing to a tiny square.
+            modifier = Modifier
+                .then(if (iconOnly) Modifier.padding(horizontal = 7.dp) else Modifier)
+                .size(iconSize),
         )
-        // Clear gap between the icon and the label.
-        Spacer(modifier = Modifier.width(6.dp))
-        SnyggText(
-            elementName = "${FlorisImeUi.SmartbarActionTile.elementName}-text",
-            // A touch of trailing room so the label never hugs the pill's right edge.
-            modifier = Modifier.padding(end = 6.dp),
-            text = text,
-        )
+        if (!iconOnly) {
+            // Clear gap between the icon and the label.
+            Spacer(modifier = Modifier.width(6.dp))
+            SnyggText(
+                elementName = "${FlorisImeUi.SmartbarActionTile.elementName}-text",
+                // A touch of trailing room so the label never hugs the pill's right edge.
+                modifier = Modifier.padding(end = 6.dp),
+                text = text,
+            )
+        }
     }
 }
 
@@ -235,6 +247,7 @@ internal fun DictateLivePromptChip(
     modifier: Modifier = Modifier,
     iconSize: Dp = 18.dp,
     tapPadding: PaddingValues = PaddingValues(0.dp),
+    iconOnly: Boolean = false,
 ) {
     DictatePromptChip(
         icon = Icons.Default.RecordVoiceOver,
@@ -243,6 +256,7 @@ internal fun DictateLivePromptChip(
         modifier = modifier,
         iconSize = iconSize,
         tapPadding = tapPadding,
+        iconOnly = iconOnly,
     )
 }
 

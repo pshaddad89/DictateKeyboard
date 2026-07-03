@@ -1022,7 +1022,7 @@
     <string name="dictate__back_to_keyboard">العودة إلى لوحة المفاتيح</string>
     <string name="dictate__error_recording_failed">فشل التسجيل – امنح إذن الميكروفون. (%s)</string>
     <string name="dictate__error_no_audio">لم يُكتشف أي تسجيل – من فضلك تحدّث لفترة أطول قليلًا.</string>
-    <string name="dictate__no_speech_detected">لم يُكتشف أي كلام – لا يوجد ما يُفرَّغ.</string>
+    <string name="dictate__no_speech_detected">لم يُكتشف أي كلام</string>
     <string name="dictate__error_no_api_key">لم يُضبط مفتاح API – اضبطه في إعدادات Dictate.</string>
     <string name="dictate__error_transcription_failed">فشل التفريغ النصي.</string>
     <string name="dictate__error_unknown">خطأ غير معروف أثناء التفريغ النصي.</string>
@@ -1119,7 +1119,7 @@
     <string name="dictate__keep_screen_awake_title">إبقاء الشاشة قيد التشغيل</string>
     <string name="dictate__keep_screen_awake_summary">منع إيقاف تشغيل الشاشة أثناء التسجيل</string>
     <string name="dictate__skip_silent_title">تخطّي التسجيلات الصامتة</string>
-    <string name="dictate__skip_silent_summary">اكتشاف الكلام محليًا على الجهاز وتخطّي التسجيلات الفارغة، لتجنّب النصوص المُختلَقة واستدعاءات API غير الضرورية</string>
+    <string name="dictate__skip_silent_summary">تجنّب النصوص المُختلَقة واستدعاءات API المهدورة في الصوت الصامت</string>
     <string name="dictate__instant_recording_title">تسجيل فوري</string>
     <string name="dictate__instant_recording_summary">بدء التسجيل تلقائيًا عند فتح لوحة المفاتيح</string>
     <string name="dictate__instant_recording_info_title">تنبيه</string>

@@ -1162,7 +1162,7 @@
     <string name="dictate__back_to_keyboard">返回键盘</string>
     <string name="dictate__error_recording_failed">录音失败——请授予麦克风权限。(%s)</string>
     <string name="dictate__error_no_audio">未检测到录音——请说久一点。</string>
-    <string name="dictate__no_speech_detected">未检测到语音——无需转录。</string>
+    <string name="dictate__no_speech_detected">未检测到语音</string>
     <string name="dictate__error_no_api_key">未设置 API 密钥——请在 Dictate 设置中配置。</string>
     <string name="dictate__error_transcription_failed">转录失败。</string>
     <string name="dictate__error_unknown">转录时发生未知错误。</string>
@@ -1259,7 +1259,7 @@
     <string name="dictate__keep_screen_awake_title">保持屏幕常亮</string>
     <string name="dictate__keep_screen_awake_summary">录音时防止屏幕关闭</string>
     <string name="dictate__skip_silent_title">跳过静音录音</string>
-    <string name="dictate__skip_silent_summary">在设备上本地检测语音并跳过空录音，避免产生幻觉文本和浪费 API 调用</string>
+    <string name="dictate__skip_silent_summary">避免静音录音产生幻觉文本和浪费 API 调用</string>
     <string name="dictate__instant_recording_title">即时录音</string>
     <string name="dictate__instant_recording_summary">打开键盘时自动开始录音</string>
     <string name="dictate__instant_recording_info_title">提示</string>

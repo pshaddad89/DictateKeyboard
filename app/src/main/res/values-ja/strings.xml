@@ -1097,7 +1097,7 @@
     <string name="dictate__back_to_keyboard">キーボードに戻る</string>
     <string name="dictate__error_recording_failed">録音に失敗しました – マイクの権限を許可してください。(%s)</string>
     <string name="dictate__error_no_audio">録音が検出されませんでした – もう少し長く話してください。</string>
-    <string name="dictate__no_speech_detected">音声が検出されませんでした – 文字起こしするものがありません。</string>
+    <string name="dictate__no_speech_detected">音声が検出されませんでした</string>
     <string name="dictate__error_no_api_key">APIキーが設定されていません – Dictate設定で構成してください。</string>
     <string name="dictate__error_transcription_failed">文字起こしに失敗しました。</string>
     <string name="dictate__error_unknown">文字起こし中に不明なエラーが発生しました。</string>
@@ -1194,7 +1194,7 @@
     <string name="dictate__keep_screen_awake_title">画面をオンのままにする</string>
     <string name="dictate__keep_screen_awake_summary">録音中に画面が消えないようにします</string>
     <string name="dictate__skip_silent_title">無音の録音をスキップ</string>
-    <string name="dictate__skip_silent_summary">端末上で音声を検出し、空の録音をスキップして、幻覚テキストや無駄なAPI呼び出しを回避します</string>
+    <string name="dictate__skip_silent_summary">無音の録音での幻覚テキストや無駄なAPI呼び出しを回避します</string>
     <string name="dictate__instant_recording_title">即時録音</string>
     <string name="dictate__instant_recording_summary">キーボードを開いたときに自動的に録音を開始します</string>
     <string name="dictate__instant_recording_info_title">お知らせ</string>

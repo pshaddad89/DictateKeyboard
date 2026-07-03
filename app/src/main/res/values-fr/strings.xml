@@ -1043,7 +1043,7 @@
     <string name="dictate__back_to_keyboard">Retour au clavier</string>
     <string name="dictate__error_recording_failed">Échec de l\'enregistrement – accordez l\'autorisation du microphone. (%s)</string>
     <string name="dictate__error_no_audio">Aucun enregistrement détecté – parlez un peu plus longtemps.</string>
-    <string name="dictate__no_speech_detected">Aucune parole détectée – rien à transcrire.</string>
+    <string name="dictate__no_speech_detected">Aucune parole détectée</string>
     <string name="dictate__error_no_api_key">Aucune clé d\'API définie – configurez-la dans les paramètres de Dictate.</string>
     <string name="dictate__error_transcription_failed">Échec de la transcription.</string>
     <string name="dictate__error_unknown">Erreur inconnue lors de la transcription.</string>
@@ -1140,7 +1140,7 @@
     <string name="dictate__keep_screen_awake_title">Garder l\'écran allumé</string>
     <string name="dictate__keep_screen_awake_summary">Empêcher l\'écran de s\'éteindre pendant l\'enregistrement</string>
     <string name="dictate__skip_silent_title">Ignorer les enregistrements silencieux</string>
-    <string name="dictate__skip_silent_summary">Détecte la parole sur l\'appareil et ignore les enregistrements vides, évitant le texte halluciné et les appels API inutiles</string>
+    <string name="dictate__skip_silent_summary">Évite le texte halluciné et les appels API inutiles sur un audio silencieux</string>
     <string name="dictate__instant_recording_title">Enregistrement instantané</string>
     <string name="dictate__instant_recording_summary">Démarrer l\'enregistrement automatiquement à l\'ouverture du clavier</string>
     <string name="dictate__instant_recording_info_title">Information</string>

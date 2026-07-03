@@ -1171,7 +1171,7 @@
     <string name="dictate__back_to_keyboard">Назад к клавиатуре</string>
     <string name="dictate__error_recording_failed">Не удалось записать — предоставьте разрешение на доступ к микрофону. (%s)</string>
     <string name="dictate__error_no_audio">Запись не обнаружена — говорите немного дольше.</string>
-    <string name="dictate__no_speech_detected">Речь не обнаружена — нечего расшифровывать.</string>
+    <string name="dictate__no_speech_detected">Речь не обнаружена</string>
     <string name="dictate__error_no_api_key">Ключ API не задан — настройте его в настройках Dictate.</string>
     <string name="dictate__error_transcription_failed">Не удалось выполнить транскрибирование.</string>
     <string name="dictate__error_unknown">Неизвестная ошибка при транскрибировании.</string>
@@ -1268,7 +1268,7 @@
     <string name="dictate__keep_screen_awake_title">Не гасить экран</string>
     <string name="dictate__keep_screen_awake_summary">Не давать экрану выключаться во время записи</string>
     <string name="dictate__skip_silent_title">Пропускать тихие записи</string>
-    <string name="dictate__skip_silent_summary">Распознаёт речь на устройстве и пропускает пустые записи, избегая выдуманного текста и лишних вызовов API</string>
+    <string name="dictate__skip_silent_summary">Избегайте выдуманного текста и лишних вызовов API при тихой записи</string>
     <string name="dictate__instant_recording_title">Мгновенная запись</string>
     <string name="dictate__instant_recording_summary">Автоматически начинать запись при открытии клавиатуры</string>
     <string name="dictate__instant_recording_info_title">Обратите внимание</string>

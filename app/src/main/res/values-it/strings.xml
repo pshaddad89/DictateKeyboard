@@ -949,7 +949,7 @@
     <string name="dictate__back_to_keyboard">Torna alla tastiera</string>
     <string name="dictate__error_recording_failed">Registrazione non riuscita – concedi l\'autorizzazione al microfono. (%s)</string>
     <string name="dictate__error_no_audio">Nessuna registrazione rilevata – parla un po\' più a lungo.</string>
-    <string name="dictate__no_speech_detected">Nessun parlato rilevato – niente da trascrivere.</string>
+    <string name="dictate__no_speech_detected">Nessun parlato rilevato</string>
     <string name="dictate__error_no_api_key">Nessuna chiave API impostata – configurala nelle impostazioni di Dictate.</string>
     <string name="dictate__error_transcription_failed">Trascrizione non riuscita.</string>
     <string name="dictate__error_unknown">Errore sconosciuto durante la trascrizione.</string>
@@ -1046,7 +1046,7 @@
     <string name="dictate__keep_screen_awake_title">Mantieni lo schermo acceso</string>
     <string name="dictate__keep_screen_awake_summary">Impedisci che lo schermo si spenga durante la registrazione</string>
     <string name="dictate__skip_silent_title">Salta le registrazioni silenziose</string>
-    <string name="dictate__skip_silent_summary">Rileva il parlato sul dispositivo e salta le registrazioni vuote, evitando testo allucinato e chiamate API inutili</string>
+    <string name="dictate__skip_silent_summary">Evita testo allucinato e chiamate API inutili con audio silenzioso</string>
     <string name="dictate__instant_recording_title">Registrazione istantanea</string>
     <string name="dictate__instant_recording_summary">Avvia la registrazione automaticamente all\'apertura della tastiera</string>
     <string name="dictate__instant_recording_info_title">Avviso</string>

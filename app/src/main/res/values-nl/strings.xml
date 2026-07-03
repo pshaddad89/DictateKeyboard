@@ -1067,7 +1067,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__back_to_keyboard">Terug naar toetsenbord</string>
     <string name="dictate__error_recording_failed">Opname mislukt – verleen de microfoontoestemming. (%s)</string>
     <string name="dictate__error_no_audio">Geen opname gedetecteerd – spreek wat langer.</string>
-    <string name="dictate__no_speech_detected">Geen spraak gedetecteerd – niets om te transcriberen.</string>
+    <string name="dictate__no_speech_detected">Geen spraak gedetecteerd</string>
     <string name="dictate__error_no_api_key">Geen API-sleutel ingesteld – stel deze in via de Dictate-instellingen.</string>
     <string name="dictate__error_transcription_failed">Transcriptie mislukt.</string>
     <string name="dictate__error_unknown">Onbekende fout tijdens de transcriptie.</string>
@@ -1164,7 +1164,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__keep_screen_awake_title">Scherm aan houden</string>
     <string name="dictate__keep_screen_awake_summary">Voorkomen dat het scherm uitgaat tijdens het opnemen</string>
     <string name="dictate__skip_silent_title">Stille opnames overslaan</string>
-    <string name="dictate__skip_silent_summary">Detecteert spraak op het apparaat en slaat lege opnames over, om gehallucineerde tekst en overbodige API-aanroepen te voorkomen</string>
+    <string name="dictate__skip_silent_summary">Voorkomt gehallucineerde tekst en overbodige API-aanroepen bij stille audio</string>
     <string name="dictate__instant_recording_title">Direct opnemen</string>
     <string name="dictate__instant_recording_summary">Automatisch beginnen met opnemen wanneer het toetsenbord wordt geopend</string>
     <string name="dictate__instant_recording_info_title">Let op</string>

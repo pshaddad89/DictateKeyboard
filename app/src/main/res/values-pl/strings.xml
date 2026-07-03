@@ -1183,7 +1183,7 @@
     <string name="dictate__back_to_keyboard">Powrót do klawiatury</string>
     <string name="dictate__error_recording_failed">Nagrywanie nie powiodło się – przyznaj uprawnienie do mikrofonu. (%s)</string>
     <string name="dictate__error_no_audio">Nie wykryto nagrania – mów trochę dłużej.</string>
-    <string name="dictate__no_speech_detected">Nie wykryto mowy – nie ma czego transkrybować.</string>
+    <string name="dictate__no_speech_detected">Nie wykryto mowy</string>
     <string name="dictate__error_no_api_key">Nie ustawiono klucza API – skonfiguruj go w ustawieniach Dictate.</string>
     <string name="dictate__error_transcription_failed">Transkrypcja nie powiodła się.</string>
     <string name="dictate__error_unknown">Nieznany błąd podczas transkrypcji.</string>
@@ -1280,7 +1280,7 @@
     <string name="dictate__keep_screen_awake_title">Nie wygaszaj ekranu</string>
     <string name="dictate__keep_screen_awake_summary">Zapobiegaj wyłączaniu ekranu podczas nagrywania</string>
     <string name="dictate__skip_silent_title">Pomijaj ciche nagrania</string>
-    <string name="dictate__skip_silent_summary">Wykrywa mowę na urządzeniu i pomija puste nagrania, unikając zmyślonego tekstu i zbędnych wywołań API</string>
+    <string name="dictate__skip_silent_summary">Unikaj zmyślonego tekstu i zbędnych wywołań API przy cichym nagraniu</string>
     <string name="dictate__instant_recording_title">Natychmiastowe nagrywanie</string>
     <string name="dictate__instant_recording_summary">Automatycznie rozpoczynaj nagrywanie po otwarciu klawiatury</string>
     <string name="dictate__instant_recording_info_title">Uwaga</string>

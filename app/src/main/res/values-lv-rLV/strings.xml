@@ -1111,7 +1111,7 @@
     <string name="dictate__back_to_keyboard">Atpakaļ uz tastatūru</string>
     <string name="dictate__error_recording_failed">Ierakstīšana neizdevās – piešķiriet mikrofona atļauju. (%s)</string>
     <string name="dictate__error_no_audio">Ieraksts nav konstatēts – lūdzu, runājiet nedaudz ilgāk.</string>
-    <string name="dictate__no_speech_detected">Runa nav atpazīta – nav ko transkribēt.</string>
+    <string name="dictate__no_speech_detected">Runa nav atpazīta</string>
     <string name="dictate__error_no_api_key">API atslēga nav iestatīta – konfigurējiet to Dictate iestatījumos.</string>
     <string name="dictate__error_transcription_failed">Transkribēšana neizdevās.</string>
     <string name="dictate__error_unknown">Nezināma kļūda transkribēšanas laikā.</string>
@@ -1208,7 +1208,7 @@
     <string name="dictate__keep_screen_awake_title">Neļaut ekrānam izslēgties</string>
     <string name="dictate__keep_screen_awake_summary">Neļaut ekrānam izslēgties ierakstīšanas laikā</string>
     <string name="dictate__skip_silent_title">Izlaist klusos ierakstus</string>
-    <string name="dictate__skip_silent_summary">Atpazīst runu ierīcē un izlaiž tukšos ierakstus, novēršot izdomātu tekstu un liekus API izsaukumus</string>
+    <string name="dictate__skip_silent_summary">Novērš izdomātu tekstu un liekus API izsaukumus klusā ierakstā</string>
     <string name="dictate__instant_recording_title">Tūlītēja ierakstīšana</string>
     <string name="dictate__instant_recording_summary">Sākt ierakstīšanu automātiski, kad tiek atvērta tastatūra</string>
     <string name="dictate__instant_recording_info_title">Ievērībai</string>

@@ -1149,7 +1149,7 @@
     <string name="dictate__back_to_keyboard">Volver al teclado</string>
     <string name="dictate__error_recording_failed">Error al grabar: concede el permiso de micrófono. (%s)</string>
     <string name="dictate__error_no_audio">No se detectó grabación: habla un poco más.</string>
-    <string name="dictate__no_speech_detected">No se detectó voz – nada que transcribir.</string>
+    <string name="dictate__no_speech_detected">No se detectó voz</string>
     <string name="dictate__error_no_api_key">No hay clave de API: configúrala en los ajustes de Dictate.</string>
     <string name="dictate__error_transcription_failed">Error en la transcripción.</string>
     <string name="dictate__error_unknown">Error desconocido durante la transcripción.</string>
@@ -1246,7 +1246,7 @@
     <string name="dictate__keep_screen_awake_title">Mantener la pantalla encendida</string>
     <string name="dictate__keep_screen_awake_summary">Evitar que la pantalla se apague durante la grabación</string>
     <string name="dictate__skip_silent_title">Omitir grabaciones silenciosas</string>
-    <string name="dictate__skip_silent_summary">Detecta la voz en el dispositivo y omite las grabaciones vacías, evitando texto alucinado y llamadas a la API innecesarias</string>
+    <string name="dictate__skip_silent_summary">Evita texto alucinado y llamadas a la API inútiles en audio silencioso</string>
     <string name="dictate__instant_recording_title">Grabación instantánea</string>
     <string name="dictate__instant_recording_summary">Empezar a grabar automáticamente al abrir el teclado</string>
     <string name="dictate__instant_recording_info_title">Aviso</string>

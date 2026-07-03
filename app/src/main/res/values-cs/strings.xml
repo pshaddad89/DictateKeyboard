@@ -1182,7 +1182,7 @@
     <string name="dictate__back_to_keyboard">Zpět na klávesnici</string>
     <string name="dictate__error_recording_failed">Nahrávání selhalo – udělte oprávnění k mikrofonu. (%s)</string>
     <string name="dictate__error_no_audio">Nebylo zjištěno žádné nahrávání – mluvte o něco déle.</string>
-    <string name="dictate__no_speech_detected">Nebyla rozpoznána žádná řeč – není co přepsat.</string>
+    <string name="dictate__no_speech_detected">Nebyla rozpoznána žádná řeč</string>
     <string name="dictate__error_no_api_key">Není nastaven klíč API – nastavte jej v nastavení Dictate.</string>
     <string name="dictate__error_transcription_failed">Přepis selhal.</string>
     <string name="dictate__error_unknown">Neznámá chyba při přepisu.</string>
@@ -1279,7 +1279,7 @@
     <string name="dictate__keep_screen_awake_title">Ponechat obrazovku zapnutou</string>
     <string name="dictate__keep_screen_awake_summary">Zabránit vypnutí obrazovky během nahrávání</string>
     <string name="dictate__skip_silent_title">Přeskočit tichá nahrávání</string>
-    <string name="dictate__skip_silent_summary">Rozpozná řeč přímo v zařízení a přeskočí prázdná nahrávání, čímž předejde vymyšlenému textu a zbytečným voláním API</string>
+    <string name="dictate__skip_silent_summary">Zabraňte vymyšlenému textu a zbytečným voláním API u tichého záznamu</string>
     <string name="dictate__instant_recording_title">Okamžité nahrávání</string>
     <string name="dictate__instant_recording_summary">Automaticky spustit nahrávání při otevření klávesnice</string>
     <string name="dictate__instant_recording_info_title">Upozornění</string>

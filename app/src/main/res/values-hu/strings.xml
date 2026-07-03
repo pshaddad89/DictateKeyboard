@@ -1165,7 +1165,7 @@
     <string name="dictate__back_to_keyboard">Vissza a billentyűzethez</string>
     <string name="dictate__error_recording_failed">A felvétel sikertelen – engedélyezze a mikrofont. (%s)</string>
     <string name="dictate__error_no_audio">Nem érzékelhető felvétel – kérjük, beszéljen egy kicsit tovább.</string>
-    <string name="dictate__no_speech_detected">Nem érzékelhető beszéd – nincs mit átírni.</string>
+    <string name="dictate__no_speech_detected">Nem érzékelhető beszéd</string>
     <string name="dictate__error_no_api_key">Nincs beállítva API-kulcs – állítsa be a Dictate beállításaiban.</string>
     <string name="dictate__error_transcription_failed">Az átírás sikertelen.</string>
     <string name="dictate__error_unknown">Ismeretlen hiba az átírás során.</string>
@@ -1262,7 +1262,7 @@
     <string name="dictate__keep_screen_awake_title">Képernyő ébren tartása</string>
     <string name="dictate__keep_screen_awake_summary">A képernyő kikapcsolásának megakadályozása felvétel közben</string>
     <string name="dictate__skip_silent_title">Néma felvételek kihagyása</string>
-    <string name="dictate__skip_silent_summary">Felismeri a beszédet a készüléken, és kihagyja az üres felvételeket, elkerülve a kitalált szöveget és a felesleges API-hívásokat</string>
+    <string name="dictate__skip_silent_summary">Kerüli a kitalált szöveget és a felesleges API-hívásokat néma hangnál</string>
     <string name="dictate__instant_recording_title">Azonnali felvétel</string>
     <string name="dictate__instant_recording_summary">A felvétel automatikus indítása a billentyűzet megnyitásakor</string>
     <string name="dictate__instant_recording_info_title">Figyelem</string>

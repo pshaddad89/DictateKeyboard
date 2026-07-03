@@ -1286,7 +1286,7 @@
     <!-- Dictate errors. %s is a provider/system error detail. -->
     <string name="dictate__error_recording_failed" comment="Error when audio recording could not be started. %s is the system error detail.">Recording failed – grant the microphone permission. (%s)</string>
     <string name="dictate__error_no_audio" comment="Error when no audio was captured">No recording detected – please speak a little longer.</string>
-    <string name="dictate__no_speech_detected" comment="Shown when the on-device VAD found no speech in the recording (issue #93)">No speech detected – nothing to transcribe.</string>
+    <string name="dictate__no_speech_detected" comment="Shown when the on-device VAD found no speech in the recording (issue #93)">No speech detected</string>
     <string name="dictate__error_no_api_key" comment="Error when no API key is configured">No API key set – configure it in the Dictate settings.</string>
     <string name="dictate__error_transcription_failed" comment="Generic transcription failure">Transcription failed.</string>
     <string name="dictate__error_unknown" comment="Unknown transcription error">Unknown error during transcription.</string>
@@ -1447,7 +1447,7 @@
     <string name="dictate__keep_screen_awake_title" comment="Setting: keep the screen on while recording">Keep screen awake</string>
     <string name="dictate__keep_screen_awake_summary" comment="Summary for the keep-screen-awake setting">Prevent the screen from turning off while recording</string>
     <string name="dictate__skip_silent_title" comment="Setting: skip transcribing recordings that contain no speech">Skip silent recordings</string>
-    <string name="dictate__skip_silent_summary" comment="Summary for the skip-silent-recordings setting">Detect speech on-device and skip empty recordings, avoiding hallucinated text and wasted API calls</string>
+    <string name="dictate__skip_silent_summary" comment="Summary for the skip-silent-recordings setting">Avoid ghost text and wasted API calls on silent audio</string>
     <string name="dictate__instant_recording_title" comment="Setting: start recording when the keyboard opens">Instant recording</string>
     <string name="dictate__instant_recording_summary" comment="Summary for the instant recording setting">Start recording automatically when the keyboard opens</string>
     <string name="dictate__instant_recording_skip_numeric_title" comment="Setting: don't auto-start recording on number-only fields">Skip number fields</string>

@@ -1120,7 +1120,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__back_to_keyboard">Kembali ke papan ketik</string>
     <string name="dictate__error_recording_failed">Perekaman gagal – berikan izin mikrofon. (%s)</string>
     <string name="dictate__error_no_audio">Tidak ada rekaman terdeteksi – mohon bicara sedikit lebih lama.</string>
-    <string name="dictate__no_speech_detected">Tidak ada ucapan terdeteksi – tidak ada yang perlu ditranskripsi.</string>
+    <string name="dictate__no_speech_detected">Tidak ada ucapan terdeteksi</string>
     <string name="dictate__error_no_api_key">Kunci API belum diatur – konfigurasikan di pengaturan Dictate.</string>
     <string name="dictate__error_transcription_failed">Transkripsi gagal.</string>
     <string name="dictate__error_unknown">Kesalahan tidak diketahui saat transkripsi.</string>
@@ -1217,7 +1217,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__keep_screen_awake_title">Jaga layar tetap menyala</string>
     <string name="dictate__keep_screen_awake_summary">Cegah layar mati saat merekam</string>
     <string name="dictate__skip_silent_title">Lewati rekaman senyap</string>
-    <string name="dictate__skip_silent_summary">Deteksi ucapan di perangkat dan lewati rekaman kosong, menghindari teks halusinasi dan panggilan API yang sia-sia</string>
+    <string name="dictate__skip_silent_summary">Hindari teks halusinasi dan panggilan API sia-sia pada audio senyap</string>
     <string name="dictate__instant_recording_title">Perekaman instan</string>
     <string name="dictate__instant_recording_summary">Mulai merekam secara otomatis saat papan ketik terbuka</string>
     <string name="dictate__instant_recording_info_title">Perhatian</string>
