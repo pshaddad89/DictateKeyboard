@@ -444,6 +444,13 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__instant_output",
             default = true,
         )
+        // Real-time (streaming) transcription (issue #128): show text live while speaking, for providers
+        // that support it (OpenAI realtime, Soniox, Deepgram, …). Global switch; falls back to batch when
+        // the selected provider has no realtime support. Default off.
+        val realtimeTranscription = boolean(
+            key = "dictate__realtime_transcription",
+            default = false,
+        )
         // Speed of the typewriter animation when instantOutput is off (1 = slow … 10 = fast).
         val outputSpeed = int(
             key = "dictate__output_speed",

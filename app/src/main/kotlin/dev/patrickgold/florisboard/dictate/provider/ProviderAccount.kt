@@ -36,6 +36,12 @@ data class ProviderAccount(
     val customBaseUrl: String = "",
     val transcriptionModel: String = "",
     val chatModel: String = "",
+    /**
+     * Chosen real-time streaming model for this provider (issue #128); empty = use the preset's
+     * defaultRealtimeModel. Additive field, defaults empty for older stored accounts. Only meaningful
+     * when the provider supports realtime and global real-time mode is on.
+     */
+    val realtimeModel: String = "",
     val cachedModels: List<String> = emptyList(),
     val cachedModelsAt: Long = 0L,
     /**
