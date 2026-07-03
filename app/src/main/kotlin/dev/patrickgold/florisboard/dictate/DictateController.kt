@@ -220,6 +220,7 @@ object DictateController {
     private val realtimeFinal = StringBuilder()      // accumulated finalized segments
     @Volatile private var realtimeFailed = false     // stream errored → fall back to batch on stop
     private var realtimeClosed: CompletableDeferred<Unit>? = null
+    private var realtimeContext: Context? = null     // app context to clear the provisional field text
 
     private var recorder: RecordingController? = null
     private var startJob: Job? = null
@@ -443,11 +444,13 @@ object DictateController {
         startJob = null
         recorder?.cancel()
         recorder = null
-        // Tear down any realtime stream (#128) and clear the live caption.
+        // Tear down any realtime stream (#128) and remove the live provisional text from the field.
         realtimeSession?.cancel()
         realtimeSession = null
         realtimeClosed = null
         _interimText.value = ""
+        realtimeContext?.let { ctx -> runCatching { sink(ctx).clearComposing() } }
+        realtimeContext = null
         unregisterScreenOffReceiver()
         cleanupAudioRouting()
         livePromptArmed = false
@@ -536,7 +539,7 @@ object DictateController {
                 val audioSource = setupBluetoothIfEnabled(appContext)
                 // Real-time (#128): open a streaming session and stream mic PCM to it; null → normal batch.
                 // The WAV is written in parallel either way (fallback / resend / interrupted flows).
-                val pcmSink = openRealtimeSession()
+                val pcmSink = openRealtimeSession(appContext)
                 recorder = RecordingController(appContext).also { it.start(audioSource, pcmSink) }
                 _state.value = UiState.Recording(SystemClock.elapsedRealtime(), accumulatedMs = seedAccumulatedMs)
                 // Highlight the live-prompt chip for the duration of a live-prompt recording.
@@ -793,6 +796,7 @@ object DictateController {
         recordedSeconds: Long,
         live: Boolean,
         alreadyFormatted: Boolean,
+        finalizeViaComposing: Boolean = false,
     ) {
         val finalText = if (live) {
             // The spoken transcript is an instruction; send it to GPT (optionally operating on the current
@@ -810,7 +814,15 @@ object DictateController {
         }
         // Deterministic find-and-replace dictionary (issue #129), applied right before insert.
         val outputText = prefs.dictate.customMappings.get().apply(finalText)
-        commitOutput(appContext, outputText)
+        if (finalizeViaComposing) {
+            // Realtime (#128): replace the live provisional text with the finished (reworded) result in one
+            // clean step, then honor auto-enter — instead of committing on top of the streamed preview.
+            val outSink = sink(appContext)
+            outSink.finishComposing(outputText)
+            if (prefs.dictate.autoEnter.get() && outputText.isNotEmpty()) outSink.performEnter()
+        } else {
+            commitOutput(appContext, outputText)
+        }
         // Re-insert safety net (issue #111) + lifetime stats (issue #142).
         rememberLastDictation(outputText)
         DictateStats.recordDictation(prefs, outputText, recordedSeconds)
@@ -841,7 +853,7 @@ object DictateController {
      * (which feeds captured 16 kHz frames, resampled per provider). Returns null when realtime does not
      * apply or the session can't be created — the caller then records normally (batch).
      */
-    private fun openRealtimeSession(): ((ByteArray, Int) -> Unit)? {
+    private fun openRealtimeSession(appContext: Context): ((ByteArray, Int) -> Unit)? {
         val api = realtimeApiForActiveAccount() ?: return null
         val account = transcriptionAccount()
         val preset = presetFor(account)
@@ -850,13 +862,19 @@ object DictateController {
         realtimeFinal.setLength(0)
         realtimeFailed = false
         _interimText.value = ""
+        realtimeContext = appContext
         val closed = CompletableDeferred<Unit>()
         realtimeClosed = closed
+        // Show the growing transcript live in the field as provisional (composing) text (issue #128).
+        fun showLive(full: String) {
+            _interimText.value = full
+            runCatching { sink(appContext).setComposingText(full) }
+        }
         val callbacks = object : RealtimeCallbacks {
             override fun onPartial(text: String) {
                 scope.launch {
                     val head = realtimeFinal.toString()
-                    _interimText.value = (if (head.isEmpty()) text else "$head $text").trim()
+                    showLive((if (head.isEmpty()) text else "$head $text").trim())
                 }
             }
             override fun onFinalSegment(text: String) {
@@ -866,7 +884,7 @@ object DictateController {
                         if (realtimeFinal.isNotEmpty()) realtimeFinal.append(' ')
                         realtimeFinal.append(t)
                     }
-                    _interimText.value = realtimeFinal.toString()
+                    showLive(realtimeFinal.toString())
                 }
             }
             override fun onError(t: Throwable) { realtimeFailed = true }
@@ -890,6 +908,7 @@ object DictateController {
     private fun stopRealtimeAndFinalize(context: Context) {
         val session = realtimeSession
         realtimeSession = null
+        realtimeContext = null
         val activeRecorder = recorder
         recorder = null
         _livePromptActive.value = false
@@ -911,6 +930,8 @@ object DictateController {
                 val transcript = realtimeFinal.toString().trim()
                 _interimText.value = ""
                 if (realtimeFailed || transcript.isEmpty()) {
+                    // Drop the live provisional text; the batch path commits fresh from the WAV.
+                    runCatching { sink(appContext).clearComposing() }
                     if (wavFile != null && wavFile.exists() && wavFile.length() > 0L) {
                         livePromptArmed = live
                         transcribe(context, wavFile, recordedSeconds, gate = false)
@@ -920,11 +941,12 @@ object DictateController {
                     return@launch
                 }
                 wavFile?.delete()
-                finalizeAndCommit(appContext, transcript, recordedSeconds, live, alreadyFormatted = false)
+                finalizeAndCommit(appContext, transcript, recordedSeconds, live, alreadyFormatted = false, finalizeViaComposing = true)
             } catch (c: CancellationException) {
                 throw c
             } catch (t: Throwable) {
                 _interimText.value = ""
+                runCatching { sink(appContext).clearComposing() }
                 if (wavFile != null && wavFile.exists() && wavFile.length() > 0L) {
                     livePromptArmed = live
                     transcribe(context, wavFile, recordedSeconds, gate = false)
@@ -1172,6 +1194,8 @@ object DictateController {
         realtimeSession = null
         realtimeClosed = null
         _interimText.value = ""
+        realtimeContext?.let { ctx -> runCatching { sink(ctx).clearComposing() } }
+        realtimeContext = null
         unregisterScreenOffReceiver()
         val seconds = recordedSecondsOf(current)
         val wasLive = livePromptArmed

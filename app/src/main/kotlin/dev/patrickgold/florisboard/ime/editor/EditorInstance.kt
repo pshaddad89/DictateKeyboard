@@ -239,6 +239,38 @@ class EditorInstance(context: Context) : AbstractEditorInstance(context) {
     }
 
     /**
+     * Live real-time dictation (issue #128): show [text] as the composing (provisional/underlined) region,
+     * replacing any previous provisional text, so streaming transcription appears in the field and updates
+     * in place as words arrive. Written straight to the InputConnection — the editor resyncs on the next
+     * selection update — so it does not collide with the typing/suggestion content model.
+     */
+    fun setDictationComposingText(text: String): Boolean {
+        val ic = currentInputConnection() ?: return false
+        return ic.setComposingText(text, 1)
+    }
+
+    /** Finalizes live dictation: replace the provisional text with [text] (finished/reworded) and commit it. */
+    fun finalizeDictationComposing(text: String): Boolean {
+        val ic = currentInputConnection() ?: return false
+        ic.beginBatchEdit()
+        ic.setComposingText(text, 1)
+        val ok = ic.finishComposingText()
+        ic.endBatchEdit()
+        updateLastCommitPosition()
+        return ok
+    }
+
+    /** Removes the provisional dictation text entirely (cancel / abort a realtime recording). */
+    fun clearDictationComposing(): Boolean {
+        val ic = currentInputConnection() ?: return false
+        ic.beginBatchEdit()
+        ic.setComposingText("", 1)
+        val ok = ic.finishComposingText()
+        ic.endBatchEdit()
+        return ok
+    }
+
+    /**
      * Completes the given [candidate] in the current composing region. Does nothing if the current
      * input editor is not rich or if the input connection is invalid.
      *

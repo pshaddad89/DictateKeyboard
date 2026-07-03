@@ -48,6 +48,19 @@ interface DictationSink {
      * Returns true when the field accepted the removal.
      */
     fun deleteLastText(text: String): Boolean
+
+    /**
+     * Live real-time dictation (issue #128): show [text] as provisional/composing text that updates in
+     * place as more words stream in. The keyboard path underlines it; the overlay path has no composing
+     * concept, so it is a no-op there (the finished text is committed on [finishComposing] instead).
+     */
+    fun setComposingText(text: String)
+
+    /** Finalize live dictation: replace the provisional text with the finished/reworded [text] and commit. */
+    fun finishComposing(text: String)
+
+    /** Remove the provisional dictation text entirely (a realtime recording was cancelled). */
+    fun clearComposing()
 }
 
 /**
@@ -86,6 +99,18 @@ class ImeDictationSink(context: Context) : DictationSink {
         // Reuse the keyboard's own delete handling (one backspace per character).
         repeat(text.length) { keyboardManager.inputEventDispatcher.sendDownUp(TextKeyData.DELETE) }
         return true
+    }
+
+    override fun setComposingText(text: String) {
+        editorInstance.setDictationComposingText(text)
+    }
+
+    override fun finishComposing(text: String) {
+        editorInstance.finalizeDictationComposing(text)
+    }
+
+    override fun clearComposing() {
+        editorInstance.clearDictationComposing()
     }
 
     private companion object {
