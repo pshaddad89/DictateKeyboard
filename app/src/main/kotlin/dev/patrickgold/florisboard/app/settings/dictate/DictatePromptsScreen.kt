@@ -587,7 +587,9 @@ private fun PromptEditorDialog(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 110.dp),
+                    // Cap the height so a long prompt scrolls inside the field instead of stretching the
+                    // whole dialog into a scroll (issue #149).
+                    .heightIn(min = 110.dp, max = 220.dp),
                 value = text,
                 onValueChange = { text = it; showError = false },
                 label = { Text(stringRes(R.string.dictate__prompt_text_title)) },

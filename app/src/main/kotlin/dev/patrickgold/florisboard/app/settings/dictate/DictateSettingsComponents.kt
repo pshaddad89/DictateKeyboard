@@ -218,7 +218,9 @@ internal fun PreferenceUiScope<FlorisPreferenceModel>.TextInputPreference(
             OutlinedTextField(
                 modifier = Modifier
                     .padding(top = 4.dp)
-                    .then(if (multiline) Modifier.heightIn(min = 120.dp) else Modifier),
+                    // Cap a multiline field so long text scrolls inside it instead of stretching the
+                    // whole dialog into a scroll (issue #149).
+                    .then(if (multiline) Modifier.heightIn(min = 120.dp, max = 220.dp) else Modifier),
                 value = text,
                 onValueChange = { text = it },
                 singleLine = !multiline,
