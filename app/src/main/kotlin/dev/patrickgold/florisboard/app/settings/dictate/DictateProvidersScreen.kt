@@ -475,8 +475,6 @@ private fun ProviderEditorDialog(
     }
     var transcriptionModel by remember { mutableStateOf(account.transcriptionModel) }
     var chatModel by remember { mutableStateOf(account.chatModel) }
-    var realtimeModel by remember { mutableStateOf(account.realtimeModel) }
-    var showRealtimePicker by remember { mutableStateOf(false) }
     // Live catalog cache, updated when the picker fetches; persisted together with the rest on confirm.
     var cachedModels by remember { mutableStateOf(account.cachedModels) }
     var cachedAudioModels by remember { mutableStateOf(account.cachedAudioModels) }
@@ -526,7 +524,6 @@ private fun ProviderEditorDialog(
                     customBaseUrl = baseUrl.trim(),
                     transcriptionModel = transcriptionModel.trim(),
                     chatModel = chatModel.trim(),
-                    realtimeModel = realtimeModel.trim(),
                     cachedModels = cachedModels,
                     cachedAudioModels = cachedAudioModels,
                     transcriptionViaChat = transcriptionViaChat,
@@ -589,22 +586,8 @@ private fun ProviderEditorDialog(
                         ?: stringRes(R.string.dictate__model_placeholder),
                     onBrowse = { pickerKind = ModelKind.TRANSCRIPTION },
                 )
-                // Real-time streaming model (issue #128): only for providers that support streaming; picked
-                // from the provider's curated realtime catalog. Empty = the preset's default realtime model.
-                if (preset?.supportsRealtime == true) {
-                    EditorField(
-                        label = stringRes(R.string.dictate__providers_field_realtime_model),
-                        value = realtimeModel,
-                        onValueChange = { realtimeModel = it },
-                        placeholder = preset.defaultRealtimeModel
-                            ?: stringRes(R.string.dictate__model_placeholder),
-                        onBrowse = if (preset.curatedRealtimeModels.isNotEmpty()) {
-                            { showRealtimePicker = true }
-                        } else {
-                            null
-                        },
-                    )
-                }
+                // Real-time streaming model (issue #128) is intentionally not exposed: every provider has
+                // effectively one usable streaming model, so the engine always uses the preset default.
             }
             // Rewording model is unused while single-call multimodal is on (one model does both, #130).
             if (showChat && !transcriptionViaChat) {
@@ -672,71 +655,6 @@ private fun ProviderEditorDialog(
             },
             onDismiss = { pickerKind = null },
         )
-    }
-
-    if (showRealtimePicker && preset != null) {
-        RealtimeModelPickerDialog(
-            models = preset.curatedRealtimeModels,
-            default = preset.defaultRealtimeModel,
-            current = realtimeModel,
-            onPick = { realtimeModel = it },
-            onDismiss = { showRealtimePicker = false },
-        )
-    }
-}
-
-/**
- * Simple picker for a provider's real-time streaming model (issue #128). Unlike the transcription/chat
- * model picker there is no live `/models` catalog for streaming, so it lists the provider's curated set
- * ([ProviderPreset.curatedRealtimeModels]); an empty selection means "use the preset default".
- */
-@Composable
-private fun RealtimeModelPickerDialog(
-    models: List<String>,
-    default: String?,
-    current: String,
-    onPick: (String) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    JetPrefAlertDialog(
-        title = stringRes(R.string.dictate__providers_field_realtime_model),
-        dismissLabel = stringRes(R.string.action__cancel),
-        onDismiss = onDismiss,
-    ) {
-        Column {
-            models.forEach { model ->
-                val isDefault = model == default
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            // Store empty when picking the preset default, so the account tracks the preset.
-                            onPick(if (isDefault) "" else model)
-                            onDismiss()
-                        }
-                        .padding(vertical = 12.dp, horizontal = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    RadioButton(
-                        selected = current == model || (current.isBlank() && isDefault),
-                        onClick = {
-                            onPick(if (isDefault) "" else model)
-                            onDismiss()
-                        },
-                    )
-                    Column(modifier = Modifier.padding(start = 8.dp)) {
-                        Text(model, style = MaterialTheme.typography.bodyLarge)
-                        if (isDefault) {
-                            Text(
-                                stringRes(R.string.dictate__providers_realtime_model_default),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 

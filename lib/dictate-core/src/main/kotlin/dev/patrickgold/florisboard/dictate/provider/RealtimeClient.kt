@@ -222,6 +222,7 @@ private class SonioxRealtimeSession(
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
     private var ws: WebSocket? = null
     private val permanent = StringBuilder()
+    @Volatile private var started = false   // config text must be the first frame — gate audio until sent
     @Volatile private var done = false
 
     private companion object { const val URL = "wss://stt-rt.soniox.com/transcribe-websocket" }
@@ -234,6 +235,7 @@ private class SonioxRealtimeSession(
         override fun onOpen(webSocket: WebSocket, response: Response) {
             android.util.Log.i("DictateRT", "soniox WS open (http ${response.code}); sending config model=$model")
             webSocket.send(config())
+            started = true
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
@@ -270,6 +272,7 @@ private class SonioxRealtimeSession(
     }.toString()
 
     override fun sendAudio(pcm16: ByteArray, len: Int) {
+        if (!started) return   // drop audio captured before the config frame was sent
         runCatching { ws?.send(pcm16.toByteString(0, len)) }
     }
 
@@ -488,6 +491,7 @@ private class GeminiRealtimeSession(
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
     private var ws: WebSocket? = null
     private val transcript = StringBuilder()
+    @Volatile private var started = false    // gate audio until the server acks setup (setupComplete)
     @Volatile private var finishing = false
     @Volatile private var done = false
 
@@ -522,6 +526,7 @@ private class GeminiRealtimeSession(
 
     private fun handle(webSocket: WebSocket, text: String) {
         val obj = runCatching { json.parseToJsonElement(text).jsonObject }.getOrNull() ?: return
+        if (obj.containsKey("setupComplete")) started = true   // now safe to stream audio
         val server = obj["serverContent"]?.jsonObject
         server?.get("inputTranscription")?.jsonObject?.get("text")?.jsonPrimitive?.content?.let { chunk ->
             if (chunk.isNotEmpty()) {
@@ -545,6 +550,7 @@ private class GeminiRealtimeSession(
     }.toString()
 
     override fun sendAudio(pcm16: ByteArray, len: Int) {
+        if (!started) return   // wait for setupComplete before streaming audio (Gemini Live requirement)
         val bytes = if (len == pcm16.size) pcm16 else pcm16.copyOf(len)
         val msg = buildJsonObject {
             putJsonObject("realtimeInput") {
