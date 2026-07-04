@@ -1213,6 +1213,10 @@
     <string name="dictate__resend_button_title">再送信ボタン</string>
     <string name="dictate__resend_button_summary">文字起こしに失敗した場合、同じ録音で再試行するボタンを表示します</string>
     <string name="dictate__transcription_group">文字起こし（音声 → テキスト）</string>
+    <string name="dictate__formatting_title">書式 &amp; 語彙</string>
+    <string name="dictate__formatting_menu_summary">スタイルプロンプト、カスタム単語、置換</string>
+    <string name="dictate__recording_menu_summary">リアルタイム、音声ソース、即時録音</string>
+    <string name="dictate__output_menu_summary">自動エンター、入力速度、再送信</string>
     <string name="dictate__languages_group">言語</string>
     <string name="dictate__languages_title">文字起こし言語</string>
     <string name="dictate__languages_summary">音声入力する言語を選択します。録音バーから素早く切り替えられます。</string>

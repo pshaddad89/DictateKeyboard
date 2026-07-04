@@ -1159,6 +1159,10 @@
     <string name="dictate__resend_button_title">Bouton de renvoi</string>
     <string name="dictate__resend_button_summary">Si la transcription échoue, afficher un bouton pour réessayer avec le même enregistrement</string>
     <string name="dictate__transcription_group">Transcription (voix → texte)</string>
+    <string name="dictate__formatting_title">Mise en forme &amp; vocabulaire</string>
+    <string name="dictate__formatting_menu_summary">Invite de style, mots personnalisés, remplacements</string>
+    <string name="dictate__recording_menu_summary">Temps réel, source audio, enregistrement instantané</string>
+    <string name="dictate__output_menu_summary">Entrée auto, vitesse de frappe, renvoyer</string>
     <string name="dictate__languages_group">Langues</string>
     <string name="dictate__languages_title">Langues de transcription</string>
     <string name="dictate__languages_summary">Choisissez les langues dans lesquelles vous dictez. Basculez rapidement entre elles depuis la barre d\'enregistrement.</string>

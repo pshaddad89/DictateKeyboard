@@ -1138,6 +1138,10 @@
     <string name="dictate__resend_button_title">زر إعادة الإرسال</string>
     <string name="dictate__resend_button_summary">إذا فشل التفريغ النصي، أظهِر زرًا لإعادة المحاولة بالتسجيل نفسه</string>
     <string name="dictate__transcription_group">التفريغ النصي (كلام ← نص)</string>
+    <string name="dictate__formatting_title">التنسيق &amp; المفردات</string>
+    <string name="dictate__formatting_menu_summary">موجّه الأسلوب، كلمات مخصّصة، استبدالات</string>
+    <string name="dictate__recording_menu_summary">الوقت الفعلي، مصدر الصوت، التسجيل الفوري</string>
+    <string name="dictate__output_menu_summary">إدخال تلقائي، سرعة الكتابة، إعادة الإرسال</string>
     <string name="dictate__languages_group">اللغات</string>
     <string name="dictate__languages_title">لغات التفريغ النصي</string>
     <string name="dictate__languages_summary">اختر اللغات التي تُملي بها. بدّل بينها بسرعة من شريط التسجيل.</string>

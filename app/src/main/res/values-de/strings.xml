@@ -1175,6 +1175,10 @@
     <string name="dictate__resend_button_title">Erneut-senden-Button</string>
     <string name="dictate__resend_button_summary">Wenn die Transkription fehlschlägt, einen Button zum erneuten Versuch mit derselben Aufnahme anzeigen</string>
     <string name="dictate__transcription_group">Transkription (Sprache → Text)</string>
+    <string name="dictate__formatting_title">Formatierung &amp; Vokabular</string>
+    <string name="dictate__formatting_menu_summary">Stil-Prompt, eigene Wörter, Ersetzungen</string>
+    <string name="dictate__recording_menu_summary">Echtzeit, Audioquelle, Sofortaufnahme</string>
+    <string name="dictate__output_menu_summary">Auto-Enter, Tippgeschwindigkeit, erneut senden</string>
     <string name="dictate__languages_group">Sprachen</string>
     <string name="dictate__languages_title">Transkriptionssprachen</string>
     <string name="dictate__languages_summary">Wähle die Sprachen, in denen du diktierst. Wechsle über die Aufnahmeleiste schnell zwischen ihnen.</string>

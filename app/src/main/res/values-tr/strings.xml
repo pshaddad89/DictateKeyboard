@@ -1261,6 +1261,10 @@
     <string name="dictate__resend_button_title">Yeniden gönder düğmesi</string>
     <string name="dictate__resend_button_summary">Yazıya dökme başarısız olursa, aynı kayıtla yeniden denemek için bir düğme göster</string>
     <string name="dictate__transcription_group">Yazıya dökme (konuşma → metin)</string>
+    <string name="dictate__formatting_title">Biçimlendirme &amp; sözcük dağarcığı</string>
+    <string name="dictate__formatting_menu_summary">Stil istemi, özel sözcükler, değiştirmeler</string>
+    <string name="dictate__recording_menu_summary">Gerçek zamanlı, ses kaynağı, anlık kayıt</string>
+    <string name="dictate__output_menu_summary">Otomatik Enter, yazma hızı, yeniden gönder</string>
     <string name="dictate__languages_group">Diller</string>
     <string name="dictate__languages_title">Yazıya dökme dilleri</string>
     <string name="dictate__languages_summary">Dikte ettiğiniz dilleri seçin. Kayıt çubuğundan aralarında hızlıca geçiş yapın.</string>

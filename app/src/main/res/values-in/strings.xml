@@ -1236,6 +1236,10 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__resend_button_title">Tombol kirim ulang</string>
     <string name="dictate__resend_button_summary">Jika transkripsi gagal, tampilkan tombol untuk mencoba lagi dengan rekaman yang sama</string>
     <string name="dictate__transcription_group">Transkripsi (ucapan → teks)</string>
+    <string name="dictate__formatting_title">Pemformatan &amp; kosakata</string>
+    <string name="dictate__formatting_menu_summary">Prompt gaya, kata khusus, penggantian</string>
+    <string name="dictate__recording_menu_summary">Real-time, sumber audio, rekaman instan</string>
+    <string name="dictate__output_menu_summary">Auto-enter, kecepatan ketik, kirim ulang</string>
     <string name="dictate__languages_group">Bahasa</string>
     <string name="dictate__languages_title">Bahasa transkripsi</string>
     <string name="dictate__languages_summary">Pilih bahasa yang Anda gunakan untuk mendikte. Beralih di antaranya dengan cepat dari bilah perekaman.</string>

@@ -1281,6 +1281,10 @@
     <string name="dictate__resend_button_title">Újraküldés gomb</string>
     <string name="dictate__resend_button_summary">Ha az átírás sikertelen, gomb megjelenítése az azonos felvétellel való újrapróbálkozáshoz</string>
     <string name="dictate__transcription_group">Átírás (beszéd → szöveg)</string>
+    <string name="dictate__formatting_title">Formázás &amp; szókincs</string>
+    <string name="dictate__formatting_menu_summary">Stílusutasítás, egyéni szavak, cserék</string>
+    <string name="dictate__recording_menu_summary">Valós idejű, hangforrás, azonnali felvétel</string>
+    <string name="dictate__output_menu_summary">Automatikus Enter, gépelési sebesség, újraküldés</string>
     <string name="dictate__languages_group">Nyelvek</string>
     <string name="dictate__languages_title">Átírási nyelvek</string>
     <string name="dictate__languages_summary">Válassza ki a nyelveket, amelyeken diktál. Gyorsan válthat közöttük a felvételi sávból.</string>

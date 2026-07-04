@@ -1065,6 +1065,10 @@
     <string name="dictate__resend_button_title">Pulsante reinvia</string>
     <string name="dictate__resend_button_summary">Se la trascrizione non riesce, mostra un pulsante per riprovare con la stessa registrazione</string>
     <string name="dictate__transcription_group">Trascrizione (voce → testo)</string>
+    <string name="dictate__formatting_title">Formattazione &amp; vocabolario</string>
+    <string name="dictate__formatting_menu_summary">Prompt di stile, parole personalizzate, sostituzioni</string>
+    <string name="dictate__recording_menu_summary">Tempo reale, sorgente audio, registrazione istantanea</string>
+    <string name="dictate__output_menu_summary">Auto-invio, velocità di digitazione, reinvia</string>
     <string name="dictate__languages_group">Lingue</string>
     <string name="dictate__languages_title">Lingue di trascrizione</string>
     <string name="dictate__languages_summary">Scegli le lingue in cui detti. Passa rapidamente dall\'una all\'altra dalla barra di registrazione.</string>
