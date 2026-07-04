@@ -87,6 +87,7 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
                 resolvedDictLang.clear()
                 rankedWordsByLang.withLock { it.clear() }
                 lowerIndexByLang.withLock { it.clear() }
+                bigramsByLang.withLock { it.clear() }
             }
         }
     }
@@ -169,7 +170,14 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
     }
 
     private fun loadBigrams(lang: String): Map<String, Long> = runCatching {
-        val text = appContext.assets.readText("ime/dict/${lang}_bigrams.txt")
+        // A downloaded per-language bigram file (issue: per-language Tier 2) takes precedence over the
+        // bundled English asset — mirrors readDict for the unigram dictionaries.
+        val downloaded = GlideDictionaryManager.bigramFile(appContext, lang)
+        val text = if (downloaded.isFile && downloaded.length() > 0) {
+            downloaded.readText()
+        } else {
+            appContext.assets.readText("ime/dict/${lang}_bigrams.txt")
+        }
         val map = HashMap<String, Long>(45_000)
         text.lineSequence().forEach { line ->
             val tab = line.indexOf('\t')
