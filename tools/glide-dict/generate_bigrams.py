@@ -22,7 +22,7 @@ Usage:
 
 Prints a catalog line "BigramDict(<lang>, <bytes>, <sha256>)" on success for pasting into the app catalog.
 """
-import sys, os, re, io, json, tarfile, hashlib, argparse, urllib.request
+import sys, os, re, io, json, tarfile, tempfile, hashlib, argparse, urllib.request
 
 LEIPZIG = "https://downloads.wortschatz-leipzig.de/corpora"
 # Script-agnostic "real word": letters (any script), optionally joined by ' ' - internally. No digits.
@@ -41,8 +41,26 @@ def is_word(w: str) -> bool:
 
 
 def build(lang: str, pkg: str, top: int, out_dir: str):
-    raw = get(f"{LEIPZIG}/{pkg}.tar.gz")
-    tar = tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz")
+    # Stream the package to a temp file (some are hundreds of MB) instead of loading it into memory.
+    url = f"{LEIPZIG}/{pkg}.tar.gz"
+    sys.stderr.write(f"  GET {url}\n")
+    req = urllib.request.Request(url, headers={"User-Agent": "dictate-bigram-gen"})
+    tmp = tempfile.NamedTemporaryFile(suffix=".tar.gz", delete=False)
+    try:
+        with urllib.request.urlopen(req) as r:
+            while True:
+                chunk = r.read(1 << 20)
+                if not chunk:
+                    break
+                tmp.write(chunk)
+        tmp.close()
+        tar = tarfile.open(tmp.name, mode="r:gz")
+        _extract_and_write(tar, lang, pkg, top, out_dir)
+    finally:
+        os.unlink(tmp.name)
+
+
+def _extract_and_write(tar, lang: str, pkg: str, top: int, out_dir: str):
 
     def member(suffix: str):
         name = next((m for m in tar.getnames() if m.endswith(suffix)), None)
