@@ -1298,6 +1298,10 @@
     <string name="dictate__resend_button_title">Tlačítko opětovného odeslání</string>
     <string name="dictate__resend_button_summary">Pokud přepis selže, zobrazit tlačítko pro opakování se stejnou nahrávkou</string>
     <string name="dictate__transcription_group">Přepis (řeč → text)</string>
+    <string name="dictate__formatting_title">Formátování &amp; slovník</string>
+    <string name="dictate__formatting_menu_summary">Výzva pro styl, vlastní slova, náhrady</string>
+    <string name="dictate__recording_menu_summary">V reálném čase, zdroj zvuku, okamžité nahrávání</string>
+    <string name="dictate__output_menu_summary">Automatický Enter, rychlost psaní, opětovné odeslání</string>
     <string name="dictate__languages_group">Jazyky</string>
     <string name="dictate__languages_title">Jazyky přepisu</string>
     <string name="dictate__languages_summary">Vyberte jazyky, ve kterých diktujete. Rychle mezi nimi přepínejte na liště nahrávání.</string>

@@ -1157,6 +1157,10 @@
     <string name="dictate__resend_button_title">Botó de reenviament</string>
     <string name="dictate__resend_button_summary">Si la transcripció falla, mostra un botó per tornar-ho a provar amb la mateixa gravació</string>
     <string name="dictate__transcription_group">Transcripció (veu → text)</string>
+    <string name="dictate__formatting_title">Format i vocabulari</string>
+    <string name="dictate__formatting_menu_summary">Indicació d\'estil, paraules personalitzades, substitucions</string>
+    <string name="dictate__recording_menu_summary">Temps real, font d\'àudio, gravació instantània</string>
+    <string name="dictate__output_menu_summary">Retorn automàtic, velocitat d\'escriptura, reenviament</string>
     <string name="dictate__languages_group">Idiomes</string>
     <string name="dictate__languages_title">Idiomes de transcripció</string>
     <string name="dictate__languages_summary">Tria els idiomes en què dictes. Canvia ràpidament d\'un a l\'altre des de la barra de gravació.</string>

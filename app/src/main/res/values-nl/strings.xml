@@ -1183,6 +1183,10 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__resend_button_title">Opnieuw-verzenden-knop</string>
     <string name="dictate__resend_button_summary">Als de transcriptie mislukt, een knop tonen om het opnieuw te proberen met dezelfde opname</string>
     <string name="dictate__transcription_group">Transcriptie (spraak → tekst)</string>
+    <string name="dictate__formatting_title">Opmaak &amp; woordenschat</string>
+    <string name="dictate__formatting_menu_summary">Stijlprompt, aangepaste woorden, vervangingen</string>
+    <string name="dictate__recording_menu_summary">Realtime, audiobron, direct opnemen</string>
+    <string name="dictate__output_menu_summary">Auto-enter, typesnelheid, opnieuw verzenden</string>
     <string name="dictate__languages_group">Talen</string>
     <string name="dictate__languages_title">Transcriptietalen</string>
     <string name="dictate__languages_summary">Kies de talen waarin je dicteert. Wissel er snel tussen via de opnamebalk.</string>

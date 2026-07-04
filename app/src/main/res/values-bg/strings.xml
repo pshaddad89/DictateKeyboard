@@ -1283,6 +1283,10 @@
     <string name="dictate__resend_button_title">Бутон за повторно изпращане</string>
     <string name="dictate__resend_button_summary">Ако транскрибирането е неуспешно, показвай бутон за повторен опит със същия запис</string>
     <string name="dictate__transcription_group">Транскрибиране (реч → текст)</string>
+    <string name="dictate__formatting_title">Форматиране &amp; речник</string>
+    <string name="dictate__formatting_menu_summary">Промпт за стил, персонализирани думи, замени</string>
+    <string name="dictate__recording_menu_summary">В реално време, аудиоизточник, незабавен запис</string>
+    <string name="dictate__output_menu_summary">Автоматичен Enter, скорост на писане, повторно изпращане</string>
     <string name="dictate__languages_group">Езици</string>
     <string name="dictate__languages_title">Езици за транскрибиране</string>
     <string name="dictate__languages_summary">Изберете езиците, на които диктувате. Превключвайте бързо между тях от лентата за запис.</string>

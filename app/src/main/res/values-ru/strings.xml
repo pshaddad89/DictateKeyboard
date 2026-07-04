@@ -1287,6 +1287,10 @@
     <string name="dictate__resend_button_title">Кнопка повторной отправки</string>
     <string name="dictate__resend_button_summary">Если транскрибирование не удалось, показывать кнопку для повтора с той же записью</string>
     <string name="dictate__transcription_group">Транскрибирование (речь → текст)</string>
+    <string name="dictate__formatting_title">Форматирование &amp; словарь</string>
+    <string name="dictate__formatting_menu_summary">Промпт стиля, свои слова, замены</string>
+    <string name="dictate__recording_menu_summary">В реальном времени, источник звука, мгновенная запись</string>
+    <string name="dictate__output_menu_summary">Авто-Enter, скорость печати, повторная отправка</string>
     <string name="dictate__languages_group">Языки</string>
     <string name="dictate__languages_title">Языки транскрибирования</string>
     <string name="dictate__languages_summary">Выберите языки, на которых вы диктуете. Быстро переключайтесь между ними на панели записи.</string>

@@ -1227,6 +1227,10 @@
     <string name="dictate__resend_button_title">Atkārtotas sūtīšanas poga</string>
     <string name="dictate__resend_button_summary">Ja transkribēšana neizdodas, rādīt pogu, lai mēģinātu vēlreiz ar to pašu ierakstu</string>
     <string name="dictate__transcription_group">Transkribēšana (runa → teksts)</string>
+    <string name="dictate__formatting_title">Formatēšana &amp; vārdnīca</string>
+    <string name="dictate__formatting_menu_summary">Stila uzvedne, pielāgoti vārdi, aizvietojumi</string>
+    <string name="dictate__recording_menu_summary">Reāllaiks, audio avots, tūlītējs ieraksts</string>
+    <string name="dictate__output_menu_summary">Automātisks Enter, rakstīšanas ātrums, atkārtota sūtīšana</string>
     <string name="dictate__languages_group">Valodas</string>
     <string name="dictate__languages_title">Transkribēšanas valodas</string>
     <string name="dictate__languages_summary">Izvēlieties valodas, kurās diktējat. Ātri pārslēdzieties starp tām no ierakstīšanas joslas.</string>

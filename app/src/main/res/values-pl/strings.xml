@@ -1299,6 +1299,10 @@
     <string name="dictate__resend_button_title">Przycisk ponownego wysłania</string>
     <string name="dictate__resend_button_summary">Jeśli transkrypcja się nie powiedzie, pokaż przycisk do ponowienia z tym samym nagraniem</string>
     <string name="dictate__transcription_group">Transkrypcja (mowa → tekst)</string>
+    <string name="dictate__formatting_title">Formatowanie &amp; słownictwo</string>
+    <string name="dictate__formatting_menu_summary">Monit stylu, własne słowa, zamiany</string>
+    <string name="dictate__recording_menu_summary">Czas rzeczywisty, źródło dźwięku, natychmiastowe nagrywanie</string>
+    <string name="dictate__output_menu_summary">Auto-Enter, szybkość pisania, wyślij ponownie</string>
     <string name="dictate__languages_group">Języki</string>
     <string name="dictate__languages_title">Języki transkrypcji</string>
     <string name="dictate__languages_summary">Wybierz języki, w których dyktujesz. Szybko przełączaj się między nimi na pasku nagrywania.</string>

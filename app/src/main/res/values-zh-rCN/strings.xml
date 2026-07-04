@@ -1278,6 +1278,10 @@
     <string name="dictate__resend_button_title">重新发送按钮</string>
     <string name="dictate__resend_button_summary">如果转录失败，显示一个按钮以使用相同录音重试</string>
     <string name="dictate__transcription_group">转录（语音 → 文字）</string>
+    <string name="dictate__formatting_title">格式 &amp; 词汇</string>
+    <string name="dictate__formatting_menu_summary">风格提示、自定义词语、替换</string>
+    <string name="dictate__recording_menu_summary">实时、音频源、即时录音</string>
+    <string name="dictate__output_menu_summary">自动回车、输入速度、重新发送</string>
     <string name="dictate__languages_group">语言</string>
     <string name="dictate__languages_title">转录语言</string>
     <string name="dictate__languages_summary">选择您听写所用的语言。可从录音栏快速切换。</string>
