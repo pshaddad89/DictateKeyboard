@@ -768,7 +768,14 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
             KeyCode.CLIPBOARD_COPY -> editorInstance.performClipboardCopy()
             KeyCode.CLIPBOARD_PASTE -> editorInstance.performClipboardPaste()
             KeyCode.CLIPBOARD_SELECT -> handleClipboardSelect()
-            KeyCode.CLIPBOARD_SELECT_ALL -> editorInstance.performClipboardSelectAll()
+            KeyCode.CLIPBOARD_SELECT_ALL -> {
+                // Toggle (issue #152): select all when nothing is selected, otherwise clear the selection.
+                if (editorInstance.activeContent.selection.isSelectionMode) {
+                    editorInstance.performClipboardDeselect()
+                } else {
+                    editorInstance.performClipboardSelectAll()
+                }
+            }
             KeyCode.CLIPBOARD_CLEAR_HISTORY -> clipboardManager.clearHistory()
             KeyCode.CLIPBOARD_CLEAR_FULL_HISTORY -> clipboardManager.clearFullHistory()
             KeyCode.CLIPBOARD_CLEAR_PRIMARY_CLIP -> {
