@@ -43,7 +43,12 @@ import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.dictate.DictateController
 import dev.patrickgold.florisboard.ime.input.LocalInputFeedbackController
 import dev.patrickgold.florisboard.ime.keyboard.ComputingEvaluator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Deselect
+import dev.patrickgold.florisboard.editorInstance
 import dev.patrickgold.florisboard.ime.keyboard.computeImageVector
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import dev.patrickgold.florisboard.ime.keyboard.computeLabel
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
@@ -148,8 +153,22 @@ fun QuickActionButton(
                         // on the recording state. Observe it so the icon recomputes on state changes;
                         // for all other actions this is a cheap, stable subscription.
                         val dictateState by DictateController.state.collectAsState()
-                        val (imageVector, label) = remember(action, evaluator, dictateState) {
-                            evaluator.computeImageVector(action.data) to evaluator.computeLabel(action.data)
+                        // Select-all is a toggle (issue #152): reflect the field's selection live so the
+                        // icon shows "deselect" when text is selected. distinctUntilChanged keeps this
+                        // cheap for every action button — it only recomposes when selection presence flips.
+                        val editorInstance by context.editorInstance()
+                        val hasSelection by remember(editorInstance) {
+                            editorInstance.activeContentFlow
+                                .map { it.selection.isSelectionMode }
+                                .distinctUntilChanged()
+                        }.collectAsState(initial = editorInstance.activeContent.selection.isSelectionMode)
+                        val (imageVector, label) = remember(action, evaluator, dictateState, hasSelection) {
+                            val icon = if (action.data.code == KeyCode.CLIPBOARD_SELECT_ALL && hasSelection) {
+                                Icons.Default.Deselect
+                            } else {
+                                evaluator.computeImageVector(action.data)
+                            }
+                            icon to evaluator.computeLabel(action.data)
                         }
                         if (imageVector != null) {
                             SnyggBox(

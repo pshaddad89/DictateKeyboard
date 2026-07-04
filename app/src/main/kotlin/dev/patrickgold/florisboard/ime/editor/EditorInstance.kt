@@ -507,6 +507,20 @@ class EditorInstance(context: Context) : AbstractEditorInstance(context) {
     }
 
     /**
+     * Clears the current selection, collapsing the cursor to the end of what was selected. The inverse of
+     * [performClipboardSelectAll], used to make the select-all action a toggle (issue #152). No-op when
+     * nothing is selected.
+     */
+    fun performClipboardDeselect(): Boolean {
+        val selection = activeContent.selection
+        if (selection.isNotValid || !selection.isSelectionMode) return false
+        val ic = currentInputConnection() ?: return false
+        ic.finishComposingText()
+        val pos = selection.end
+        return ic.setSelection(pos, pos)
+    }
+
+    /**
      * Performs an enter key press on the current input editor.
      *
      * @return True on success, false if an error occurred or the input connection is invalid.
