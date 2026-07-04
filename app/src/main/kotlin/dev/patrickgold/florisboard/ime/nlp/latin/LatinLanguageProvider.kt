@@ -38,6 +38,7 @@ import kotlinx.serialization.json.Json
 import org.florisboard.lib.android.readText
 import org.florisboard.lib.kotlin.guardedByLock
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.ln
 
 class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProvider {
     companion object {
@@ -52,6 +53,12 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         // 128..255 scale). Rarer fixes are still offered as tap suggestions but never swapped in
         // automatically, so uncommon-but-intentional words (names, jargon) aren't mangled.
         private const val AUTOCORRECT_MIN_FREQ = 170
+
+        // Keyboard-proximity noisy-channel model (Tier 1). Distances are in key-width² units.
+        private const val PROX_SIGMA2 = 1.0         // touch variance (~1 key-width std): near mis-taps cost little
+        private const val NEUTRAL_SUB_SQDIST = 2.0  // fallback substitution distance² when key geometry is unknown
+        private const val LENGTH_DIFF_PENALTY = -0.7 // flat log-penalty for insert/delete candidates
+        private const val TRANSPOSE_PENALTY = -0.3   // adjacent-swap typo; cost independent of key distance
 
         // Legacy ISO-639 codes that java.util.Locale still reports; map them to the modern code the
         // dictionary files use.
@@ -225,9 +232,48 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
                 if (index.freq.containsKey(ee)) known.add(ee)
             }
         }
-        return known.sortedByDescending { index.freq[it] ?: 0 }
+        // Noisy-channel ranking (Tier 1): combine the unigram prior with a keyboard-proximity likelihood,
+        // so a fat-finger substitution of an adjacent key beats a merely more frequent but far-away word,
+        // instead of ranking purely by frequency.
+        return known.sortedByDescending { channelScore(lower, it, index.freq[it] ?: 0) }
             .take(maxCount)
             .map { index.canonical[it] ?: it }
+    }
+
+    /**
+     * Noisy-channel score for ranking a correction candidate (Tier 1): log unigram prior + log likelihood
+     * that [typed] is a mis-tap of [cand] given the keyboard geometry. Higher is better.
+     */
+    private fun channelScore(typed: String, cand: String, freq: Int): Double =
+        ln((freq + 1).toDouble()) + spatialLogLikelihood(typed, cand)
+
+    /**
+     * log P(typed | cand): near-key substitutions cost little, far ones a lot (Gaussian over key distance);
+     * an adjacent transposition (finger-order slip) is a flat cost independent of distance; insert/delete
+     * candidates get a flat penalty so the frequency prior orders them. Neutral when key geometry is
+     * unavailable (layout not captured yet), which reduces this to frequency-only ranking.
+     */
+    private fun spatialLogLikelihood(typed: String, cand: String): Double {
+        if (typed.length != cand.length) return LENGTH_DIFF_PENALTY
+        if (isAdjacentTransposition(typed, cand)) return TRANSPOSE_PENALTY
+        var cost = 0.0
+        for (i in typed.indices) {
+            if (typed[i] == cand[i]) continue
+            val d2 = KeyProximityInfo.normSqDistance(typed[i], cand[i])?.toDouble() ?: NEUTRAL_SUB_SQDIST
+            cost += d2 / (2.0 * PROX_SIGMA2)
+        }
+        return -cost
+    }
+
+    /** True if [b] is [a] with exactly one pair of adjacent characters swapped (a transposition). */
+    private fun isAdjacentTransposition(a: String, b: String): Boolean {
+        if (a.length != b.length || a.length < 2) return false
+        var i = 0
+        while (i < a.length && a[i] == b[i]) i++
+        if (i >= a.length - 1) return false
+        if (a[i] != b[i + 1] || a[i + 1] != b[i]) return false
+        for (j in i + 2 until a.length) if (a[j] != b[j]) return false
+        return true
     }
 
     private fun isInUserDictionary(word: String, subtype: Subtype): Boolean = runCatching {
