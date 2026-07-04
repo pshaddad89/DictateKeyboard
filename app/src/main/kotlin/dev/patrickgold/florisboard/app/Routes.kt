@@ -66,6 +66,9 @@ import dev.patrickgold.florisboard.app.settings.dictate.DictateWearScreen
 import dev.patrickgold.florisboard.app.settings.dictate.DictatePromptLibraryScreen
 import dev.patrickgold.florisboard.app.settings.dictate.DictatePromptsScreen
 import dev.patrickgold.florisboard.app.settings.dictate.DictateFloatingButtonScreen
+import dev.patrickgold.florisboard.app.settings.dictate.DictateFormattingScreen
+import dev.patrickgold.florisboard.app.settings.dictate.DictateOutputScreen
+import dev.patrickgold.florisboard.app.settings.dictate.DictateRecordingScreen
 import dev.patrickgold.florisboard.app.settings.dictate.DictateRewordingScreen
 import dev.patrickgold.florisboard.app.settings.dictate.DictateScreen
 import dev.patrickgold.florisboard.app.settings.dictate.DictateStatsScreen
@@ -154,6 +157,18 @@ object Routes {
         @Serializable
         @Deeplink("settings/dictate/floating-button")
         object DictateFloatingButton
+
+        @Serializable
+        @Deeplink("settings/dictate/formatting")
+        object DictateFormatting
+
+        @Serializable
+        @Deeplink("settings/dictate/recording")
+        object DictateRecording
+
+        @Serializable
+        @Deeplink("settings/dictate/output")
+        object DictateOutput
 
         @Serializable
         @Deeplink("settings/dictate/prompts")
@@ -339,6 +354,9 @@ object Routes {
             composableWithDeepLink(Settings.DictateProxy::class) { DictateProxyScreen() }
             composableWithDeepLink(Settings.DictateWear::class) { DictateWearScreen() }
             composableWithDeepLink(Settings.DictateRewording::class) { DictateRewordingScreen() }
+            composableWithDeepLink(Settings.DictateFormatting::class) { DictateFormattingScreen() }
+            composableWithDeepLink(Settings.DictateRecording::class) { DictateRecordingScreen() }
+            composableWithDeepLink(Settings.DictateOutput::class) { DictateOutputScreen() }
             composableWithDeepLink(Settings.DictateStats::class) { DictateStatsScreen() }
             composableWithDeepLink(Settings.DictateFloatingButton::class) { DictateFloatingButtonScreen() }
             composableWithDeepLink(Settings.DictatePrompts::class) { navBackStack ->

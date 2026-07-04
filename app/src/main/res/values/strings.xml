@@ -1470,6 +1470,10 @@
 
     <!-- Dictate main screen pipeline groups -->
     <string name="dictate__transcription_group" comment="Group title for the transcription (speech-to-text) stage on the main Dictate screen">Transcription (speech → text)</string>
+    <string name="dictate__formatting_title" comment="Title for the formatting &amp; vocabulary settings sub-screen">Formatting &amp; vocabulary</string>
+    <string name="dictate__formatting_menu_summary" comment="One-line summary for the formatting hub entry on the Dictate settings landing page">Style prompt, custom words, replacements</string>
+    <string name="dictate__recording_menu_summary" comment="One-line summary for the recording hub entry on the Dictate settings landing page">Real-time, audio source, instant recording</string>
+    <string name="dictate__output_menu_summary" comment="One-line summary for the output hub entry on the Dictate settings landing page">Auto-enter, typing speed, resend</string>
 
     <!-- Dictate language selection -->
     <string name="dictate__languages_group" comment="Group title for dictation language settings (no longer a hub group; the languages row now lives under the Transcription group)">Languages</string>
