@@ -542,8 +542,9 @@ class DictateAccessibilityService : AccessibilityService() {
         // Debounce window for focus re-checks so a typing burst triggers at most one focused-node fetch.
         private const val FOCUS_UPDATE_DEBOUNCE_MS = 150L
         // Real-time overlay preview (#128): min gap between accessibility writes while streaming, so live
-        // typing into another app doesn't flood the accessibility channel.
-        private const val PREVIEW_THROTTLE_MS = 350L
+        // typing into another app doesn't flood the accessibility channel. 0 = apply every update (tested
+        // to work smoothly in practice; raise if a target app can't keep up).
+        private const val PREVIEW_THROTTLE_MS = 0L
 
         @Volatile
         private var instance: DictateAccessibilityService? = null
