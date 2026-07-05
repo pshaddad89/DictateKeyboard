@@ -19,9 +19,8 @@ import dev.patrickgold.florisboard.dictate.DictationSink
  * service is not running or no editable field is focused.
  */
 class AccessibilitySink : DictationSink {
-    override fun commitText(text: String) {
+    override fun commitText(text: String): Boolean =
         DictateAccessibilityService.injectText(text)
-    }
 
     override fun selectedText(): String = DictateAccessibilityService.selectedText()
 

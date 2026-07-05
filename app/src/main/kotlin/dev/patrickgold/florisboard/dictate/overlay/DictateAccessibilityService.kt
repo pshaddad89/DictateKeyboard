@@ -225,6 +225,13 @@ class DictateAccessibilityService : AccessibilityService() {
         val target = (if (focusLive) focused else null) ?: activeWindowEditable()
         if (target != null) {
             runCatching { target.refresh() }
+            // Some fields — notably Jetpack Compose text fields (e.g. Gemini's prompt box, #156) — only
+            // accept ACTION_SET_TEXT while they actually hold input focus. If the target isn't focused
+            // (the host app defocused it after send / while recording), request focus first.
+            if (!target.isFocused) {
+                runCatching { target.performAction(AccessibilityNodeInfo.ACTION_FOCUS) }
+                runCatching { target.refresh() }
+            }
             if (setTextOnFocused(target, text)) {
                 flogDebug { "commit via setText len=${text.length}" }
                 return true

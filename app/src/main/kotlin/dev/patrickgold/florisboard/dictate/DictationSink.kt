@@ -27,8 +27,12 @@ import dev.patrickgold.florisboard.keyboardManager
  * exactly, so routing every output through a sink is behavior-neutral for the keyboard path.
  */
 interface DictationSink {
-    /** Inserts [text] at the cursor, replacing the active selection if any. */
-    fun commitText(text: String)
+    /**
+     * Inserts [text] at the cursor, replacing the active selection if any. Returns whether the write
+     * actually landed: the keyboard path always succeeds, but the accessibility/overlay path can fail
+     * silently on some app fields (Compose/WebView), so callers can avoid flashing a false success (#156).
+     */
+    fun commitText(text: String): Boolean
 
     /** The currently selected text, or empty when nothing is selected. */
     fun selectedText(): String
@@ -73,8 +77,9 @@ class ImeDictationSink(context: Context) : DictationSink {
     private val appContext = context.applicationContext
     private val editorInstance by appContext.editorInstance()
 
-    override fun commitText(text: String) {
+    override fun commitText(text: String): Boolean {
         editorInstance.commitText(text)
+        return true // the keyboard writes through its own InputConnection; this never silently no-ops
     }
 
     override fun selectedText(): String = editorInstance.activeContent.selectedText

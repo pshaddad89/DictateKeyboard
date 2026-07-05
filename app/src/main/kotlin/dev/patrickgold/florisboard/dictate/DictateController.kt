@@ -848,7 +848,20 @@ object DictateController {
             realtimeShown.setLength(0)
             if (prefs.dictate.autoEnter.get() && outputText.isNotEmpty()) outSink.performEnter()
         } else {
-            commitOutput(appContext, outputText)
+            val committed = commitOutput(appContext, outputText)
+            // Floating button (#156): the accessibility insert can be silently swallowed by some app fields
+            // (Gemini's Compose box, WebViews). Don't flash a false green check — stash the text so the
+            // user can recover it via Reinsert, and surface an error instead of "success".
+            if (!committed && outputTarget == OutputTarget.OVERLAY && outputText.isNotEmpty()) {
+                rememberLastDictation(outputText)
+                DictateStats.recordDictation(prefs, outputText, recordedSeconds)
+                discardRetainedAudio()
+                if (recordedSeconds > 0L) creditAudioSeconds(recordedSeconds)
+                _state.value = UiState.Error(
+                    message = appContext.getString(R.string.dictate__error_overlay_insert_failed),
+                )
+                return
+            }
         }
         // Re-insert safety net (issue #111) + lifetime stats (issue #142).
         rememberLastDictation(outputText)
@@ -1046,21 +1059,26 @@ object DictateController {
      * an optional auto-enter (10.1). Runs on the caller's (Main) coroutine, so the typewriter delay
      * suspends rather than blocks.
      */
-    private suspend fun commitOutput(context: Context, text: String) {
+    private suspend fun commitOutput(context: Context, text: String): Boolean {
+        // Empty result (e.g. silence): nothing to insert — a no-op is a success, not a failed write.
+        if (text.isEmpty()) return true
         val sink = sink(context)
+        var committed: Boolean
         if (prefs.dictate.instantOutput.get()) {
-            sink.commitText(text)
-        } else if (text.isNotEmpty()) {
+            committed = sink.commitText(text)
+        } else {
             val perChar = perCharDelayMs(prefs.dictate.outputSpeed.get())
+            committed = true
             text.forEach { ch ->
-                sink.commitText(ch.toString())
+                if (!sink.commitText(ch.toString())) committed = false
                 delay(perChar)
             }
         }
         // No auto-enter on an empty result (e.g. silence): don't fire a stray newline into the field (#124).
-        if (prefs.dictate.autoEnter.get() && text.isNotEmpty()) {
+        if (prefs.dictate.autoEnter.get()) {
             sink.performEnter()
         }
+        return committed
     }
 
     /** Per-character delay for the typewriter output: speed 1 → 100 ms … 5 → 20 ms … 10 → 10 ms (legacy mapping). */
