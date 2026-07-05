@@ -14,7 +14,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -185,15 +191,25 @@ private fun ModelRow(
                 )
             }
         }
+        // Icon-only actions (keep the row compact); labels live on as the accessibility descriptions.
         when {
-            downloading -> TextButton(onClick = onCancel) {
-                Text(stringRes(R.string.dictate__local_model_action_cancel))
+            downloading -> IconButton(onClick = onCancel) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringRes(R.string.dictate__local_model_action_cancel),
+                )
             }
-            isInstalled -> TextButton(onClick = onDelete) {
-                Text(stringRes(R.string.dictate__local_model_action_delete))
+            isInstalled -> IconButton(onClick = onDelete) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = stringRes(R.string.dictate__local_model_action_delete),
+                )
             }
-            else -> TextButton(onClick = onInstall) {
-                Text(stringRes(R.string.dictate__local_model_action_install))
+            else -> IconButton(onClick = onInstall) {
+                Icon(
+                    imageVector = Icons.Default.Download,
+                    contentDescription = stringRes(R.string.dictate__local_model_action_install),
+                )
             }
         }
     }

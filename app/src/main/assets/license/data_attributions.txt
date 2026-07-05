@@ -30,3 +30,20 @@ Derived from the Leipzig Corpora Collection (Wortschatz), used under CC BY.
     Languages", LREC 2012.
   - License: Creative Commons Attribution (CC BY) — the downloadable corpus
     packages are CC BY (the online query service is CC BY-NC and is not used here).
+
+
+3. On-device speech-to-text models (offline transcription)
+----------------------------------------------------------
+Downloaded on demand into <filesDir>/dictate-models/<model>/ ; no audio ever leaves the device.
+
+  - Whisper (tiny/base/small, multilingual and English) — © OpenAI, MIT License.
+    https://github.com/openai/whisper
+  - Parakeet TDT 0.6B v3 — © NVIDIA, licensed CC BY 4.0.
+    https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
+  - ONNX (int8) exports of both, and the on-device runtime, are from the sherpa-onnx / k2-fsa
+    project, Apache-2.0. https://github.com/k2-fsa/sherpa-onnx
+  - The Silero VAD model used to segment long recordings — © Silero Team, MIT License.
+    https://github.com/snakers4/silero-vad
+
+All of the above permit redistribution; the files are mirrored on the project's own GitHub release
+for a stable, project-controlled source.

@@ -147,7 +147,7 @@ object LocalModelCatalog {
     val PARAKEET_TDT_V3 = LocalModelSpec(
         id = "parakeet-tdt-0.6b-v3",
         displayName = "Parakeet TDT 0.6B v3",
-        description = "25 European languages · fast, accurate · ~670 MB (experimental)",
+        description = "25 European languages · fast, accurate · ~670 MB",
         files = listOf(
             LocalModelFile("$REL/parakeet-tdt-0.6b-v3-encoder.int8.onnx", LocalTranscriptionProvider.ENCODER, 652_184_281, "acfc2b4456377e15d04f0243af540b7fe7c992f8d898d751cf134c3a55fd2247"),
             LocalModelFile("$REL/parakeet-tdt-0.6b-v3-decoder.int8.onnx", LocalTranscriptionProvider.DECODER, 11_845_275, "179e50c43d1a9de79c8a24149a2f9bac6eb5981823f2a2ed88d655b24248db4e"),
@@ -157,11 +157,12 @@ object LocalModelCatalog {
         ),
     )
 
-    /** All catalog models in display order: multilingual (tiny→small), the English variants, Parakeet. */
+    /** All catalog models in display order: Parakeet first (best overall), then Whisper multilingual and
+     * the English-only variants. */
     val all: List<LocalModelSpec> = listOf(
+        PARAKEET_TDT_V3,
         WHISPER_TINY, WHISPER_BASE, WHISPER_SMALL,
         WHISPER_TINY_EN, WHISPER_BASE_EN, WHISPER_SMALL_EN,
-        PARAKEET_TDT_V3,
     )
 
     fun byId(id: String): LocalModelSpec? = all.firstOrNull { it.id == id }
