@@ -10,6 +10,8 @@
 
 package dev.patrickgold.florisboard.dictate.provider
 
+import android.util.Base64
+import android.util.Base64OutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -27,6 +29,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.IOException
+import java.io.OutputStream
 import java.net.Proxy
 import java.security.KeyStore
 import java.time.Duration
@@ -151,7 +154,7 @@ class OpenAiCompatibleClient(
         onRetry: (attempt: Int) -> Unit,
     ): TranscriptionResult {
         val base64 = withContext(Dispatchers.IO) {
-            android.util.Base64.encodeToString(request.audioFile.readBytes(), android.util.Base64.NO_WRAP)
+            base64EncodeFile(request.audioFile)
         }
         val lang = request.language?.takeIf { it.isNotEmpty() && it != "detect" }
         val dto = TranscriptionJsonRequestDto(
@@ -182,7 +185,7 @@ class OpenAiCompatibleClient(
         onRetry: (attempt: Int) -> Unit,
     ): TranscriptionResult {
         val base64 = withContext(Dispatchers.IO) {
-            android.util.Base64.encodeToString(request.audioFile.readBytes(), android.util.Base64.NO_WRAP)
+            base64EncodeFile(request.audioFile)
         }
         val extra = request.prompt?.trim()?.takeIf { it.isNotEmpty() }
         val instruction = buildString {
@@ -492,7 +495,7 @@ class OpenAiCompatibleClient(
         onRetry: (attempt: Int) -> Unit,
     ): TranscriptionResult {
         val base64 = withContext(Dispatchers.IO) {
-            android.util.Base64.encodeToString(request.audioFile.readBytes(), android.util.Base64.NO_WRAP)
+            base64EncodeFile(request.audioFile)
         }
         val mimeType = guessAudioMediaType(request.audioFile).toString().substringBefore(";").trim()
         val dto = GeminiGenerateRequestDto(
@@ -770,6 +773,41 @@ class OpenAiCompatibleClient(
         "oga", "ogg" -> "ogg"
         "wav", "flac", "webm" -> ext
         else -> ext
+    }
+
+    private fun base64EncodeFile(file: File): String {
+        val out = Base64StringOutput(base64Capacity(file.length()))
+        file.inputStream().use { input ->
+            Base64OutputStream(out, Base64.NO_WRAP).use { base64 ->
+                input.copyTo(base64)
+            }
+        }
+        return out.toString()
+    }
+
+    private fun base64Capacity(length: Long): Int {
+        if (length <= 0L) return 16
+        if (length >= (Int.MAX_VALUE.toLong() / 4L) * 3L) return Int.MAX_VALUE
+        return (((length + 2L) / 3L) * 4L).toInt()
+    }
+
+    private class Base64StringOutput(initialCapacity: Int) : OutputStream() {
+        private val builder = StringBuilder(initialCapacity)
+
+        override fun write(b: Int) {
+            builder.append((b and 0xff).toChar())
+        }
+
+        override fun write(buffer: ByteArray, offset: Int, length: Int) {
+            var i = offset
+            val end = offset + length
+            while (i < end) {
+                builder.append((buffer[i].toInt() and 0xff).toChar())
+                i++
+            }
+        }
+
+        override fun toString(): String = builder.toString()
     }
 
     @Serializable
