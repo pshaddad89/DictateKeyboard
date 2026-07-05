@@ -133,10 +133,17 @@ class LocalTranscriptionProvider(
         )
         val parts = StringBuilder()
         try {
+            val window = FloatArray(VAD_WINDOW)
             var i = 0
             while (i < samples.size) {
                 val end = minOf(i + VAD_WINDOW, samples.size)
-                vad.acceptWaveform(samples.copyOfRange(i, end))
+                val chunk = if (end - i == VAD_WINDOW) {
+                    samples.copyInto(window, destinationOffset = 0, startIndex = i, endIndex = end)
+                    window
+                } else {
+                    samples.copyOfRange(i, end)
+                }
+                vad.acceptWaveform(chunk)
                 i = end
                 drainSegments(vad, recognizer, parts)
             }

@@ -71,10 +71,17 @@ object SpeechGate {
         }.getOrNull() ?: return@withContext true
 
         try {
+            val window = FloatArray(WINDOW)
             var i = 0
             while (i < samples.size) {
                 val end = minOf(i + WINDOW, samples.size)
-                vad.acceptWaveform(samples.copyOfRange(i, end))
+                val chunk = if (end - i == WINDOW) {
+                    samples.copyInto(window, destinationOffset = 0, startIndex = i, endIndex = end)
+                    window
+                } else {
+                    samples.copyOfRange(i, end)
+                }
+                vad.acceptWaveform(chunk)
                 i = end
                 if (!vad.empty()) return@withContext true // a speech segment closed → speech present
             }

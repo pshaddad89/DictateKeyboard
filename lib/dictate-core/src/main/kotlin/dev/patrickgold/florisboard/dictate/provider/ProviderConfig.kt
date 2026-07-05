@@ -143,6 +143,7 @@ data class ProxyConfig(
     companion object {
         private val REGEX =
             Regex("^(?:(socks5|http)://)?(?:(\\w+):(\\w+)@)?([\\w.-]+):(\\d+)$")
+        private val IPV4_REGEX = Regex("\\d+\\.\\d+\\.\\d+\\.\\d+")
 
         /**
          * Builds a config from the individual settings fields, or `null` when the proxy is disabled or
@@ -174,7 +175,7 @@ data class ProxyConfig(
             if (spec.isNullOrEmpty()) return false
             val match = REGEX.matchEntire(spec) ?: return false
             val host = match.groupValues[4]
-            if (host.matches(Regex("\\d+\\.\\d+\\.\\d+\\.\\d+"))) {
+            if (host.matches(IPV4_REGEX)) {
                 return host.split(".").all { part -> part.toIntOrNull()?.let { it in 0..255 } == true }
             }
             return true

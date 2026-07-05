@@ -15,17 +15,18 @@ import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
 import java.io.File
+import java.io.RandomAccessFile
 import java.nio.ByteOrder
 
 /**
- * Decodes a recorded audio file (the AAC/m4a produced by [RecordingController]) into the raw waveform
+ * Decodes a recorded or picked audio file into the raw waveform
  * that on-device speech recognition expects: a single channel of 32-bit float samples in `[-1, 1]` at
  * [TARGET_SAMPLE_RATE].
  *
  * On-device engines (sherpa-onnx for issue #104) consume `FloatArray` PCM directly via
  * `acceptWaveform(samples, sampleRate)` — they do not take compressed files like the cloud upload
- * endpoints do. The recorder, however, captures compressed AAC at 44.1 kHz (stereo on some devices),
- * so this is the bridge: demux → decode to PCM16 → down-mix to mono → resample to 16 kHz → to float.
+ * endpoints do. The recorder already writes 16 kHz mono PCM16 WAV, which takes the direct WAV path;
+ * picked compressed files still go through MediaExtractor/MediaCodec, then down-mix/resample to 16 kHz.
  *
  * Decoding is CPU-only and synchronous; run it off the main thread.
  */
@@ -35,6 +36,7 @@ object AudioDecode {
     const val TARGET_SAMPLE_RATE = 16_000
 
     private const val DEQUEUE_TIMEOUT_US = 10_000L
+    private const val READ_BUFFER_SIZE = 64 * 1024
 
     /**
      * Decodes [file] to mono float PCM at [TARGET_SAMPLE_RATE].
@@ -79,69 +81,137 @@ object AudioDecode {
      * channel counts / sample rates / 16-bit (and 8-bit) PCM, down-mixing and resampling as needed.
      */
     private fun decodeWavOrNull(file: File): FloatArray? {
-        val bytes = file.readBytes()
-        if (bytes.size < 44) return null
-        fun tag(off: Int) = String(bytes, off, 4, Charsets.US_ASCII)
-        if (tag(0) != "RIFF" || tag(8) != "WAVE") return null
-        fun le16(off: Int) = (bytes[off].toInt() and 0xff) or ((bytes[off + 1].toInt() and 0xff) shl 8)
-        fun le32(off: Int) = (bytes[off].toInt() and 0xff) or ((bytes[off + 1].toInt() and 0xff) shl 8) or
-            ((bytes[off + 2].toInt() and 0xff) shl 16) or ((bytes[off + 3].toInt() and 0xff) shl 24)
+        return try {
+            RandomAccessFile(file, "r").use { input ->
+                val wav = parseWav(input) ?: return null
+                if (wav.audioFormat != 1 || (wav.bitsPerSample != 16 && wav.bitsPerSample != 8)) {
+                    return null
+                }
+                val bytesPerSample = wav.bitsPerSample / 8
+                val bytesPerFrame = bytesPerSample * wav.channels
+                if (bytesPerFrame <= 0) return null
+                val framesLong = wav.dataLength / bytesPerFrame
+                if (framesLong > Int.MAX_VALUE) return null
+                val frames = framesLong.toInt()
+                val mono = FloatArray(frames)
+                input.seek(wav.dataOffset)
+                when (wav.bitsPerSample) {
+                    16 -> readPcm16Mono(input, wav.channels, frames, mono)
+                    else -> readPcm8Mono(input, wav.channels, frames, mono)
+                }
+                if (wav.sampleRate == TARGET_SAMPLE_RATE) mono
+                else resampleLinear(mono, wav.sampleRate, TARGET_SAMPLE_RATE)
+            }
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    private class WavInfo(
+        val audioFormat: Int,
+        val channels: Int,
+        val sampleRate: Int,
+        val bitsPerSample: Int,
+        val dataOffset: Long,
+        val dataLength: Long,
+    )
+
+    private fun parseWav(input: RandomAccessFile): WavInfo? {
+        if (input.length() < 44) return null
+        val header = ByteArray(12)
+        input.readFully(header)
+        if (!header.hasTag(0, "RIFF") || !header.hasTag(8, "WAVE")) return null
 
         var audioFormat = 1
         var channels = 1
         var sampleRate = TARGET_SAMPLE_RATE
-        var bits = 16
-        var dataOff = -1
-        var dataLen = 0
-        var p = 12 // after "RIFF"<size>"WAVE"
-        while (p + 8 <= bytes.size) {
-            val id = tag(p)
-            val size = le32(p + 4)
-            val body = p + 8
-            when (id) {
-                "fmt " -> {
-                    audioFormat = le16(body)
-                    channels = le16(body + 2).coerceAtLeast(1)
-                    sampleRate = le32(body + 4).takeIf { it > 0 } ?: TARGET_SAMPLE_RATE
-                    bits = le16(body + 14)
-                }
-                "data" -> { dataOff = body; dataLen = size.coerceAtMost(bytes.size - body) }
-            }
-            if (dataOff >= 0 && id == "data") break
-            p = body + size + (size and 1) // chunks are word-aligned
-        }
-        if (dataOff < 0 || dataLen <= 0) return null
-        if (audioFormat != 1 || (bits != 16 && bits != 8)) return null // only PCM 8/16-bit supported here
-
-        val mono: FloatArray = when (bits) {
-            16 -> {
-                val frames = dataLen / (2 * channels)
-                FloatArray(frames).also { arr ->
-                    var i = dataOff
-                    for (f in 0 until frames) {
-                        var sum = 0
-                        repeat(channels) {
-                            val s = (bytes[i].toInt() and 0xff) or (bytes[i + 1].toInt() shl 8)
-                            sum += s; i += 2
-                        }
-                        arr[f] = (sum / channels) / 32768.0f
+        var bitsPerSample = 16
+        var hasFormat = false
+        val chunkHeader = ByteArray(8)
+        while (input.filePointer + chunkHeader.size <= input.length()) {
+            input.readFully(chunkHeader)
+            val size = chunkHeader.le32(4).toLong() and 0xffff_ffffL
+            val body = input.filePointer
+            when {
+                chunkHeader.hasTag(0, "fmt ") -> {
+                    if (size >= 16L && body + 16L <= input.length()) {
+                        val bytes = ByteArray(16)
+                        input.readFully(bytes)
+                        audioFormat = bytes.le16(0)
+                        channels = bytes.le16(2).coerceAtLeast(1)
+                        sampleRate = bytes.le32(4).takeIf { it > 0 } ?: TARGET_SAMPLE_RATE
+                        bitsPerSample = bytes.le16(14)
+                        hasFormat = true
                     }
                 }
-            }
-            else -> { // 8-bit PCM is unsigned (0..255, midpoint 128)
-                val frames = dataLen / channels
-                FloatArray(frames).also { arr ->
-                    var i = dataOff
-                    for (f in 0 until frames) {
-                        var sum = 0
-                        repeat(channels) { sum += (bytes[i].toInt() and 0xff) - 128; i += 1 }
-                        arr[f] = (sum / channels) / 128.0f
-                    }
+                chunkHeader.hasTag(0, "data") -> {
+                    if (!hasFormat) return null
+                    val len = size.coerceAtMost(input.length() - body)
+                    if (len <= 0L) return null
+                    return WavInfo(audioFormat, channels, sampleRate, bitsPerSample, body, len)
                 }
             }
+            val next = (body + size + (size and 1L)).coerceAtMost(input.length())
+            input.seek(next)
         }
-        return if (sampleRate == TARGET_SAMPLE_RATE) mono else resampleLinear(mono, sampleRate, TARGET_SAMPLE_RATE)
+        return null
     }
+
+    private fun readPcm16Mono(input: RandomAccessFile, channels: Int, frames: Int, out: FloatArray) {
+        val bytesPerFrame = 2 * channels
+        val framesPerChunk = maxOf(1, READ_BUFFER_SIZE / bytesPerFrame)
+        val chunk = ByteArray(framesPerChunk * bytesPerFrame)
+        var frame = 0
+        while (frame < frames) {
+            val count = minOf(framesPerChunk, frames - frame)
+            input.readFully(chunk, 0, count * bytesPerFrame)
+            var i = 0
+            repeat(count) {
+                var sum = 0
+                repeat(channels) {
+                    val sample = (chunk[i].toInt() and 0xff) or (chunk[i + 1].toInt() shl 8)
+                    sum += sample
+                    i += 2
+                }
+                out[frame++] = (sum / channels) / 32768.0f
+            }
+        }
+    }
+
+    private fun readPcm8Mono(input: RandomAccessFile, channels: Int, frames: Int, out: FloatArray) {
+        val bytesPerFrame = channels
+        val framesPerChunk = maxOf(1, READ_BUFFER_SIZE / bytesPerFrame)
+        val chunk = ByteArray(framesPerChunk * bytesPerFrame)
+        var frame = 0
+        while (frame < frames) {
+            val count = minOf(framesPerChunk, frames - frame)
+            input.readFully(chunk, 0, count * bytesPerFrame)
+            var i = 0
+            repeat(count) {
+                var sum = 0
+                repeat(channels) {
+                    sum += (chunk[i].toInt() and 0xff) - 128
+                    i += 1
+                }
+                out[frame++] = (sum / channels) / 128.0f
+            }
+        }
+    }
+
+    private fun ByteArray.hasTag(offset: Int, tag: String): Boolean =
+        this[offset] == tag[0].code.toByte() &&
+            this[offset + 1] == tag[1].code.toByte() &&
+            this[offset + 2] == tag[2].code.toByte() &&
+            this[offset + 3] == tag[3].code.toByte()
+
+    private fun ByteArray.le16(offset: Int): Int =
+        (this[offset].toInt() and 0xff) or ((this[offset + 1].toInt() and 0xff) shl 8)
+
+    private fun ByteArray.le32(offset: Int): Int =
+        (this[offset].toInt() and 0xff) or
+            ((this[offset + 1].toInt() and 0xff) shl 8) or
+            ((this[offset + 2].toInt() and 0xff) shl 16) or
+            ((this[offset + 3].toInt() and 0xff) shl 24)
 
     private class MonoPcm(val samples: FloatArray, val sampleRate: Int)
 

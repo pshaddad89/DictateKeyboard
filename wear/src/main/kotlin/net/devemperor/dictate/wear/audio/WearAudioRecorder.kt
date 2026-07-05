@@ -11,10 +11,10 @@ import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
-import java.io.ByteArrayOutputStream
-import java.io.DataOutputStream
 import java.io.File
-import java.io.FileOutputStream
+import java.io.RandomAccessFile
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 /**
  * Minimal microphone recorder for the watch (#106). Captures 16 kHz mono 16-bit PCM via [AudioRecord]
@@ -28,11 +28,13 @@ class WearAudioRecorder(private val context: Context) {
 
     private var record: AudioRecord? = null
     private var thread: Thread? = null
+    private var raf: RandomAccessFile? = null
     @Volatile private var recording = false
     @Volatile private var paused = false
-    private val pcm = ByteArrayOutputStream()
+    @Volatile private var pcmBytes = 0L
     /** Peak |sample| (0..32767) seen since the last [maxAmplitude] call; drives the live waveform. */
     @Volatile private var peak = 0
+    private var outputFile: File? = null
 
     val isRecording: Boolean get() = recording
 
@@ -45,6 +47,7 @@ class WearAudioRecorder(private val context: Context) {
 
     @SuppressLint("MissingPermission") // caller guarantees RECORD_AUDIO; init failure is handled below.
     fun start() {
+        if (recording) return
         val minBuf = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL, ENCODING)
         require(minBuf > 0) { "AudioRecord unavailable on this device" }
         val bufferSize = minBuf * 2
@@ -55,9 +58,24 @@ class WearAudioRecorder(private val context: Context) {
             ENCODING,
             bufferSize,
         )
-        check(recorder.state == AudioRecord.STATE_INITIALIZED) { "AudioRecord failed to initialize" }
-        pcm.reset()
+        if (recorder.state != AudioRecord.STATE_INITIALIZED) {
+            runCatching { recorder.release() }
+            error("AudioRecord failed to initialize")
+        }
+        val file = File(context.cacheDir, "wear_dictation_${System.currentTimeMillis()}.wav")
+        val out = try {
+            RandomAccessFile(file, "rw").apply {
+                setLength(0)
+                write(ByteArray(WAV_HEADER_SIZE))
+            }
+        } catch (t: Throwable) {
+            runCatching { recorder.release() }
+            throw t
+        }
         peak = 0
+        pcmBytes = 0L
+        outputFile = file
+        raf = out
         record = recorder
         recording = true
         paused = false
@@ -69,7 +87,8 @@ class WearAudioRecorder(private val context: Context) {
                 // Keep draining the mic while paused (so the buffer never overflows) but drop the audio,
                 // so paused time contributes no samples — matching the phone's pause behavior.
                 if (read > 0 && !paused) {
-                    pcm.write(buf, 0, read)
+                    runCatching { out.write(buf, 0, read) }
+                    pcmBytes += read
                     updatePeak(buf, read)
                 }
             }
@@ -102,10 +121,22 @@ class WearAudioRecorder(private val context: Context) {
         record?.run { stop(); release() }
         record = null
 
-        val pcmBytes = pcm.toByteArray()
-        val out = File(context.cacheDir, "wear_dictation_${pcmBytes.size}.wav")
-        writeWav(out, pcmBytes)
-        return out
+        val out = checkNotNull(raf) { "Recorder was not started" }
+        raf = null
+        val file = checkNotNull(outputFile) { "Recorder output file missing" }
+        return try {
+            out.seek(0)
+            out.write(wavHeader(pcmBytes))
+            out.close()
+            file
+        } catch (t: Throwable) {
+            runCatching { out.close() }
+            file.delete()
+            throw t
+        } finally {
+            outputFile = null
+            pcmBytes = 0L
+        }
     }
 
     fun cancel() {
@@ -114,40 +145,30 @@ class WearAudioRecorder(private val context: Context) {
         thread = null
         record?.run { stop(); release() }
         record = null
-        pcm.reset()
+        runCatching { raf?.close() }
+        raf = null
+        outputFile?.delete()
+        outputFile = null
+        pcmBytes = 0L
     }
 
-    private fun writeWav(file: File, pcmData: ByteArray) {
-        val totalDataLen = pcmData.size + 36
+    private fun wavHeader(dataLen: Long): ByteArray {
         val byteRate = SAMPLE_RATE * CHANNELS * BITS_PER_SAMPLE / 8
-        DataOutputStream(FileOutputStream(file)).use { out ->
-            out.writeBytes("RIFF")
-            out.writeIntLe(totalDataLen)
-            out.writeBytes("WAVE")
-            out.writeBytes("fmt ")
-            out.writeIntLe(16)                 // PCM subchunk size
-            out.writeShortLe(1)                // audio format = PCM
-            out.writeShortLe(CHANNELS)
-            out.writeIntLe(SAMPLE_RATE)
-            out.writeIntLe(byteRate)
-            out.writeShortLe(CHANNELS * BITS_PER_SAMPLE / 8) // block align
-            out.writeShortLe(BITS_PER_SAMPLE)
-            out.writeBytes("data")
-            out.writeIntLe(pcmData.size)
-            out.write(pcmData)
-        }
-    }
-
-    private fun DataOutputStream.writeIntLe(value: Int) {
-        write(value and 0xff)
-        write((value shr 8) and 0xff)
-        write((value shr 16) and 0xff)
-        write((value shr 24) and 0xff)
-    }
-
-    private fun DataOutputStream.writeShortLe(value: Int) {
-        write(value and 0xff)
-        write((value shr 8) and 0xff)
+        return ByteBuffer.allocate(WAV_HEADER_SIZE).order(ByteOrder.LITTLE_ENDIAN).apply {
+            put("RIFF".toByteArray(Charsets.US_ASCII))
+            putInt((36 + dataLen).toInt())
+            put("WAVE".toByteArray(Charsets.US_ASCII))
+            put("fmt ".toByteArray(Charsets.US_ASCII))
+            putInt(16)                 // PCM subchunk size
+            putShort(1)                // audio format = PCM
+            putShort(CHANNELS.toShort())
+            putInt(SAMPLE_RATE)
+            putInt(byteRate)
+            putShort((CHANNELS * BITS_PER_SAMPLE / 8).toShort()) // block align
+            putShort(BITS_PER_SAMPLE.toShort())
+            put("data".toByteArray(Charsets.US_ASCII))
+            putInt(dataLen.toInt())
+        }.array()
     }
 
     private companion object {
@@ -156,5 +177,6 @@ class WearAudioRecorder(private val context: Context) {
         const val ENCODING = AudioFormat.ENCODING_PCM_16BIT
         const val CHANNELS = 1
         const val BITS_PER_SAMPLE = 16
+        const val WAV_HEADER_SIZE = 44
     }
 }
