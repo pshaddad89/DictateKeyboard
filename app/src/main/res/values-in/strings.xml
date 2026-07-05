@@ -1289,7 +1289,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__prompt_auto_apply_title">Terapkan otomatis</string>
     <string name="dictate__prompt_auto_apply_summary">Jalankan perintah ini secara otomatis pada setiap transkripsi</string>
     <string name="dictate__prompt_reasoning_title">Penalaran</string>
-    <string name="dictate__prompt_reasoning_default">Bawaan (pengaturan global)</string>
+    <string name="dictate__prompt_reasoning_default">Bawaan</string>
     <string name="dictate__prompt_badge_selection">Memerlukan pilihan</string>
     <string name="dictate__prompt_badge_auto">Diterapkan otomatis</string>
     <string name="dictate__example_prompt_fix_grammar_name">Perbaiki Tata Bahasa</string>

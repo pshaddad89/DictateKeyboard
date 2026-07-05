@@ -1143,7 +1143,7 @@
     <string name="dictate__prompt_auto_apply_title">Aplicar automaticamente</string>
     <string name="dictate__prompt_auto_apply_summary">Executar este prompt automaticamente em cada transcrição</string>
     <string name="dictate__prompt_reasoning_title">Raciocínio</string>
-    <string name="dictate__prompt_reasoning_default">Padrão (configuração global)</string>
+    <string name="dictate__prompt_reasoning_default">Padrão</string>
     <string name="dictate__prompt_badge_selection">Requer seleção</string>
     <string name="dictate__prompt_badge_auto">Aplica-se automaticamente</string>
     <string name="dictate__example_prompt_fix_grammar_name">Corrigir gramática</string>

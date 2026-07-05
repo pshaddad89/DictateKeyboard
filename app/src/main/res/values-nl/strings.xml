@@ -1236,7 +1236,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__prompt_auto_apply_title">Automatisch toepassen</string>
     <string name="dictate__prompt_auto_apply_summary">Deze prompt automatisch op elke transcriptie uitvoeren</string>
     <string name="dictate__prompt_reasoning_title">Redeneren</string>
-    <string name="dictate__prompt_reasoning_default">Standaard (globale instelling)</string>
+    <string name="dictate__prompt_reasoning_default">Standaard</string>
     <string name="dictate__prompt_badge_selection">Vereist selectie</string>
     <string name="dictate__prompt_badge_auto">Wordt automatisch toegepast</string>
     <string name="dictate__example_prompt_fix_grammar_name">Grammatica corrigeren</string>

@@ -743,7 +743,7 @@ private fun SwitchRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onCheckedChange(!checked) }
-                .padding(vertical = 4.dp),
+                .padding(vertical = 1.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -771,6 +771,7 @@ private fun ReasoningRow(
         Text(
             text = stringRes(R.string.dictate__prompt_reasoning_title),
             modifier = Modifier.weight(1f).padding(end = 12.dp),
+            maxLines = 1,
         )
         Box {
             Row(verticalAlignment = Alignment.CenterVertically) {

@@ -1340,7 +1340,7 @@
     <string name="dictate__prompt_auto_apply_title">Применять автоматически</string>
     <string name="dictate__prompt_auto_apply_summary">Запускать этот промпт автоматически при каждой транскрипции</string>
     <string name="dictate__prompt_reasoning_title">Рассуждение</string>
-    <string name="dictate__prompt_reasoning_default">По умолчанию (глобальная настройка)</string>
+    <string name="dictate__prompt_reasoning_default">По умолчанию</string>
     <string name="dictate__prompt_badge_selection">Требует выделения</string>
     <string name="dictate__prompt_badge_auto">Применяется автоматически</string>
     <string name="dictate__example_prompt_fix_grammar_name">Исправить грамматику</string>

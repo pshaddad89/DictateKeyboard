@@ -1280,7 +1280,7 @@
     <string name="dictate__prompt_auto_apply_title">Lietot automātiski</string>
     <string name="dictate__prompt_auto_apply_summary">Automātiski palaist šo uzvedni katrai transkripcijai</string>
     <string name="dictate__prompt_reasoning_title">Spriešana</string>
-    <string name="dictate__prompt_reasoning_default">Noklusējums (globālais iestatījums)</string>
+    <string name="dictate__prompt_reasoning_default">Noklusējums</string>
     <string name="dictate__prompt_badge_selection">Nepieciešama atlase</string>
     <string name="dictate__prompt_badge_auto">Tiek lietota automātiski</string>
     <string name="dictate__example_prompt_fix_grammar_name">Labot gramatiku</string>
