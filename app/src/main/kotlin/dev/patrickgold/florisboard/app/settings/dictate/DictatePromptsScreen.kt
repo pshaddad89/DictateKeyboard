@@ -341,8 +341,9 @@ fun DictatePromptsScreen(
             PromptEditorDialog(
                 initial = target,
                 onDismiss = { editorTarget = null },
-                onShare = { name, text, requiresSelection, autoApply, reasoning ->
-                    pendingShare = PromptModel(0, 0, name, text, requiresSelection, autoApply, reasoning)
+                onShare = { name, text, requiresSelection, autoApply ->
+                    // No reasoning here on purpose — shared prompts stay reasoning-agnostic.
+                    pendingShare = PromptModel(0, 0, name, text, requiresSelection, autoApply)
                 },
                 onSave = { name, text, requiresSelection, autoApply, reasoning ->
                     scope.launch {
@@ -558,7 +559,9 @@ private fun ImportModeDialog(
 private fun PromptEditorDialog(
     initial: PromptModel,
     onDismiss: () -> Unit,
-    onShare: (name: String, prompt: String, requiresSelection: Boolean, autoApply: Boolean, reasoning: DictateReasoningEffort?) -> Unit,
+    // Reasoning effort is intentionally NOT part of sharing — it's a local, per-user/per-server choice,
+    // so community contributions never carry it (recipients decide their own). Only onSave gets it.
+    onShare: (name: String, prompt: String, requiresSelection: Boolean, autoApply: Boolean) -> Unit,
     onSave: (name: String, prompt: String, requiresSelection: Boolean, autoApply: Boolean, reasoning: DictateReasoningEffort?) -> Unit,
     onDelete: (() -> Unit)?,
 ) {
@@ -633,7 +636,7 @@ private fun PromptEditorDialog(
             // once there is something worth sharing; the submission itself happens as a GitHub pull request.
             val shareEnabled = name.isNotBlank() && text.isNotBlank()
             Surface(
-                onClick = { onShare(name.trim(), text.trim(), requiresSelection, autoApply, reasoning) },
+                onClick = { onShare(name.trim(), text.trim(), requiresSelection, autoApply) },
                 enabled = shareEnabled,
                 shape = MaterialTheme.shapes.large,
                 color = MaterialTheme.colorScheme.secondaryContainer,
