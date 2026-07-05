@@ -1333,6 +1333,8 @@
     <string name="dictate__prompt_requires_selection_summary">A kijelölt szövegen működik, és lecseréli azt</string>
     <string name="dictate__prompt_auto_apply_title">Automatikus alkalmazás</string>
     <string name="dictate__prompt_auto_apply_summary">Az utasítás automatikus futtatása minden átíráson</string>
+    <string name="dictate__prompt_reasoning_title">Gondolkodás</string>
+    <string name="dictate__prompt_reasoning_default">Alapértelmezett</string>
     <string name="dictate__prompt_badge_selection">Kijelölést igényel</string>
     <string name="dictate__prompt_badge_auto">Automatikusan alkalmazódik</string>
     <string name="dictate__example_prompt_fix_grammar_name">Nyelvtan javítása</string>

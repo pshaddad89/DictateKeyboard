@@ -1227,6 +1227,8 @@
     <string name="dictate__prompt_requires_selection_summary">Wirkt auf den ausgewählten Text und ersetzt ihn</string>
     <string name="dictate__prompt_auto_apply_title">Automatisch anwenden</string>
     <string name="dictate__prompt_auto_apply_summary">Diesen Prompt automatisch auf jede Transkription anwenden</string>
+    <string name="dictate__prompt_reasoning_title">Denken</string>
+    <string name="dictate__prompt_reasoning_default">Standard</string>
     <string name="dictate__prompt_badge_selection">Erfordert Auswahl</string>
     <string name="dictate__prompt_badge_auto">Wird automatisch angewendet</string>
     <string name="dictate__prompt_reorder_hint">Lange auf einen Prompt drücken und ziehen, um die Reihenfolge zu ändern.</string>

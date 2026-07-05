@@ -1117,6 +1117,8 @@
     <string name="dictate__prompt_requires_selection_summary">Agisce sul testo selezionato e lo sostituisce</string>
     <string name="dictate__prompt_auto_apply_title">Applica automaticamente</string>
     <string name="dictate__prompt_auto_apply_summary">Esegui questo prompt automaticamente su ogni trascrizione</string>
+    <string name="dictate__prompt_reasoning_title">Ragionamento</string>
+    <string name="dictate__prompt_reasoning_default">Predefinito</string>
     <string name="dictate__prompt_badge_selection">Richiede una selezione</string>
     <string name="dictate__prompt_badge_auto">Si applica automaticamente</string>
     <string name="dictate__example_prompt_fix_grammar_name">Correggi grammatica</string>

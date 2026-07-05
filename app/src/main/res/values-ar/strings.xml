@@ -1190,6 +1190,8 @@
     <string name="dictate__prompt_requires_selection_summary">يعمل على النص المحدّد ويستبدله</string>
     <string name="dictate__prompt_auto_apply_title">تطبيق تلقائي</string>
     <string name="dictate__prompt_auto_apply_summary">شغّل هذه المطالبة تلقائيًا على كل عملية تفريغ نصي</string>
+    <string name="dictate__prompt_reasoning_title">التفكير</string>
+    <string name="dictate__prompt_reasoning_default">افتراضي</string>
     <string name="dictate__prompt_badge_selection">يتطلّب تحديدًا</string>
     <string name="dictate__prompt_badge_auto">يُطبَّق تلقائيًا</string>
     <string name="dictate__example_prompt_fix_grammar_name">تصحيح القواعد</string>

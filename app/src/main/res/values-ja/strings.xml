@@ -1265,6 +1265,8 @@
     <string name="dictate__prompt_requires_selection_summary">選択したテキストに対して動作し、置き換えます</string>
     <string name="dictate__prompt_auto_apply_title">自動的に適用</string>
     <string name="dictate__prompt_auto_apply_summary">このプロンプトをすべての文字起こしに自動的に実行します</string>
+    <string name="dictate__prompt_reasoning_title">推論</string>
+    <string name="dictate__prompt_reasoning_default">デフォルト</string>
     <string name="dictate__prompt_badge_selection">選択が必要</string>
     <string name="dictate__prompt_badge_auto">自動的に適用</string>
     <string name="dictate__example_prompt_fix_grammar_name">文法を修正</string>

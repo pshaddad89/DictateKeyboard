@@ -1603,7 +1603,7 @@ object DictateController {
         _state.value = UiState.Rewording(prompt.name ?: appContext.getString(R.string.dictate__status_rewording))
         scope.launch {
             try {
-                val text = requestReword(raw, input)
+                val text = requestReword(raw, input, prompt.reasoningEffort)
                 // commitText replaces the active selection if any, else inserts at the cursor.
                 sink.commitText(text)
                 _state.value = UiState.Idle
@@ -1675,7 +1675,7 @@ object DictateController {
             if (instruction.isBlank()) continue
             _state.value = UiState.Rewording(p.name ?: context.getString(R.string.dictate__status_rewording))
             text = runCatching {
-                requestReword(instruction, if (p.requiresSelection) text else null)
+                requestReword(instruction, if (p.requiresSelection) text else null, p.reasoningEffort)
             }.getOrDefault(text)
         }
         return text
@@ -1704,7 +1704,7 @@ object DictateController {
             }
             _state.value = UiState.Rewording(p.name ?: context.getString(R.string.dictate__status_rewording))
             result = runCatching {
-                requestReword(raw, if (p.requiresSelection) result else null)
+                requestReword(raw, if (p.requiresSelection) result else null, p.reasoningEffort)
             }.getOrDefault(result)
         }
         return result
@@ -1715,18 +1715,28 @@ object DictateController {
      * (exactly as the legacy app did – the be-precise prompt is tuned for this position) and returns
      * the trimmed model output.
      */
-    private suspend fun requestReword(instruction: String, input: String?): String {
+    private suspend fun requestReword(
+        instruction: String,
+        input: String?,
+        reasoning: DictateReasoningEffort? = null,
+    ): String {
         val sys = systemPrompt()
         val content = buildString {
             append(instruction)
             if (sys.isNotBlank()) append("\n\n").append(sys)
             if (!input.isNullOrBlank()) append("\n\n").append(input)
         }
-        return requestRewordRaw(content)
+        return requestRewordRaw(content, reasoning)
     }
 
-    /** Low-level rewording call: sends [userContent] verbatim as a single user message. */
-    private suspend fun requestRewordRaw(userContent: String): String {
+    /**
+     * Low-level rewording call: sends [userContent] verbatim as a single user message. [reasoning] is
+     * the per-prompt reasoning-effort override (issue #155); null falls back to the global setting.
+     */
+    private suspend fun requestRewordRaw(
+        userContent: String,
+        reasoning: DictateReasoningEffort? = null,
+    ): String {
         val account = rewordingAccount()
         // Blank rewording key falls back to the transcription account's key (legacy "reuse" behavior).
         val apiKey = account.apiKey.ifBlank { transcriptionAccount().apiKey }
@@ -1744,8 +1754,9 @@ object DictateController {
         val result = client.complete(
             ChatRequest.ofUser(
                 model, userContent,
-                // Reasoning effort for reasoning models (issue #141); OFF → null → field omitted.
-                reasoningEffort = prefs.dictate.rewordingReasoningEffort.get().wire,
+                // Reasoning effort for reasoning models (issue #141); a per-prompt override wins over the
+                // global setting (#155). OFF → null → field omitted.
+                reasoningEffort = (reasoning ?: prefs.dictate.rewordingReasoningEffort.get()).wire,
             ),
         ).text.trim()
         // Lifetime statistics (issue #142): every rewording/prompt pass funnels through here.

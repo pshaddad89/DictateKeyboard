@@ -1335,6 +1335,8 @@
     <string name="dictate__prompt_requires_selection_summary">Работи върху избрания текст и го заменя</string>
     <string name="dictate__prompt_auto_apply_title">Прилагай автоматично</string>
     <string name="dictate__prompt_auto_apply_summary">Изпълнявай тази подкана автоматично при всяко транскрибиране</string>
+    <string name="dictate__prompt_reasoning_title">Разсъждение</string>
+    <string name="dictate__prompt_reasoning_default">По подразбиране</string>
     <string name="dictate__prompt_badge_selection">Изисква селекция</string>
     <string name="dictate__prompt_badge_auto">Прилага се автоматично</string>
     <string name="dictate__example_prompt_fix_grammar_name">Поправи граматиката</string>

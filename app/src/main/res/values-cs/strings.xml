@@ -1350,6 +1350,8 @@
     <string name="dictate__prompt_requires_selection_summary">Pracuje s vybraným textem a nahradí jej</string>
     <string name="dictate__prompt_auto_apply_title">Použít automaticky</string>
     <string name="dictate__prompt_auto_apply_summary">Spouštět tento prompt automaticky u každého přepisu</string>
+    <string name="dictate__prompt_reasoning_title">Uvažování</string>
+    <string name="dictate__prompt_reasoning_default">Výchozí</string>
     <string name="dictate__prompt_badge_selection">Vyžaduje výběr</string>
     <string name="dictate__prompt_badge_auto">Použije se automaticky</string>
     <string name="dictate__example_prompt_fix_grammar_name">Opravit gramatiku</string>

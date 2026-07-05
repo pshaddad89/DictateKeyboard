@@ -1209,6 +1209,8 @@
     <string name="dictate__prompt_requires_selection_summary">Actua sobre el text seleccionat i el substitueix</string>
     <string name="dictate__prompt_auto_apply_title">Aplica automàticament</string>
     <string name="dictate__prompt_auto_apply_summary">Executa aquest prompt automàticament a cada transcripció</string>
+    <string name="dictate__prompt_reasoning_title">Raonament</string>
+    <string name="dictate__prompt_reasoning_default">Per defecte</string>
     <string name="dictate__prompt_badge_selection">Requereix una selecció</string>
     <string name="dictate__prompt_badge_auto">S\'aplica automàticament</string>
     <string name="dictate__example_prompt_fix_grammar_name">Corregeix la gramàtica</string>

@@ -1330,6 +1330,8 @@
     <string name="dictate__prompt_requires_selection_summary">对选中的文本进行操作并替换它</string>
     <string name="dictate__prompt_auto_apply_title">自动应用</string>
     <string name="dictate__prompt_auto_apply_summary">对每次转录自动运行此提示词</string>
+    <string name="dictate__prompt_reasoning_title">推理</string>
+    <string name="dictate__prompt_reasoning_default">默认</string>
     <string name="dictate__prompt_badge_selection">需要选中文本</string>
     <string name="dictate__prompt_badge_auto">自动应用</string>
     <string name="dictate__example_prompt_fix_grammar_name">修正语法</string>

@@ -37,6 +37,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.CloudDownload
@@ -48,14 +49,19 @@ import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -76,6 +82,7 @@ import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.dictate.DictateController
+import dev.patrickgold.florisboard.dictate.DictateReasoningEffort
 import dev.patrickgold.florisboard.dictate.data.prompts.PromptLibraryContribution
 import dev.patrickgold.florisboard.dictate.data.prompts.PromptModel
 import dev.patrickgold.florisboard.dictate.data.prompts.PromptsDatabaseHelper
@@ -335,13 +342,14 @@ fun DictatePromptsScreen(
                 initial = target,
                 onDismiss = { editorTarget = null },
                 onShare = { name, text, requiresSelection, autoApply ->
+                    // No reasoning here on purpose — shared prompts stay reasoning-agnostic.
                     pendingShare = PromptModel(0, 0, name, text, requiresSelection, autoApply)
                 },
-                onSave = { name, text, requiresSelection, autoApply ->
+                onSave = { name, text, requiresSelection, autoApply, reasoning ->
                     scope.launch {
                         withContext(Dispatchers.IO) {
                             if (target.id < 0) {
-                                db.add(PromptModel(0, db.count(), name, text, requiresSelection, autoApply))
+                                db.add(PromptModel(0, db.count(), name, text, requiresSelection, autoApply, reasoning))
                             } else {
                                 db.update(
                                     target.copy(
@@ -349,6 +357,7 @@ fun DictatePromptsScreen(
                                         prompt = text,
                                         requiresSelection = requiresSelection,
                                         autoApply = autoApply,
+                                        reasoningEffort = reasoning,
                                     ),
                                 )
                             }
@@ -478,7 +487,9 @@ private fun exportPrompts(context: android.content.Context, uri: Uri, prompts: L
                     .put("name", p.name.orEmpty())
                     .put("prompt", p.prompt.orEmpty())
                     .put("requiresSelection", p.requiresSelection)
-                    .put("autoApply", p.autoApply),
+                    .put("autoApply", p.autoApply)
+                    // Only written when set (null = use the global reasoning setting); issue #155.
+                    .apply { p.reasoningEffort?.let { put("reasoningEffort", it.name) } },
             )
         }
         val root = JSONObject().put("version", 1).put("prompts", array)
@@ -514,6 +525,9 @@ private fun importPrompts(context: android.content.Context, uri: Uri): List<Prom
                     prompt = prompt,
                     requiresSelection = obj.optBoolean("requiresSelection", false),
                     autoApply = obj.optBoolean("autoApply", false),
+                    // Optional per-prompt reasoning override; unknown/missing → null (global). Issue #155.
+                    reasoningEffort = obj.optString("reasoningEffort", "").takeIf { it.isNotEmpty() }
+                        ?.let { runCatching { DictateReasoningEffort.valueOf(it) }.getOrNull() },
                 ),
             )
         }
@@ -545,14 +559,17 @@ private fun ImportModeDialog(
 private fun PromptEditorDialog(
     initial: PromptModel,
     onDismiss: () -> Unit,
+    // Reasoning effort is intentionally NOT part of sharing — it's a local, per-user/per-server choice,
+    // so community contributions never carry it (recipients decide their own). Only onSave gets it.
     onShare: (name: String, prompt: String, requiresSelection: Boolean, autoApply: Boolean) -> Unit,
-    onSave: (name: String, prompt: String, requiresSelection: Boolean, autoApply: Boolean) -> Unit,
+    onSave: (name: String, prompt: String, requiresSelection: Boolean, autoApply: Boolean, reasoning: DictateReasoningEffort?) -> Unit,
     onDelete: (() -> Unit)?,
 ) {
     var name by remember { mutableStateOf(initial.name.orEmpty()) }
     var text by remember { mutableStateOf(initial.prompt.orEmpty()) }
     var requiresSelection by remember { mutableStateOf(initial.requiresSelection) }
     var autoApply by remember { mutableStateOf(initial.autoApply) }
+    var reasoning by remember { mutableStateOf(initial.reasoningEffort) }
     var showError by remember { mutableStateOf(false) }
 
     JetPrefAlertDialog(
@@ -564,7 +581,7 @@ private fun PromptEditorDialog(
             if (name.isBlank() || text.isBlank()) {
                 showError = true
             } else {
-                onSave(name.trim(), text.trim(), requiresSelection, autoApply)
+                onSave(name.trim(), text.trim(), requiresSelection, autoApply, reasoning)
             }
         },
         dismissLabel = stringRes(R.string.action__cancel),
@@ -598,50 +615,50 @@ private fun PromptEditorDialog(
                 isError = showError && text.isBlank(),
             )
             Spacer(Modifier.height(12.dp))
+            // The two toggles keep only their title inline; the longer description now shows on a
+            // long-press as a tooltip, so the (already tall) editor dialog stays compact.
             SwitchRow(
                 title = stringRes(R.string.dictate__prompt_requires_selection_title),
-                summary = stringRes(R.string.dictate__prompt_requires_selection_summary),
+                tooltip = stringRes(R.string.dictate__prompt_requires_selection_summary),
                 checked = requiresSelection,
                 onCheckedChange = { requiresSelection = it },
             )
-            Spacer(Modifier.height(8.dp))
             SwitchRow(
                 title = stringRes(R.string.dictate__prompt_auto_apply_title),
-                summary = stringRes(R.string.dictate__prompt_auto_apply_summary),
+                tooltip = stringRes(R.string.dictate__prompt_auto_apply_summary),
                 checked = autoApply,
                 onCheckedChange = { autoApply = it },
             )
-            Spacer(Modifier.height(4.dp))
-            // Contribute this prompt to the community library (issue #105). Only offered once there is
-            // something worth sharing; the actual submission happens as a GitHub pull request.
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(enabled = name.isNotBlank() && text.isNotBlank()) {
-                        onShare(name.trim(), text.trim(), requiresSelection, autoApply)
-                    }
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
+            // Per-prompt reasoning-effort override (issue #155): "Default" = use the global setting.
+            ReasoningRow(selected = reasoning, onSelected = { reasoning = it })
+            Spacer(Modifier.height(12.dp))
+            // Contribute this prompt to the community library (issue #105) — a tonal button, only enabled
+            // once there is something worth sharing; the submission itself happens as a GitHub pull request.
+            val shareEnabled = name.isNotBlank() && text.isNotBlank()
+            Surface(
+                onClick = { onShare(name.trim(), text.trim(), requiresSelection, autoApply) },
+                enabled = shareEnabled,
+                shape = MaterialTheme.shapes.large,
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier.fillMaxWidth(),
             ) {
-                Icon(
-                    imageVector = Icons.Default.Share,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                    tint = if (name.isNotBlank() && text.isNotBlank()) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-                    },
-                )
-                Spacer(Modifier.width(12.dp))
-                Text(
-                    text = stringRes(R.string.dictate__prompt_share_title),
-                    color = if (name.isNotBlank() && text.isNotBlank()) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-                    },
-                )
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Share,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        text = stringRes(R.string.dictate__prompt_share_title),
+                        style = MaterialTheme.typography.labelLarge,
+                    )
+                }
             }
         }
     }
@@ -705,24 +722,91 @@ private fun PromptStatusIcon(
     )
 }
 
+/**
+ * A compact toggle row: title + switch, with [tooltip] (the former inline description) surfaced on a
+ * long-press so the editor dialog stays short. Tap anywhere on the row toggles it.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SwitchRow(
     title: String,
-    summary: String,
+    tooltip: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = { PlainTooltip { Text(tooltip) } },
+        state = rememberTooltipState(isPersistent = false),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onCheckedChange(!checked) }
+                .padding(vertical = 1.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(text = title, modifier = Modifier.weight(1f).padding(end = 12.dp))
+            Switch(checked = checked, onCheckedChange = onCheckedChange)
+        }
+    }
+}
+
+/** Per-prompt reasoning-effort selector (issue #155): a label + dropdown; "Default" = global setting. */
+@Composable
+private fun ReasoningRow(
+    selected: DictateReasoningEffort?,
+    onSelected: (DictateReasoningEffort?) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onCheckedChange(!checked) },
+            .clickable { expanded = true }
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
-            Text(text = title)
-            Text(text = summary, style = MaterialTheme.typography.bodySmall)
+        Text(
+            text = stringRes(R.string.dictate__prompt_reasoning_title),
+            modifier = Modifier.weight(1f).padding(end = 12.dp),
+            maxLines = 1,
+        )
+        Box {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = reasoningEffortLabel(selected),
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                // null (Default) first, then the concrete efforts in order.
+                (listOf<DictateReasoningEffort?>(null) + DictateReasoningEffort.entries).forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(reasoningEffortLabel(option)) },
+                        onClick = { onSelected(option); expanded = false },
+                    )
+                }
+            }
         }
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
     }
 }
+
+/** Localized label for a per-prompt reasoning choice; null = "use the global setting". */
+@Composable
+private fun reasoningEffortLabel(effort: DictateReasoningEffort?): String = stringRes(
+    when (effort) {
+        null -> R.string.dictate__prompt_reasoning_default
+        DictateReasoningEffort.OFF -> R.string.dictate__reasoning_effort_off
+        DictateReasoningEffort.MINIMAL -> R.string.dictate__reasoning_effort_minimal
+        DictateReasoningEffort.LOW -> R.string.dictate__reasoning_effort_low
+        DictateReasoningEffort.MEDIUM -> R.string.dictate__reasoning_effort_medium
+        DictateReasoningEffort.HIGH -> R.string.dictate__reasoning_effort_high
+    },
+)

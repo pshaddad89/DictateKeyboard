@@ -10,6 +10,7 @@
 
 package dev.patrickgold.florisboard.dictate.data.prompts
 
+import dev.patrickgold.florisboard.dictate.DictateReasoningEffort
 import kotlinx.serialization.Serializable
 
 /**
@@ -34,6 +35,8 @@ data class PromptModel(
     var prompt: String?,
     var requiresSelection: Boolean,
     var autoApply: Boolean,
+    // Per-prompt reasoning-effort override (issue #155); null = use the global rewording setting.
+    var reasoningEffort: DictateReasoningEffort? = null,
 ) {
     fun isPersisted(): Boolean = id >= 0
 
