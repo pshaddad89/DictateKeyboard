@@ -15,15 +15,18 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.dictate.DictateReasoningEffort
 
 /**
  * Storage for user-defined rewording prompts.
  *
  * IMPORTANT (data contract – see `docs/COMPATIBILITY.md`):
- * Database name (`prompts.db`), version (`2`) and the exact `PROMPTS` schema are FROZEN so that
- * existing Dictate users keep their prompts after the in-place app update. Do not migrate this to
- * Room without a deliberately tested migration – Room's strict type-affinity validation would
- * reject the legacy `BOOLEAN`/`INTEGER` columns of an existing user database.
+ * Database name (`prompts.db`) and the legacy `PROMPTS` columns are FROZEN so that existing Dictate
+ * users keep their prompts after the in-place app update. New columns may only be ADDED via a bumped
+ * version + an `onUpgrade` `ALTER TABLE … ADD COLUMN` (as done for `AUTO_APPLY` in v2 and
+ * `REASONING_EFFORT` in v3). Do not migrate this to Room without a deliberately tested migration –
+ * Room's strict type-affinity validation would reject the legacy `BOOLEAN`/`INTEGER` columns of an
+ * existing user database.
  *
  * Lifecycle (issue #138): obtain via [getInstance] and NEVER call `close()` on the returned
  * [SQLiteDatabase]. `SQLiteOpenHelper` hands out one shared, reference-counted database whose
@@ -39,7 +42,7 @@ class PromptsDatabaseHelper private constructor(
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             "CREATE TABLE PROMPTS (ID INTEGER PRIMARY KEY, POS INTEGER, NAME TEXT, PROMPT TEXT, " +
-                "REQUIRES_SELECTION BOOLEAN, AUTO_APPLY BOOLEAN DEFAULT 0)"
+                "REQUIRES_SELECTION BOOLEAN, AUTO_APPLY BOOLEAN DEFAULT 0, REASONING_EFFORT TEXT)"
         )
         // Seed the example prompts for fresh installs only (existing users skip onCreate). These are
         // the same defaults the legacy Dictate app shipped, resolved from string resources so they are
@@ -59,6 +62,11 @@ class PromptsDatabaseHelper private constructor(
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE PROMPTS ADD COLUMN AUTO_APPLY BOOLEAN DEFAULT 0")
+        }
+        if (oldVersion < 3) {
+            // Per-prompt reasoning-effort override (issue #155). Nullable TEXT holding the enum name;
+            // NULL = fall back to the global reasoning setting.
+            db.execSQL("ALTER TABLE PROMPTS ADD COLUMN REASONING_EFFORT TEXT")
         }
     }
 
@@ -159,22 +167,31 @@ class PromptsDatabaseHelper private constructor(
         put("PROMPT", prompt)
         put("REQUIRES_SELECTION", if (requiresSelection) 1 else 0)
         put("AUTO_APPLY", if (autoApply) 1 else 0)
+        put("REASONING_EFFORT", reasoningEffort?.name)
     }
 
-    private fun android.database.Cursor.toPromptModel() = PromptModel(
-        id = getInt(getColumnIndexOrThrow("ID")),
-        pos = getInt(getColumnIndexOrThrow("POS")),
-        name = getString(getColumnIndexOrThrow("NAME")),
-        prompt = getString(getColumnIndexOrThrow("PROMPT")),
-        requiresSelection = getInt(getColumnIndexOrThrow("REQUIRES_SELECTION")) == 1,
-        autoApply = getInt(getColumnIndexOrThrow("AUTO_APPLY")) == 1,
-    )
+    private fun android.database.Cursor.toPromptModel(): PromptModel {
+        // REASONING_EFFORT (v3) is read defensively: an unknown/old value maps back to null (= global).
+        val reasoningIdx = getColumnIndex("REASONING_EFFORT")
+        val reasoning = if (reasoningIdx >= 0 && !isNull(reasoningIdx)) {
+            runCatching { DictateReasoningEffort.valueOf(getString(reasoningIdx)) }.getOrNull()
+        } else null
+        return PromptModel(
+            id = getInt(getColumnIndexOrThrow("ID")),
+            pos = getInt(getColumnIndexOrThrow("POS")),
+            name = getString(getColumnIndexOrThrow("NAME")),
+            prompt = getString(getColumnIndexOrThrow("PROMPT")),
+            requiresSelection = getInt(getColumnIndexOrThrow("REQUIRES_SELECTION")) == 1,
+            autoApply = getInt(getColumnIndexOrThrow("AUTO_APPLY")) == 1,
+            reasoningEffort = reasoning,
+        )
+    }
 
     private data class Seed(val nameRes: Int, val promptRes: Int, val requiresSelection: Boolean)
 
     companion object {
         const val DATABASE_NAME = "prompts.db"
-        const val DATABASE_VERSION = 2
+        const val DATABASE_VERSION = 3
 
         @Volatile
         private var instance: PromptsDatabaseHelper? = null

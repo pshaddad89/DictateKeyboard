@@ -10,11 +10,17 @@
 
 package dev.patrickgold.florisboard.dictate
 
+import kotlinx.serialization.Serializable
+
 /**
  * How much a reasoning model should "think" on rewording/command chat calls (issue #141), mapped to the
  * OpenAI-compatible `reasoning_effort` field. [OFF] omits the field entirely — the provider default is
  * used and non-reasoning models are unaffected. Applies only to chat/rewording, never to transcription.
+ *
+ * A prompt may override the global setting per-prompt (issue #155); [Serializable] so such an override
+ * can ride along in exported/backed-up prompts.
  */
+@Serializable
 enum class DictateReasoningEffort(val wire: String?) {
     OFF(null),
     MINIMAL("minimal"),
