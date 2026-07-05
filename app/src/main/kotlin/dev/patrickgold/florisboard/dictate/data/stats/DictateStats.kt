@@ -136,8 +136,19 @@ object DictateStats {
     }
 
     /** Whitespace-delimited word count; CJK text (no spaces) collapses to a single token, which is fine. */
-    fun wordCount(text: String): Int =
-        text.trim().split(WHITESPACE).count { it.isNotBlank() }
+    fun wordCount(text: String): Int {
+        var count = 0
+        var inWord = false
+        for (ch in text) {
+            if (ch.isWhitespace()) {
+                inWord = false
+            } else if (!inWord) {
+                count++
+                inWord = true
+            }
+        }
+        return count
+    }
 
     /**
      * Words per day for the last [DAILY_WINDOW_DAYS] days, oldest → newest and aligned to [today] so the
@@ -182,6 +193,4 @@ object DictateStats {
 
     private fun serializeDaily(map: Map<Long, Long>): String =
         map.entries.sortedBy { it.key }.joinToString(";") { "${it.key}:${it.value}" }
-
-    private val WHITESPACE = Regex("\\s+")
 }
