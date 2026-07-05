@@ -1473,6 +1473,8 @@
     <string name="dictate__providers_rewording_single_call_note">Obecnie nieużywany — Twój dostawca transkrypcji wykonuje przeredagowanie w swoim pojedynczym wywołaniu.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opcje dyktowania ze sparowanego zegarka</string>
+    <string name="dictate__wear_install_title">Zainstaluj Dictate na zegarku</string>
+    <string name="dictate__wear_install_summary">Otwiera Play Store. Na sparowanym zegarku (Wear OS 3 lub nowszym) wybierz zegarek jako cel instalacji.</string>
     <string name="dictate__wear_auto_rewording_title">Automatyczne przeredagowanie dyktowań z zegarka</string>
     <string name="dictate__wear_auto_rewording_summary">Przeredaguj dyktowania z zegarka, tak jak w telefonie.</string>
     <string name="quick_action__system_prev_input_method">Zmień klawiaturę</string>

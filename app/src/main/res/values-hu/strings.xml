@@ -1455,6 +1455,8 @@
     <string name="dictate__providers_rewording_single_call_note">Jelenleg nincs használatban — az átírási szolgáltató az újrafogalmazást az egyetlen hívásában végzi.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Diktálási beállítások párosított órához</string>
+    <string name="dictate__wear_install_title">A Dictate telepítése az órájára</string>
+    <string name="dictate__wear_install_summary">Megnyitja a Play Store-t. Párosított órán (Wear OS 3 vagy újabb) válassza az órát telepítési célként.</string>
     <string name="dictate__wear_auto_rewording_title">Óradiktálások automatikus újrafogalmazása</string>
     <string name="dictate__wear_auto_rewording_summary">Fogalmazd újra az óradiktálásokat, mint a telefonon.</string>
     <string name="quick_action__system_prev_input_method">Billentyűzetváltás</string>

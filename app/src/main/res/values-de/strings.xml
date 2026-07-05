@@ -1329,6 +1329,8 @@
     <string name="dictate__providers_rewording_single_call_note">Wird gerade nicht genutzt – dein Transkriptions-Anbieter übernimmt die Umformulierung in seinem Single-Call.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Optionen fürs Diktieren von einer gekoppelten Uhr</string>
+    <string name="dictate__wear_install_title">Dictate auf deiner Uhr installieren</string>
+    <string name="dictate__wear_install_summary">Öffnet den Play Store. Wähle auf einer gekoppelten Uhr (Wear OS 3 oder neuer) deine Uhr als Installationsziel aus.</string>
     <string name="dictate__wear_auto_rewording_title">Watch-Diktate automatisch umformulieren</string>
     <string name="dictate__wear_auto_rewording_summary">Watch-Diktate umformulieren, wie am Handy.</string>
     <string name="quick_action__system_prev_input_method">Tastatur wechseln</string>

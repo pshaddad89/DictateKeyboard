@@ -1301,6 +1301,8 @@
     <string name="dictate__providers_rewording_single_call_note">Зараз не використовується — ваш постачальник транскрипції виконує переформулювання у своєму єдиному запиті.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Параметри диктування з парного годинника</string>
+    <string name="dictate__wear_install_title">Установіть Dictate на годинник</string>
+    <string name="dictate__wear_install_summary">Відкриває Play Store. На парному годиннику (Wear OS 3 або новішому) виберіть годинник як місце встановлення.</string>
     <string name="dictate__wear_auto_rewording_title">Авто-переформулювання диктувань з годинника</string>
     <string name="dictate__wear_auto_rewording_summary">Переформулюйте диктування з годинника, як на телефоні.</string>
     <string name="quick_action__system_prev_input_method">Змінити клавіатуру</string>

@@ -1357,6 +1357,8 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__providers_rewording_single_call_note">Wordt nu niet gebruikt — je transcriptieprovider doet de herformulering in zijn enkele aanroep.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opties voor dicteren vanaf een gekoppeld horloge</string>
+    <string name="dictate__wear_install_title">Dictate op je horloge installeren</string>
+    <string name="dictate__wear_install_summary">Opent de Play Store. Kies op een gekoppeld horloge (Wear OS 3 of nieuwer) je horloge als installatiedoel.</string>
     <string name="dictate__wear_auto_rewording_title">Horlogedictaten automatisch herformuleren</string>
     <string name="dictate__wear_auto_rewording_summary">Herformuleer dictaten vanaf het horloge, net als op de telefoon.</string>
     <string name="quick_action__system_prev_input_method">Toetsenbord wisselen</string>

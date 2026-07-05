@@ -1401,6 +1401,8 @@
     <string name="dictate__providers_rewording_single_call_note">Pašlaik netiek izmantots — jūsu transkripcijas pakalpojums veic pārformulēšanu savā vienreizējā pieprasījumā.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Diktēšanas opcijas no savienota pulksteņa</string>
+    <string name="dictate__wear_install_title">Instalēt Dictate savā pulkstenī</string>
+    <string name="dictate__wear_install_summary">Atver Play Store. Savienotā pulkstenī (Wear OS 3 vai jaunākā) izvēlieties pulksteni kā instalēšanas mērķi.</string>
     <string name="dictate__wear_auto_rewording_title">Automātiski pārformulēt pulksteņa diktātus</string>
     <string name="dictate__wear_auto_rewording_summary">Pārformulējiet pulksteņa diktātus, tāpat kā tālrunī.</string>
     <string name="quick_action__system_prev_input_method">Mainīt tastatūru</string>

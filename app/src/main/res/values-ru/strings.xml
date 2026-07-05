@@ -1461,6 +1461,8 @@
     <string name="dictate__providers_rewording_single_call_note">Сейчас не используется — ваш провайдер транскрипции выполняет переформулирование в своём едином запросе.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Параметры диктовки с сопряжённых часов</string>
+    <string name="dictate__wear_install_title">Установите Dictate на часы</string>
+    <string name="dictate__wear_install_summary">Открывает Play Store. На сопряжённых часах (Wear OS 3 или новее) выберите часы в качестве места установки.</string>
     <string name="dictate__wear_auto_rewording_title">Авто-переформулирование диктовок с часов</string>
     <string name="dictate__wear_auto_rewording_summary">Переформулируйте диктовки с часов, как на телефоне.</string>
     <string name="quick_action__system_prev_input_method">Сменить клавиатуру</string>

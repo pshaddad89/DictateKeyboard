@@ -1387,6 +1387,8 @@
     <string name="dictate__providers_rewording_single_call_note">現在は使用されていません。文字起こしプロバイダーがシングルコール内で書き換えを行います。</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">ペアリングした時計から音声入力するためのオプション</string>
+    <string name="dictate__wear_install_title">時計に Dictate をインストール</string>
+    <string name="dictate__wear_install_summary">Play Store を開きます。ペアリングした時計（Wear OS 3 以降）で、インストール先として時計を選択してください。</string>
     <string name="dictate__wear_auto_rewording_title">時計の音声入力を自動で書き換える</string>
     <string name="dictate__wear_auto_rewording_summary">時計からの音声入力を、スマートフォンと同じように書き換えます。</string>
     <string name="quick_action__system_prev_input_method">キーボード切替</string>

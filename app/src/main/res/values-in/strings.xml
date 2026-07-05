@@ -1410,6 +1410,8 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__providers_rewording_single_call_note">Sedang tidak digunakan — penyedia transkripsi Anda melakukan penyusunan ulang dalam panggilan tunggalnya.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opsi untuk mendikte dari jam tangan yang dipasangkan</string>
+    <string name="dictate__wear_install_title">Instal Dictate di jam tangan Anda</string>
+    <string name="dictate__wear_install_summary">Membuka Play Store. Pada jam tangan yang dipasangkan (Wear OS 3 atau lebih baru), pilih jam tangan Anda sebagai tujuan pemasangan.</string>
     <string name="dictate__wear_auto_rewording_title">Susun ulang otomatis dikte dari jam tangan</string>
     <string name="dictate__wear_auto_rewording_summary">Susun ulang dikte dari jam tangan, seperti di ponsel.</string>
     <string name="quick_action__system_prev_input_method">Ganti keyboard</string>

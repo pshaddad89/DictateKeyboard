@@ -1437,6 +1437,8 @@
     <string name="dictate__providers_rewording_single_call_note">Não está a ser usado neste momento — o teu fornecedor de transcrição faz a reformulação na sua chamada única.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opções para ditar a partir de um relógio emparelhado</string>
+    <string name="dictate__wear_install_title">Instalar o Dictate no seu relógio</string>
+    <string name="dictate__wear_install_summary">Abre a Play Store. Num relógio emparelhado (Wear OS 3 ou posterior), escolha o seu relógio como destino da instalação.</string>
     <string name="dictate__wear_auto_rewording_title">Reformular automaticamente os ditados do relógio</string>
     <string name="dictate__wear_auto_rewording_summary">Reformula os ditados feitos no relógio, como no telemóvel.</string>
     <string name="quick_action__system_prev_input_method">Mudar teclado</string>
