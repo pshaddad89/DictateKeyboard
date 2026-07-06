@@ -1545,4 +1545,6 @@
     <string name="dictate__legacy_layout_swipe_label">经典布局，滑动切换键盘</string>
     <string name="dictate__legacy_select_all">全选</string>
     <string name="dictate__floating_button_retry_hint">%1$s — 点按重试</string>
+    <string name="dictate__haptic_feedback_title">触感反馈</string>
+    <string name="dictate__haptic_feedback_summary">在录音开始/停止、转写完成以及应用改写时振动</string>
 </resources>

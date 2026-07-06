@@ -1333,4 +1333,6 @@
     <string name="dictate__legacy_layout_swipe_label">Layout classico, scorri per la tastiera</string>
     <string name="dictate__legacy_select_all">Seleziona tutto</string>
     <string name="dictate__floating_button_retry_hint">%1$s — tocca per riprovare</string>
+    <string name="dictate__haptic_feedback_title">Feedback aptico</string>
+    <string name="dictate__haptic_feedback_summary">Vibra all\'avvio/arresto della registrazione, quando la trascrizione è pronta e quando viene applicata una riscrittura</string>
 </resources>

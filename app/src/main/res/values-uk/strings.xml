@@ -1395,4 +1395,6 @@
     <string name="dictate__legacy_layout_swipe_label">Класичний режим, свайп для клавіатури</string>
     <string name="dictate__legacy_select_all">Виділити все</string>
     <string name="dictate__floating_button_retry_hint">%1$s — торкніться, щоб повторити</string>
+    <string name="dictate__haptic_feedback_title">Вібровідгук</string>
+    <string name="dictate__haptic_feedback_summary">Вібрація на початку/зупинці запису, коли транскрипція готова та коли застосовано переформулювання</string>
 </resources>

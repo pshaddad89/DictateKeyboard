@@ -1566,4 +1566,6 @@
     <string name="dictate__legacy_layout_swipe_label">Klasické rozvržení, přejetím zobrazíte klávesnici</string>
     <string name="dictate__legacy_select_all">Vybrat vše</string>
     <string name="dictate__floating_button_retry_hint">%1$s — klepnutím zopakovat</string>
+    <string name="dictate__haptic_feedback_title">Haptická odezva</string>
+    <string name="dictate__haptic_feedback_summary">Zavibruje při spuštění/zastavení nahrávání, když je přepis hotový a když se použije přeformulování</string>
 </resources>

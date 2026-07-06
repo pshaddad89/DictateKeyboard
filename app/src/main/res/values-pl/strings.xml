@@ -1567,4 +1567,6 @@
     <string name="dictate__legacy_layout_swipe_label">Klasyczny układ, przesuń, by wyświetlić klawiaturę</string>
     <string name="dictate__legacy_select_all">Zaznacz wszystko</string>
     <string name="dictate__floating_button_retry_hint">%1$s — dotknij, aby ponowić</string>
+    <string name="dictate__haptic_feedback_title">Wibracje</string>
+    <string name="dictate__haptic_feedback_summary">Wibruje przy rozpoczęciu/zatrzymaniu nagrywania, gdy transkrypcja jest gotowa i gdy zastosowano przeredagowanie</string>
 </resources>

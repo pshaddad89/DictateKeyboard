@@ -1425,4 +1425,6 @@
     <string name="dictate__legacy_layout_swipe_label">Disposition classique, balayer pour le clavier</string>
     <string name="dictate__legacy_select_all">Tout sélectionner</string>
     <string name="dictate__floating_button_retry_hint">%1$s — appuyez pour réessayer</string>
+    <string name="dictate__haptic_feedback_title">Retour haptique</string>
+    <string name="dictate__haptic_feedback_summary">Vibre au démarrage/arrêt de l\'enregistrement, quand la transcription est prête et quand une reformulation est appliquée</string>
 </resources>

@@ -1451,4 +1451,6 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__legacy_layout_swipe_label">Klassieke indeling, veeg voor toetsenbord</string>
     <string name="dictate__legacy_select_all">Alles selecteren</string>
     <string name="dictate__floating_button_retry_hint">%1$s — tik om opnieuw te proberen</string>
+    <string name="dictate__haptic_feedback_title">Haptische feedback</string>
+    <string name="dictate__haptic_feedback_summary">Trilt bij start/stop van de opname, wanneer de transcriptie klaar is en wanneer een herformulering is toegepast</string>
 </resources>

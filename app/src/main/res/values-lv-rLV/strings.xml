@@ -1495,4 +1495,6 @@
     <string name="dictate__legacy_layout_swipe_label">Klasiskais izkārtojums, velciet, lai atvērtu tastatūru</string>
     <string name="dictate__legacy_select_all">Atlasīt visu</string>
     <string name="dictate__floating_button_retry_hint">%1$s — pieskaries, lai mēģinātu vēlreiz</string>
+    <string name="dictate__haptic_feedback_title">Haptiskā atsauce</string>
+    <string name="dictate__haptic_feedback_summary">Vibrē, sākot/apturot ierakstu, kad transkripcija ir gatava un kad tiek lietota pārformulēšana</string>
 </resources>

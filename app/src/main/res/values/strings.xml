@@ -1489,6 +1489,8 @@
     <string name="dictate__output_speed_value" comment="Value label for the typing speed slider">{v}</string>
     <string name="dictate__resend_button_title" comment="Setting: show a resend button on failure">Resend button</string>
     <string name="dictate__resend_button_summary" comment="Summary for the resend button setting">If transcription fails, show a button to retry with the same recording</string>
+    <string name="dictate__haptic_feedback_title" comment="Setting: vibrate on dictation state changes">Haptic feedback</string>
+    <string name="dictate__haptic_feedback_summary" comment="Summary for the haptic feedback setting">Vibrate on record start/stop, when the transcription is ready, and when a rewording is applied</string>
     <string name="dictate__remember_last_dictation_title" comment="Setting: keep the last dictation so it can be re-inserted">Remember last dictation</string>
     <string name="dictate__remember_last_dictation_summary" comment="Summary explaining the re-insert safety net">Keep your last successful dictation so you can insert it again with the \"Re-insert\" Smartbar button — a safety net if the text field is cleared by a screen rotation or app switch. Add the button via the Smartbar editor. Stored only on this device until your next dictation.</string>
 

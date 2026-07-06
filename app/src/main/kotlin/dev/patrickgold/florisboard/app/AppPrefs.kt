@@ -353,6 +353,14 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__skip_silent_recordings",
             default = true,
         )
+        // Haptic feedback on dictation state changes (issue #166): a short buzz on record start/stop, a
+        // double on transcription done, a longer one when a rewording/LLM prompt finished — so the user
+        // knows blindly when to look back at the screen. Off by default. Amplitude honours the system
+        // haptic intensity. Also mirrored on the watch (synced to it via DictateSyncedSettings).
+        val hapticFeedback = boolean(
+            key = "dictate__haptic_feedback",
+            default = false,
+        )
         // Start recording immediately whenever the keyboard opens on a text field (default off).
         val instantRecording = boolean(
             key = "dictate__instant_recording",

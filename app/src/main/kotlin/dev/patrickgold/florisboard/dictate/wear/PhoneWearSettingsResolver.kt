@@ -82,6 +82,7 @@ object PhoneWearSettingsResolver {
             rewordingApi = rewordingPreset.transcriptionApi,
             systemPrompt = systemPrompt(prefs),
             autoApplyPrompts = autoApply,
+            hapticFeedback = prefs.dictate.hapticFeedback.get(),
         )
     }
 

@@ -252,6 +252,40 @@ object DictateController {
     /** Output destination of the in-flight dictation; see [OutputTarget]. Reset to IME when idle. */
     private var outputTarget = OutputTarget.IME
 
+    // Haptic feedback (#166) fires on dictation state transitions. Started lazily on the first dictation
+    // (so we have an application context for the vibrator), then it observes for the whole process life.
+    private var hapticObserverStarted = false
+    private fun ensureHapticObserver(context: Context) {
+        if (hapticObserverStarted) return
+        hapticObserverStarted = true
+        val appContext = context.applicationContext
+        // Capture the current state synchronously (the caller is about to change it): the launched
+        // collector otherwise reads _state.value only after the change and would miss the first transition.
+        val initial = _state.value
+        scope.launch {
+            var prev: UiState = initial
+            _state.collect { new ->
+                when {
+                    // Record started — skipped for the floating button when its own tap already buzzed
+                    // (no double buzz); a resend enters at Transcribing so it never matches here.
+                    new is UiState.Recording && prev !is UiState.Recording -> {
+                        val buttonAlreadyBuzzed = outputTarget == OutputTarget.OVERLAY &&
+                            prefs.dictate.floatingButtonHaptic.get()
+                        if (!buttonAlreadyBuzzed) DictateHaptics.short(appContext)
+                    }
+                    // Record stopped → transcribing (a resend is Idle→Transcribing and is ignored).
+                    prev is UiState.Recording && new is UiState.Transcribing -> DictateHaptics.short(appContext)
+                    // Transcription ready (heading to commit/idle or on to a rewording pass) — not on failure.
+                    prev is UiState.Transcribing && (new is UiState.Idle || new is UiState.Rewording) ->
+                        DictateHaptics.double(appContext)
+                    // Rewording / LLM prompt applied.
+                    prev is UiState.Rewording && new is UiState.Idle -> DictateHaptics.medium(appContext)
+                }
+                prev = new
+            }
+        }
+    }
+
     /**
      * A single audio file kept for a one-tap re-send, used by both the error-resend chip and the
      * interrupted-recording chip (unified resend path). [reason] distinguishes a failed transcription
@@ -556,6 +590,7 @@ object DictateController {
             discardCarryOver()
         }
         val appContext = context.applicationContext
+        ensureHapticObserver(appContext)
         startJob = scope.launch {
             try {
                 // Correct any stale active language (e.g. leftover "detect" after auto-detect was
@@ -720,8 +755,9 @@ object DictateController {
             return
         }
 
-        _state.value = UiState.Transcribing()
         val appContext = context.applicationContext
+        ensureHapticObserver(appContext)
+        _state.value = UiState.Transcribing()
         // Live prompt is consumed by this transcription only (the next recording is normal again).
         val live = livePromptArmed
         livePromptArmed = false

@@ -1529,4 +1529,6 @@
     <string name="dictate__legacy_layout_swipe_label">Klasik düzen, klavye için kaydır</string>
     <string name="dictate__legacy_select_all">Tümünü seç</string>
     <string name="dictate__floating_button_retry_hint">%1$s — yeniden denemek için dokun</string>
+    <string name="dictate__haptic_feedback_title">Titreşimli geri bildirim</string>
+    <string name="dictate__haptic_feedback_summary">Kayıt başlangıcında/durdurulmasında, transkripsiyon hazır olduğunda ve bir yeniden ifade uygulandığında titreşir</string>
 </resources>

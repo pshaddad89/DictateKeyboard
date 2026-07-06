@@ -143,6 +143,8 @@ data class DictateSyncedSettings(
     val systemPrompt: String? = null,
     /** The user's auto-apply prompts, in order, for the standalone rewording chain. */
     val autoApplyPrompts: List<SyncedPrompt> = emptyList(),
+    /** Mirror the phone's dictation haptic feedback on the watch (issue #166). */
+    val hapticFeedback: Boolean = false,
 ) {
     /** True when the watch can transcribe on its own (a key is present), i.e. works without the phone. */
     val canStandalone: Boolean get() = apiKey.isNotBlank() && baseUrl.isNotBlank()

@@ -1549,4 +1549,6 @@
     <string name="dictate__legacy_layout_swipe_label">Klasszikus elrendezés, húzás a billentyűzethez</string>
     <string name="dictate__legacy_select_all">Összes kijelölése</string>
     <string name="dictate__floating_button_retry_hint">%1$s — koppints az újrapróbáláshoz</string>
+    <string name="dictate__haptic_feedback_title">Rezgő visszajelzés</string>
+    <string name="dictate__haptic_feedback_summary">Rezeg a felvétel indításakor/leállításakor, amikor az átirat elkészül, és amikor átfogalmazás történik</string>
 </resources>

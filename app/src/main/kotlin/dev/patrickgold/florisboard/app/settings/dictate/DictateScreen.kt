@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Spellcheck
 import androidx.compose.material.icons.filled.Translate
+import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
@@ -417,6 +418,12 @@ fun DictateOutputScreen() = FlorisScreen {
             icon = Icons.Default.Replay,
             title = stringRes(R.string.dictate__resend_button_title),
             summary = stringRes(R.string.dictate__resend_button_summary),
+        )
+        SwitchPreference(
+            prefs.dictate.hapticFeedback,
+            icon = Icons.Default.Vibration,
+            title = stringRes(R.string.dictate__haptic_feedback_title),
+            summary = stringRes(R.string.dictate__haptic_feedback_summary),
         )
         SwitchPreference(
             prefs.dictate.rememberLastDictation,

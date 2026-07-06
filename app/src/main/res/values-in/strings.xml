@@ -1504,4 +1504,6 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__legacy_layout_swipe_label">Tata letak klasik, geser untuk keyboard</string>
     <string name="dictate__legacy_select_all">Pilih semua</string>
     <string name="dictate__floating_button_retry_hint">%1$s — ketuk untuk mencoba lagi</string>
+    <string name="dictate__haptic_feedback_title">Umpan balik haptik</string>
+    <string name="dictate__haptic_feedback_summary">Bergetar saat mulai/berhenti merekam, saat transkripsi siap, dan saat penulisan ulang diterapkan</string>
 </resources>

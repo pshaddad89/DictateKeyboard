@@ -173,6 +173,7 @@ class WearImeService :
             errorMessage.value = null
             recordingInfo.value = WearRecordingInfo(startedAtMs = SystemClock.elapsedRealtime())
             dictationState.value = WearDictationState.RECORDING
+            WearHaptics.short(this) // recording started (#166)
         } else {
             fail(result.exceptionOrNull()?.shortReason() ?: getString(R.string.wear_err_mic_unavailable))
         }
@@ -203,6 +204,7 @@ class WearImeService :
         // Show the spinner immediately; do the WAV encode (recorder.stop) AND the network call off the
         // main thread so the IME never blocks long enough to trigger an ANR ("Dictate isn't responding").
         dictationState.value = WearDictationState.TRANSCRIBING
+        WearHaptics.short(this) // recording stopped (#166)
         scope.launch {
             val outcome = runCatching {
                 withContext(Dispatchers.IO) {
@@ -211,8 +213,14 @@ class WearImeService :
                         WearTranscription.transcribe(
                             applicationContext,
                             audio,
-                            // Fired when the watch starts standalone rewording → show "Rewording…".
-                            onRewording = { scope.launch { dictationState.value = WearDictationState.REWORDING } },
+                            // Fired when the watch starts standalone rewording → show "Rewording…". The
+                            // transcript is ready at this point, so buzz "transcription done" (#166).
+                            onRewording = {
+                                scope.launch {
+                                    dictationState.value = WearDictationState.REWORDING
+                                    WearHaptics.double(applicationContext)
+                                }
+                            },
                         )
                     } finally {
                         audio.delete()
@@ -228,6 +236,13 @@ class WearImeService :
                 }
                 text.isNullOrBlank() -> fail(getString(R.string.wear_err_no_speech))
                 else -> {
+                    // Final buzz (#166): a longer one if a rewording just finished, else the double for a
+                    // plain transcription (the double for the rewording case already fired at its start).
+                    if (dictationState.value == WearDictationState.REWORDING) {
+                        WearHaptics.medium(applicationContext)
+                    } else {
+                        WearHaptics.double(applicationContext)
+                    }
                     ic()?.commitText(text, 1)
                     recordingInfo.value = WearRecordingInfo()
                     dictationState.value = WearDictationState.IDLE

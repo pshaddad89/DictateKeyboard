@@ -1358,4 +1358,6 @@
     <string name="dictate__legacy_layout_swipe_label">Layout clássico, deslize para o teclado</string>
     <string name="dictate__legacy_select_all">Selecionar tudo</string>
     <string name="dictate__floating_button_retry_hint">%1$s — toque para repetir</string>
+    <string name="dictate__haptic_feedback_title">Vibração</string>
+    <string name="dictate__haptic_feedback_summary">Vibra ao iniciar/parar a gravação, quando a transcrição fica pronta e quando uma reformulação é aplicada</string>
 </resources>
