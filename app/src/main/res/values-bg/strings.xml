@@ -1534,4 +1534,20 @@
     <string name="settings__localization__subtype_status_context">Контекст</string>
     <string name="pref__suggestion__auto_correct__label">Автокоригиране</string>
     <string name="pref__suggestion__auto_correct__summary">Автоматично поправяне на печатни грешки при интервал</string>
+    <string name="dictate__legacy_record">Запис</string>
+    <string name="dictate__legacy_stop">Спри</string>
+    <string name="dictate__legacy_switch_keyboard">Смяна на клавиатурата</string>
+    <string name="dictate__legacy_space">Интервал</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Изтриване</string>
+    <string name="dictate__legacy_emoji">Емоджи</string>
+    <string name="dictate__legacy_numbers">Цифри</string>
+    <string name="dictate__legacy_close">Затвори</string>
+    <string name="dictate__legacy_emoji_title">Изберете емоджи</string>
+    <string name="dictate__legacy_numbers_title">Цифрова клавиатура</string>
+    <string name="dictate__legacy_layout_title">Класическа подредба за диктовка</string>
+    <string name="dictate__legacy_layout_off_label">Изкл. (модерна клавиатура)</string>
+    <string name="dictate__legacy_layout_locked_label">Само класическа подредба</string>
+    <string name="dictate__legacy_layout_swipe_label">Класическа подредба, плъзнете за клавиатура</string>
+    <string name="dictate__legacy_select_all">Избери всичко</string>
 </resources>

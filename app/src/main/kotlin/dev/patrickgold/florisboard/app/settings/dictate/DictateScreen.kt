@@ -69,6 +69,7 @@ import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.dictate.DictateLanguages
+import dev.patrickgold.florisboard.dictate.DictateLegacyLayout
 import dev.patrickgold.florisboard.dictate.audio.DictateAudioSource
 import dev.patrickgold.florisboard.dictate.data.prompts.DictatePromptDefaults
 import dev.patrickgold.florisboard.dictate.provider.ProviderAccounts
@@ -368,6 +369,27 @@ fun DictateOutputScreen() = FlorisScreen {
     val prefs by FlorisPreferenceStore
 
     content {
+        // Classic keyboard-less dictation layout (issue #125): a compact record-first UI, optionally
+        // with a swipe back to the modern typing keyboard.
+        ListPreference(
+            prefs.dictate.legacyLayout,
+            icon = Icons.Default.Dialpad,
+            title = stringRes(R.string.dictate__legacy_layout_title),
+            entries = listPrefEntries {
+                entry(
+                    key = DictateLegacyLayout.OFF,
+                    label = stringRes(R.string.dictate__legacy_layout_off_label),
+                )
+                entry(
+                    key = DictateLegacyLayout.LOCKED,
+                    label = stringRes(R.string.dictate__legacy_layout_locked_label),
+                )
+                entry(
+                    key = DictateLegacyLayout.SWIPE,
+                    label = stringRes(R.string.dictate__legacy_layout_swipe_label),
+                )
+            },
+        )
         SwitchPreference(
             prefs.dictate.autoEnter,
             icon = Icons.AutoMirrored.Filled.KeyboardReturn,

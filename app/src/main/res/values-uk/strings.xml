@@ -1378,4 +1378,20 @@
     <string name="settings__localization__subtype_status_context">Контекст</string>
     <string name="pref__suggestion__auto_correct__label">Автовиправлення</string>
     <string name="pref__suggestion__auto_correct__summary">Автоматично виправляти помилки при пробілі</string>
+    <string name="dictate__legacy_record">Запис</string>
+    <string name="dictate__legacy_stop">Стоп</string>
+    <string name="dictate__legacy_switch_keyboard">Змінити клавіатуру</string>
+    <string name="dictate__legacy_space">Пробіл</string>
+    <string name="dictate__legacy_enter">Ввід</string>
+    <string name="dictate__legacy_backspace">Видалити</string>
+    <string name="dictate__legacy_emoji">Емодзі</string>
+    <string name="dictate__legacy_numbers">Цифри</string>
+    <string name="dictate__legacy_close">Закрити</string>
+    <string name="dictate__legacy_emoji_title">Виберіть емодзі</string>
+    <string name="dictate__legacy_numbers_title">Цифрова клавіатура</string>
+    <string name="dictate__legacy_layout_title">Класичний режим диктування</string>
+    <string name="dictate__legacy_layout_off_label">Вимк. (сучасна клавіатура)</string>
+    <string name="dictate__legacy_layout_locked_label">Лише класичний режим</string>
+    <string name="dictate__legacy_layout_swipe_label">Класичний режим, свайп для клавіатури</string>
+    <string name="dictate__legacy_select_all">Виділити все</string>
 </resources>

@@ -1478,4 +1478,20 @@
     <string name="settings__localization__subtype_status_context">Konteksts</string>
     <string name="pref__suggestion__auto_correct__label">Automātiskā labošana</string>
     <string name="pref__suggestion__auto_correct__summary">Automātiski labot drukas kļūdas, nospiežot atstarpi</string>
+    <string name="dictate__legacy_record">Ierakstīt</string>
+    <string name="dictate__legacy_stop">Apturēt</string>
+    <string name="dictate__legacy_switch_keyboard">Mainīt tastatūru</string>
+    <string name="dictate__legacy_space">Atstarpe</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Atpakaļatkāpe</string>
+    <string name="dictate__legacy_emoji">Emocijzīme</string>
+    <string name="dictate__legacy_numbers">Cipari</string>
+    <string name="dictate__legacy_close">Aizvērt</string>
+    <string name="dictate__legacy_emoji_title">Izvēlieties emocijzīmi</string>
+    <string name="dictate__legacy_numbers_title">Ciparu tastatūra</string>
+    <string name="dictate__legacy_layout_title">Klasiskais diktēšanas izkārtojums</string>
+    <string name="dictate__legacy_layout_off_label">Izslēgts (mūsdienīga tastatūra)</string>
+    <string name="dictate__legacy_layout_locked_label">Tikai klasiskais izkārtojums</string>
+    <string name="dictate__legacy_layout_swipe_label">Klasiskais izkārtojums, velciet, lai atvērtu tastatūru</string>
+    <string name="dictate__legacy_select_all">Atlasīt visu</string>
 </resources>

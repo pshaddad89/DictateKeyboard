@@ -1316,4 +1316,20 @@
     <string name="settings__localization__subtype_status_context">Contesto</string>
     <string name="pref__suggestion__auto_correct__label">Correzione automatica</string>
     <string name="pref__suggestion__auto_correct__summary">Correggi i refusi automaticamente premendo spazio</string>
+    <string name="dictate__legacy_record">Registra</string>
+    <string name="dictate__legacy_stop">Ferma</string>
+    <string name="dictate__legacy_switch_keyboard">Cambia tastiera</string>
+    <string name="dictate__legacy_space">Spazio</string>
+    <string name="dictate__legacy_enter">Invio</string>
+    <string name="dictate__legacy_backspace">Backspace</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Numeri</string>
+    <string name="dictate__legacy_close">Chiudi</string>
+    <string name="dictate__legacy_emoji_title">Scegli un emoji</string>
+    <string name="dictate__legacy_numbers_title">Tastierino numerico</string>
+    <string name="dictate__legacy_layout_title">Layout di dettatura classico</string>
+    <string name="dictate__legacy_layout_off_label">Disattivato (tastiera moderna)</string>
+    <string name="dictate__legacy_layout_locked_label">Solo layout classico</string>
+    <string name="dictate__legacy_layout_swipe_label">Layout classico, scorri per la tastiera</string>
+    <string name="dictate__legacy_select_all">Seleziona tutto</string>
 </resources>

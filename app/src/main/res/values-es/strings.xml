@@ -1516,4 +1516,20 @@
     <string name="settings__localization__subtype_status_context">Contexto</string>
     <string name="pref__suggestion__auto_correct__label">Autocorrección</string>
     <string name="pref__suggestion__auto_correct__summary">Corregir erratas automáticamente al pulsar espacio</string>
+    <string name="dictate__legacy_record">Grabar</string>
+    <string name="dictate__legacy_stop">Detener</string>
+    <string name="dictate__legacy_switch_keyboard">Cambiar teclado</string>
+    <string name="dictate__legacy_space">Espacio</string>
+    <string name="dictate__legacy_enter">Intro</string>
+    <string name="dictate__legacy_backspace">Retroceso</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Números</string>
+    <string name="dictate__legacy_close">Cerrar</string>
+    <string name="dictate__legacy_emoji_title">Elegir un emoji</string>
+    <string name="dictate__legacy_numbers_title">Teclado numérico</string>
+    <string name="dictate__legacy_layout_title">Diseño de dictado clásico</string>
+    <string name="dictate__legacy_layout_off_label">Desactivado (teclado moderno)</string>
+    <string name="dictate__legacy_layout_locked_label">Solo diseño clásico</string>
+    <string name="dictate__legacy_layout_swipe_label">Diseño clásico, desliza para el teclado</string>
+    <string name="dictate__legacy_select_all">Seleccionar todo</string>
 </resources>

@@ -1464,4 +1464,20 @@
     <string name="settings__localization__subtype_status_context">文脈</string>
     <string name="pref__suggestion__auto_correct__label">自動修正</string>
     <string name="pref__suggestion__auto_correct__summary">スペース入力時にタイプミスを自動修正</string>
+    <string name="dictate__legacy_record">録音</string>
+    <string name="dictate__legacy_stop">停止</string>
+    <string name="dictate__legacy_switch_keyboard">キーボードを切り替え</string>
+    <string name="dictate__legacy_space">スペース</string>
+    <string name="dictate__legacy_enter">改行</string>
+    <string name="dictate__legacy_backspace">バックスペース</string>
+    <string name="dictate__legacy_emoji">絵文字</string>
+    <string name="dictate__legacy_numbers">数字</string>
+    <string name="dictate__legacy_close">閉じる</string>
+    <string name="dictate__legacy_emoji_title">絵文字を選択</string>
+    <string name="dictate__legacy_numbers_title">テンキー</string>
+    <string name="dictate__legacy_layout_title">クラシック音声入力レイアウト</string>
+    <string name="dictate__legacy_layout_off_label">オフ（モダンキーボード）</string>
+    <string name="dictate__legacy_layout_locked_label">クラシックレイアウトのみ</string>
+    <string name="dictate__legacy_layout_swipe_label">クラシックレイアウト、スワイプでキーボード</string>
+    <string name="dictate__legacy_select_all">すべて選択</string>
 </resources>

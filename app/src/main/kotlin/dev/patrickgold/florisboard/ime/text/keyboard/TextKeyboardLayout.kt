@@ -116,7 +116,10 @@ fun TextKeyboardLayout(
 
     val keyboard = evaluator.keyboard as TextKeyboard
     val glideEnabledInternal by prefs.glide.enabled.collectAsState()
-    val glideEnabled = glideEnabledInternal && evaluator.editorInfo.isRichInputEditor &&
+    // Suppressed while the modern keyboard is reached via the legacy swipe gesture (issue #125), so a
+    // horizontal glide doesn't swallow the swipe-back that returns to the dictation UI.
+    val glideSuppressed by dev.patrickgold.florisboard.dictate.ui.LegacyLayoutState.suppressGlide.collectAsState()
+    val glideEnabled = glideEnabledInternal && !glideSuppressed && evaluator.editorInfo.isRichInputEditor &&
         evaluator.state.keyVariation != KeyVariation.PASSWORD && !isTouchExplorationEnabled(context)
     val glideShowTrail by prefs.glide.showTrail.collectAsState()
     val glideTrailStyle = rememberSnyggThemeQuery(FlorisImeUi.GlideTrail.elementName)
@@ -433,7 +436,9 @@ private class TextKeyboardLayoutController(
     lateinit var keyboard: TextKeyboard
     var size = Size.Zero
 
-    val isGlideEnabled: Boolean get() = prefs.glide.enabled.get() && editorInstance.activeInfo.isRichInputEditor &&
+    val isGlideEnabled: Boolean get() = prefs.glide.enabled.get() &&
+        !dev.patrickgold.florisboard.dictate.ui.LegacyLayoutState.suppressGlide.value &&
+        editorInstance.activeInfo.isRichInputEditor &&
         keyboardManager.activeState.keyVariation != KeyVariation.PASSWORD && !isTouchExplorationEnabled(appContext)
 
     fun onTouchEventInternal(event: MotionEvent) {

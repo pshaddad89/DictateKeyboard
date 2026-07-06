@@ -26,6 +26,7 @@ import dev.patrickgold.florisboard.app.setup.NotificationPermissionState
 import dev.patrickgold.florisboard.dictate.DictateFloatingButtonDesign
 import dev.patrickgold.florisboard.dictate.audio.DictateAudioSource
 import dev.patrickgold.florisboard.dictate.DictateFloatingButtonSize
+import dev.patrickgold.florisboard.dictate.DictateLegacyLayout
 import dev.patrickgold.florisboard.dictate.DictatePromptsLayout
 import dev.patrickgold.florisboard.dictate.DictateReasoningEffort
 import dev.patrickgold.florisboard.dictate.data.mappings.DictateMappings
@@ -624,6 +625,13 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         val promptsLayout = enum(
             key = "dictate__prompts_layout",
             default = DictatePromptsLayout.ROW,
+        )
+        // Classic keyboard-less "legacy" dictation layout (issue #125): OFF = modern keyboard (default);
+        // LOCKED = only the legacy record-first UI; SWIPE = legacy UI as home, horizontal swipe flips to
+        // the modern typing keyboard and back. See DictateLegacyLayout / LegacyDictateLayout.
+        val legacyLayout = enum(
+            key = "dictate__legacy_layout",
+            default = DictateLegacyLayout.OFF,
         )
         // Chat (rewording) provider id – any chat-capable ProviderRegistry id ("openai", "groq",
         // "openrouter", … or "custom"). Independent from the transcription provider.

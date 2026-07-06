@@ -1532,4 +1532,20 @@
     <string name="settings__localization__subtype_status_context">Kontextus</string>
     <string name="pref__suggestion__auto_correct__label">Automatikus javítás</string>
     <string name="pref__suggestion__auto_correct__summary">Elgépelések automatikus javítása szóköznél</string>
+    <string name="dictate__legacy_record">Felvétel</string>
+    <string name="dictate__legacy_stop">Leállítás</string>
+    <string name="dictate__legacy_switch_keyboard">Billentyűzet váltása</string>
+    <string name="dictate__legacy_space">Szóköz</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Törlés</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Számok</string>
+    <string name="dictate__legacy_close">Bezárás</string>
+    <string name="dictate__legacy_emoji_title">Válasszon emojit</string>
+    <string name="dictate__legacy_numbers_title">Számbillentyűzet</string>
+    <string name="dictate__legacy_layout_title">Klasszikus diktálási elrendezés</string>
+    <string name="dictate__legacy_layout_off_label">Ki (modern billentyűzet)</string>
+    <string name="dictate__legacy_layout_locked_label">Csak klasszikus elrendezés</string>
+    <string name="dictate__legacy_layout_swipe_label">Klasszikus elrendezés, húzás a billentyűzethez</string>
+    <string name="dictate__legacy_select_all">Összes kijelölése</string>
 </resources>

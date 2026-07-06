@@ -1408,4 +1408,20 @@
     <string name="settings__localization__subtype_status_context">Contexte</string>
     <string name="pref__suggestion__auto_correct__label">Correction automatique</string>
     <string name="pref__suggestion__auto_correct__summary">Corriger les fautes de frappe automatiquement à l\'espace</string>
+    <string name="dictate__legacy_record">Enregistrer</string>
+    <string name="dictate__legacy_stop">Arrêter</string>
+    <string name="dictate__legacy_switch_keyboard">Changer de clavier</string>
+    <string name="dictate__legacy_space">Espace</string>
+    <string name="dictate__legacy_enter">Entrée</string>
+    <string name="dictate__legacy_backspace">Retour arrière</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Chiffres</string>
+    <string name="dictate__legacy_close">Fermer</string>
+    <string name="dictate__legacy_emoji_title">Choisir un emoji</string>
+    <string name="dictate__legacy_numbers_title">Pavé numérique</string>
+    <string name="dictate__legacy_layout_title">Disposition de dictée classique</string>
+    <string name="dictate__legacy_layout_off_label">Désactivé (clavier moderne)</string>
+    <string name="dictate__legacy_layout_locked_label">Disposition classique uniquement</string>
+    <string name="dictate__legacy_layout_swipe_label">Disposition classique, balayer pour le clavier</string>
+    <string name="dictate__legacy_select_all">Tout sélectionner</string>
 </resources>

@@ -1549,4 +1549,20 @@
     <string name="settings__localization__subtype_status_context">Kontext</string>
     <string name="pref__suggestion__auto_correct__label">Automatické opravy</string>
     <string name="pref__suggestion__auto_correct__summary">Automaticky opravit překlepy při stisku mezerníku</string>
+    <string name="dictate__legacy_record">Nahrát</string>
+    <string name="dictate__legacy_stop">Zastavit</string>
+    <string name="dictate__legacy_switch_keyboard">Přepnout klávesnici</string>
+    <string name="dictate__legacy_space">Mezerník</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Backspace</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Čísla</string>
+    <string name="dictate__legacy_close">Zavřít</string>
+    <string name="dictate__legacy_emoji_title">Vyberte emoji</string>
+    <string name="dictate__legacy_numbers_title">Číselná klávesnice</string>
+    <string name="dictate__legacy_layout_title">Klasické rozvržení diktování</string>
+    <string name="dictate__legacy_layout_off_label">Vypnuto (moderní klávesnice)</string>
+    <string name="dictate__legacy_layout_locked_label">Pouze klasické rozvržení</string>
+    <string name="dictate__legacy_layout_swipe_label">Klasické rozvržení, přejetím zobrazíte klávesnici</string>
+    <string name="dictate__legacy_select_all">Vybrat vše</string>
 </resources>

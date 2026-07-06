@@ -1550,4 +1550,20 @@
     <string name="settings__localization__subtype_status_context">Kontekst</string>
     <string name="pref__suggestion__auto_correct__label">Autokorekta</string>
     <string name="pref__suggestion__auto_correct__summary">Automatyczne poprawianie literówek po spacji</string>
+    <string name="dictate__legacy_record">Nagrywaj</string>
+    <string name="dictate__legacy_stop">Zatrzymaj</string>
+    <string name="dictate__legacy_switch_keyboard">Zmień klawiaturę</string>
+    <string name="dictate__legacy_space">Spacja</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Backspace</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Cyfry</string>
+    <string name="dictate__legacy_close">Zamknij</string>
+    <string name="dictate__legacy_emoji_title">Wybierz emoji</string>
+    <string name="dictate__legacy_numbers_title">Klawiatura numeryczna</string>
+    <string name="dictate__legacy_layout_title">Klasyczny układ dyktowania</string>
+    <string name="dictate__legacy_layout_off_label">Wyłączony (nowoczesna klawiatura)</string>
+    <string name="dictate__legacy_layout_locked_label">Tylko klasyczny układ</string>
+    <string name="dictate__legacy_layout_swipe_label">Klasyczny układ, przesuń, by wyświetlić klawiaturę</string>
+    <string name="dictate__legacy_select_all">Zaznacz wszystko</string>
 </resources>

@@ -1487,4 +1487,20 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="settings__localization__subtype_status_context">Konteks</string>
     <string name="pref__suggestion__auto_correct__label">Koreksi otomatis</string>
     <string name="pref__suggestion__auto_correct__summary">Perbaiki salah ketik otomatis saat menekan spasi</string>
+    <string name="dictate__legacy_record">Rekam</string>
+    <string name="dictate__legacy_stop">Berhenti</string>
+    <string name="dictate__legacy_switch_keyboard">Ganti keyboard</string>
+    <string name="dictate__legacy_space">Spasi</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Hapus mundur</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Angka</string>
+    <string name="dictate__legacy_close">Tutup</string>
+    <string name="dictate__legacy_emoji_title">Pilih emoji</string>
+    <string name="dictate__legacy_numbers_title">Papan angka</string>
+    <string name="dictate__legacy_layout_title">Tata letak dikte klasik</string>
+    <string name="dictate__legacy_layout_off_label">Nonaktif (keyboard modern)</string>
+    <string name="dictate__legacy_layout_locked_label">Hanya tata letak klasik</string>
+    <string name="dictate__legacy_layout_swipe_label">Tata letak klasik, geser untuk keyboard</string>
+    <string name="dictate__legacy_select_all">Pilih semua</string>
 </resources>
