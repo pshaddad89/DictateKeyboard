@@ -49,4 +49,8 @@
     <string name="wear_path_phone">携帯経由</string>
     <string name="wear_path_watch">時計で</string>
     <string name="wear_path_sync">携帯アプリを開いて同期</string>
+    <string name="wear_err_no_speech">音声なし</string>
+    <string name="wear_err_bad_key">キーが無効</string>
+    <string name="wear_err_offline">スマホがオフライン</string>
+    <string name="wear_err_quota">上限に到達</string>
 </resources>

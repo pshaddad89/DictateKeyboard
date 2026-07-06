@@ -49,4 +49,8 @@
     <string name="wear_path_phone">عبر الهاتف</string>
     <string name="wear_path_watch">على الساعة</string>
     <string name="wear_path_sync">افتح تطبيق الهاتف للمزامنة</string>
+    <string name="wear_err_no_speech">لا يوجد كلام</string>
+    <string name="wear_err_bad_key">مفتاح خاطئ</string>
+    <string name="wear_err_offline">الهاتف غير متصل</string>
+    <string name="wear_err_quota">انتهت الحصة</string>
 </resources>

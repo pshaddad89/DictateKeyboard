@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Telefonon át</string>
     <string name="wear_path_watch">Az órán</string>
     <string name="wear_path_sync">Nyisd meg a telefon appot</string>
+    <string name="wear_err_no_speech">Nincs beszéd</string>
+    <string name="wear_err_bad_key">Rossz kulcs</string>
+    <string name="wear_err_offline">Telefon offline</string>
+    <string name="wear_err_quota">Kvóta elérve</string>
 </resources>

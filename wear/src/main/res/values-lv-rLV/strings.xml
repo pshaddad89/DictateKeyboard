@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Caur tālruni</string>
     <string name="wear_path_watch">Pulkstenī</string>
     <string name="wear_path_sync">Atver tālruņa lietotni</string>
+    <string name="wear_err_no_speech">Nav runas</string>
+    <string name="wear_err_bad_key">Nederīga atslēga</string>
+    <string name="wear_err_offline">Tālrunis bezsaistē</string>
+    <string name="wear_err_quota">Kvota sasniegta</string>
 </resources>

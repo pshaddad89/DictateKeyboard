@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Über das Handy</string>
     <string name="wear_path_watch">Auf der Uhr</string>
     <string name="wear_path_sync">Handy-App zum Syncen öffnen</string>
+    <string name="wear_err_no_speech">Keine Sprache</string>
+    <string name="wear_err_bad_key">Schlüssel falsch</string>
+    <string name="wear_err_offline">Handy offline</string>
+    <string name="wear_err_quota">Kontingent leer</string>
 </resources>

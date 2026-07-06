@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Przez telefon</string>
     <string name="wear_path_watch">W zegarku</string>
     <string name="wear_path_sync">Otwórz apkę w telefonie</string>
+    <string name="wear_err_no_speech">Brak mowy</string>
+    <string name="wear_err_bad_key">Zły klucz</string>
+    <string name="wear_err_offline">Telefon offline</string>
+    <string name="wear_err_quota">Limit wyczerpany</string>
 </resources>

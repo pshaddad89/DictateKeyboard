@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Via le téléphone</string>
     <string name="wear_path_watch">Sur la montre</string>
     <string name="wear_path_sync">Ouvrir l\'appli du tél.</string>
+    <string name="wear_err_no_speech">Pas de voix</string>
+    <string name="wear_err_bad_key">Clé invalide</string>
+    <string name="wear_err_offline">Tél. hors ligne</string>
+    <string name="wear_err_quota">Quota atteint</string>
 </resources>

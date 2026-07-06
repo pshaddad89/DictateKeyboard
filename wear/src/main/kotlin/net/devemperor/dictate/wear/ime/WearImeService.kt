@@ -226,7 +226,7 @@ class WearImeService :
                     Log.e(TAG, "Dictation failed", e)
                     fail(e?.shortReason() ?: getString(R.string.wear_err_transcribe_failed))
                 }
-                text.isNullOrBlank() -> fail(getString(R.string.wear_err_empty))
+                text.isNullOrBlank() -> fail(getString(R.string.wear_err_no_speech))
                 else -> {
                     ic()?.commitText(text, 1)
                     recordingInfo.value = WearRecordingInfo()

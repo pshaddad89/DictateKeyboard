@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Via telemóvel</string>
     <string name="wear_path_watch">No relógio</string>
     <string name="wear_path_sync">Abra a app do telemóvel</string>
+    <string name="wear_err_no_speech">Sem voz</string>
+    <string name="wear_err_bad_key">Chave inválida</string>
+    <string name="wear_err_offline">Sem ligação</string>
+    <string name="wear_err_quota">Quota esgotada</string>
 </resources>

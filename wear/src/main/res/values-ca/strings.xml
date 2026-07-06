@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Via el mòbil</string>
     <string name="wear_path_watch">Al rellotge</string>
     <string name="wear_path_sync">Obre l\'app del mòbil</string>
+    <string name="wear_err_no_speech">Sense veu</string>
+    <string name="wear_err_bad_key">Clau incorrecta</string>
+    <string name="wear_err_offline">Sense connexió</string>
+    <string name="wear_err_quota">Quota exhaurida</string>
 </resources>

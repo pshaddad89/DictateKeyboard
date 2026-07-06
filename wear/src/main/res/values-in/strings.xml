@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Lewat ponsel</string>
     <string name="wear_path_watch">Di jam</string>
     <string name="wear_path_sync">Buka app ponsel</string>
+    <string name="wear_err_no_speech">Tak ada suara</string>
+    <string name="wear_err_bad_key">Kunci salah</string>
+    <string name="wear_err_offline">Ponsel luring</string>
+    <string name="wear_err_quota">Kuota habis</string>
 </resources>

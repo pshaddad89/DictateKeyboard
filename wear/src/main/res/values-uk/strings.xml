@@ -49,4 +49,8 @@
     <string name="wear_path_phone">Через телефон</string>
     <string name="wear_path_watch">На годиннику</string>
     <string name="wear_path_sync">Відкрийте додаток на телефоні</string>
+    <string name="wear_err_no_speech">Немає мови</string>
+    <string name="wear_err_bad_key">Невірний ключ</string>
+    <string name="wear_err_offline">Телефон офлайн</string>
+    <string name="wear_err_quota">Ліміт вичерпано</string>
 </resources>

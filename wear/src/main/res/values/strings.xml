@@ -28,6 +28,10 @@
     <string name="wear_err_mic_unavailable">Microphone unavailable</string>
     <string name="wear_err_transcribe_failed">Transcription failed</string>
     <string name="wear_err_empty">Empty — check phone key</string>
+    <string name="wear_err_no_speech">No speech</string>
+    <string name="wear_err_bad_key">Bad phone key</string>
+    <string name="wear_err_offline">Phone offline</string>
+    <string name="wear_err_quota">Quota reached</string>
     <string name="wear_err_unknown">Unknown error</string>
     <string name="wear_err_no_transport">No phone; sync key in app</string>
 

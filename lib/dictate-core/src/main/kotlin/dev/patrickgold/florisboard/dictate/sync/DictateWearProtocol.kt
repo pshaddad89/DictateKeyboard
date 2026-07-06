@@ -50,6 +50,41 @@ object DictateWearProtocol {
     /** DataMap key under [PATH_SETTINGS] holding the JSON of [DictateSyncedSettings]. */
     const val KEY_SETTINGS_JSON = "settings_json"
 
+    /**
+     * [PATH_TRANSCRIBE_RESPONSE] envelope: the phone used to collapse every failure into an empty
+     * transcript, so the watch could only guess ("check phone key"). Now byte 0 == [RESP_MARKER] flags
+     * a structured reply — byte 1 is a [RESP_OK]/[RESP_NO_SPEECH]/… status and bytes 2.. are the UTF-8
+     * transcript (only meaningful for [RESP_OK]). A message without the marker is a legacy plain
+     * transcript (phone on an older build), treated as [RESP_OK].
+     */
+    private const val RESP_MARKER: Byte = 0x1F
+    const val RESP_OK = '0'
+    const val RESP_NO_SPEECH = '1'
+    const val RESP_BAD_KEY = '2'
+    const val RESP_OFFLINE = '3'
+    const val RESP_QUOTA = '4'
+    const val RESP_ERROR = '5'
+
+    fun encodeTranscribeResponse(status: Char, text: String = ""): ByteArray {
+        val payload = text.toByteArray(Charsets.UTF_8)
+        val out = ByteArray(payload.size + 2)
+        out[0] = RESP_MARKER
+        out[1] = status.code.toByte()
+        payload.copyInto(out, 2)
+        return out
+    }
+
+    /** [status] plus the transcript ([text] is only set for [RESP_OK]). */
+    data class TranscribeResponse(val status: Char, val text: String)
+
+    fun parseTranscribeResponse(data: ByteArray): TranscribeResponse =
+        if (data.size >= 2 && data[0] == RESP_MARKER) {
+            TranscribeResponse(data[1].toInt().toChar(), String(data, 2, data.size - 2, Charsets.UTF_8))
+        } else {
+            // Legacy phone: the whole payload is the plain transcript.
+            TranscribeResponse(RESP_OK, String(data, Charsets.UTF_8))
+        }
+
     /** Lenient JSON used on both ends; unknown keys are ignored so the two apps can version independently. */
     val json: Json = Json {
         ignoreUnknownKeys = true
