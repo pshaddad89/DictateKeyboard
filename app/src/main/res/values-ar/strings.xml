@@ -1389,4 +1389,20 @@
     <string name="settings__localization__subtype_status_context">السياق</string>
     <string name="pref__suggestion__auto_correct__label">التصحيح التلقائي</string>
     <string name="pref__suggestion__auto_correct__summary">تصحيح الأخطاء المطبعية تلقائيًا عند كتابة مسافة</string>
+    <string name="dictate__legacy_record">تسجيل</string>
+    <string name="dictate__legacy_stop">إيقاف</string>
+    <string name="dictate__legacy_switch_keyboard">تبديل لوحة المفاتيح</string>
+    <string name="dictate__legacy_space">مسافة</string>
+    <string name="dictate__legacy_enter">إدخال</string>
+    <string name="dictate__legacy_backspace">مسح للخلف</string>
+    <string name="dictate__legacy_emoji">إيموجي</string>
+    <string name="dictate__legacy_numbers">أرقام</string>
+    <string name="dictate__legacy_close">إغلاق</string>
+    <string name="dictate__legacy_emoji_title">اختر رمزًا تعبيريًا</string>
+    <string name="dictate__legacy_numbers_title">لوحة الأرقام</string>
+    <string name="dictate__legacy_layout_title">تخطيط الإملاء الكلاسيكي</string>
+    <string name="dictate__legacy_layout_off_label">إيقاف (لوحة المفاتيح الحديثة)</string>
+    <string name="dictate__legacy_layout_locked_label">التخطيط الكلاسيكي فقط</string>
+    <string name="dictate__legacy_layout_swipe_label">التخطيط الكلاسيكي، اسحب للوحة المفاتيح</string>
+    <string name="dictate__legacy_select_all">تحديد الكل</string>
 </resources>

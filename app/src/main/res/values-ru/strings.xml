@@ -1538,4 +1538,20 @@
     <string name="settings__localization__subtype_status_context">Контекст</string>
     <string name="pref__suggestion__auto_correct__label">Автоисправление</string>
     <string name="pref__suggestion__auto_correct__summary">Автоматически исправлять опечатки при пробеле</string>
+    <string name="dictate__legacy_record">Запись</string>
+    <string name="dictate__legacy_stop">Стоп</string>
+    <string name="dictate__legacy_switch_keyboard">Сменить клавиатуру</string>
+    <string name="dictate__legacy_space">Пробел</string>
+    <string name="dictate__legacy_enter">Ввод</string>
+    <string name="dictate__legacy_backspace">Удалить</string>
+    <string name="dictate__legacy_emoji">Эмодзи</string>
+    <string name="dictate__legacy_numbers">Цифры</string>
+    <string name="dictate__legacy_close">Закрыть</string>
+    <string name="dictate__legacy_emoji_title">Выберите эмодзи</string>
+    <string name="dictate__legacy_numbers_title">Цифровая клавиатура</string>
+    <string name="dictate__legacy_layout_title">Классический режим диктовки</string>
+    <string name="dictate__legacy_layout_off_label">Выкл. (современная клавиатура)</string>
+    <string name="dictate__legacy_layout_locked_label">Только классический режим</string>
+    <string name="dictate__legacy_layout_swipe_label">Классический режим, свайп для клавиатуры</string>
+    <string name="dictate__legacy_select_all">Выделить всё</string>
 </resources>

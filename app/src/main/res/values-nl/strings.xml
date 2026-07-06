@@ -1434,4 +1434,20 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="settings__localization__subtype_status_context">Context</string>
     <string name="pref__suggestion__auto_correct__label">Autocorrectie</string>
     <string name="pref__suggestion__auto_correct__summary">Typefouten automatisch corrigeren bij een spatie</string>
+    <string name="dictate__legacy_record">Opnemen</string>
+    <string name="dictate__legacy_stop">Stoppen</string>
+    <string name="dictate__legacy_switch_keyboard">Toetsenbord wisselen</string>
+    <string name="dictate__legacy_space">Spatie</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Backspace</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Cijfers</string>
+    <string name="dictate__legacy_close">Sluiten</string>
+    <string name="dictate__legacy_emoji_title">Kies een emoji</string>
+    <string name="dictate__legacy_numbers_title">Numeriek toetsenblok</string>
+    <string name="dictate__legacy_layout_title">Klassieke dicteerindeling</string>
+    <string name="dictate__legacy_layout_off_label">Uit (modern toetsenbord)</string>
+    <string name="dictate__legacy_layout_locked_label">Alleen klassieke indeling</string>
+    <string name="dictate__legacy_layout_swipe_label">Klassieke indeling, veeg voor toetsenbord</string>
+    <string name="dictate__legacy_select_all">Alles selecteren</string>
 </resources>

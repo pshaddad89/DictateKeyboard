@@ -1406,4 +1406,20 @@
     <string name="settings__localization__subtype_status_context">Kontext</string>
     <string name="pref__suggestion__auto_correct__label">Autokorrektur</string>
     <string name="pref__suggestion__auto_correct__summary">Tippfehler beim Leerzeichen automatisch korrigieren</string>
+    <string name="dictate__legacy_record">Aufnehmen</string>
+    <string name="dictate__legacy_stop">Stopp</string>
+    <string name="dictate__legacy_switch_keyboard">Tastatur wechseln</string>
+    <string name="dictate__legacy_space">Leertaste</string>
+    <string name="dictate__legacy_enter">Eingabe</string>
+    <string name="dictate__legacy_backspace">Rücktaste</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Zahlen</string>
+    <string name="dictate__legacy_close">Schließen</string>
+    <string name="dictate__legacy_emoji_title">Emoji auswählen</string>
+    <string name="dictate__legacy_numbers_title">Ziffernblock</string>
+    <string name="dictate__legacy_layout_title">Klassisches Diktier-Layout</string>
+    <string name="dictate__legacy_layout_off_label">Aus (moderne Tastatur)</string>
+    <string name="dictate__legacy_layout_locked_label">Nur klassisches Layout</string>
+    <string name="dictate__legacy_layout_swipe_label">Klassisches Layout, wischen für Tastatur</string>
+    <string name="dictate__legacy_select_all">Alles auswählen</string>
 </resources>

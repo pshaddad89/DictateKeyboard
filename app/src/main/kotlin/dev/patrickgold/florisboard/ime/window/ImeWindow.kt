@@ -35,11 +35,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -57,8 +60,13 @@ import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.roundToIntRect
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.app.devtools.DevtoolsOverlay
+import dev.patrickgold.florisboard.dictate.DictateLegacyLayout
 import dev.patrickgold.florisboard.dictate.ui.DictateInputLayout
+import dev.patrickgold.florisboard.dictate.ui.LegacyDictateLayout
+import dev.patrickgold.florisboard.dictate.ui.LegacyLayoutState
+import dev.patrickgold.florisboard.dictate.ui.legacySwipeToggle
 import dev.patrickgold.florisboard.ime.ImeUiMode
 import dev.patrickgold.florisboard.ime.clipboard.ClipboardInputLayout
 import dev.patrickgold.florisboard.ime.input.LocalInputFeedbackController
@@ -68,6 +76,7 @@ import dev.patrickgold.florisboard.ime.sheet.BottomSheetWindow
 import dev.patrickgold.florisboard.ime.text.TextInputLayout
 import dev.patrickgold.florisboard.ime.theme.FlorisImeUi
 import dev.patrickgold.florisboard.keyboardManager
+import dev.patrickgold.jetpref.datastore.model.collectAsState
 import kotlinx.coroutines.delay
 import org.florisboard.lib.compose.ProvideActualLayoutDirection
 import org.florisboard.lib.compose.conditional
@@ -192,9 +201,21 @@ private fun ImeInnerWindow() {
     val windowController = LocalWindowController.current
 
     val keyboardManager by context.keyboardManager()
+    val prefs by FlorisPreferenceStore
 
     val state by keyboardManager.activeState.collectAsState()
     val windowSpec by windowController.activeWindowSpec.collectAsState()
+    // Classic keyboard-less dictation layout (issue #125): replaces the typing keyboard in the TEXT
+    // slot when enabled. In SWIPE mode a horizontal swipe flips to the modern keyboard and back.
+    val legacyLayout by prefs.dictate.legacyLayout.collectAsState()
+    var showModernKeyboard by remember { mutableStateOf(false) }
+    // Snap back to the legacy home view whenever the layout leaves the plain typing keyboard (e.g. the
+    // emoji/clipboard/dictate panels open), so returning to TEXT lands on the dictation UI again.
+    LaunchedEffect(state.imeUiMode, legacyLayout) {
+        if (state.imeUiMode != ImeUiMode.TEXT || legacyLayout != DictateLegacyLayout.SWIPE) {
+            showModernKeyboard = false
+        }
+    }
 
     ProvideActualLayoutDirection {
         val layoutDirection = LocalLayoutDirection.current
@@ -225,7 +246,34 @@ private fun ImeInnerWindow() {
     ) {
         Column {
             when (state.imeUiMode) {
-                ImeUiMode.TEXT -> TextInputLayout()
+                ImeUiMode.TEXT -> when {
+                    // Locked to the classic dictation UI – the typing keyboard is never shown.
+                    legacyLayout == DictateLegacyLayout.LOCKED ->
+                        ProvideActualLayoutDirection { LegacyDictateLayout() }
+                    // Swipe mode, on the dictation home: swipe left/right reveals the modern keyboard.
+                    legacyLayout == DictateLegacyLayout.SWIPE && !showModernKeyboard ->
+                        ProvideActualLayoutDirection {
+                            LegacyDictateLayout(
+                                modifier = Modifier.legacySwipeToggle { showModernKeyboard = true },
+                            )
+                        }
+                    // Swipe mode, showing the modern keyboard: a horizontal swipe anywhere returns to the
+                    // dictation UI (intercepted before the keys). Glide typing is suppressed only while
+                    // this exact branch is composed – a DisposableEffect flips it back on the way out, so
+                    // it can never get stuck off on the normal keyboard.
+                    legacyLayout == DictateLegacyLayout.SWIPE && showModernKeyboard -> {
+                        DisposableEffect(Unit) {
+                            LegacyLayoutState.suppressGlide.value = true
+                            onDispose { LegacyLayoutState.suppressGlide.value = false }
+                        }
+                        Column(
+                            modifier = Modifier.legacySwipeToggle(intercept = true) {
+                                showModernKeyboard = false
+                            },
+                        ) { TextInputLayout() }
+                    }
+                    else -> TextInputLayout()
+                }
                 ImeUiMode.MEDIA -> ProvideActualLayoutDirection { MediaInputLayout() }
                 ImeUiMode.CLIPBOARD -> ProvideActualLayoutDirection { ClipboardInputLayout() }
                 ImeUiMode.DICTATE -> ProvideActualLayoutDirection { DictateInputLayout() }

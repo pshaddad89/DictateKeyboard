@@ -1408,4 +1408,20 @@
     <string name="settings__localization__subtype_status_context">Context</string>
     <string name="pref__suggestion__auto_correct__label">Correcció automàtica</string>
     <string name="pref__suggestion__auto_correct__summary">Corregeix errades automàticament en prémer espai</string>
+    <string name="dictate__legacy_record">Grava</string>
+    <string name="dictate__legacy_stop">Atura</string>
+    <string name="dictate__legacy_switch_keyboard">Canvia el teclat</string>
+    <string name="dictate__legacy_space">Espai</string>
+    <string name="dictate__legacy_enter">Retorn</string>
+    <string name="dictate__legacy_backspace">Retrocés</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Números</string>
+    <string name="dictate__legacy_close">Tanca</string>
+    <string name="dictate__legacy_emoji_title">Trieu un emoji</string>
+    <string name="dictate__legacy_numbers_title">Teclat numèric</string>
+    <string name="dictate__legacy_layout_title">Disposició de dictat clàssica</string>
+    <string name="dictate__legacy_layout_off_label">Desactivat (teclat modern)</string>
+    <string name="dictate__legacy_layout_locked_label">Només disposició clàssica</string>
+    <string name="dictate__legacy_layout_swipe_label">Disposició clàssica, llisca per al teclat</string>
+    <string name="dictate__legacy_select_all">Selecciona-ho tot</string>
 </resources>

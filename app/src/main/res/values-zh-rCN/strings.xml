@@ -1528,4 +1528,20 @@
     <string name="settings__localization__subtype_status_context">上下文</string>
     <string name="pref__suggestion__auto_correct__label">自动更正</string>
     <string name="pref__suggestion__auto_correct__summary">按空格时自动修正拼写错误</string>
+    <string name="dictate__legacy_record">录音</string>
+    <string name="dictate__legacy_stop">停止</string>
+    <string name="dictate__legacy_switch_keyboard">切换键盘</string>
+    <string name="dictate__legacy_space">空格</string>
+    <string name="dictate__legacy_enter">回车</string>
+    <string name="dictate__legacy_backspace">退格</string>
+    <string name="dictate__legacy_emoji">表情</string>
+    <string name="dictate__legacy_numbers">数字</string>
+    <string name="dictate__legacy_close">关闭</string>
+    <string name="dictate__legacy_emoji_title">选择一个表情</string>
+    <string name="dictate__legacy_numbers_title">数字键盘</string>
+    <string name="dictate__legacy_layout_title">经典听写布局</string>
+    <string name="dictate__legacy_layout_off_label">关闭（现代键盘）</string>
+    <string name="dictate__legacy_layout_locked_label">仅经典布局</string>
+    <string name="dictate__legacy_layout_swipe_label">经典布局，滑动切换键盘</string>
+    <string name="dictate__legacy_select_all">全选</string>
 </resources>

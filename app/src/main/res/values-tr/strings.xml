@@ -1512,4 +1512,20 @@
     <string name="settings__localization__subtype_status_context">Bağlam</string>
     <string name="pref__suggestion__auto_correct__label">Otomatik düzeltme</string>
     <string name="pref__suggestion__auto_correct__summary">Boşlukta yazım hatalarını otomatik düzelt</string>
+    <string name="dictate__legacy_record">Kaydet</string>
+    <string name="dictate__legacy_stop">Durdur</string>
+    <string name="dictate__legacy_switch_keyboard">Klavye değiştir</string>
+    <string name="dictate__legacy_space">Boşluk</string>
+    <string name="dictate__legacy_enter">Enter</string>
+    <string name="dictate__legacy_backspace">Geri sil</string>
+    <string name="dictate__legacy_emoji">Emoji</string>
+    <string name="dictate__legacy_numbers">Sayılar</string>
+    <string name="dictate__legacy_close">Kapat</string>
+    <string name="dictate__legacy_emoji_title">Bir emoji seç</string>
+    <string name="dictate__legacy_numbers_title">Sayı tuş takımı</string>
+    <string name="dictate__legacy_layout_title">Klasik dikte düzeni</string>
+    <string name="dictate__legacy_layout_off_label">Kapalı (modern klavye)</string>
+    <string name="dictate__legacy_layout_locked_label">Yalnızca klasik düzen</string>
+    <string name="dictate__legacy_layout_swipe_label">Klasik düzen, klavye için kaydır</string>
+    <string name="dictate__legacy_select_all">Tümünü seç</string>
 </resources>
