@@ -575,6 +575,25 @@ class OpenAiCompatibleClient(
                 .filter { it.id.isNotBlank() }
                 .sortedBy { it.id.lowercase() }
         }
+        // Anthropic (Claude, rewording): its chat/completions endpoint speaks the OpenAI wire format and
+        // accepts a Bearer key, but the model catalog is the NATIVE endpoint — GET /v1/models requires an
+        // `x-api-key` + `anthropic-version` header and rejects Bearer with "Invalid bearer token". The
+        // response is the same `{ data: [{ id }] }` shape, so parse it like the default path. This keeps the
+        // picker/connection test live (and actually key-validating) without touching the Bearer chat path.
+        if (config.normalizedBaseUrl.startsWith("https://api.anthropic.com/")) {
+            val request = Request.Builder()
+                .url(config.normalizedBaseUrl + "models")
+                .header("x-api-key", config.apiKey)
+                .header("anthropic-version", "2023-06-01")
+                .get()
+                .build()
+            val body = executeForBody(request, maxRetries = 1)
+            return json.decodeFromString(ModelsResponseDto.serializer(), body)
+                .data
+                .map { ModelInfo(it.id) }
+                .filter { it.id.isNotBlank() }
+                .sortedBy { it.id.lowercase() }
+        }
         // OpenRouter's /models defaults to output_modalities=text, which hides its DEDICATED speech-to-text
         // models (they output "transcription", e.g. microsoft/mai-transcribe-1.5, Whisper, Parakeet). Ask
         // for all output modalities so the picker can discover them live instead of relying on curation (#157).

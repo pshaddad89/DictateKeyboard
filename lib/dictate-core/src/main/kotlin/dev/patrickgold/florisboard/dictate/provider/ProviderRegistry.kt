@@ -172,6 +172,30 @@ object ProviderRegistry {
         curatedRealtimeModels = listOf("gemini-live-2.5-flash-preview"),
     )
 
+    /**
+     * Anthropic Claude — rewording only (issue: Anthropic provider). Anthropic has no speech-to-text or
+     * realtime-audio API, so this is [CHAT_ONLY]; Claude is excellent for rewording, translation and tone
+     * changes. It is reached through Anthropic's OpenAI-compatible endpoint (`POST {baseUrl}chat/completions`
+     * with an `Authorization: Bearer <key>` header), so the standard [OpenAiCompatibleClient] works
+     * unchanged. `GET {baseUrl}models` also accepts that same Bearer key and returns the Claude models in
+     * the OpenAI `{ data: [{ id }] }` shape, so [supportsDynamicModels] = true keeps the picker current when
+     * Anthropic adds/renames models — no app update needed; [curatedChatModels] is only the offline baseline
+     * shown before a catalog fetch / without a key. Default is the fast/cheap Haiku, mirroring the mini/flash
+     * defaults of the other providers. Verify ids against Anthropic's model list when editing – never guess.
+     */
+    val ANTHROPIC = ProviderPreset(
+        id = "anthropic",
+        displayName = "Anthropic (Claude)",
+        baseUrl = "https://api.anthropic.com/v1/",
+        capabilities = CHAT_ONLY,
+        supportsDynamicModels = true,
+        apiKeyUrl = "https://console.anthropic.com/settings/keys",
+        defaultChatModel = "claude-haiku-4-5-20251001",
+        curatedChatModels = listOf(
+            "claude-haiku-4-5-20251001", "claude-sonnet-5", "claude-opus-4-8",
+        ),
+    )
+
     val TOGETHER = ProviderPreset(
         id = "together",
         displayName = "Together AI",
@@ -352,7 +376,7 @@ object ProviderRegistry {
 
     /** All built-in presets in display order. The custom option is added by the UI on top of these. */
     val presets: List<ProviderPreset> = listOf(
-        OPENAI, GROQ, OPENROUTER, GEMINI, TOGETHER, DEEPINFRA, MISTRAL, SONIOX,
+        OPENAI, GROQ, OPENROUTER, GEMINI, ANTHROPIC, TOGETHER, DEEPINFRA, MISTRAL, SONIOX,
         ELEVENLABS, DEEPGRAM, ASSEMBLYAI, XAI, DEEPSEEK, OLLAMA, LOCAL,
     )
 
