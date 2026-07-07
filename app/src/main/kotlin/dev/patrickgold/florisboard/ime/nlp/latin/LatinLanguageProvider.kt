@@ -79,19 +79,6 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
 
     private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    init {
-        // When a dictionary finishes downloading, drop the resolved-language cache so the active subtype
-        // starts using it immediately (issue #127).
-        ioScope.launch {
-            GlideDictionaryManager.installedVersion.collect {
-                resolvedDictLang.clear()
-                rankedWordsByLang.withLock { it.clear() }
-                lowerIndexByLang.withLock { it.clear() }
-                bigramsByLang.withLock { it.clear() }
-            }
-        }
-    }
-
     // Word→frequency dictionaries cached per language (issue #127, glide typing phase 2). Each bundled
     // ime/dict/<lang>.json maps a word to a frequency in [128,255]; languages without a bundled file fall
     // back to English.
@@ -227,6 +214,19 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
     )
 
     private val lowerIndexByLang = guardedByLock { mutableMapOf<String, LowerIndex>() }
+
+    init {
+        // When a dictionary finishes downloading, drop the resolved-language cache so the active subtype
+        // starts using it immediately (issue #127).
+        ioScope.launch {
+            GlideDictionaryManager.installedVersion.collect {
+                resolvedDictLang.clear()
+                rankedWordsByLang.withLock { it.clear() }
+                lowerIndexByLang.withLock { it.clear() }
+                bigramsByLang.withLock { it.clear() }
+            }
+        }
+    }
 
     private suspend fun lowerIndexFor(subtype: Subtype): LowerIndex {
         val lang = dictLangFor(subtype)
