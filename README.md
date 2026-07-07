@@ -1,29 +1,28 @@
-<table>
-  <tr>
-    <td>
-      <img src="https://github.com/DevEmperor/Dictate/blob/legacy-java/img/Icon_512x512_2_round.png?raw=true" alt="Dictate Keyboard logo" width="70">
-    </td>
-    <td>
-      <h1>Dictate Keyboard</h1>
-      <i>A powerful Whisper AI keyboard for dictation, real-time transcription and typing</i>
-    </td>
-  </tr>
-</table>
+<div align="center">
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://play.google.com/store/apps/details?id=net.devemperor.dictate">
-        <img alt="Get it on Google Play" width="300px" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"/>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://paypal.me/DevEmperor">
-        <img alt="Donate with PayPal" width="200px" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_150x38.png"/>
-      </a>
-    </td>
-  </tr>
-</table>
+<img src="img/Icon_512x512_2_round.png" alt="Dictate Keyboard logo" width="120">
+
+# Dictate Keyboard
+
+### Speak instead of type — in any app.
+
+A powerful Whisper AI keyboard for dictation, real-time transcription and typing.
+
+<p>
+  <a href="https://github.com/DevEmperor/DictateKeyboard/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/DevEmperor/DictateKeyboard?color=30B7E6&labelColor=1b1e2b&label=release"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/DevEmperor/DictateKeyboard?color=30B7E6&labelColor=1b1e2b"></a>
+  <img alt="Platform" src="https://img.shields.io/badge/platform-Android%206%2B-30B7E6?labelColor=1b1e2b">
+  <a href="https://github.com/DevEmperor/DictateKeyboard/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/DevEmperor/DictateKeyboard?color=30B7E6&labelColor=1b1e2b"></a>
+  <a href="https://github.com/DevEmperor/DictateKeyboard/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/DevEmperor/DictateKeyboard?style=social"></a>
+</p>
+
+<p>
+  <a href="https://play.google.com/store/apps/details?id=net.devemperor.dictate"><img alt="Get it on Google Play" width="300px" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"/></a>
+  &nbsp;&nbsp;
+  <a href="https://paypal.me/DevEmperor"><img alt="Donate with PayPal" width="200px" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_150x38.png"/></a>
+</p>
+
+</div>
 
 ---
 
@@ -34,9 +33,15 @@
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshots &amp; demo
 
-<img src="img/presentation_graphic_en-EN.png" alt="Dictate Keyboard" width="720">
+<p align="center">
+  <img src="img/dictate_demo.gif" alt="Dictate in action — dictating into an app" width="300">
+</p>
+
+<p align="center">
+  <img src="img/presentation_graphic_en-EN.png" alt="Dictate Keyboard" width="720">
+</p>
 
 <table>
   <tr>
@@ -101,7 +106,29 @@ another keyboard is open.
   - One-handed / compact mode, gesture actions, customizable key sound & haptic feedback
 - **Privacy-respecting by design** — no tracking; your audio goes only to the AI provider you configure.
 
+<p align="center"><i>Bring your own API key — Dictate works with:</i></p>
+<p align="center">
+  <img alt="OpenAI" src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white">
+  <img alt="Google Gemini" src="https://img.shields.io/badge/Google%20Gemini-4285F4?logo=googlegemini&logoColor=white">
+  <img alt="Groq" src="https://img.shields.io/badge/Groq-F55036">
+  <img alt="Deepgram" src="https://img.shields.io/badge/Deepgram-13EF93?labelColor=101820">
+  <img alt="AssemblyAI" src="https://img.shields.io/badge/AssemblyAI-5D5DFF">
+  <img alt="ElevenLabs" src="https://img.shields.io/badge/ElevenLabs-111111">
+  <img alt="Soniox" src="https://img.shields.io/badge/Soniox-2A6DF4">
+  <img alt="Mistral" src="https://img.shields.io/badge/Mistral-FA520F">
+  <img alt="OpenRouter" src="https://img.shields.io/badge/OpenRouter-6467F2">
+  <img alt="Ollama" src="https://img.shields.io/badge/Ollama-111111?logo=ollama&logoColor=white">
+  <img alt="and more" src="https://img.shields.io/badge/%2B%20more-30B7E6">
+</p>
+
 ## 🧱 Built on FlorisBoard
+
+<p align="center">
+  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white">
+  <img alt="Jetpack Compose" src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=white">
+  <img alt="FlorisBoard" src="https://img.shields.io/badge/base-FlorisBoard-30B7E6">
+  <img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-30B7E6">
+</p>
 
 Dictate Keyboard is a fork of [**FlorisBoard**](https://github.com/florisboard/florisboard),
 an open-source, privacy-respecting keyboard created by
@@ -116,7 +143,7 @@ see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE) for full attribution.
 
 ## 🤝 Contributing
 
-The best way to help right now is to **[open an issue](https://github.com/DevEmperor/Dictate/issues)**
+The best way to help right now is to **[open an issue](https://github.com/DevEmperor/DictateKeyboard/issues)**
 with bug reports, ideas or feedback. Full contribution and community guidelines will be
 published as the project matures. Thank you! 🙏
 
@@ -130,6 +157,14 @@ Dictate Keyboard is released under the terms of the
 - See [`LICENSE`](LICENSE) for the full license text and [`NOTICE`](NOTICE) for required
   attribution notices.
 - Speech recognition is powered by [OpenAI Whisper](https://openai.com/index/whisper/).
+
+## ⭐ Star history
+
+<p align="center">
+  <a href="https://star-history.com/#DevEmperor/DictateKeyboard&Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=DevEmperor/DictateKeyboard&type=Date" width="600">
+  </a>
+</p>
 
 ## ❤️ Support
 
