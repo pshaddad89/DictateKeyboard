@@ -13,6 +13,7 @@ A powerful Whisper AI keyboard for dictation, real-time transcription and typing
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/DevEmperor/DictateKeyboard?color=30B7E6&labelColor=1b1e2b"></a>
   <img alt="Platform" src="https://img.shields.io/badge/platform-Android%206%2B-30B7E6?labelColor=1b1e2b">
   <a href="https://github.com/DevEmperor/DictateKeyboard/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/DevEmperor/DictateKeyboard?color=30B7E6&labelColor=1b1e2b"></a>
+  <a href="https://github.com/sponsors/DevEmperor"><img alt="Sponsors" src="https://img.shields.io/github/sponsors/DevEmperor?color=30B7E6&labelColor=1b1e2b&label=sponsors"></a>
   <a href="https://github.com/DevEmperor/DictateKeyboard/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/DevEmperor/DictateKeyboard?style=social"></a>
 </p>
 
@@ -55,6 +56,8 @@ A powerful Whisper AI keyboard for dictation, real-time transcription and typing
   </tr>
 </table>
 
+<br>
+
 ## 📸 Screenshots
 
 <table>
@@ -72,6 +75,8 @@ A powerful Whisper AI keyboard for dictation, real-time transcription and typing
   </tr>
 </table>
 
+<br>
+
 ## 📲 Installation
 
 **The app is available on [Google Play](https://play.google.com/store/apps/details?id=net.devemperor.dictate)**
@@ -80,6 +85,8 @@ lifetime updates. Just tap the badge above or [this link](https://play.google.co
 
 > **Existing users:** the new keyboard keeps the same app identity and signing key, so your
 > settings carry over on update — no reinstall, no lost configuration.
+
+<br>
 
 ## ✨ What is Dictate?
 
@@ -96,6 +103,8 @@ complete keyboard too, with glide typing, word suggestions and autocorrect. Need
 more formal, translated, summarised, or fixed-up? Hand it to a rewording prompt and let the
 model do the work. With the floating button you can even dictate straight into apps while
 another keyboard is open.
+
+<br>
 
 ## 🎤 Features
 
@@ -135,6 +144,8 @@ another keyboard is open.
   <img alt="and more" src="https://img.shields.io/badge/%2B%20more-30B7E6">
 </p>
 
+<br>
+
 ## 🧱 Built on FlorisBoard
 
 Dictate Keyboard is a fork of [**FlorisBoard**](https://github.com/florisboard/florisboard),
@@ -148,11 +159,15 @@ AI-rewording layer.
 Huge thanks to the FlorisBoard team. FlorisBoard is licensed under the Apache License 2.0;
 see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE) for full attribution.
 
+<br>
+
 ## 🤝 Contributing
 
 The best way to help right now is to **[open an issue](https://github.com/DevEmperor/DictateKeyboard/issues)**
 with bug reports, ideas or feedback. Full contribution and community guidelines will be
 published as the project matures. Thank you! 🙏
+
+<br>
 
 ## 📄 License & attribution
 
@@ -165,8 +180,27 @@ Dictate Keyboard is released under the terms of the
   attribution notices.
 - Speech recognition is powered by [OpenAI Whisper](https://openai.com/index/whisper/).
 
+<br>
+
 ## ❤️ Support
 
 If Dictate makes your day a little easier, you can support development by
-[buying the app on Google Play](https://play.google.com/store/apps/details?id=net.devemperor.dictate)
+[buying the app on Google Play](https://play.google.com/store/apps/details?id=net.devemperor.dictate),
+[sponsoring me on GitHub](https://github.com/sponsors/DevEmperor),
 or [donating via PayPal](https://paypal.me/DevEmperor). Every bit helps — thank you!
+
+<br>
+
+## 💖 Sponsors
+
+Dictate is free and open source, built in my spare time — becoming a
+[GitHub Sponsor](https://github.com/sponsors/DevEmperor) directly funds its continued
+development. A heartfelt thank-you to everyone who chips in. 🙏
+
+**Dictate's very first sponsor — thank you!** 🎉
+
+<!-- SPONSORS:START -->
+<p>
+  <a href="https://github.com/cnfatman"><img src="https://github.com/cnfatman.png" width="72" alt="Codename: Fatman" title="Codename: Fatman — Dictate's first sponsor 💖"></a>
+</p>
+<!-- SPONSORS:END -->
