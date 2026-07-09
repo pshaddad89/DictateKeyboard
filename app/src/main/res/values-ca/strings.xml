@@ -146,6 +146,9 @@
     <string name="settings__localization__subtype_error_already_exists" comment="Error message shown in subtype dialog when a subtype to add already exists">Aquest subtipus ja existeix!</string>
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Almenys un camp no té cap valor seleccionat. Trieu un valor per al(s) camp(s).</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (no instal·lat)</string>
+    <string name="settings__localization__subtype_missing_language_pack_title">Cal un diccionari</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Aquest idioma necessita un diccionari descarregable per als suggeriments de paraules i la conversió (p. ex. Romaji → Kana). Fins que no s\'instal·li, es pot escriure, però la conversió no fa res.</string>
+    <string name="settings__localization__subtype_missing_language_pack_action">Baixa el diccionari</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Dissenys</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Confirmació de la supressió</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Segur que vols suprimir aquest subtipus?</string>

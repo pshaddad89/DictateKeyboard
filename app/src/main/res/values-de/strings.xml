@@ -144,6 +144,9 @@
     <string name="settings__localization__subtype_error_already_exists" comment="Error message shown in subtype dialog when a subtype to add already exists">Dieser Eingabestil ist bereits vorhanden!</string>
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">In mindestens einem Feld ist kein Wert ausgewählt. Bitte wähle einen Wert für das Feld / die Felder.</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (nicht installiert)</string>
+    <string name="settings__localization__subtype_missing_language_pack_title">Wörterbuch erforderlich</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Diese Sprache benötigt ein herunterladbares Wörterbuch für Wortvorschläge und Konvertierung (z. B. Romaji → Kana). Bis es installiert ist, funktioniert das Tippen, aber die Konvertierung bewirkt nichts.</string>
+    <string name="settings__localization__subtype_missing_language_pack_action">Wörterbuch herunterladen</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Layouts</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Löschen bestätigen</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Bist du sicher, dass du diesen Untertyp löschen willst?</string>

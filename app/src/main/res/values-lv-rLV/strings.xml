@@ -146,6 +146,9 @@
     <string name="settings__localization__subtype_error_already_exists" comment="Error message shown in subtype dialog when a subtype to add already exists">Šis apakšveids jau pastāv!</string>
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Vismaz vienam laukam nav atlasīta vērtība. Lūgums norādīt vērtību laukam(iem).</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (nav uzstādīts)</string>
+    <string name="settings__localization__subtype_missing_language_pack_title">Nepieciešama vārdnīca</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Šai valodai nepieciešama lejupielādējama vārdnīca vārdu ieteikumiem un pārveidošanai (piem. Romaji → Kana). Kamēr tā nav uzstādīta, rakstīšana darbojas, bet pārveidošana neko nedara.</string>
+    <string name="settings__localization__subtype_missing_language_pack_action">Lejupielādēt vārdnīcu</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Izkārtojumi</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Izdzēšanas apstiprināšana</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Vai tiešām izdzēst šo apakšveidu?</string>

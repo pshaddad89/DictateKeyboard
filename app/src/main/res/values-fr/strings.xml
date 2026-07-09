@@ -145,6 +145,9 @@
     <string name="settings__localization__subtype_error_already_exists" comment="Error message shown in subtype dialog when a subtype to add already exists">Cette disposition existe déjà !</string>
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Au moins un champ n\'a pas de valeur sélectionnée. Veuillez choisir une valeur pour le(s) champ(s).</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (non installé)</string>
+    <string name="settings__localization__subtype_missing_language_pack_title">Dictionnaire requis</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Cette langue nécessite un dictionnaire téléchargeable pour les suggestions de mots et la conversion (par ex. Romaji → Kana). Tant qu\'il n\'est pas installé, la saisie fonctionne mais la conversion ne fait rien.</string>
+    <string name="settings__localization__subtype_missing_language_pack_action">Télécharger le dictionnaire</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Dispositions</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Confirmer la suppression</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Êtes-vous sûr de vouloir supprimer ce sous-type ?</string>

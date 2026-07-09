@@ -146,6 +146,9 @@
     <string name="settings__localization__subtype_error_already_exists" comment="Error message shown in subtype dialog when a subtype to add already exists">Deze indeling bestaat al!</string>
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Één of meer velden zijn nog niet ingevuld. Kies een optie voor deze velden.</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (niet geïnstalleerd)</string>
+    <string name="settings__localization__subtype_missing_language_pack_title">Woordenboek vereist</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Deze taal heeft een downloadbaar woordenboek nodig voor woordsuggesties en conversie (bijv. Romaji → Kana). Totdat het is geïnstalleerd, werkt typen wel, maar doet conversie niets.</string>
+    <string name="settings__localization__subtype_missing_language_pack_action">Woordenboek downloaden</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Indelingen</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Bevestiging verwijderen</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Weet je zeker dat je deze indeling wilt verwijderen?</string>
