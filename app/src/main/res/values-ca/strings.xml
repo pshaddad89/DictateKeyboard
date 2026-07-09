@@ -1169,6 +1169,7 @@
     <string name="dictate__languages_title">Idiomes de transcripció</string>
     <string name="dictate__languages_summary">Tria els idiomes en què dictes. Canvia ràpidament d\'un a l\'altre des de la barra de gravació.</string>
     <string name="dictate__language_detect">Detecta automàticament</string>
+    <string name="dictate__languages_active_title">Idioma actiu</string>
     <string name="dictate__prompt_selection_none">Cap</string>
     <string name="dictate__prompt_selection_predefined">Per defecte</string>
     <string name="dictate__prompt_selection_custom">Personalitzat</string>

@@ -1293,6 +1293,7 @@
     <string name="dictate__languages_title">Átírási nyelvek</string>
     <string name="dictate__languages_summary">Válassza ki a nyelveket, amelyeken diktál. Gyorsan válthat közöttük a felvételi sávból.</string>
     <string name="dictate__language_detect">Automatikus felismerés</string>
+    <string name="dictate__languages_active_title">Aktív nyelv</string>
     <string name="dictate__prompt_selection_none">Nincs</string>
     <string name="dictate__prompt_selection_predefined">Alapértelmezett</string>
     <string name="dictate__prompt_selection_custom">Egyéni</string>

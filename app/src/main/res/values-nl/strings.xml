@@ -1195,6 +1195,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__languages_title">Transcriptietalen</string>
     <string name="dictate__languages_summary">Kies de talen waarin je dicteert. Wissel er snel tussen via de opnamebalk.</string>
     <string name="dictate__language_detect">Automatisch detecteren</string>
+    <string name="dictate__languages_active_title">Actieve taal</string>
     <string name="dictate__prompt_selection_none">Geen</string>
     <string name="dictate__prompt_selection_predefined">Standaard</string>
     <string name="dictate__prompt_selection_custom">Aangepast</string>

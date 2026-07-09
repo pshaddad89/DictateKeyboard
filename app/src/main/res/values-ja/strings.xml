@@ -1225,6 +1225,7 @@
     <string name="dictate__languages_title">文字起こし言語</string>
     <string name="dictate__languages_summary">音声入力する言語を選択します。録音バーから素早く切り替えられます。</string>
     <string name="dictate__language_detect">自動検出</string>
+    <string name="dictate__languages_active_title">使用中の言語</string>
     <string name="dictate__prompt_selection_none">なし</string>
     <string name="dictate__prompt_selection_predefined">既定</string>
     <string name="dictate__prompt_selection_custom">カスタム</string>

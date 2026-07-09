@@ -1150,6 +1150,7 @@
     <string name="dictate__languages_title">لغات التفريغ النصي</string>
     <string name="dictate__languages_summary">اختر اللغات التي تُملي بها. بدّل بينها بسرعة من شريط التسجيل.</string>
     <string name="dictate__language_detect">الكشف تلقائيًا</string>
+    <string name="dictate__languages_active_title">اللغة النشطة</string>
     <string name="dictate__prompt_selection_none">بدون</string>
     <string name="dictate__prompt_selection_predefined">افتراضي</string>
     <string name="dictate__prompt_selection_custom">مخصّص</string>

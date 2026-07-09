@@ -1139,6 +1139,7 @@
     <string name="dictate__languages_title">Мови транскрибування</string>
     <string name="dictate__languages_summary">Виберіть мови, якими ви диктуєте. Швидко перемикайтеся між ними на панелі запису.</string>
     <string name="dictate__language_detect">Визначати автоматично</string>
+    <string name="dictate__languages_active_title">Активна мова</string>
     <string name="dictate__prompt_selection_none">Немає</string>
     <string name="dictate__prompt_selection_predefined">За замовчуванням</string>
     <string name="dictate__prompt_selection_custom">Власний</string>

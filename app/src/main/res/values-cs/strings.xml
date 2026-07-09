@@ -1310,6 +1310,7 @@
     <string name="dictate__languages_title">Jazyky přepisu</string>
     <string name="dictate__languages_summary">Vyberte jazyky, ve kterých diktujete. Rychle mezi nimi přepínejte na liště nahrávání.</string>
     <string name="dictate__language_detect">Zjistit automaticky</string>
+    <string name="dictate__languages_active_title">Aktivní jazyk</string>
     <string name="dictate__prompt_selection_none">Žádný</string>
     <string name="dictate__prompt_selection_predefined">Výchozí</string>
     <string name="dictate__prompt_selection_custom">Vlastní</string>

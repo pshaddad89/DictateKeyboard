@@ -1187,6 +1187,7 @@
     <string name="dictate__languages_title">Transkriptionssprachen</string>
     <string name="dictate__languages_summary">Wähle die Sprachen, in denen du diktierst. Wechsle über die Aufnahmeleiste schnell zwischen ihnen.</string>
     <string name="dictate__language_detect">Automatisch erkennen</string>
+    <string name="dictate__languages_active_title">Aktive Sprache</string>
     <string name="dictate__prompt_selection_none">Keine</string>
     <string name="dictate__prompt_selection_predefined">Standard</string>
     <string name="dictate__prompt_selection_custom">Benutzerdefiniert</string>

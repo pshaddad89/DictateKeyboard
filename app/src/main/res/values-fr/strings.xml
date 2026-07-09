@@ -1171,6 +1171,7 @@
     <string name="dictate__languages_title">Langues de transcription</string>
     <string name="dictate__languages_summary">Choisissez les langues dans lesquelles vous dictez. Basculez rapidement entre elles depuis la barre d\'enregistrement.</string>
     <string name="dictate__language_detect">Détecter automatiquement</string>
+    <string name="dictate__languages_active_title">Langue active</string>
     <string name="dictate__prompt_selection_none">Aucun</string>
     <string name="dictate__prompt_selection_predefined">Par défaut</string>
     <string name="dictate__prompt_selection_custom">Personnalisé</string>
