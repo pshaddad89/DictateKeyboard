@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Преместване на клавиатурата отляво.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Преместване на клавиатурата отдясно.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Емоции</string>
+    <string name="settings__media__title">Емоции и GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Емоции</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Емоции</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Каомоджи</string>
@@ -1640,4 +1640,28 @@
     <string name="apptour__outro_title">Изгладено навсякъде</string>
     <string name="apptour__outro_body">Още под капака: по-стабилен плаващ бутон, управление на усилието за разсъждение при преформулиране, тактилна обратна връзка, нова тема E-Reader и десетки поправки.</string>
     <string name="changelog__v5_0_0">• НОВО: Писане с плъзгане — плъзгайте по клавишите, за да пишете цели думи, с речници за отделните езици, изтегляни при поискване. 👆\n• НОВО: Предложения за думи и автокорекция — печатните грешки се коригират автоматично, а написаната дума остава на едно докосване. ✨\n• НОВО: Транскрипция в реално време — гледайте как думите ви се появяват, докато говорите, с OpenAI, Deepgram, Soniox, AssemblyAI и ElevenLabs. ⚡\n• НОВО: Още три доставчика на транскрипция — ElevenLabs Scribe, Deepgram и AssemblyAI. ☁️\n• НОВО: Класическа подредба за диктовка — гласовият екран без клавиатура от Dictate 3 се завръща, фиксиран или на едно плъзгане. 🎙️\n• НОВО: Библиотека с промптове от общността — разглеждайте и споделяйте промптове за преформулиране. 📚\n• НОВО: Статистика за диктовка с етапи. 📊\n• НОВО: Офлайн модел NVIDIA Parakeet, плюс филтър за тишина, който пропуска празните записи. 📴\n• Още: по-стабилен плаващ бутон, контрол на усилието на разсъждение, тактилна обратна връзка, нова тема E-Reader и десетки поправки. 🛠️</string>
+    <string name="media__tab__gifs">GIFs</string>
+    <string name="prefs__media__gif__title">GIFs</string>
+    <string name="prefs__media__gif_enabled">Активиране на търсенето на GIF</string>
+    <string name="prefs__media__gif_enabled__summary">Търсете и вмъквайте GIFs, задвижвано от KLIPY</string>
+    <string name="prefs__media__gif_setup__title">Настройка на търсенето на GIF</string>
+    <string name="prefs__media__gif_setup__summary_set">Ключът за KLIPY API е запазен</string>
+    <string name="prefs__media__gif_setup__summary_unset">Докоснете, за да добавите безплатния си ключ за KLIPY API</string>
+    <string name="prefs__media__gif_setup__intro">GIFs се предоставят от KLIPY, безплатна услуга. Нужен ви е само собствен безплатен ключ — отнема само минута:</string>
+    <string name="prefs__media__gif_setup__step1">Отворете KLIPY Partner Panel — ще бъдете подканени да създадете безплатен акаунт, ако нямате.</string>
+    <string name="prefs__media__gif_setup__step2">На страницата API Keys създайте API ключ.</string>
+    <string name="prefs__media__gif_setup__step3">Копирайте ключа си и го поставете в полето по-долу.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Отворете KLIPY Partner Panel</string>
+    <string name="prefs__media__gif_setup__key_label">Ключ за KLIPY API</string>
+    <string name="prefs__media__gif_setup__privacy_note">Търсените думи се изпращат до KLIPY само докато панелът с GIF е отворен — никога по време на диктовка.</string>
+    <string name="gif__search_placeholder">Търсене в KLIPY</string>
+    <string name="gif__powered_by">Задвижвано от KLIPY</string>
+    <string name="gif__no_results">Няма намерени GIFs</string>
+    <string name="gif__error">GIFs не могат да се заредят. Проверете връзката и API ключа си.</string>
+    <string name="gif__setup_needed">Добавете безплатен ключ за KLIPY API в Настройки, за да търсите GIFs</string>
+    <string name="gif__setup_needed_action">Настройване на търсенето на GIF</string>
+    <string name="gif__copied_to_clipboard">GIF е копиран в клипборда — задръжте натиснато за поставяне</string>
+    <string name="gif__insert_failed">GIF не може да бъде вмъкнат</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Търсене на GIFs</string>
 </resources>

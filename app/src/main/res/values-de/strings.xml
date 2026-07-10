@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Tastatur nach links verschieben.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Tastatur nach rechts verschieben.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emojis</string>
+    <string name="settings__media__title">Emojis &amp; GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emojis</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emoticons</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
@@ -1512,4 +1512,28 @@
     <string name="apptour__outro_title">Feinschliff überall</string>
     <string name="apptour__outro_body">Mehr unter der Haube: ein stabilerer schwebender Knopf, eine Einstellung für den Denkaufwand beim Umformulieren, haptisches Feedback, ein neues E-Reader-Design und Dutzende Fehlerbehebungen.</string>
     <string name="changelog__v5_0_0">• NEU: Wischtippen — streiche über die Tasten, um ganze Wörter zu schreiben, mit Wörterbüchern pro Sprache, die bei Bedarf geladen werden. 👆\n• NEU: Wortvorschläge &amp; Autokorrektur — Tippfehler werden automatisch korrigiert und dein getipptes Wort bleibt einen Fingertipp entfernt. ✨\n• NEU: Echtzeit-Transkription — sieh deine Worte erscheinen, während du sprichst, mit OpenAI, Deepgram, Soniox, AssemblyAI und ElevenLabs. ⚡\n• NEU: Drei weitere Transkriptionsanbieter — ElevenLabs Scribe, Deepgram und AssemblyAI. ☁️\n• NEU: Klassisches Diktier-Layout — der tastaturfreie Sprachbildschirm aus Dictate 3 ist zurück, fest oder nur ein Wischen entfernt. 🎙️\n• NEU: Community-Prompt-Bibliothek — Umformulierungs-Prompts durchstöbern und teilen. 📚\n• NEU: Diktier-Statistik mit Meilensteinen. 📊\n• NEU: Offline-Modell NVIDIA Parakeet, plus ein Stillefilter, der leere Aufnahmen überspringt. 📴\n• Mehr: ein stabilerer schwebender Button, Reasoning-Aufwand, haptisches Feedback, ein neues E-Reader-Design und Dutzende Fehlerbehebungen. 🛠️</string>
+    <string name="media__tab__gifs">GIFs</string>
+    <string name="prefs__media__gif__title">GIFs</string>
+    <string name="prefs__media__gif_enabled">GIF-Suche aktivieren</string>
+    <string name="prefs__media__gif_enabled__summary">GIFs suchen und einfügen, ermöglicht durch KLIPY</string>
+    <string name="prefs__media__gif_setup__title">GIF-Suche einrichten</string>
+    <string name="prefs__media__gif_setup__summary_set">KLIPY-API-Schlüssel gespeichert</string>
+    <string name="prefs__media__gif_setup__summary_unset">Tippen, um deinen kostenlosen KLIPY-API-Schlüssel hinzuzufügen</string>
+    <string name="prefs__media__gif_setup__intro">GIFs werden von KLIPY bereitgestellt, einem kostenlosen Dienst. Du brauchst nur deinen eigenen kostenlosen Schlüssel — das dauert nur eine Minute:</string>
+    <string name="prefs__media__gif_setup__step1">Öffne das KLIPY Partner Panel — falls du noch kein Konto hast, wirst du aufgefordert, ein kostenloses zu erstellen.</string>
+    <string name="prefs__media__gif_setup__step2">Erstelle auf der Seite API Keys einen API-Schlüssel.</string>
+    <string name="prefs__media__gif_setup__step3">Kopiere deinen Schlüssel und füge ihn in das Feld unten ein.</string>
+    <string name="prefs__media__gif_setup__open_klipy">KLIPY Partner Panel öffnen</string>
+    <string name="prefs__media__gif_setup__key_label">KLIPY-API-Schlüssel</string>
+    <string name="prefs__media__gif_setup__privacy_note">Deine Suchbegriffe werden nur an KLIPY gesendet, solange das GIF-Panel geöffnet ist — niemals während des Diktierens.</string>
+    <string name="gif__search_placeholder">KLIPY durchsuchen</string>
+    <string name="gif__powered_by">Ermöglicht durch KLIPY</string>
+    <string name="gif__no_results">Keine GIFs gefunden</string>
+    <string name="gif__error">GIFs konnten nicht geladen werden. Prüfe deine Verbindung und den API-Schlüssel.</string>
+    <string name="gif__setup_needed">Füge in den Einstellungen einen kostenlosen KLIPY-API-Schlüssel hinzu, um GIFs zu suchen</string>
+    <string name="gif__setup_needed_action">GIF-Suche einrichten</string>
+    <string name="gif__copied_to_clipboard">GIF in die Zwischenablage kopiert — zum Einfügen lange drücken</string>
+    <string name="gif__insert_failed">GIF konnte nicht eingefügt werden</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">GIFs suchen</string>
 </resources>

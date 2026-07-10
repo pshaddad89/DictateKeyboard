@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">キーボードを左に移動。</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">キーボードを右に移動</string>
     <!-- Media strings -->
-    <string name="settings__media__title">メディア</string>
+    <string name="settings__media__title">絵文字と GIF</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">絵文字</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">顔文字</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">カオモジ</string>
@@ -1570,4 +1570,28 @@
     <string name="apptour__outro_title">あらゆる場所を磨き上げ</string>
     <string name="apptour__outro_body">内部もさらに進化：より安定したフローティングボタン、言い換えの推論の強さの調整、触覚フィードバック、新しい E-Reader テーマ、そして数十件の修正。</string>
     <string name="changelog__v5_0_0">• 新機能: グライド入力 — キーの上をスワイプして単語をまるごと入力。必要に応じてダウンロードされる言語別辞書付き。 👆\n• 新機能: 単語候補と自動修正 — 入力ミスは自動的に直り、入力した単語はワンタップで戻せます。 ✨\n• 新機能: リアルタイム文字起こし — 話しながら単語が現れる様子を確認。OpenAI、Deepgram、Soniox、AssemblyAI、ElevenLabsに対応。 ⚡\n• 新機能: さらに3つの文字起こしプロバイダー — ElevenLabs Scribe、Deepgram、AssemblyAI。 ☁️\n• 新機能: クラシック音声入力レイアウト — Dictate 3のキーボードなし音声画面が復活。固定またはスワイプ一つで。 🎙️\n• 新機能: コミュニティのプロンプトライブラリ — 言い換えプロンプトを閲覧・共有。 📚\n• 新機能: マイルストーン付きの音声入力統計。 📊\n• 新機能: オフラインモデルNVIDIA Parakeet、加えて空の録音をスキップする無音フィルター。 📴\n• その他: より安定したフローティングボタン、推論の強度の調整、触覚フィードバック、新しいE-Readerテーマ、そして数十件の修正。 🛠️</string>
+    <string name="media__tab__gifs">GIF</string>
+    <string name="prefs__media__gif__title">GIF</string>
+    <string name="prefs__media__gif_enabled">GIF 検索を有効にする</string>
+    <string name="prefs__media__gif_enabled__summary">KLIPY を利用して GIF を検索・挿入</string>
+    <string name="prefs__media__gif_setup__title">GIF 検索の設定</string>
+    <string name="prefs__media__gif_setup__summary_set">KLIPY API キーを保存しました</string>
+    <string name="prefs__media__gif_setup__summary_unset">タップして無料の KLIPY API キーを追加</string>
+    <string name="prefs__media__gif_setup__intro">GIF は無料サービスの KLIPY から提供されます。必要なのは自分の無料キーだけ — 1分もかかりません：</string>
+    <string name="prefs__media__gif_setup__step1">KLIPY Partner Panel を開きます。アカウントをお持ちでない場合は、無料でアカウントを作成するよう求められます。</string>
+    <string name="prefs__media__gif_setup__step2">API Keys ページで API キーを作成します。</string>
+    <string name="prefs__media__gif_setup__step3">キーをコピーして下のフィールドに貼り付けます。</string>
+    <string name="prefs__media__gif_setup__open_klipy">KLIPY Partner Panel を開く</string>
+    <string name="prefs__media__gif_setup__key_label">KLIPY API キー</string>
+    <string name="prefs__media__gif_setup__privacy_note">検索語が KLIPY に送信されるのは GIF パネルを開いている間だけです — 音声入力中に送信されることはありません。</string>
+    <string name="gif__search_placeholder">KLIPY を検索</string>
+    <string name="gif__powered_by">KLIPY 提供</string>
+    <string name="gif__no_results">GIF が見つかりません</string>
+    <string name="gif__error">GIF を読み込めませんでした。接続と API キーを確認してください。</string>
+    <string name="gif__setup_needed">GIF を検索するには設定で無料の KLIPY API キーを追加してください</string>
+    <string name="gif__setup_needed_action">GIF 検索を設定</string>
+    <string name="gif__copied_to_clipboard">GIF をクリップボードにコピーしました — 長押しで貼り付け</string>
+    <string name="gif__insert_failed">GIF を挿入できませんでした</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">GIF を検索</string>
 </resources>

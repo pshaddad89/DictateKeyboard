@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Klavyeyi sola taşı.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Klavyeyi sağa taşı.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emojiler</string>
+    <string name="settings__media__title">Emojiler &amp; GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emojiler</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emojiler</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
@@ -1618,4 +1618,28 @@
     <string name="apptour__outro_title">Her yerde ince işçilik</string>
     <string name="apptour__outro_body">Kaputun altında dahası var: daha kararlı bir yüzen düğme, yeniden ifade için bir akıl yürütme çabası denetimi, dokunsal geri bildirim, yeni bir E-Reader teması ve düzinelerce düzeltme.</string>
     <string name="changelog__v5_0_0">• YENİ: Kaydırarak yazma — tam kelimeler yazmak için tuşların üzerinde kaydırın, istek üzerine indirilen dile özel sözlüklerle. 👆\n• YENİ: Kelime önerileri ve otomatik düzeltme — yazım hataları otomatik düzeltilir ve yazdığınız kelime bir dokunuş uzağınızda kalır. ✨\n• YENİ: Gerçek zamanlı transkripsiyon — konuşurken kelimelerinizin belirişini izleyin; OpenAI, Deepgram, Soniox, AssemblyAI ve ElevenLabs ile. ⚡\n• YENİ: Üç transkripsiyon sağlayıcısı daha — ElevenLabs Scribe, Deepgram ve AssemblyAI. ☁️\n• YENİ: Klasik dikte düzeni — Dictate 3’ün klavyesiz ses ekranı geri döndü, sabit ya da yalnızca bir kaydırma uzakta. 🎙️\n• YENİ: Topluluk istem kütüphanesi — yeniden ifade istemlerine göz atın ve paylaşın. 📚\n• YENİ: Kilometre taşlarıyla dikte istatistikleri. 📊\n• YENİ: Çevrimdışı model NVIDIA Parakeet, ayrıca boş kayıtları atlayan bir sessizlik filtresi. 📴\n• Dahası: daha kararlı bir kayan düğme, akıl yürütme çabası denetimi, dokunsal geri bildirim, yeni bir E-Reader teması ve onlarca düzeltme. 🛠️</string>
+    <string name="media__tab__gifs">GIFs</string>
+    <string name="prefs__media__gif__title">GIFs</string>
+    <string name="prefs__media__gif_enabled">GIF aramayı etkinleştir</string>
+    <string name="prefs__media__gif_enabled__summary">KLIPY ile GIF arayın ve ekleyin</string>
+    <string name="prefs__media__gif_setup__title">GIF arama kurulumu</string>
+    <string name="prefs__media__gif_setup__summary_set">KLIPY API anahtarı kaydedildi</string>
+    <string name="prefs__media__gif_setup__summary_unset">Ücretsiz KLIPY API anahtarınızı eklemek için dokunun</string>
+    <string name="prefs__media__gif_setup__intro">GIF\'ler ücretsiz bir hizmet olan KLIPY tarafından sağlanır. Yalnızca kendi ücretsiz anahtarınıza ihtiyacınız var — yalnızca bir dakika sürer:</string>
+    <string name="prefs__media__gif_setup__step1">KLIPY İş Ortağı Paneli\'ni açın — hesabınız yoksa ücretsiz bir hesap oluşturmanız istenecektir.</string>
+    <string name="prefs__media__gif_setup__step2">API Anahtarları sayfasında bir API anahtarı oluşturun.</string>
+    <string name="prefs__media__gif_setup__step3">Anahtarınızı kopyalayıp aşağıdaki alana yapıştırın.</string>
+    <string name="prefs__media__gif_setup__open_klipy">KLIPY İş Ortağı Paneli\'ni aç</string>
+    <string name="prefs__media__gif_setup__key_label">KLIPY API anahtarı</string>
+    <string name="prefs__media__gif_setup__privacy_note">Arama terimleriniz yalnızca GIF paneli açıkken KLIPY\'ye gönderilir — asla dikte sırasında değil.</string>
+    <string name="gif__search_placeholder">KLIPY\'de ara</string>
+    <string name="gif__powered_by">KLIPY tarafından desteklenir</string>
+    <string name="gif__no_results">GIF bulunamadı</string>
+    <string name="gif__error">GIF\'ler yüklenemedi. Bağlantınızı ve API anahtarınızı kontrol edin.</string>
+    <string name="gif__setup_needed">GIF aramak için Ayarlar\'da ücretsiz bir KLIPY API anahtarı ekleyin</string>
+    <string name="gif__setup_needed_action">GIF aramayı kur</string>
+    <string name="gif__copied_to_clipboard">GIF panoya kopyalandı — yapıştırmak için uzun basın</string>
+    <string name="gif__insert_failed">GIF eklenemedi</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">GIF ara</string>
 </resources>

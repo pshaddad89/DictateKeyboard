@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Pindahkan keyboard ke kiri.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Pindahkan keyboard ke kanan.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emoji</string>
+    <string name="settings__media__title">Emoji &amp; GIF</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emoji</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emotikon</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
@@ -1593,4 +1593,28 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="apptour__outro_title">Dipoles di mana-mana</string>
     <string name="apptour__outro_body">Lebih banyak di balik layar: tombol mengambang yang lebih stabil, kontrol upaya penalaran untuk penyusunan ulang, umpan balik haptik, tema E-Reader baru, dan puluhan perbaikan.</string>
     <string name="changelog__v5_0_0">• BARU: Ketik geser — geser di atas tombol untuk mengetik kata utuh, dengan kamus per bahasa yang diunduh sesuai permintaan. 👆\n• BARU: Saran kata &amp; koreksi otomatis — salah ketik diperbaiki otomatis dan kata yang Anda ketik tetap tinggal satu ketukan. ✨\n• BARU: Transkripsi waktu nyata — saksikan kata-kata Anda muncul saat berbicara, dengan OpenAI, Deepgram, Soniox, AssemblyAI, dan ElevenLabs. ⚡\n• BARU: Tiga penyedia transkripsi lagi — ElevenLabs Scribe, Deepgram, dan AssemblyAI. ☁️\n• BARU: Tata letak dikte klasik — layar suara tanpa keyboard dari Dictate 3 kembali, terkunci atau tinggal satu geseran. 🎙️\n• BARU: Pustaka prompt komunitas — jelajahi dan bagikan prompt penyusunan ulang. 📚\n• BARU: Statistik dikte dengan tonggak. 📊\n• BARU: Model luring NVIDIA Parakeet, ditambah filter keheningan yang melewati rekaman kosong. 📴\n• Lainnya: tombol mengambang yang lebih stabil, kontrol upaya penalaran, umpan balik haptik, tema E-Reader baru, dan puluhan perbaikan. 🛠️</string>
+    <string name="media__tab__gifs">GIF</string>
+    <string name="prefs__media__gif__title">GIF</string>
+    <string name="prefs__media__gif_enabled">Aktifkan pencarian GIF</string>
+    <string name="prefs__media__gif_enabled__summary">Cari dan sisipkan GIF, didukung oleh KLIPY</string>
+    <string name="prefs__media__gif_setup__title">Penyiapan pencarian GIF</string>
+    <string name="prefs__media__gif_setup__summary_set">Kunci API KLIPY tersimpan</string>
+    <string name="prefs__media__gif_setup__summary_unset">Ketuk untuk menambahkan kunci API KLIPY gratis Anda</string>
+    <string name="prefs__media__gif_setup__intro">GIF disediakan oleh KLIPY, layanan gratis. Anda hanya perlu kunci gratis Anda sendiri — hanya butuh satu menit:</string>
+    <string name="prefs__media__gif_setup__step1">Buka KLIPY Partner Panel — kamu akan diminta membuat akun gratis jika belum punya.</string>
+    <string name="prefs__media__gif_setup__step2">Di halaman API Keys, buat kunci API.</string>
+    <string name="prefs__media__gif_setup__step3">Salin kunci Anda dan tempel ke kolom di bawah.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Buka KLIPY Partner Panel</string>
+    <string name="prefs__media__gif_setup__key_label">Kunci API KLIPY</string>
+    <string name="prefs__media__gif_setup__privacy_note">Istilah pencarian Anda hanya dikirim ke KLIPY saat panel GIF terbuka — tidak pernah selama pendiktean.</string>
+    <string name="gif__search_placeholder">Cari di KLIPY</string>
+    <string name="gif__powered_by">Didukung oleh KLIPY</string>
+    <string name="gif__no_results">Tidak ada GIF ditemukan</string>
+    <string name="gif__error">Tidak dapat memuat GIF. Periksa koneksi dan kunci API Anda.</string>
+    <string name="gif__setup_needed">Tambahkan kunci API KLIPY gratis di Pengaturan untuk mencari GIF</string>
+    <string name="gif__setup_needed_action">Siapkan pencarian GIF</string>
+    <string name="gif__copied_to_clipboard">GIF disalin ke papan klip — tekan lama untuk menempel</string>
+    <string name="gif__insert_failed">Tidak dapat menyisipkan GIF</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Cari GIF</string>
 </resources>

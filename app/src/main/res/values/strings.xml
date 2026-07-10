@@ -11,10 +11,33 @@
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Move keyboard to the right.</string>
 
     <!-- Media strings -->
-    <string name="settings__media__title">Emojis</string>
+    <string name="settings__media__title">Emojis &amp; GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emojis</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emoticons</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
+    <string name="media__tab__gifs" comment="Tab description for GIFs in the media UI">GIFs</string>
+    <!-- GIF search (KLIPY) -->
+    <string name="prefs__media__gif__title" comment="Settings group title">GIFs</string>
+    <string name="prefs__media__gif_enabled" comment="Preference title">Enable GIF search</string>
+    <string name="prefs__media__gif_enabled__summary" comment="Preference summary">Search and insert GIFs, powered by KLIPY</string>
+    <string name="prefs__media__gif_setup__title" comment="Preference title, opens a setup walkthrough">GIF search setup</string>
+    <string name="prefs__media__gif_setup__summary_set" comment="Preference summary when a key is saved">KLIPY API key saved</string>
+    <string name="prefs__media__gif_setup__summary_unset" comment="Preference summary when no key is set">Tap to add your free KLIPY API key</string>
+    <string name="prefs__media__gif_setup__intro" comment="Walkthrough intro">GIFs are provided by KLIPY, a free service. You just need your own free key — it only takes a minute:</string>
+    <string name="prefs__media__gif_setup__step1" comment="Walkthrough step">Open the KLIPY Partner Panel — you\'ll be prompted to create a free account if you don\'t have one.</string>
+    <string name="prefs__media__gif_setup__step2" comment="Walkthrough step">On the API Keys page, create an API key.</string>
+    <string name="prefs__media__gif_setup__step3" comment="Walkthrough step">Copy your key and paste it into the field below.</string>
+    <string name="prefs__media__gif_setup__open_klipy" comment="Button opening the KLIPY API-keys page">Open KLIPY Partner Panel</string>
+    <string name="prefs__media__gif_setup__key_label" comment="Text field label">KLIPY API key</string>
+    <string name="prefs__media__gif_setup__privacy_note" comment="Privacy note in the setup dialog">Your search terms are only sent to KLIPY while the GIF panel is open — never during dictation.</string>
+    <string name="gif__search_placeholder" comment="Search field placeholder; KLIPY attribution requires the KLIPY name here">Search KLIPY</string>
+    <string name="gif__powered_by" comment="Attribution shown in the GIF panel">Powered by KLIPY</string>
+    <string name="gif__no_results" comment="Empty state when a search returns nothing">No GIFs found</string>
+    <string name="gif__error" comment="Shown when a GIF request fails">Couldn\'t load GIFs. Check your connection and API key.</string>
+    <string name="gif__setup_needed" comment="Empty state prompting the user to add a key">Add a free KLIPY API key in Settings to search GIFs</string>
+    <string name="gif__setup_needed_action" comment="Button to open settings">Set up GIF search</string>
+    <string name="gif__copied_to_clipboard" comment="Toast when a GIF is copied as a fallback">GIF copied to clipboard — long-press to paste</string>
+    <string name="gif__insert_failed" comment="Toast when a GIF could not be inserted or copied">Couldn\'t insert the GIF</string>
     <string name="prefs__media__emoji_preferred_skin_tone">Preferred emoji skin tone</string>
     <string name="prefs__media__emoji_preferred_hair_style">Preferred emoji hair style</string>
     <string name="prefs__media__emoji_history__title" comment="Preference group title">Emoji history</string>
@@ -81,6 +104,8 @@
     <string name="quick_action__ime_ui_mode_clipboard__tooltip">Open clipboard history</string>
     <string name="quick_action__ime_ui_mode_media" comment="Please mind the limited available space for the quick action strings">Emoji</string>
     <string name="quick_action__ime_ui_mode_media__tooltip">Open emoji panel</string>
+    <string name="quick_action__ime_ui_mode_gif" comment="Please mind the limited available space for the quick action strings">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Search GIFs</string>
     <string name="quick_action__ime_ui_mode_dictate" comment="Please mind the limited available space for the quick action strings">Dictate</string>
     <string name="quick_action__ime_ui_mode_dictate__tooltip">Tap to dictate, tap again to transcribe</string>
     <string name="quick_action__dictate_live_prompt" comment="Please mind the limited available space for the quick action strings">Live prompt</string>

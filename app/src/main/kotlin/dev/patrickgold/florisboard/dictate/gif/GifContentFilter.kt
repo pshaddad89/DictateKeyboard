@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2021-2025 The FlorisBoard Contributors
+ * Copyright (C) 2026 The FlorisBoard Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package dev.patrickgold.florisboard.ime
+package dev.patrickgold.florisboard.dictate.gif
 
-enum class ImeUiMode(val value: Int) {
-    TEXT(0),
-    MEDIA(1),
-    CLIPBOARD(2),
-    DICTATE(3),
-    HISTORY(4),
-    GIF(5);
-
-    companion object {
-        fun fromInt(int: Int) = entries.firstOrNull { it.value == int } ?: TEXT
-    }
-
-    fun toInt(): Int = value
+/**
+ * Safe-search level for GIF results. [apiValue] is the value sent to the backend's `content_filter`
+ * query parameter (KLIPY supports `off`/`low`/`medium`/`high`). Defaults lean safe.
+ */
+enum class GifContentFilter(val apiValue: String) {
+    OFF("off"),
+    LOW("low"),
+    MEDIUM("medium"),
+    HIGH("high");
 }

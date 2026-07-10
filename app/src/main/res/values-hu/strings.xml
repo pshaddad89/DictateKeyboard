@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Billentyűzet balra helyezése.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Billentyűzet jobbra helyezése.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emodzsik</string>
+    <string name="settings__media__title">Emodzsik &amp; GIF-ek</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emodzsik</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emotikonok</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomodzsi</string>
@@ -1638,4 +1638,28 @@
     <string name="apptour__outro_title">Csiszolás mindenütt</string>
     <string name="apptour__outro_body">Még több a motorháztető alatt: stabilabb lebegő gomb, gondolkodási ráfordítás szabályozása az átfogalmazáshoz, rezgő visszajelzés, új E-Reader téma és több tucat javítás.</string>
     <string name="changelog__v5_0_0">• ÚJ: Húzásos gépelés — húzza az ujját a billentyűkön, hogy egész szavakat írjon, igény szerint letöltődő, nyelvenkénti szótárakkal. 👆\n• ÚJ: Szójavaslatok és automatikus javítás — az elgépelések automatikusan javulnak, és a beírt szó egy koppintásra marad. ✨\n• ÚJ: Valós idejű átírás — nézze, ahogy a szavak megjelennek beszéd közben, OpenAI, Deepgram, Soniox, AssemblyAI és ElevenLabs használatával. ⚡\n• ÚJ: Három további átírási szolgáltató — ElevenLabs Scribe, Deepgram és AssemblyAI. ☁️\n• ÚJ: Klasszikus diktálási elrendezés — a Dictate 3 billentyűzet nélküli hangképernyője visszatért, rögzítve vagy egy húzásnyira. 🎙️\n• ÚJ: Közösségi prompt-könyvtár — böngésszen és osszon meg újrafogalmazási prompteket. 📚\n• ÚJ: Diktálási statisztikák mérföldkövekkel. 📊\n• ÚJ: Offline modell NVIDIA Parakeet, valamint egy csendszűrő, amely kihagyja az üres felvételeket. 📴\n• Továbbá: stabilabb lebegő gomb, gondolkodási erőfeszítés vezérlése, haptikus visszajelzés, új E-Reader téma és több tucat javítás. 🛠️</string>
+    <string name="media__tab__gifs">GIF-ek</string>
+    <string name="prefs__media__gif__title">GIF-ek</string>
+    <string name="prefs__media__gif_enabled">GIF-keresés engedélyezése</string>
+    <string name="prefs__media__gif_enabled__summary">GIF-ek keresése és beszúrása a KLIPY segítségével</string>
+    <string name="prefs__media__gif_setup__title">GIF-keresés beállítása</string>
+    <string name="prefs__media__gif_setup__summary_set">KLIPY API-kulcs elmentve</string>
+    <string name="prefs__media__gif_setup__summary_unset">Koppintson ide az ingyenes KLIPY API-kulcs hozzáadásához</string>
+    <string name="prefs__media__gif_setup__intro">A GIF-eket a KLIPY, egy ingyenes szolgáltatás biztosítja. Csak a saját ingyenes kulcsodra van szükséged — mindössze egy percet vesz igénybe:</string>
+    <string name="prefs__media__gif_setup__step1">Nyisd meg a KLIPY Partner Panelt — ha még nincs fiókod, a rendszer felkér egy ingyenes létrehozására.</string>
+    <string name="prefs__media__gif_setup__step2">Az API Keys oldalon hozz létre egy API-kulcsot.</string>
+    <string name="prefs__media__gif_setup__step3">Másold ki a kulcsot, és illeszd be az alábbi mezőbe.</string>
+    <string name="prefs__media__gif_setup__open_klipy">KLIPY Partner Panel megnyitása</string>
+    <string name="prefs__media__gif_setup__key_label">KLIPY API-kulcs</string>
+    <string name="prefs__media__gif_setup__privacy_note">A keresési kifejezéseidet csak akkor küldjük el a KLIPY-nek, amíg a GIF-panel nyitva van — soha nem diktálás közben.</string>
+    <string name="gif__search_placeholder">Keresés a KLIPY-ben</string>
+    <string name="gif__powered_by">A KLIPY szolgáltatásával</string>
+    <string name="gif__no_results">Nem található GIF</string>
+    <string name="gif__error">Nem sikerült betölteni a GIF-eket. Ellenőrizd a kapcsolatot és az API-kulcsot.</string>
+    <string name="gif__setup_needed">Adj hozzá egy ingyenes KLIPY API-kulcsot a Beállításokban a GIF-ek kereséséhez</string>
+    <string name="gif__setup_needed_action">GIF-keresés beállítása</string>
+    <string name="gif__copied_to_clipboard">GIF a vágólapra másolva — a beillesztéshez tartsd lenyomva</string>
+    <string name="gif__insert_failed">Nem sikerült beszúrni a GIF-et</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">GIF-ek keresése</string>
 </resources>

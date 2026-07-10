@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Muovi tastiera a sinistra.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Muovi tastiera a destra.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emoji</string>
+    <string name="settings__media__title">Emoji &amp; GIF</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emoji</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emoticons</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
@@ -1422,4 +1422,28 @@
     <string name="apptour__outro_title">Rifiniture ovunque</string>
     <string name="apptour__outro_body">Altro sotto il cofano: un pulsante mobile più stabile, un controllo dello sforzo di ragionamento per la riformulazione, feedback aptico, un nuovo tema E-Reader e decine di correzioni.</string>
     <string name="changelog__v5_0_0">• NUOVO: Scrittura a scorrimento — scorri sui tasti per scrivere parole intere, con dizionari per lingua scaricati su richiesta. 👆\n• NUOVO: Suggerimenti di parole e correzione automatica — gli errori vengono corretti da soli e la parola che hai digitato resta a un tocco. ✨\n• NUOVO: Trascrizione in tempo reale — guarda le tue parole apparire mentre parli, con OpenAI, Deepgram, Soniox, AssemblyAI ed ElevenLabs. ⚡\n• NUOVO: Altri tre provider di trascrizione — ElevenLabs Scribe, Deepgram e AssemblyAI. ☁️\n• NUOVO: Layout di dettatura classico — la schermata vocale senza tastiera di Dictate 3 è tornata, fissata o a un semplice scorrimento. 🎙️\n• NUOVO: Libreria di prompt della community — sfoglia e condividi prompt di riformulazione. 📚\n• NUOVO: Statistiche di dettatura con traguardi. 📊\n• NUOVO: Modello offline NVIDIA Parakeet, più un filtro del silenzio che salta le registrazioni vuote. 📴\n• Altro: un pulsante flottante più stabile, il controllo dello sforzo di ragionamento, il feedback aptico, un nuovo tema E-Reader e decine di correzioni. 🛠️</string>
+    <string name="media__tab__gifs">GIF</string>
+    <string name="prefs__media__gif__title">GIF</string>
+    <string name="prefs__media__gif_enabled">Abilita la ricerca di GIF</string>
+    <string name="prefs__media__gif_enabled__summary">Cerca e inserisci GIF, con tecnologia KLIPY</string>
+    <string name="prefs__media__gif_setup__title">Configurazione della ricerca di GIF</string>
+    <string name="prefs__media__gif_setup__summary_set">Chiave API KLIPY salvata</string>
+    <string name="prefs__media__gif_setup__summary_unset">Tocca per aggiungere la tua chiave API KLIPY gratuita</string>
+    <string name="prefs__media__gif_setup__intro">Le GIF sono fornite da KLIPY, un servizio gratuito. Ti serve solo la tua chiave gratuita — richiede solo un minuto:</string>
+    <string name="prefs__media__gif_setup__step1">Apri il KLIPY Partner Panel — ti verrà chiesto di creare un account gratuito se non ne hai uno.</string>
+    <string name="prefs__media__gif_setup__step2">Nella pagina API Keys, crea una chiave API.</string>
+    <string name="prefs__media__gif_setup__step3">Copia la tua chiave e incollala nel campo qui sotto.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Apri KLIPY Partner Panel</string>
+    <string name="prefs__media__gif_setup__key_label">Chiave API KLIPY</string>
+    <string name="prefs__media__gif_setup__privacy_note">I tuoi termini di ricerca vengono inviati a KLIPY solo mentre il pannello GIF è aperto — mai durante la dettatura.</string>
+    <string name="gif__search_placeholder">Cerca su KLIPY</string>
+    <string name="gif__powered_by">Con tecnologia KLIPY</string>
+    <string name="gif__no_results">Nessuna GIF trovata</string>
+    <string name="gif__error">Impossibile caricare le GIF. Controlla la connessione e la chiave API.</string>
+    <string name="gif__setup_needed">Aggiungi una chiave API KLIPY gratuita nelle Impostazioni per cercare GIF</string>
+    <string name="gif__setup_needed_action">Configura la ricerca di GIF</string>
+    <string name="gif__copied_to_clipboard">GIF copiata negli appunti — tieni premuto per incollare</string>
+    <string name="gif__insert_failed">Impossibile inserire la GIF</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Cerca GIF</string>
 </resources>

@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Перемістити клавіатуру вліво.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Перемістити клавіатуру вправо.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Емоджі</string>
+    <string name="settings__media__title">Емоджі &amp; GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Емоджі</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Смайлики</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Каомоджі</string>
@@ -1484,4 +1484,28 @@
     <string name="apptour__outro_title">Відшліфовано всюди</string>
     <string name="apptour__outro_body">Іще під капотом: стабільніша плавна кнопка, регулювання зусиль міркування для переформулювання, тактильний відгук, нова тема E-Reader і десятки виправлень.</string>
     <string name="changelog__v5_0_0">• НОВЕ: Друк свайпом — проводьте по клавішах, щоб писати слова цілком, зі словниками для окремих мов, що завантажуються за запитом. 👆\n• НОВЕ: Підказки слів і автовиправлення — помилки виправляються автоматично, а набране слово лишається за один дотик. ✨\n• НОВЕ: Транскрипція в реальному часі — дивіться, як слова з’являються, поки ви говорите, з OpenAI, Deepgram, Soniox, AssemblyAI та ElevenLabs. ⚡\n• НОВЕ: Ще три провайдери транскрипції — ElevenLabs Scribe, Deepgram та AssemblyAI. ☁️\n• НОВЕ: Класичний макет диктування — голосовий екран без клавіатури з Dictate 3 повернувся, зафіксований або за один свайп. 🎙️\n• НОВЕ: Бібліотека промптів спільноти — переглядайте та діліться промптами для переформулювання. 📚\n• НОВЕ: Статистика диктування з віхами. 📊\n• НОВЕ: Офлайн-модель NVIDIA Parakeet, а також фільтр тиші, що пропускає порожні записи. 📴\n• Більше: стабільніша плаваюча кнопка, керування зусиллям міркування, тактильний відгук, нова тема E-Reader і десятки виправлень. 🛠️</string>
+    <string name="media__tab__gifs">GIFs</string>
+    <string name="prefs__media__gif__title">GIFs</string>
+    <string name="prefs__media__gif_enabled">Увімкнути пошук GIF</string>
+    <string name="prefs__media__gif_enabled__summary">Шукайте та вставляйте GIF на основі KLIPY</string>
+    <string name="prefs__media__gif_setup__title">Налаштування пошуку GIF</string>
+    <string name="prefs__media__gif_setup__summary_set">Ключ API KLIPY збережено</string>
+    <string name="prefs__media__gif_setup__summary_unset">Торкніться, щоб додати свій безкоштовний ключ API KLIPY</string>
+    <string name="prefs__media__gif_setup__intro">GIF надаються сервісом KLIPY — це безкоштовно. Потрібен лише ваш власний безкоштовний ключ — це займе лише хвилину:</string>
+    <string name="prefs__media__gif_setup__step1">Відкрийте Партнерську панель KLIPY — якщо у вас ще немає облікового запису, вам буде запропоновано створити його безкоштовно.</string>
+    <string name="prefs__media__gif_setup__step2">На сторінці ключів API створіть ключ API.</string>
+    <string name="prefs__media__gif_setup__step3">Скопіюйте ключ і вставте його в поле нижче.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Відкрити Партнерську панель KLIPY</string>
+    <string name="prefs__media__gif_setup__key_label">Ключ API KLIPY</string>
+    <string name="prefs__media__gif_setup__privacy_note">Ваші пошукові запити надсилаються до KLIPY лише коли відкрита панель GIF — ніколи під час диктування.</string>
+    <string name="gif__search_placeholder">Пошук у KLIPY</string>
+    <string name="gif__powered_by">На основі KLIPY</string>
+    <string name="gif__no_results">GIF не знайдено</string>
+    <string name="gif__error">Не вдалося завантажити GIF. Перевірте підключення та ключ API.</string>
+    <string name="gif__setup_needed">Додайте безкоштовний ключ API KLIPY в Налаштуваннях, щоб шукати GIF</string>
+    <string name="gif__setup_needed_action">Налаштувати пошук GIF</string>
+    <string name="gif__copied_to_clipboard">GIF скопійовано в буфер обміну — натисніть і утримуйте, щоб вставити</string>
+    <string name="gif__insert_failed">Не вдалося вставити GIF</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Пошук GIF</string>
 </resources>

@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Posunout klávesnici doleva.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Posunout klávesnici doprava.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emotikony</string>
+    <string name="settings__media__title">Emotikony a GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emotikony</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emotikony</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
@@ -1655,4 +1655,28 @@
     <string name="apptour__outro_title">Vyladěno všude</string>
     <string name="apptour__outro_body">Další věci pod kapotou: stabilnější plovoucí tlačítko, ovládání míry uvažování při přeformulování, haptická odezva, nový motiv E-Reader a desítky oprav.</string>
     <string name="changelog__v5_0_0">• NOVÉ: Psaní tahem — přejíždějte po klávesách a pište celá slova, se slovníky pro jednotlivé jazyky staženými na vyžádání. 👆\n• NOVÉ: Návrhy slov a automatické opravy — překlepy se opravují automaticky a napsané slovo zůstává na jedno klepnutí. ✨\n• NOVÉ: Přepis v reálném čase — sledujte, jak se slova objevují, zatímco mluvíte, s OpenAI, Deepgram, Soniox, AssemblyAI a ElevenLabs. ⚡\n• NOVÉ: Tři další poskytovatelé přepisu — ElevenLabs Scribe, Deepgram a AssemblyAI. ☁️\n• NOVÉ: Klasické rozvržení diktování — hlasová obrazovka bez klávesnice z Dictate 3 je zpět, zafixovaná nebo na jedno přejetí. 🎙️\n• NOVÉ: Komunitní knihovna promptů — procházejte a sdílejte prompty pro přeformulování. 📚\n• NOVÉ: Statistiky diktování s milníky. 📊\n• NOVÉ: Offline model NVIDIA Parakeet a filtr ticha, který přeskočí prázdné nahrávky. 📴\n• Více: stabilnější plovoucí tlačítko, ovládání úsilí uvažování, haptická odezva, nový motiv E-Reader a desítky oprav. 🛠️</string>
+    <string name="media__tab__gifs">GIFs</string>
+    <string name="prefs__media__gif__title">GIFs</string>
+    <string name="prefs__media__gif_enabled">Povolit vyhledávání GIFs</string>
+    <string name="prefs__media__gif_enabled__summary">Vyhledávejte a vkládejte GIFs, využívá KLIPY</string>
+    <string name="prefs__media__gif_setup__title">Nastavení vyhledávání GIFs</string>
+    <string name="prefs__media__gif_setup__summary_set">Klíč KLIPY API uložen</string>
+    <string name="prefs__media__gif_setup__summary_unset">Klepnutím přidejte svůj bezplatný klíč KLIPY API</string>
+    <string name="prefs__media__gif_setup__intro">GIFs poskytuje KLIPY, bezplatná služba. Potřebujete jen vlastní bezplatný klíč — zabere to jen minutu:</string>
+    <string name="prefs__media__gif_setup__step1">Otevřete KLIPY Partner Panel — pokud účet nemáte, budete vyzváni k vytvoření bezplatného účtu.</string>
+    <string name="prefs__media__gif_setup__step2">Na stránce API Keys vytvořte API klíč.</string>
+    <string name="prefs__media__gif_setup__step3">Zkopírujte svůj klíč a vložte jej do pole níže.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Otevřít KLIPY Partner Panel</string>
+    <string name="prefs__media__gif_setup__key_label">Klíč KLIPY API</string>
+    <string name="prefs__media__gif_setup__privacy_note">Hledané výrazy se odesílají do KLIPY jen po dobu, kdy je panel GIF otevřený — nikdy během diktování.</string>
+    <string name="gif__search_placeholder">Hledat v KLIPY</string>
+    <string name="gif__powered_by">Využívá KLIPY</string>
+    <string name="gif__no_results">Žádné GIFs nenalezeny</string>
+    <string name="gif__error">GIFs se nepodařilo načíst. Zkontrolujte připojení a API klíč.</string>
+    <string name="gif__setup_needed">Přidejte v Nastavení bezplatný klíč KLIPY API pro vyhledávání GIFs</string>
+    <string name="gif__setup_needed_action">Nastavit vyhledávání GIFs</string>
+    <string name="gif__copied_to_clipboard">GIF zkopírován do schránky — vložíte dlouhým stisknutím</string>
+    <string name="gif__insert_failed">GIF se nepodařilo vložit</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Hledat GIFs</string>
 </resources>

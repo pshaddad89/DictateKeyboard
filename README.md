@@ -121,6 +121,7 @@ another keyboard is open.
 - **Find & replace rules** — automatically fix recurring words, names or phrases in every transcript.
 - **Single-call multimodal mode** — let one audio-capable AI model transcribe *and* format in a single request, for lower latency and cost.
 - **Custom prompts & snippets** — build your own reword actions; reusable text snippets are inserted instantly without an API call.
+- **GIF search** — search and insert GIFs right from the keyboard, powered by [KLIPY](https://klipy.com). Add your own free KLIPY API key (bring-your-own-key, like the AI providers); search terms are only sent while the GIF panel is open.
 - **Bring your own key & provider** — use your own API key with OpenAI, Google Gemini, Groq, Mistral, OpenRouter, Soniox, Deepgram, AssemblyAI, ElevenLabs and other compatible endpoints, so you stay in control of usage and cost.
 - **A real, full keyboard** *(courtesy of the FlorisBoard base):*
   - Huge variety of keyboard layouts and easy language/subtype switching
@@ -179,6 +180,7 @@ Dictate Keyboard is released under the terms of the
 - See [`LICENSE`](LICENSE) for the full license text and [`NOTICE`](NOTICE) for required
   attribution notices.
 - Speech recognition is powered by [OpenAI Whisper](https://openai.com/index/whisper/).
+- GIF search is powered by [KLIPY](https://klipy.com); GIFs are served by KLIPY under their terms.
 
 <br>
 

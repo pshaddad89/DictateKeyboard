@@ -31,6 +31,8 @@ import dev.patrickgold.florisboard.dictate.DictateLegacyLayout
 import dev.patrickgold.florisboard.dictate.DictatePromptsLayout
 import dev.patrickgold.florisboard.dictate.DictateReasoningEffort
 import dev.patrickgold.florisboard.dictate.data.mappings.DictateMappings
+import dev.patrickgold.florisboard.dictate.gif.GifContentFilter
+import dev.patrickgold.florisboard.dictate.gif.GifHistory
 import dev.patrickgold.florisboard.dictate.provider.DictateProxyType
 import dev.patrickgold.florisboard.dictate.provider.ProviderAccounts
 import dev.patrickgold.florisboard.ime.clipboard.CLIPBOARD_HISTORY_NUM_GRID_COLUMNS_AUTO
@@ -821,6 +823,34 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         val suggestionCandidateMaxCount = int(
             key = "emoji__suggestion_candidate_max_count",
             default = 5,
+        )
+    }
+
+    val gif = Gif()
+    inner class Gif {
+        val enabled = boolean(
+            key = "gif__enabled",
+            default = false,
+        )
+        // Bring-your-own KLIPY API key (see KlipyGifProvider). Empty = GIF search disabled.
+        val klipyApiKey = string(
+            key = "gif__klipy_api_key",
+            default = "",
+        )
+        val contentFilter = enum(
+            key = "gif__content_filter",
+            default = GifContentFilter.HIGH,
+        )
+        // Stable per-install id sent to KLIPY for relevance/localization (generated on first use).
+        val customerId = string(
+            key = "gif__customer_id",
+            default = "",
+        )
+        // Recently searched terms + recently inserted GIFs, for quick re-access.
+        val history = custom(
+            key = "gif__history",
+            default = GifHistory.Empty,
+            serializer = GifHistory.Serializer,
         )
     }
 

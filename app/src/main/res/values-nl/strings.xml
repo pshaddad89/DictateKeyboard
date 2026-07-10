@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Toetsenbord naar links verplaatsen.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Toetsenbord naar rechts verplaatsen.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Emoji\'s</string>
+    <string name="settings__media__title">Emoji\'s &amp; GIFs</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Emoji\'s</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Emoticons</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Kaomoji</string>
@@ -1540,4 +1540,28 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="apptour__outro_title">Overal verfijnd</string>
     <string name="apptour__outro_body">Meer onder de motorkap: een stabielere zwevende knop, een instelling voor de redeneerinspanning bij herformuleren, haptische feedback, een nieuw E-Reader-thema en tientallen verbeteringen.</string>
     <string name="changelog__v5_0_0">• NIEUW: Veegtypen — veeg over de toetsen om hele woorden te typen, met woordenboeken per taal die op aanvraag worden gedownload. 👆\n• NIEUW: Woordsuggesties &amp; autocorrectie — typfouten worden automatisch hersteld en het woord dat je typte blijft één tik verwijderd. ✨\n• NIEUW: Realtime transcriptie — zie je woorden verschijnen terwijl je praat, met OpenAI, Deepgram, Soniox, AssemblyAI en ElevenLabs. ⚡\n• NIEUW: Drie extra transcriptieaanbieders — ElevenLabs Scribe, Deepgram en AssemblyAI. ☁️\n• NIEUW: Klassieke dicteerindeling — het toetsenbordloze spraakscherm uit Dictate 3 is terug, vastgezet of gewoon één veeg weg. 🎙️\n• NIEUW: Community-promptbibliotheek — blader door en deel herformuleringsprompts. 📚\n• NIEUW: Dicteerstatistieken met mijlpalen. 📊\n• NIEUW: Offline-model NVIDIA Parakeet, plus een stiltefilter dat lege opnames overslaat. 📴\n• Meer: een stabielere zwevende knop, instelbare redeneerinspanning, haptische feedback, een nieuw E-Reader-thema en tientallen oplossingen. 🛠️</string>
+    <string name="media__tab__gifs">GIFs</string>
+    <string name="prefs__media__gif__title">GIFs</string>
+    <string name="prefs__media__gif_enabled">GIF-zoeken inschakelen</string>
+    <string name="prefs__media__gif_enabled__summary">GIFs zoeken en invoegen, mogelijk gemaakt door KLIPY</string>
+    <string name="prefs__media__gif_setup__title">GIF-zoeken instellen</string>
+    <string name="prefs__media__gif_setup__summary_set">KLIPY-API-sleutel opgeslagen</string>
+    <string name="prefs__media__gif_setup__summary_unset">Tik om je gratis KLIPY-API-sleutel toe te voegen</string>
+    <string name="prefs__media__gif_setup__intro">GIFs worden geleverd door KLIPY, een gratis dienst. Je hebt alleen je eigen gratis sleutel nodig — het kost maar een minuut:</string>
+    <string name="prefs__media__gif_setup__step1">Open het KLIPY Partner Panel — je wordt gevraagd om gratis een account aan te maken als je er nog geen hebt.</string>
+    <string name="prefs__media__gif_setup__step2">Maak op de pagina API Keys een API-sleutel aan.</string>
+    <string name="prefs__media__gif_setup__step3">Kopieer je sleutel en plak deze in het veld hieronder.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Open KLIPY Partner Panel</string>
+    <string name="prefs__media__gif_setup__key_label">KLIPY-API-sleutel</string>
+    <string name="prefs__media__gif_setup__privacy_note">Je zoektermen worden alleen naar KLIPY gestuurd terwijl het GIF-paneel open is — nooit tijdens het dicteren.</string>
+    <string name="gif__search_placeholder">KLIPY doorzoeken</string>
+    <string name="gif__powered_by">Mogelijk gemaakt door KLIPY</string>
+    <string name="gif__no_results">Geen GIFs gevonden</string>
+    <string name="gif__error">Kon GIFs niet laden. Controleer je verbinding en API-sleutel.</string>
+    <string name="gif__setup_needed">Voeg een gratis KLIPY-API-sleutel toe in Instellingen om GIFs te zoeken</string>
+    <string name="gif__setup_needed_action">GIF-zoeken instellen</string>
+    <string name="gif__copied_to_clipboard">GIF gekopieerd naar klembord — houd ingedrukt om te plakken</string>
+    <string name="gif__insert_failed">Kon de GIF niet invoegen</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">GIFs zoeken</string>
 </resources>

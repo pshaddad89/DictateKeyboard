@@ -9,7 +9,7 @@
     <string name="one_handed__move_start_btn_content_description" comment="Content description for the one-handed move to left button">Pārvietot tastatūru uz kreiso pusi.</string>
     <string name="one_handed__move_end_btn_content_description" comment="Content description for the one-handed move to right button">Pārvietot tastatūru uz labo pusi.</string>
     <!-- Media strings -->
-    <string name="settings__media__title">Sajūtu rakstzīmes</string>
+    <string name="settings__media__title">Sajūtu rakstzīmes un GIF</string>
     <string name="media__tab__emojis" comment="Tab description for emojis in the media UI">Sajūtu rakstzīmes</string>
     <string name="media__tab__emoticons" comment="Tab description for emoticons in the media UI">Sajūtu rakstzīmes</string>
     <string name="media__tab__kaomoji" comment="Tab description for kaomoji in the media UI">Japāņu sajūtu zīmes (Kaomoji)</string>
@@ -1584,4 +1584,28 @@
     <string name="apptour__outro_title">Noslīpēts visur</string>
     <string name="apptour__outro_body">Vēl kas zem pārsega: stabilāka peldoša poga, spriešanas intensitātes vadība pārfrāzēšanai, taktilā atsauce, jauna E-Reader tēma un desmitiem labojumu.</string>
     <string name="changelog__v5_0_0">• JAUNS: Vilkšanas rakstīšana — velc pār taustiņiem, lai rakstītu veselus vārdus, ar valodu vārdnīcām, kas tiek lejupielādētas pēc pieprasījuma. 👆\n• JAUNS: Vārdu ieteikumi un automātiskā labošana — drukas kļūdas tiek labotas automātiski, un ierakstītais vārds paliek viena pieskāriena attālumā. ✨\n• JAUNS: Reāllaika transkripcija — vēro, kā vārdi parādās, kamēr runā, ar OpenAI, Deepgram, Soniox, AssemblyAI un ElevenLabs. ⚡\n• JAUNS: Vēl trīs transkripcijas pakalpojumi — ElevenLabs Scribe, Deepgram un AssemblyAI. ☁️\n• JAUNS: Klasiskais diktēšanas izkārtojums — Dictate 3 balss ekrāns bez tastatūras ir atpakaļ, fiksēts vai viena vilkuma attālumā. 🎙️\n• JAUNS: Kopienas uzvednu bibliotēka — pārlūko un kopīgo pārformulēšanas uzvednes. 📚\n• JAUNS: Diktēšanas statistika ar atskaites punktiem. 📊\n• JAUNS: Bezsaistes modelis NVIDIA Parakeet, kā arī klusuma filtrs, kas izlaiž tukšos ierakstus. 📴\n• Vēl: stabilāka peldošā poga, spriešanas piepūles vadība, taktilā atsauce, jauna E-Reader tēma un desmitiem labojumu. 🛠️</string>
+    <string name="media__tab__gifs">GIF</string>
+    <string name="prefs__media__gif__title">GIF</string>
+    <string name="prefs__media__gif_enabled">Ieslēgt GIF meklēšanu</string>
+    <string name="prefs__media__gif_enabled__summary">Meklē un ievieto GIF, ko nodrošina KLIPY</string>
+    <string name="prefs__media__gif_setup__title">GIF meklēšanas iestatīšana</string>
+    <string name="prefs__media__gif_setup__summary_set">KLIPY API atslēga saglabāta</string>
+    <string name="prefs__media__gif_setup__summary_unset">Pieskaries, lai pievienotu savu bezmaksas KLIPY API atslēgu</string>
+    <string name="prefs__media__gif_setup__intro">GIF nodrošina KLIPY — bezmaksas pakalpojums. Tev vajadzīga tikai sava bezmaksas atslēga — tas aizņem tikai minūti:</string>
+    <string name="prefs__media__gif_setup__step1">Atver KLIPY partneru paneli — ja tev vēl nav konta, tiksi aicināts to izveidot bez maksas.</string>
+    <string name="prefs__media__gif_setup__step2">API atslēgu lapā izveido API atslēgu.</string>
+    <string name="prefs__media__gif_setup__step3">Nokopē savu atslēgu un ielīmē to laukā zemāk.</string>
+    <string name="prefs__media__gif_setup__open_klipy">Atvērt KLIPY partneru paneli</string>
+    <string name="prefs__media__gif_setup__key_label">KLIPY API atslēga</string>
+    <string name="prefs__media__gif_setup__privacy_note">Tavi meklēšanas vārdi tiek sūtīti uz KLIPY tikai tad, kad GIF panelis ir atvērts — nekad diktēšanas laikā.</string>
+    <string name="gif__search_placeholder">Meklēt KLIPY</string>
+    <string name="gif__powered_by">Nodrošina KLIPY</string>
+    <string name="gif__no_results">Nav atrasts neviens GIF</string>
+    <string name="gif__error">Neizdevās ielādēt GIF. Pārbaudi savienojumu un API atslēgu.</string>
+    <string name="gif__setup_needed">Iestatījumos pievieno bezmaksas KLIPY API atslēgu, lai meklētu GIF</string>
+    <string name="gif__setup_needed_action">Iestatīt GIF meklēšanu</string>
+    <string name="gif__copied_to_clipboard">GIF nokopēts starpliktuvē — turi nospiestu, lai ielīmētu</string>
+    <string name="gif__insert_failed">Neizdevās ievietot GIF</string>
+    <string name="quick_action__ime_ui_mode_gif">GIF</string>
+    <string name="quick_action__ime_ui_mode_gif__tooltip">Meklēt GIF</string>
 </resources>
