@@ -57,6 +57,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,6 +78,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.lib.util.AppVersionUtils
 import dev.patrickgold.florisboard.lib.util.VersionName
@@ -244,6 +246,23 @@ fun WhatsNewTour(autoShow: Boolean) {
     val pages = WhatsNewPages
     val pagerState = rememberPagerState(pageCount = { pages.size })
 
+    // "Try it" navigation hides the tour without marking it seen, then restores it (on the same page)
+    // once the user navigates back — so new users can explore a feature and still finish the tour by
+    // pressing back, instead of losing it after the first tap (issue #178). We remember the back stack
+    // entry the tour was launched over and re-show the tour once that same entry is on top again.
+    var exploring by rememberSaveable { mutableStateOf(false) }
+    var originEntryId by rememberSaveable { mutableStateOf<String?>(null) }
+    val currentEntry by navController.currentBackStackEntryAsState()
+    LaunchedEffect(currentEntry?.id, exploring) {
+        if (exploring && originEntryId != null && currentEntry?.id == originEntryId) {
+            exploring = false
+            originEntryId = null
+        }
+    }
+    // While exploring a feature, keep this composable alive (so the observer above still runs) but
+    // don't render the dialog over the settings screen the user went to try.
+    if (exploring) return
+
     Dialog(
         onDismissRequest = { dismiss() },
         properties = DialogProperties(
@@ -328,7 +347,13 @@ fun WhatsNewTour(autoShow: Boolean) {
                 Button(
                     onClick = {
                         when {
-                            page.route != null -> { navController.navigate(page.route); dismiss() }
+                            page.route != null -> {
+                                // Hide (don't dismiss) the tour and remember where to come back to, so
+                                // pressing back returns to this very page instead of losing the tour.
+                                originEntryId = navController.currentBackStackEntry?.id
+                                exploring = true
+                                navController.navigate(page.route)
+                            }
                             isLast -> dismiss()
                             else -> scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
                         }
