@@ -135,6 +135,9 @@ fun SettingsSearchScreen() = FlorisScreen {
         }
 
         fun open(entry: SettingsSearchEntry) {
+            // Retract the soft keyboard before navigating, so the destination screen doesn't briefly
+            // show with the keyboard still up.
+            keyboardController?.hide()
             scope.launch { SettingsSearchHistory.add(prefs, query) }
             SettingsSearchState.requestAnchor(entry.anchor)
             navController.navigate(entry.route)
