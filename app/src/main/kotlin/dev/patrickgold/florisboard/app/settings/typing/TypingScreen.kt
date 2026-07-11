@@ -69,12 +69,14 @@ fun TypingScreen() = FlorisScreen {
             )
             SwitchPreference(
                 prefs.suggestion.autoCorrect,
+                modifier = Modifier.settingsSearchAnchor("pref__suggestion__auto_correct__label"),
                 title = stringRes(R.string.pref__suggestion__auto_correct__label),
                 summary = stringRes(R.string.pref__suggestion__auto_correct__summary),
                 enabledIf = { prefs.suggestion.enabled isEqualTo true },
             )
             SwitchPreference(
                 prefs.suggestion.api30InlineSuggestionsEnabled,
+                modifier = Modifier.settingsSearchAnchor("pref__suggestion__api30_inline_suggestions_enabled__label"),
                 title = stringRes(R.string.pref__suggestion__api30_inline_suggestions_enabled__label),
                 summary = stringRes(R.string.pref__suggestion__api30_inline_suggestions_enabled__summary),
                 visibleIf = { AndroidVersion.ATLEAST_API30_R },
@@ -99,6 +101,7 @@ fun TypingScreen() = FlorisScreen {
             SwitchPreference(
                 prefs.correction.autoSpacePunctuation,
                 icon = Icons.Default.SpaceBar,
+                modifier = Modifier.settingsSearchAnchor("pref__correction__auto_space_punctuation__label"),
                 title = stringRes(R.string.pref__correction__auto_space_punctuation__label),
                 summary = stringRes(R.string.pref__correction__auto_space_punctuation__summary),
             )
@@ -121,6 +124,7 @@ fun TypingScreen() = FlorisScreen {
             }
             SwitchPreference(
                 prefs.correction.rememberCapsLockState,
+                modifier = Modifier.settingsSearchAnchor("pref__correction__remember_caps_lock_state__label"),
                 title = stringRes(R.string.pref__correction__remember_caps_lock_state__label),
                 summary = stringRes(R.string.pref__correction__remember_caps_lock_state__summary),
             )
@@ -138,6 +142,7 @@ fun TypingScreen() = FlorisScreen {
             ListPreference(
                 prefs.spelling.languageMode,
                 icon = Icons.Default.Language,
+                modifier = Modifier.settingsSearchAnchor("pref__spelling__language_mode__label"),
                 title = stringRes(R.string.pref__spelling__language_mode__label),
                 entries = enumDisplayEntriesOf(SpellingLanguageMode::class),
                 enabledIf = { florisSpellCheckerEnabled.value },
@@ -145,6 +150,7 @@ fun TypingScreen() = FlorisScreen {
             SwitchPreference(
                 prefs.spelling.useContacts,
                 icon = Icons.Default.Contacts,
+                modifier = Modifier.settingsSearchAnchor("pref__spelling__use_contacts__label"),
                 title = stringRes(R.string.pref__spelling__use_contacts__label),
                 summary = stringRes(R.string.pref__spelling__use_contacts__summary),
                 enabledIf = { florisSpellCheckerEnabled.value },
@@ -153,6 +159,7 @@ fun TypingScreen() = FlorisScreen {
             SwitchPreference(
                 prefs.spelling.useUdmEntries,
                 icon = Icons.AutoMirrored.Filled.LibraryBooks,
+                modifier = Modifier.settingsSearchAnchor("pref__spelling__use_udm_entries__label"),
                 title = stringRes(R.string.pref__spelling__use_udm_entries__label),
                 summary = stringRes(R.string.pref__spelling__use_udm_entries__summary),
                 enabledIf = { florisSpellCheckerEnabled.value },

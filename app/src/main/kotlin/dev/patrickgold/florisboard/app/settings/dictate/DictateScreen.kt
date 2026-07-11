@@ -125,12 +125,14 @@ fun DictateScreen() = FlorisScreen {
 
         Preference(
             icon = Icons.Default.Insights,
+            modifier = Modifier.settingsSearchAnchor("dictate__stats_title"),
             title = stringRes(R.string.dictate__stats_title),
             summary = stringRes(R.string.dictate__stats_menu_summary),
             onClick = { navController.navigate(Routes.Settings.DictateStats) },
         )
         Preference(
             icon = Icons.Default.History,
+            modifier = Modifier.settingsSearchAnchor("dictate__history_title"),
             title = stringRes(R.string.dictate__history_title),
             summary = stringRes(R.string.dictate__history_menu_summary),
             onClick = { navController.navigate(Routes.Settings.DictateHistory) },
@@ -140,6 +142,7 @@ fun DictateScreen() = FlorisScreen {
         // scannable instead of one long list of every setting.
         Preference(
             icon = Icons.Default.Cloud,
+            modifier = Modifier.settingsSearchAnchor("dictate__providers_title"),
             title = stringRes(R.string.dictate__providers_title),
             summary = if (rewordingEnabled && transcriptionName != rewordingName) {
                 stringRes(
@@ -162,6 +165,7 @@ fun DictateScreen() = FlorisScreen {
         }
         Preference(
             icon = Icons.Default.Translate,
+            modifier = Modifier.settingsSearchAnchor("dictate__languages_title"),
             title = stringRes(R.string.dictate__languages_title),
             summary = languagesSummary,
             onClick = { navController.navigate(Routes.Settings.DictateLanguages) },
@@ -169,6 +173,7 @@ fun DictateScreen() = FlorisScreen {
 
         Preference(
             icon = Icons.Default.Spellcheck,
+            modifier = Modifier.settingsSearchAnchor("dictate__formatting_title"),
             title = stringRes(R.string.dictate__formatting_title),
             summary = stringRes(R.string.dictate__formatting_menu_summary),
             onClick = { navController.navigate(Routes.Settings.DictateFormatting) },
@@ -176,6 +181,7 @@ fun DictateScreen() = FlorisScreen {
 
         Preference(
             icon = Icons.Default.AutoAwesome,
+            modifier = Modifier.settingsSearchAnchor("dictate__rewording_title"),
             title = stringRes(R.string.dictate__rewording_title),
             summary = stringRes(
                 if (rewordingEnabled) R.string.dictate__rewording_summary_on
@@ -186,6 +192,7 @@ fun DictateScreen() = FlorisScreen {
 
         Preference(
             icon = Icons.Default.Mic,
+            modifier = Modifier.settingsSearchAnchor("dictate__recording_group"),
             title = stringRes(R.string.dictate__recording_group),
             summary = stringRes(R.string.dictate__recording_menu_summary),
             onClick = { navController.navigate(Routes.Settings.DictateRecording) },
@@ -193,6 +200,7 @@ fun DictateScreen() = FlorisScreen {
 
         Preference(
             icon = Icons.Default.Keyboard,
+            modifier = Modifier.settingsSearchAnchor("dictate__output_group"),
             title = stringRes(R.string.dictate__output_group),
             summary = stringRes(R.string.dictate__output_menu_summary),
             onClick = { navController.navigate(Routes.Settings.DictateOutput) },
@@ -202,6 +210,7 @@ fun DictateScreen() = FlorisScreen {
         val floatingHintSeen by prefs.dictate.floatingButtonHintSeen.collectAsState()
         Preference(
             icon = Icons.Default.Adjust,
+            modifier = Modifier.settingsSearchAnchor("dictate__floating_button_enable_title"),
             title = stringRes(R.string.dictate__floating_button_enable_title),
             summary = stringRes(R.string.dictate__floating_button_enable_summary),
             onClick = { navController.navigate(Routes.Settings.DictateFloatingButton) },
@@ -214,6 +223,7 @@ fun DictateScreen() = FlorisScreen {
 
         Preference(
             icon = Icons.Default.Watch,
+            modifier = Modifier.settingsSearchAnchor("dictate__wear_title"),
             title = stringRes(R.string.dictate__wear_title),
             summary = stringRes(R.string.dictate__wear_summary),
             onClick = { navController.navigate(Routes.Settings.DictateWear) },
@@ -265,6 +275,7 @@ fun DictateFormattingScreen() = FlorisScreen {
         )
         Preference(
             icon = Icons.Default.SwapHoriz,
+            modifier = Modifier.settingsSearchAnchor("dictate__mappings_title"),
             title = stringRes(R.string.dictate__mappings_title),
             summary = stringRes(R.string.dictate__mappings_entry_summary),
             onClick = { navController.navigate(Routes.Settings.DictateMappings) },
@@ -298,6 +309,7 @@ fun DictateRecordingScreen() = FlorisScreen {
         var showLongformDialog by remember { mutableStateOf(false) }
         Preference(
             icon = Icons.Default.Segment,
+            modifier = Modifier.settingsSearchAnchor("dictate__longform_title"),
             title = stringRes(R.string.dictate__longform_title),
             summary = longformModeSummary(longformMode, longformSeconds),
             onClick = { showLongformDialog = true },
@@ -375,6 +387,7 @@ fun DictateRecordingScreen() = FlorisScreen {
         SwitchPreference(
             prefs.dictate.instantRecordingSkipNumeric,
             icon = Icons.Default.Dialpad,
+            modifier = Modifier.settingsSearchAnchor("dictate__instant_recording_skip_numeric_title"),
             title = stringRes(R.string.dictate__instant_recording_skip_numeric_title),
             summary = stringRes(R.string.dictate__instant_recording_skip_numeric_summary),
             enabledIf = { prefs.dictate.instantRecording.isTrue() },
@@ -468,6 +481,7 @@ fun DictateOutputScreen() = FlorisScreen {
         SwitchPreference(
             prefs.dictate.resendButton,
             icon = Icons.Default.Replay,
+            modifier = Modifier.settingsSearchAnchor("dictate__resend_button_title"),
             title = stringRes(R.string.dictate__resend_button_title),
             summary = stringRes(R.string.dictate__resend_button_summary),
         )

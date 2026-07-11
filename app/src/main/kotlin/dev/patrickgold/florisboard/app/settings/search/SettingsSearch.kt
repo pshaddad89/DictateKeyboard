@@ -25,7 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import dev.patrickgold.florisboard.app.FlorisPreferenceModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -81,9 +81,12 @@ fun Modifier.settingsSearchAnchor(key: String): Modifier {
     val highlight = MaterialTheme.colorScheme.primary
     return this
         .bringIntoViewRequester(requester)
-        .drawBehind {
+        // Draw the accent wash OVER the row (jetpref rows paint an opaque container, so drawBehind would
+        // be hidden). A brief translucent overlay reads as a clear pulse without obscuring the text.
+        .drawWithContent {
+            drawContent()
             val a = flash.value
-            if (a > 0f) drawRect(color = highlight.copy(alpha = 0.30f * a))
+            if (a > 0f) drawRect(color = highlight.copy(alpha = 0.28f * a))
         }
 }
 

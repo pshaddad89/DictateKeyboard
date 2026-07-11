@@ -68,16 +68,16 @@ fun DictateRewordingScreen() = FlorisScreen {
 
         SwitchPreference(
             prefs.dictate.rewordingEnabled,
-            modifier = Modifier.settingsSearchAnchor("dictate__rewording_enabled_title"),
             icon = Icons.Default.AutoFixHigh,
+            modifier = Modifier.settingsSearchAnchor("dictate__rewording_enabled_title"),
             title = stringRes(R.string.dictate__rewording_enabled_title),
             summary = stringRes(R.string.dictate__rewording_enabled_summary),
         )
 
         ListPreference(
             prefs.dictate.promptsLayout,
-            modifier = Modifier.settingsSearchAnchor("dictate__prompts_layout_title"),
             icon = Icons.Default.ViewAgenda,
+            modifier = Modifier.settingsSearchAnchor("dictate__prompts_layout_title"),
             title = stringRes(R.string.dictate__prompts_layout_title),
             entries = listPrefEntries {
                 entry(
@@ -101,6 +101,7 @@ fun DictateRewordingScreen() = FlorisScreen {
         }
         Preference(
             icon = Icons.Default.ListAlt,
+            modifier = Modifier.settingsSearchAnchor("dictate__manage_prompts_title"),
             title = stringRes(R.string.dictate__manage_prompts_title),
             summary = if (promptCount < 0) {
                 stringRes(R.string.dictate__manage_prompts_summary_loading)
@@ -112,8 +113,8 @@ fun DictateRewordingScreen() = FlorisScreen {
 
         SwitchPreference(
             prefs.dictate.autoFormattingEnabled,
-            modifier = Modifier.settingsSearchAnchor("dictate__auto_formatting_title"),
             icon = Icons.Default.AutoFixHigh,
+            modifier = Modifier.settingsSearchAnchor("dictate__auto_formatting_title"),
             title = stringRes(R.string.dictate__auto_formatting_title),
             summary = stringRes(R.string.dictate__auto_formatting_summary),
         )
@@ -123,8 +124,8 @@ fun DictateRewordingScreen() = FlorisScreen {
         val reasoningCustom by prefs.dictate.rewordingReasoningEffortCustom.collectAsState()
         var reasoningDialogOpen by remember { mutableStateOf(false) }
         Preference(
-            modifier = Modifier.settingsSearchAnchor("dictate__reasoning_effort_title"),
             icon = Icons.Default.Bolt,
+            modifier = Modifier.settingsSearchAnchor("dictate__reasoning_effort_title"),
             title = stringRes(R.string.dictate__reasoning_effort_title),
             summary = when (reasoningEffort) {
                 DictateReasoningEffort.CUSTOM ->

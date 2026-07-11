@@ -49,12 +49,14 @@ fun GesturesScreen() = FlorisScreen {
             )
             SwitchPreference(
                 prefs.glide.showTrail,
+                modifier = Modifier.settingsSearchAnchor("pref__glide__show_trail__label"),
                 title = stringRes(R.string.pref__glide__show_trail__label),
                 summary = stringRes(R.string.pref__glide__show_trail__summary),
                 enabledIf = { prefs.glide.enabled isEqualTo true },
             )
             DialogSliderPreference(
                 prefs.glide.trailDuration,
+                modifier = Modifier.settingsSearchAnchor("pref__glide_trail_fade_duration"),
                 title = stringRes(R.string.pref__glide_trail_fade_duration),
                 valueLabel = { stringRes(R.string.unit__milliseconds__symbol, "v" to it) },
                 min = 0,
@@ -64,12 +66,14 @@ fun GesturesScreen() = FlorisScreen {
             )
             SwitchPreference(
                 prefs.glide.showPreview,
+                modifier = Modifier.settingsSearchAnchor("pref__glide__show_preview"),
                 title = stringRes(R.string.pref__glide__show_preview),
                 summary = stringRes(R.string.pref__glide__show_preview__summary),
                 enabledIf = { prefs.glide.enabled isEqualTo true },
             )
             DialogSliderPreference(
                 prefs.glide.previewRefreshDelay,
+                modifier = Modifier.settingsSearchAnchor("pref__glide_preview_refresh_delay"),
                 title = stringRes(R.string.pref__glide_preview_refresh_delay),
                 valueLabel = { stringRes(R.string.unit__milliseconds__symbol, "v" to it) },
                 min = 50,
@@ -79,6 +83,7 @@ fun GesturesScreen() = FlorisScreen {
             )
             SwitchPreference(
                 prefs.glide.immediateBackspaceDeletesWord,
+                modifier = Modifier.settingsSearchAnchor("pref__glide__immediate_backspace_deletes_word__label"),
                 title = stringRes(R.string.pref__glide__immediate_backspace_deletes_word__label),
                 summary = stringRes(R.string.pref__glide__immediate_backspace_deletes_word__summary),
                 enabledIf = { prefs.glide.enabled isEqualTo true },
@@ -95,18 +100,21 @@ fun GesturesScreen() = FlorisScreen {
             )
             ListPreference(
                 prefs.gestures.swipeDown,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__swipe_down__label"),
                 title = stringRes(R.string.pref__gestures__swipe_down__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "general"),
                 enabledIf = { prefs.glide.enabled isEqualTo false },
             )
             ListPreference(
                 prefs.gestures.swipeLeft,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__swipe_left__label"),
                 title = stringRes(R.string.pref__gestures__swipe_left__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "general"),
                 enabledIf = { prefs.glide.enabled isEqualTo false },
             )
             ListPreference(
                 prefs.gestures.swipeRight,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__swipe_right__label"),
                 title = stringRes(R.string.pref__gestures__swipe_right__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "general"),
                 enabledIf = { prefs.glide.enabled isEqualTo false },
@@ -116,16 +124,19 @@ fun GesturesScreen() = FlorisScreen {
         PreferenceGroup(title = stringRes(R.string.pref__gestures__space_bar_title)) {
             ListPreference(
                 prefs.gestures.spaceBarSwipeUp,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__space_bar_swipe_up__label"),
                 title = stringRes(R.string.pref__gestures__space_bar_swipe_up__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "general"),
             )
             ListPreference(
                 prefs.gestures.spaceBarSwipeLeft,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__space_bar_swipe_left__label"),
                 title = stringRes(R.string.pref__gestures__space_bar_swipe_left__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "general"),
             )
             ListPreference(
                 prefs.gestures.spaceBarSwipeRight,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__space_bar_swipe_right__label"),
                 title = stringRes(R.string.pref__gestures__space_bar_swipe_right__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "general"),
             )
@@ -146,11 +157,13 @@ fun GesturesScreen() = FlorisScreen {
             )
             ListPreference(
                 prefs.gestures.deleteKeyLongPress,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__delete_key_long_press__label"),
                 title = stringRes(R.string.pref__gestures__delete_key_long_press__label),
                 entries = enumDisplayEntriesOf(SwipeAction::class, "deleteLongPress"),
             )
             DialogSliderPreference(
                 prefs.gestures.swipeVelocityThreshold,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__swipe_velocity_threshold__label"),
                 title = stringRes(R.string.pref__gestures__swipe_velocity_threshold__label),
                 valueLabel = { stringRes(R.string.unit__display_pixel_per_seconds__symbol, "v" to it) },
                 min = 400,
@@ -159,6 +172,7 @@ fun GesturesScreen() = FlorisScreen {
             )
             DialogSliderPreference(
                 prefs.gestures.swipeDistanceThreshold,
+                modifier = Modifier.settingsSearchAnchor("pref__gestures__swipe_distance_threshold__label"),
                 title = stringRes(R.string.pref__gestures__swipe_distance_threshold__label),
                 valueLabel = { stringRes(R.string.unit__display_pixel__symbol, "v" to it) },
                 min = 12,

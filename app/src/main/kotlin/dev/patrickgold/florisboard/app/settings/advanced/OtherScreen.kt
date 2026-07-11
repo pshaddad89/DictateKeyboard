@@ -155,6 +155,7 @@ fun OtherScreen() = FlorisScreen {
         SwitchPreference(
             prefs.other.showAppIcon,
             icon = Icons.Default.Preview,
+            modifier = Modifier.settingsSearchAnchor("pref__other__show_app_icon__label"),
             title = stringRes(R.string.pref__other__show_app_icon__label),
             summary = when {
                 AndroidVersion.ATLEAST_API29_Q -> stringRes(R.string.pref__other__show_app_icon__summary_atleast_q)
@@ -164,6 +165,7 @@ fun OtherScreen() = FlorisScreen {
         )
         Preference(
             icon = ImageVector.vectorResource(R.drawable.ic_keyboard_keys),
+            modifier = Modifier.settingsSearchAnchor("physical_keyboard__title"),
             title = stringRes(R.string.physical_keyboard__title),
             onClick = { navController.navigate(Routes.Settings.PhysicalKeyboard) },
         )
@@ -172,6 +174,7 @@ fun OtherScreen() = FlorisScreen {
         if (BuildConfig.DEBUG) {
             Preference(
                 icon = Icons.Default.Adb,
+                modifier = Modifier.settingsSearchAnchor("devtools__title"),
                 title = stringRes(R.string.devtools__title),
                 onClick = { navController.navigate(Routes.Devtools.Home) },
             )
@@ -181,12 +184,14 @@ fun OtherScreen() = FlorisScreen {
             Preference(
                 onClick = { navController.navigate(Routes.Settings.Backup) },
                 icon = Icons.Default.Archive,
+                modifier = Modifier.settingsSearchAnchor("backup_and_restore__back_up__title"),
                 title = stringRes(R.string.backup_and_restore__back_up__title),
                 summary = stringRes(R.string.backup_and_restore__back_up__summary),
             )
             Preference(
                 onClick = { navController.navigate(Routes.Settings.Restore) },
                 icon = Icons.Default.SettingsBackupRestore,
+                modifier = Modifier.settingsSearchAnchor("backup_and_restore__restore__title"),
                 title = stringRes(R.string.backup_and_restore__restore__title),
                 summary = stringRes(R.string.backup_and_restore__restore__summary),
             )

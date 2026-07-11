@@ -127,8 +127,10 @@ fun SettingsSearchScreen() = FlorisScreen {
                 SettingsSearchIndex.entries.filter { e ->
                     context.getString(e.titleRes).contains(q, ignoreCase = true) ||
                         context.getString(e.sectionRes).contains(q, ignoreCase = true) ||
-                        (e.keywordsRes != null && context.getString(e.keywordsRes).contains(q, ignoreCase = true))
+                        (e.parentRes != null && context.getString(e.parentRes).contains(q, ignoreCase = true))
                 }
+                    // Cluster the hits under their top-level section (the breadcrumb root).
+                    .sortedBy { context.getString(it.parentRes ?: it.sectionRes) }
             }
         }
 
@@ -177,12 +179,13 @@ fun SettingsSearchScreen() = FlorisScreen {
                 modifier = Modifier.padding(24.dp),
             )
         } else {
-            // Group results by their parent section, preserving index order.
-            var lastSection: Int? = null
+            // Group results under their top-level section (the breadcrumb root).
+            var lastGroup: Int? = null
             results.forEach { entry ->
-                if (entry.sectionRes != lastSection) {
-                    SectionHeader(stringRes(entry.sectionRes))
-                    lastSection = entry.sectionRes
+                val group = entry.parentRes ?: entry.sectionRes
+                if (group != lastGroup) {
+                    SectionHeader(stringRes(group))
+                    lastGroup = group
                 }
                 ResultRow(entry, onClick = { open(entry) })
             }
@@ -203,10 +206,12 @@ private fun SectionHeader(text: String) {
 
 @Composable
 private fun ResultRow(entry: SettingsSearchEntry, onClick: () -> Unit) {
+    val section = stringRes(entry.sectionRes)
+    val breadcrumb = entry.parentRes?.let { "${stringRes(it)} › $section" } ?: section
     Preference(
         icon = Icons.Default.Search,
         title = stringRes(entry.titleRes),
-        summary = stringRes(entry.sectionRes),
+        summary = breadcrumb,
         onClick = onClick,
     )
 }

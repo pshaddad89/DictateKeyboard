@@ -52,6 +52,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.app.settings.search.settingsSearchAnchor
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.app.enumDisplayEntriesOf
 import dev.patrickgold.florisboard.ime.media.emoji.EmojiHistory
@@ -91,6 +92,7 @@ fun MediaScreen() = FlorisScreen {
         val gifEnabled by prefs.gif.enabled.collectAsState()
         Preference(
             icon = Icons.Outlined.Gif,
+            modifier = Modifier.settingsSearchAnchor("prefs__media__gif_setup__title"),
             title = stringRes(R.string.prefs__media__gif_setup__title),
             summary = when {
                 !gifEnabled -> stringRes(R.string.state__disabled)
@@ -102,6 +104,7 @@ fun MediaScreen() = FlorisScreen {
 
         ListPreference(
             prefs.emoji.preferredSkinTone,
+            modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_preferred_skin_tone"),
             title = stringRes(R.string.prefs__media__emoji_preferred_skin_tone),
             entries = enumDisplayEntriesOf(EmojiSkinTone::class),
         )
@@ -110,17 +113,20 @@ fun MediaScreen() = FlorisScreen {
             SwitchPreference(
                 prefs.emoji.historyEnabled,
                 icon = Icons.Outlined.Schedule,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_history_enabled"),
                 title = stringRes(R.string.prefs__media__emoji_history_enabled),
                 summary = stringRes(R.string.prefs__media__emoji_history_enabled__summary),
             )
             ListPreference(
                 prefs.emoji.historyPinnedUpdateStrategy,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_history_pinned_update_strategy"),
                 title = stringRes(R.string.prefs__media__emoji_history_pinned_update_strategy),
                 entries = enumDisplayEntriesOf(EmojiHistory.UpdateStrategy::class),
                 enabledIf = { prefs.emoji.historyEnabled.isTrue() },
             )
             ListPreference(
                 prefs.emoji.historyRecentUpdateStrategy,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_history_recent_update_strategy"),
                 title = stringRes(R.string.prefs__media__emoji_history_recent_update_strategy),
                 entries = enumDisplayEntriesOf(EmojiHistory.UpdateStrategy::class),
                 enabledIf = { prefs.emoji.historyEnabled.isTrue() },
@@ -128,6 +134,7 @@ fun MediaScreen() = FlorisScreen {
             DialogSliderPreference(
                 primaryPref = prefs.emoji.historyPinnedMaxSize,
                 secondaryPref = prefs.emoji.historyRecentMaxSize,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_history_max_size"),
                 title = stringRes(R.string.prefs__media__emoji_history_max_size),
                 primaryLabel = stringRes(R.string.emoji__history__pinned),
                 secondaryLabel = stringRes(R.string.emoji__history__recent),
@@ -144,6 +151,7 @@ fun MediaScreen() = FlorisScreen {
                 enabledIf = { prefs.emoji.historyEnabled.isTrue() },
             )
             Preference(
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_history_pinned_reset"),
                 title = stringRes(R.string.prefs__media__emoji_history_pinned_reset),
                 onClick = {
                     shouldDelete = ShouldDelete(true)
@@ -151,6 +159,7 @@ fun MediaScreen() = FlorisScreen {
                 enabledIf = { prefs.emoji.historyEnabled.isTrue() },
             )
             Preference(
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_history_reset"),
                 title = stringRes(R.string.prefs__media__emoji_history_reset),
                 onClick = {
                     shouldDelete = ShouldDelete(false)
@@ -164,17 +173,20 @@ fun MediaScreen() = FlorisScreen {
             SwitchPreference(
                 prefs.emoji.suggestionEnabled,
                 icon = Icons.Outlined.EmojiSymbols,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_suggestion_enabled"),
                 title = stringRes(R.string.prefs__media__emoji_suggestion_enabled),
                 summary = stringRes(R.string.prefs__media__emoji_suggestion_enabled__summary),
             )
             ListPreference(
                 prefs.emoji.suggestionType,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_suggestion_type"),
                 title = stringRes(R.string.prefs__media__emoji_suggestion_type),
                 entries = enumDisplayEntriesOf(EmojiSuggestionType::class),
                 enabledIf = { prefs.emoji.suggestionEnabled.isTrue() },
             )
             SwitchPreference(
                 prefs.emoji.suggestionUpdateHistory,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_suggestion_update_history"),
                 title = stringRes(R.string.prefs__media__emoji_suggestion_update_history),
                 summary = stringRes(R.string.prefs__media__emoji_suggestion_update_history__summary),
                 enabledIf = {
@@ -183,12 +195,14 @@ fun MediaScreen() = FlorisScreen {
             )
             SwitchPreference(
                 prefs.emoji.suggestionCandidateShowName,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_suggestion_candidate_show_name"),
                 title = stringRes(R.string.prefs__media__emoji_suggestion_candidate_show_name),
                 summary = stringRes(R.string.prefs__media__emoji_suggestion_candidate_show_name__summary),
                 enabledIf = { prefs.emoji.suggestionEnabled.isTrue() },
             )
             DialogSliderPreference(
                 prefs.emoji.suggestionQueryMinLength,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_suggestion_query_min_length"),
                 title = stringRes(R.string.prefs__media__emoji_suggestion_query_min_length),
                 valueLabel = { length ->
                     pluralsRes(R.plurals.unit__characters__written, length, "v" to length)
@@ -200,6 +214,7 @@ fun MediaScreen() = FlorisScreen {
             )
             DialogSliderPreference(
                 prefs.emoji.suggestionCandidateMaxCount,
+                modifier = Modifier.settingsSearchAnchor("prefs__media__emoji_suggestion_candidate_max_count"),
                 title = stringRes(R.string.prefs__media__emoji_suggestion_candidate_max_count),
                 valueLabel = { count ->
                     pluralsRes(R.plurals.unit__candidates__written, count, "v" to count)

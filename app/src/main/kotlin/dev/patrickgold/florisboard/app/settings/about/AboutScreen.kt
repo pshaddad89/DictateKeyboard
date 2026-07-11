@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.patrickgold.florisboard.BuildConfig
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.app.settings.search.settingsSearchAnchor
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.app.WhatsNewTourState
@@ -93,6 +94,7 @@ fun AboutScreen() = FlorisScreen {
         }
         Preference(
             icon = Icons.Outlined.Info,
+            modifier = Modifier.settingsSearchAnchor("about__version__title"),
             title = stringRes(R.string.about__version__title),
             summary = appVersion,
             onClick = {
@@ -110,30 +112,35 @@ fun AboutScreen() = FlorisScreen {
         )
         Preference(
             icon = Icons.Default.AutoAwesome,
+            modifier = Modifier.settingsSearchAnchor("about__whats_new__title"),
             title = stringRes(R.string.about__whats_new__title),
             summary = stringRes(R.string.about__whats_new__summary),
             onClick = { WhatsNewTourState.open() },
         )
         Preference(
             icon = Icons.Default.History,
+            modifier = Modifier.settingsSearchAnchor("about__changelog__title"),
             title = stringRes(R.string.about__changelog__title),
             summary = stringRes(R.string.about__changelog__summary),
             onClick = { context.launchUrl(R.string.florisboard__changelog_url, "version" to BuildConfig.VERSION_NAME) },
         )
         Preference(
             icon = Icons.Default.Code,
+            modifier = Modifier.settingsSearchAnchor("about__repository__title"),
             title = stringRes(R.string.about__repository__title),
             summary = stringRes(R.string.about__repository__summary),
             onClick = { context.launchUrl(R.string.florisboard__repo_url) },
         )
         Preference(
             icon = Icons.Default.CallSplit,
+            modifier = Modifier.settingsSearchAnchor("about__based_on_floris__title"),
             title = stringRes(R.string.about__based_on_floris__title),
             summary = stringRes(R.string.about__based_on_floris__summary),
             onClick = { context.launchUrl(R.string.florisboard__upstream_repo_url) },
         )
         Preference(
             icon = Icons.Outlined.Email,
+            modifier = Modifier.settingsSearchAnchor("about__feedback__title"),
             title = stringRes(R.string.about__feedback__title),
             summary = stringRes(R.string.about__feedback__summary),
             onClick = {
@@ -150,12 +157,14 @@ fun AboutScreen() = FlorisScreen {
         )
         Preference(
             icon = Icons.Outlined.Policy,
+            modifier = Modifier.settingsSearchAnchor("about__privacy_policy__title"),
             title = stringRes(R.string.about__privacy_policy__title),
             summary = stringRes(R.string.about__privacy_policy__summary),
             onClick = { context.launchUrl(R.string.florisboard__privacy_policy_url) },
         )
         Preference(
             icon = Icons.Outlined.Description,
+            modifier = Modifier.settingsSearchAnchor("about__project_license__title"),
             title = stringRes(R.string.about__project_license__title),
             summary = stringRes(R.string.about__project_license__summary, "license_name" to "Apache 2.0"),
             onClick = { navController.navigate(Routes.Settings.ProjectLicense) },

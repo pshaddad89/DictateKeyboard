@@ -68,6 +68,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.app.settings.search.settingsSearchAnchor
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
@@ -180,6 +181,7 @@ fun DictateProvidersScreen() = FlorisScreen {
 
             Preference(
                 icon = Icons.Default.Add,
+                modifier = Modifier.settingsSearchAnchor("dictate__providers_add_custom"),
                 title = stringRes(R.string.dictate__providers_add_custom),
                 summary = stringRes(R.string.dictate__providers_add_custom_summary),
                 onClick = { editingId = ProviderAccount.newCustomId() },
@@ -193,6 +195,7 @@ fun DictateProvidersScreen() = FlorisScreen {
             val proxyOff = stringRes(R.string.dictate__proxy_summary_off)
             Preference(
                 icon = Icons.Default.Lan,
+                modifier = Modifier.settingsSearchAnchor("dictate__proxy_title"),
                 title = stringRes(R.string.dictate__proxy_title),
                 summary = if (proxyEnabled && proxyHost.isNotBlank()) {
                     "$proxyHost:$proxyPort"
@@ -260,6 +263,7 @@ private fun RewordingProviderPreference(entries: List<Pair<String, String>>, sho
 
     Preference(
         icon = Icons.Default.SmartToy,
+        modifier = Modifier.settingsSearchAnchor("dictate__providers_active_rewording"),
         title = stringRes(R.string.dictate__providers_active_rewording),
         summary = entries.firstOrNull { it.first == selectedId }?.second ?: selectedId,
         // Trailing info "i" (only while single-call is active), mirroring the Punctuation/Style prompt.
@@ -342,6 +346,7 @@ private fun TranscriptionProviderPreference(entries: List<Pair<String, String>>)
 
     Preference(
         icon = Icons.Default.Mic,
+        modifier = Modifier.settingsSearchAnchor("dictate__providers_active_transcription"),
         title = stringRes(R.string.dictate__providers_active_transcription),
         summary = entries.firstOrNull { it.first == selectedId }?.second ?: selectedId,
         onClick = { open = true },
