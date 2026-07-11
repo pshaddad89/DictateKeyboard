@@ -1482,6 +1482,8 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="settings__localization__subtype_status_context">Context</string>
     <string name="pref__suggestion__auto_correct__label">Autocorrectie</string>
     <string name="pref__suggestion__auto_correct__summary">Typefouten automatisch corrigeren bij een spatie</string>
+    <string name="pref__suggestion__multilingual_typing__label">Meertalig typen</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Woorden uit al je toetsenbordtalen accepteren</string>
     <string name="dictate__legacy_record">Opnemen</string>
     <string name="dictate__legacy_stop">Stoppen</string>
     <string name="dictate__legacy_switch_keyboard">Toetsenbord wisselen</string>

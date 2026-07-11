@@ -1597,6 +1597,8 @@
     <string name="settings__localization__subtype_status_context">Kontext</string>
     <string name="pref__suggestion__auto_correct__label">Automatické opravy</string>
     <string name="pref__suggestion__auto_correct__summary">Automaticky opravit překlepy při stisku mezerníku</string>
+    <string name="pref__suggestion__multilingual_typing__label">Vícejazyčné psaní</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Přijímat slova ze všech jazyků klávesnice</string>
     <string name="dictate__legacy_record">Nahrát</string>
     <string name="dictate__legacy_stop">Zastavit</string>
     <string name="dictate__legacy_switch_keyboard">Přepnout klávesnici</string>

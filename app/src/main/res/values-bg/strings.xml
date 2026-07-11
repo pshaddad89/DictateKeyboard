@@ -1582,6 +1582,8 @@
     <string name="settings__localization__subtype_status_context">Контекст</string>
     <string name="pref__suggestion__auto_correct__label">Автокоригиране</string>
     <string name="pref__suggestion__auto_correct__summary">Автоматично поправяне на печатни грешки при интервал</string>
+    <string name="pref__suggestion__multilingual_typing__label">Многоезично писане</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Приемане на думи от всички езици на клавиатурата ви</string>
     <string name="dictate__legacy_record">Запис</string>
     <string name="dictate__legacy_stop">Спри</string>
     <string name="dictate__legacy_switch_keyboard">Смяна на клавиатурата</string>

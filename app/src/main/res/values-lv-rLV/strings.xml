@@ -1526,6 +1526,8 @@
     <string name="settings__localization__subtype_status_context">Konteksts</string>
     <string name="pref__suggestion__auto_correct__label">Automātiskā labošana</string>
     <string name="pref__suggestion__auto_correct__summary">Automātiski labot drukas kļūdas, nospiežot atstarpi</string>
+    <string name="pref__suggestion__multilingual_typing__label">Daudzvalodu rakstīšana</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Pieņemt vārdus no visām tastatūras valodām</string>
     <string name="dictate__legacy_record">Ierakstīt</string>
     <string name="dictate__legacy_stop">Apturēt</string>
     <string name="dictate__legacy_switch_keyboard">Mainīt tastatūru</string>

@@ -1586,6 +1586,8 @@
     <string name="settings__localization__subtype_status_context">Контекст</string>
     <string name="pref__suggestion__auto_correct__label">Автоисправление</string>
     <string name="pref__suggestion__auto_correct__summary">Автоматически исправлять опечатки при пробеле</string>
+    <string name="pref__suggestion__multilingual_typing__label">Многоязычный ввод</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Принимать слова из всех языков клавиатуры</string>
     <string name="dictate__legacy_record">Запись</string>
     <string name="dictate__legacy_stop">Стоп</string>
     <string name="dictate__legacy_switch_keyboard">Сменить клавиатуру</string>

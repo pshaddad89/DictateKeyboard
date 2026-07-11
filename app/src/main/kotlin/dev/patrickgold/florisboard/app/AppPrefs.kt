@@ -1285,6 +1285,13 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "suggestion__auto_correct",
             default = true,
         )
+        // Multilingual typing (issue #190): accept words from every configured keyboard language, not just
+        // the active one, so a bilingual's second-language words aren't flagged as typos or autocorrected
+        // away. Opt-in; leaves single-language behavior unchanged when off.
+        val multilingualTyping = boolean(
+            key = "suggestion__multilingual_typing",
+            default = false,
+        )
         val displayMode = enum(
             key = "suggestion__display_mode",
             default = CandidatesDisplayMode.DYNAMIC_SCROLLABLE,

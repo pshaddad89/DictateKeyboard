@@ -1456,6 +1456,8 @@
     <string name="settings__localization__subtype_status_context">Context</string>
     <string name="pref__suggestion__auto_correct__label">Correcció automàtica</string>
     <string name="pref__suggestion__auto_correct__summary">Corregeix errades automàticament en prémer espai</string>
+    <string name="pref__suggestion__multilingual_typing__label">Escriptura multilingüe</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Accepta paraules de tots els idiomes del teclat</string>
     <string name="dictate__legacy_record">Grava</string>
     <string name="dictate__legacy_stop">Atura</string>
     <string name="dictate__legacy_switch_keyboard">Canvia el teclat</string>

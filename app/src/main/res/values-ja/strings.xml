@@ -1512,6 +1512,8 @@
     <string name="settings__localization__subtype_status_context">文脈</string>
     <string name="pref__suggestion__auto_correct__label">自動修正</string>
     <string name="pref__suggestion__auto_correct__summary">スペース入力時にタイプミスを自動修正</string>
+    <string name="pref__suggestion__multilingual_typing__label">多言語入力</string>
+    <string name="pref__suggestion__multilingual_typing__summary">すべてのキーボード言語の単語を受け入れます</string>
     <string name="dictate__legacy_record">録音</string>
     <string name="dictate__legacy_stop">停止</string>
     <string name="dictate__legacy_switch_keyboard">キーボードを切り替え</string>

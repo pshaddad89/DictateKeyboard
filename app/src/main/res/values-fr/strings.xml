@@ -1456,6 +1456,8 @@
     <string name="settings__localization__subtype_status_context">Contexte</string>
     <string name="pref__suggestion__auto_correct__label">Correction automatique</string>
     <string name="pref__suggestion__auto_correct__summary">Corriger les fautes de frappe automatiquement à l\'espace</string>
+    <string name="pref__suggestion__multilingual_typing__label">Saisie multilingue</string>
+    <string name="pref__suggestion__multilingual_typing__summary">Accepter les mots de toutes vos langues de clavier</string>
     <string name="dictate__legacy_record">Enregistrer</string>
     <string name="dictate__legacy_stop">Arrêter</string>
     <string name="dictate__legacy_switch_keyboard">Changer de clavier</string>

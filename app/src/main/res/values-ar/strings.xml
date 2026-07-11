@@ -1437,6 +1437,8 @@
     <string name="settings__localization__subtype_status_context">السياق</string>
     <string name="pref__suggestion__auto_correct__label">التصحيح التلقائي</string>
     <string name="pref__suggestion__auto_correct__summary">تصحيح الأخطاء المطبعية تلقائيًا عند كتابة مسافة</string>
+    <string name="pref__suggestion__multilingual_typing__label">الكتابة متعددة اللغات</string>
+    <string name="pref__suggestion__multilingual_typing__summary">قبول الكلمات من جميع لغات لوحة المفاتيح لديك</string>
     <string name="dictate__legacy_record">تسجيل</string>
     <string name="dictate__legacy_stop">إيقاف</string>
     <string name="dictate__legacy_switch_keyboard">تبديل لوحة المفاتيح</string>
