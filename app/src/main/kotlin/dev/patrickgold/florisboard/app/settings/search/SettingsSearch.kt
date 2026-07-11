@@ -11,6 +11,7 @@
 package dev.patrickgold.florisboard.app.settings.search
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -22,9 +23,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import dev.patrickgold.florisboard.app.FlorisPreferenceModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 /**
  * Cross-screen coordination for the settings search (issue #187). When a search result carries a row
@@ -58,13 +62,19 @@ object SettingsSearchState {
 fun Modifier.settingsSearchAnchor(key: String): Modifier {
     val requester = remember { BringIntoViewRequester() }
     val flash = remember { Animatable(0f) }
-    val pending = SettingsSearchState.pendingAnchor
-    LaunchedEffect(pending) {
-        if (pending == key) {
-            // Let the destination screen finish its first layout pass before scrolling to the row.
+    LaunchedEffect(key) {
+        // React whenever this row becomes the pending anchor (set just before navigating here).
+        snapshotFlow { SettingsSearchState.pendingAnchor }.collectLatest { pending ->
+            if (pending != key) return@collectLatest
+            // The destination arrives via a slide-in transition; scrolling before it settles resolves
+            // against a not-yet-final layout and does nothing. Wait it out, then bring the row into view.
+            delay(450)
             runCatching { requester.bringIntoView() }
+            // Two clear pulses in the accent colour so the row is unmistakable once revealed.
             flash.snapTo(1f)
-            flash.animateTo(targetValue = 0f, animationSpec = tween(durationMillis = 1600))
+            flash.animateTo(targetValue = 0f, animationSpec = tween(durationMillis = 700, easing = LinearEasing))
+            flash.snapTo(1f)
+            flash.animateTo(targetValue = 0f, animationSpec = tween(durationMillis = 1100, easing = LinearEasing))
             SettingsSearchState.consumeAnchor()
         }
     }
@@ -73,7 +83,7 @@ fun Modifier.settingsSearchAnchor(key: String): Modifier {
         .bringIntoViewRequester(requester)
         .drawBehind {
             val a = flash.value
-            if (a > 0f) drawRect(color = highlight.copy(alpha = 0.18f * a))
+            if (a > 0f) drawRect(color = highlight.copy(alpha = 0.30f * a))
         }
 }
 
