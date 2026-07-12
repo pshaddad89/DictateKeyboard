@@ -1703,6 +1703,7 @@
     <string name="dictate__legacy_action_history">Historia</string>
     <string name="dictate__legacy_action_reinsert">Wstaw ponownie</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Zmień klawiaturę</string>
     <string name="dictate__legacy_action_row_title">Przyciski paska akcji</string>
     <string name="dictate__legacy_action_row_summary">Przeciągnij, aby ułożyć przyciski w pasku akcji klasycznego układu</string>
     <string name="dictate__legacy_action_row_add">Dodaj przycisk</string>

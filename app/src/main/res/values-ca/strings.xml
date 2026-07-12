@@ -1563,6 +1563,7 @@
     <string name="dictate__legacy_action_history">Historial</string>
     <string name="dictate__legacy_action_reinsert">Torna a inserir</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Canvia el teclat</string>
     <string name="dictate__legacy_action_row_title">Botons de la barra d\'accions</string>
     <string name="dictate__legacy_action_row_summary">Arrossega per organitzar els botons a la barra d\'accions de la disposició clàssica</string>
     <string name="dictate__legacy_action_row_add">Afegeix un botó</string>

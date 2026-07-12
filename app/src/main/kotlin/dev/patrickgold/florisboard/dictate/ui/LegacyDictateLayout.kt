@@ -442,6 +442,17 @@ private fun LegacyActionKey(
         LegacyEditAction.REINSERT -> ThemedIconKey(KeyCode.NOOP, action.icon, label, modifier) {
             DictateController.reinsertLastDictation(context)
         }
+        // A second "switch to last keyboard" button (#206) — the bottom-row one stays; placing this in the
+        // top action row (e.g. the rightmost slot) makes it far easier to reach one-handed. Long-press opens
+        // the system IME picker, exactly like the fixed bottom-row switch key.
+        LegacyEditAction.SWITCH -> ThemedIconKey(
+            code = KeyCode.SYSTEM_PREV_INPUT_METHOD,
+            icon = action.icon,
+            contentDescription = label,
+            modifier = modifier,
+            onLongClick = { keyboardManager.tapKey(KeyCode.SYSTEM_INPUT_METHOD_PICKER) },
+            onClick = { keyboardManager.tapKey(KeyCode.SYSTEM_PREV_INPUT_METHOD) },
+        )
     }
 }
 

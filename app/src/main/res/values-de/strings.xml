@@ -1562,6 +1562,7 @@
     <string name="dictate__legacy_action_history">Verlauf</string>
     <string name="dictate__legacy_action_reinsert">Erneut einfügen</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Tastatur wechseln</string>
     <string name="dictate__legacy_action_row_title">Aktionsleisten-Schaltflächen</string>
     <string name="dictate__legacy_action_row_summary">Ziehen, um die Schaltflächen in der Aktionsleiste des klassischen Layouts anzuordnen</string>
     <string name="dictate__legacy_action_row_add">Schaltfläche hinzufügen</string>

@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.ContentCut
 import androidx.compose.material.icons.filled.ContentPaste
 import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.KeyboardHide
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Replay
@@ -45,7 +46,8 @@ enum class LegacyEditAction {
     LANGUAGE,
     HISTORY,
     REINSERT,
-    GIF;
+    GIF,
+    SWITCH;
 
     val icon: ImageVector
         get() = when (this) {
@@ -61,6 +63,7 @@ enum class LegacyEditAction {
             HISTORY -> Icons.Default.History
             REINSERT -> Icons.Default.Replay
             GIF -> Icons.Outlined.Gif
+            SWITCH -> Icons.Default.KeyboardHide
         }
 
     @get:StringRes
@@ -78,6 +81,7 @@ enum class LegacyEditAction {
             HISTORY -> R.string.dictate__legacy_action_history
             REINSERT -> R.string.dictate__legacy_action_reinsert
             GIF -> R.string.dictate__legacy_action_gif
+            SWITCH -> R.string.dictate__legacy_action_switch
         }
 
     companion object {

@@ -1643,6 +1643,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__legacy_action_history">Riwayat</string>
     <string name="dictate__legacy_action_reinsert">Sisipkan ulang</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Ganti keyboard</string>
     <string name="dictate__legacy_action_row_title">Tombol baris tindakan</string>
     <string name="dictate__legacy_action_row_summary">Seret untuk mengatur tombol di baris tindakan tata letak klasik</string>
     <string name="dictate__legacy_action_row_add">Tambah tombol</string>

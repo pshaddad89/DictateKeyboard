@@ -1688,6 +1688,7 @@
     <string name="dictate__legacy_action_history">История</string>
     <string name="dictate__legacy_action_reinsert">Повторно вмъкване</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Смяна на клавиатура</string>
     <string name="dictate__legacy_action_row_title">Бутони на лентата с действия</string>
     <string name="dictate__legacy_action_row_summary">Плъзнете, за да подредите бутоните в лентата с действия на класическата подредба</string>
     <string name="dictate__legacy_action_row_add">Добавяне на бутон</string>

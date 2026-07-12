@@ -1682,6 +1682,7 @@
     <string name="dictate__legacy_action_history">历史</string>
     <string name="dictate__legacy_action_reinsert">重新插入</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">切换键盘</string>
     <string name="dictate__legacy_action_row_title">操作栏按钮</string>
     <string name="dictate__legacy_action_row_summary">拖动以排列经典布局操作栏中的按钮</string>
     <string name="dictate__legacy_action_row_add">添加按钮</string>

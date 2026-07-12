@@ -1620,6 +1620,7 @@
     <string name="dictate__legacy_action_history">履歴</string>
     <string name="dictate__legacy_action_reinsert">再挿入</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">キーボードを切り替え</string>
     <string name="dictate__legacy_action_row_title">アクション行のボタン</string>
     <string name="dictate__legacy_action_row_summary">クラシックレイアウトのアクション行にボタンを配置するにはドラッグします</string>
     <string name="dictate__legacy_action_row_add">ボタンを追加</string>

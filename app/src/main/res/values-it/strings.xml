@@ -1471,6 +1471,7 @@
     <string name="dictate__legacy_action_history">Cronologia</string>
     <string name="dictate__legacy_action_reinsert">Reinserisci</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Cambia tastiera</string>
     <string name="dictate__legacy_action_row_title">Pulsanti della barra delle azioni</string>
     <string name="dictate__legacy_action_row_summary">Trascina per disporre i pulsanti nella barra delle azioni del layout classico</string>
     <string name="dictate__legacy_action_row_add">Aggiungi un pulsante</string>

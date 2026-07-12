@@ -1587,6 +1587,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__legacy_action_history">Geschiedenis</string>
     <string name="dictate__legacy_action_reinsert">Opnieuw invoegen</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Toetsenbord wisselen</string>
     <string name="dictate__legacy_action_row_title">Actiebalkknoppen</string>
     <string name="dictate__legacy_action_row_summary">Sleep om de knoppen in de actiebalk van de klassieke lay-out te ordenen</string>
     <string name="dictate__legacy_action_row_add">Knop toevoegen</string>

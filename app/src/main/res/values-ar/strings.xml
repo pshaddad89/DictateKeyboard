@@ -1546,6 +1546,7 @@
     <string name="dictate__legacy_action_history">السجل</string>
     <string name="dictate__legacy_action_reinsert">إعادة الإدراج</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">تبديل لوحة المفاتيح</string>
     <string name="dictate__legacy_action_row_title">أزرار شريط الإجراءات</string>
     <string name="dictate__legacy_action_row_summary">اسحب لترتيب الأزرار في شريط الإجراءات للتخطيط الكلاسيكي</string>
     <string name="dictate__legacy_action_row_add">إضافة زر</string>

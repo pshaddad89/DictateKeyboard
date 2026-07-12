@@ -1691,6 +1691,7 @@
     <string name="dictate__legacy_action_history">История</string>
     <string name="dictate__legacy_action_reinsert">Вставить снова</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Сменить клавиатуру</string>
     <string name="dictate__legacy_action_row_title">Кнопки панели действий</string>
     <string name="dictate__legacy_action_row_summary">Перетаскивайте, чтобы расположить кнопки на панели действий классического макета</string>
     <string name="dictate__legacy_action_row_add">Добавить кнопку</string>

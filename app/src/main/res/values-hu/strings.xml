@@ -1686,6 +1686,7 @@
     <string name="dictate__legacy_action_history">Előzmények</string>
     <string name="dictate__legacy_action_reinsert">Újra beszúrás</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Billentyűzetváltás</string>
     <string name="dictate__legacy_action_row_title">Műveletsor gombjai</string>
     <string name="dictate__legacy_action_row_summary">Húzással rendezheti el a gombokat a klasszikus elrendezés műveletsorában</string>
     <string name="dictate__legacy_action_row_add">Gomb hozzáadása</string>

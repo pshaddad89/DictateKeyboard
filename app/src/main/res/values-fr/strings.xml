@@ -1563,6 +1563,7 @@
     <string name="dictate__legacy_action_history">Historique</string>
     <string name="dictate__legacy_action_reinsert">Réinsérer</string>
     <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_switch">Changer de clavier</string>
     <string name="dictate__legacy_action_row_title">Boutons de la barre d\'action</string>
     <string name="dictate__legacy_action_row_summary">Faites glisser pour organiser les boutons dans la barre d\'action de la disposition classique</string>
     <string name="dictate__legacy_action_row_add">Ajouter un bouton</string>
