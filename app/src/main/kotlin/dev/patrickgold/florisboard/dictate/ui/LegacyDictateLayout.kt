@@ -1135,9 +1135,13 @@ private fun LegacyNumberPadOverlay(onClose: () -> Unit) {
                         val keyMod = Modifier.weight(1f).fillMaxHeight()
                         when (key) {
                             NUMPAD_SPACE -> ThemedIconKey(KeyCode.SPACE, Icons.Default.SpaceBar, stringRes(R.string.dictate__legacy_space), keyMod) { keyboardManager.tapKey(KeyCode.SPACE) }
-                            NUMPAD_DELETE -> ThemedIconKey(KeyCode.DELETE, Icons.Default.Backspace, stringRes(R.string.dictate__legacy_backspace), keyMod) { keyboardManager.tapKey(KeyCode.DELETE) }
+                            // Full backspace behaviour here too (tap / hold-repeat / swipe-select), like the record row.
+                            NUMPAD_DELETE -> LegacyBackspaceKey(modifier = keyMod)
                             NUMPAD_ENTER -> ThemedIconKey(KeyCode.ENTER, Icons.AutoMirrored.Filled.KeyboardReturn, stringRes(R.string.dictate__legacy_enter), keyMod) { keyboardManager.tapKey(KeyCode.ENTER) }
-                            else -> ThemedKey(code = key[0].code, modifier = keyMod, onClick = { ic()?.commitText(key, 1) }) { fg ->
+                            // Commit through the input pipeline (like the other keys) rather than raw
+                            // InputConnection.commitText: the latter replaces the suggestion engine's active
+                            // composing region, so each digit clobbered the previous one instead of appending.
+                            else -> ThemedKey(code = key[0].code, modifier = keyMod, onClick = { keyboardManager.tapKey(key[0].code) }) { fg ->
                                 Text(text = key, color = fg, fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
                             }
                         }
