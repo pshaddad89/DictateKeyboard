@@ -124,7 +124,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Apakšveidi</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Pievienot apakšveidu</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Pārvaldīt uzstādītās valodas</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Izmēģinājuma: pārvaldit paplašinājumus, kas nodrošina noteiktu valodu atbalstu (pagaidām ķīniešu valodas uz apveidu balstītā ievade)</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Izmēģinājuma: paplašinājumi, kas pievieno noteiktas valodas (pagaidām ķīniešu uz apveidu balstīta).</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Labot apakšveidu</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Galvenā valoda</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Uznirstošo lodziņu kartēšana</string>
@@ -164,8 +164,7 @@
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Saulrieta laikā</string>
     <string name="pref__theme__day" comment="Label of the day group (day means light theme)">Dienas izskats</string>
     <string name="pref__theme__night" comment="Label of the night group (night means dark theme)">Nakts izskats</string>
-    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">        Uzsvara krāsa (Material You izskati)
-    </string>
+    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">Uzsvara krāsa (Material You)</string>
     <string name="settings__theme_manager__title_manage" comment="Title of the theme manager screen for managing installed and custom themes">Pārvaldīt uzstādītos izskatus</string>
     <string name="pref__theme__source_assets" comment="Label for the theme source field">{app_name} lietotnes līdzekļi</string>
     <string name="pref__theme__source_internal" comment="Label for the theme source field">Iekšējā krātuve</string>
@@ -384,8 +383,8 @@
     <string name="pref__keyboard__merge_hint_popups_enabled__label" comment="Preference title">Uzsvara zīmes ietver zīmju uznirstošos lodziņus</string>
     <string name="pref__keyboard__merge_hint_popups_enabled__summary" comment="Preference summary">Pievieno zīmju uznirstošos lodziņus noklusējuma izkārtojuma uzsvara zīmēm</string>
     <string name="pref__keyboard__long_press_delay__label" comment="Preference title">Ilgas taustiņa piespiešanas aizture</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Atstarpes taustiņš pārslēdz uz burtiem</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Pārslēdzas no zīmēm vai cipariem atpakaļ uz burtiem</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Atstarpes taustiņš atgriežas pie burtiem</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Zīmju vai ciparu izkārtojumā atstarpes taustiņš atgriežas pie burtu tastatūras.</string>
     <string name="pref__keyboard__incognito_indicator__label" comment="Preference title">Slepenības rādītājs</string>
     <!-- Smartbar strings -->
     <string name="settings__smartbar__title" comment="Title of Smartbar screen">Viedjosla</string>
@@ -468,7 +467,7 @@
     <string name="pref__glide__immediate_backspace_deletes_word__summary">Dzēšanas taustiņa nospiešana uzreiz pēc slidināšanas izdzēš visu vārdu</string>
     <string name="pref__gestures__general_title" comment="Preference group title">Vispārējas kustības</string>
     <string name="pref__gestures__space_bar_title" comment="Preference group title">Atstarpes taustiņa kustības</string>
-    <string name="pref__gestures__other_title" comment="Preference group title">Citas kustības / Kustību sliekšņi</string>
+    <string name="pref__gestures__other_title" comment="Preference group title">Citas kustības</string>
     <string name="pref__gestures__swipe_up__label" comment="Preference title">Pavilkt uz augšu</string>
     <string name="pref__gestures__swipe_down__label" comment="Preference title">Pavilkt uz leju</string>
     <string name="pref__gestures__swipe_left__label" comment="Preference title">Pavilkt pa kreisi</string>
@@ -537,7 +536,7 @@
     <string name="setup__finish_up__finish_btn">Sākt pielāgošanu</string>
     <!-- Physical keyboard -->
     <string name="physical_keyboard__title">Fiziska tastatūra</string>
-    <string name="physical_keyboard__system_settings__title">Sistēmas fiziskās tastatūras iestatījumi</string>
+    <string name="physical_keyboard__system_settings__title">Fiziskās tastatūras iestatījumi</string>
     <string name="physical_keyboard__system_settings__summary">Izkārtojumi, tastatūras saīsnes un pārveidotājtaustiņi</string>
     <string name="physical_keyboard__system_settings__summary_not_attached">Pieejams tikai tad, kad ir pievienotat tastatūra</string>
     <string name="physical_keyboard__show_on_screen_keyboard__title">Rādīt ekrāna tastatūru</string>
@@ -636,7 +635,7 @@
     <string name="pref__clipboard__max_history_size__label">Lielākais pieļaujamais vēstures lielums</string>
     <string name="pref__clipboard__history_hide_on_paste__label">Paslēpt vēsturi pēc ielīmēšanas</string>
     <string name="pref__clipboard__history_hide_on_next_text_field__label">Paslēpt vēsturi pēc pāriešanas uz nākamo teksta lauku</string>
-    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Galvenā vienuma notīrīšana ietekmē vēsturi</string>
+    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Vienuma notīrīšana ietekmē vēsturi</string>
     <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__summary">Galvenā vienuma notīrīšana noņem to arī no vēstures, ja tas nav piesprausts</string>
     <string name="send_to_clipboard__unknown_error">Radusies nezināma kļūda. Lūgums vēlāk mēģināt vēlreiz.</string>
     <string name="send_to_clipboard__type_not_supported_error">Šis informācijas nesēja veids netiek atbalstīts.</string>
@@ -1012,7 +1011,7 @@
     <string name="quick_action__dictate_prompts">MI uzvednes</string>
     <string name="quick_action__dictate_prompts__tooltip">Atveriet MI pārformulēšanas uzvednes</string>
     <string name="about__based_on_floris__title">Balstīts uz FlorisBoard</string>
-    <string name="about__based_on_floris__summary">FlorisBoard atzars, ko izstrādājis Patrick Goldinger un līdzautori, licencēts saskaņā ar Apache 2.0. Pieskarieties, lai atvērtu sākotnējo projektu.</string>
+    <string name="about__based_on_floris__summary">FlorisBoard atzars, ko izstrādājis Patrick Goldinger un līdzautori, Apache 2.0. Pieskaries, lai atvērtu.</string>
     <string name="about__made_by">Izveidoja ar ❤️ DevEmperor\nSoli deo gloria ✝️</string>
     <string name="about__feedback__title">Atsauksmes un atbalsts</string>
     <string name="about__feedback__summary">Nosūtiet e-pastu ar jautājumiem, kļūdām vai idejām</string>
@@ -1093,7 +1092,7 @@
     <string name="dictate__floating_button_snap_title">Pieķerties malai</string>
     <string name="dictate__interrupted_recording">Pārtraukts ({time})</string>
     <string name="dictate__providers_summary_both">Transkripcija: {transcription} · Pārformulēšana: {rewording}</string>
-    <string name="dictate__remember_last_dictation_summary">Saglabā jūsu pēdējo veiksmīgo diktātu, lai to varētu ievietot atkārtoti ar Smartbar pogu „Ievietot atkārtoti” — drošības tīkls, ja teksta lauks tiek notīrīts ekrāna pagrieziena vai lietotnes pārslēgšanas dēļ. Pievienojiet pogu, izmantojot Smartbar redaktoru. Tiek glabāts tikai šajā ierīcē līdz nākamajam diktātam.</string>
+    <string name="dictate__remember_last_dictation_summary">Saglabā pēdējo diktātu, lai to varētu ievietot atkārtoti ar Smartbar pogu „Ievietot atkārtoti“.</string>
     <string name="dictate__remember_last_dictation_title">Atcerēties pēdējo diktātu</string>
     <string name="changelog__v4_2_0">• JAUNS: peldošā diktēšanas poga — diktējiet tieši jebkurā lietotnē, pat ja aktīva ir cita tastatūra. Izvēlieties no trim stiliem (Kapsula, Gredzens, Lode), vērojiet tiešraides viļņu formu runājot, velciet to jebkur ar piesaisti malām, iestatiet tās krāsu un izmēru un turiet nospiestu, lai pārformulētu. Ieslēdziet to sadaļā Iestatījumi ▸ Dictate ▸ Peldošā poga.\n• JAUNS: Google Gemini — izmanto savu AI Studio API atslēgu transkripcijai un pārformulēšanai.\n• Uzvednes tagad pēc noklusējuma tiek rādītas pastāvīgā rindā virs taustiņiem.\n• Uzticamāka teksta ievietošana lietotnēs, tostarp pārlūkos un citās tastatūrās.</string>
     <string name="dictate__promo_floating_button_message">Jauns: diktē jebkurā lietotnē</string>
@@ -1223,7 +1222,7 @@
     <string name="dictate__realtime_title">Reāllaika transkripcija</string>
     <string name="dictate__realtime_summary">Rāda tekstu tiešraidē, kamēr runājat, pakalpojumiem, kas to atbalsta</string>
     <string name="dictate__longform_title">Gara diktēšana</string>
-    <string name="dictate__longform_summary">Transkribē garas diktēšanas fonā, daļu pa daļai, kamēr turpini runāt — ierakstīšanas laikā pieskaries „Nākamais segments“, lai nosūtītu pašreizējo daļu, tā beigās nav ilgi jāgaida.</string>
+    <string name="dictate__longform_summary">Transkribē fonā, kamēr turpini runāt — pieskaries „Tālāk“, lai nosūtītu katru daļu.</string>
     <string name="dictate__longform_autosplit_title">Automātiska sadalīšana pauzēs</string>
     <string name="dictate__longform_autosplit_summary">Segmentu automātiski atdala arī pēc pietiekami garas pauzes, ne tikai ar pogu „Nākamais segments“.</string>
     <string name="dictate__longform_autosplit_threshold_title">Pauzes ilgums</string>
@@ -1394,7 +1393,7 @@
     <string name="dictate__floating_button_undo_title">Atsaukšanas poga</string>
     <string name="dictate__mappings_add">Pievienot kārtulu</string>
     <string name="dictate__mappings_editor_title">Kārtula</string>
-    <string name="dictate__mappings_empty_summary">Pievienojiet kārtulu, lai katrā transkripcijā automātiski aizstātu vārdus vai frāzes — precīzi un neizmantojot MI marķierus.</string>
+    <string name="dictate__mappings_empty_summary">Pievieno kārtulu, lai katrā transkripcijā automātiski aizstātu vārdus vai frāzes — precīzi, bez MI marķieriem.</string>
     <string name="dictate__mappings_empty_title">Vēl nav neviena kārtula</string>
     <string name="dictate__mappings_entry_summary">Transkripcijai piemērotās meklēšanas un aizstāšanas kārtulas</string>
     <string name="dictate__mappings_field_from">Aizstāt</string>
@@ -1428,7 +1427,7 @@
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Diktēšanas opcijas no savienota pulksteņa</string>
     <string name="dictate__wear_install_title">Instalēt Dictate savā pulkstenī</string>
-    <string name="dictate__wear_install_summary">Atver Play Store. Savienotā pulkstenī (Wear OS 3 vai jaunākā) izvēlieties pulksteni kā instalēšanas mērķi.</string>
+    <string name="dictate__wear_install_summary">Atver Play Store — savienotā Wear OS 3+ pulkstenī izvēlies pulksteni kā mērķi.</string>
     <string name="dictate__wear_auto_rewording_title">Automātiski pārformulēt pulksteņa diktātus</string>
     <string name="dictate__wear_auto_rewording_summary">Pārformulējiet pulksteņa diktātus, tāpat kā tālrunī.</string>
     <string name="quick_action__system_prev_input_method">Mainīt tastatūru</string>
@@ -1444,8 +1443,8 @@
     <string name="dictate__audio_source_unprocessed">Neapstrādāts (jēls)</string>
     <string name="dictate__audio_source_unprocessed_summary">Bez jebkādas apstrādes; ja tālrunis to neatbalsta, izmanto Runas atpazīšanu</string>
     <string name="dictate__security_group">Drošība</string>
-    <string name="dictate__trust_user_certs_title">Uzticēties lietotāja instalētiem sertifikātiem</string>
-    <string name="dictate__trust_user_certs_summary">Uzticēties pašiem instalētiem CA sertifikātiem – pašmitinātiem galapunktiem aiz privātas CA.</string>
+    <string name="dictate__trust_user_certs_title">Uzticēties lietotāja sertifikātiem</string>
+    <string name="dictate__trust_user_certs_summary">Uzticies pašu instalētiem CA sertifikātiem — pašmitinātiem galapunktiem aiz privātas CA.</string>
     <string name="dictate__stats_title">Statistika</string>
     <string name="dictate__stats_menu_summary">Vārdi, ietaupītais laiks, sērija un vairāk</string>
     <string name="dictate__history_title">Vēsture</string>
@@ -1547,9 +1546,9 @@
     <string name="dictate__legacy_select_all">Atlasīt visu</string>
     <string name="dictate__floating_button_retry_hint">%1$s — pieskaries, lai mēģinātu vēlreiz</string>
     <string name="dictate__haptic_feedback_title">Haptiskā atsauce</string>
-    <string name="dictate__haptic_feedback_summary">Vibrē, sākot/apturot ierakstu, kad transkripcija ir gatava un kad tiek lietota pārformulēšana</string>
+    <string name="dictate__haptic_feedback_summary">Vibrē, sākot vai apturot ierakstu, kad transkripcija ir gatava un veicot pārformulēšanu.</string>
     <string name="dictate__audio_source_voice_communication">Balss saziņa</string>
-    <string name="dictate__audio_source_voice_communication_summary">Augstākā prioritāte — turpina darboties, kad citā lietotnē (balss ierakstītājs, kamera) tiek izmantots mikrofons, taču zvana stila apstrāde var samazināt precizitāti</string>
+    <string name="dictate__audio_source_voice_communication_summary">Augstākā mikrofona prioritāte — darbojas, kad citā lietotnē tiek izmantots mikrofons, taču var samazināt precizitāti.</string>
     <string name="about__whats_new__title">Jaunumi 5.0 versijā</string>
     <string name="about__whats_new__summary">Skatīt funkciju tūri vēlreiz</string>
     <string name="apptour__skip">Izlaist</string>

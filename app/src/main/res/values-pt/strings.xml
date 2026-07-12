@@ -126,7 +126,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Subtipos</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Adicionar subtipo</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Gerir pacotes de linguagem instalados</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimental: gerir extenções que adicionam suporte para linguagens específicas (por agora, entradas em chinês baseadas em formas)</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimental: extensões que adicionam idiomas específicos (por agora, chinês baseado em formas).</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Editar subtipo</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Idioma principal</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Mapeamento de popups</string>
@@ -166,8 +166,7 @@
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Hora do pôr do sol</string>
     <string name="pref__theme__day" comment="Label of the day group (day means light theme)">Tema diurno</string>
     <string name="pref__theme__night" comment="Label of the night group (night means dark theme)">Tema noturno</string>
-    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">        Cor de destaque (temas Material You)
-    </string>
+    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">Cor de destaque (Material You)</string>
     <string name="settings__theme_manager__title_manage" comment="Title of the theme manager screen for managing installed and custom themes">Gerir temas instalados</string>
     <string name="pref__theme__source_assets" comment="Label for the theme source field">Dados da aplicação {app_name}</string>
     <string name="pref__theme__source_internal" comment="Label for the theme source field">Armazenamento interno</string>
@@ -421,8 +420,8 @@
     <string name="pref__keyboard__merge_hint_popups_enabled__label" comment="Preference title">Os acentos incluem popups de símbolos</string>
     <string name="pref__keyboard__merge_hint_popups_enabled__summary" comment="Preference summary">Adicionar popup de símbolos à disposição padrão</string>
     <string name="pref__keyboard__long_press_delay__label" comment="Preference title">Atraso para a pressão longa de teclas</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Barra de espaço alterna para a disposição de caracteres</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Ao premir a barra de espaço, alternar automaticamente para caracteres se em símbolos ou números</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Barra de espaço volta às letras</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">No esquema de símbolos/números, a barra de espaço volta ao teclado de letras.</string>
     <string name="pref__keyboard__incognito_indicator__label" comment="Preference title">Indicador de modo anónimo</string>
     <!-- Smartbar strings -->
     <string name="settings__smartbar__title" comment="Title of Smartbar screen">Barra inteligente</string>
@@ -505,7 +504,7 @@
     <string name="pref__glide__immediate_backspace_deletes_word__summary">Pressionar \"eliminar\" de seguida ao deslizar, apaga a palavra inteira</string>
     <string name="pref__gestures__general_title" comment="Preference group title">Gestos genéricos</string>
     <string name="pref__gestures__space_bar_title" comment="Preference group title">Gestos na barra de espaço</string>
-    <string name="pref__gestures__other_title" comment="Preference group title">Outros gestos / Limitação de gestos</string>
+    <string name="pref__gestures__other_title" comment="Preference group title">Outros gestos</string>
     <string name="pref__gestures__swipe_up__label" comment="Preference title">Deslizar para cima</string>
     <string name="pref__gestures__swipe_down__label" comment="Preference title">Deslizar para baixo</string>
     <string name="pref__gestures__swipe_left__label" comment="Preference title">Deslizar para a esquerda</string>
@@ -573,7 +572,7 @@
     <string name="setup__finish_up__finish_btn">Iniciar personalização</string>
     <!-- Physical keyboard -->
     <string name="physical_keyboard__title">Teclado físico</string>
-    <string name="physical_keyboard__system_settings__title">Configurações do teclado físico do sistema</string>
+    <string name="physical_keyboard__system_settings__title">Definições do teclado físico</string>
     <string name="physical_keyboard__system_settings__summary">Layouts, atalhos de teclado e teclas modificadoras</string>
     <string name="physical_keyboard__system_settings__summary_not_attached">Disponível apenas quando o teclado está ligado</string>
     <string name="physical_keyboard__show_on_screen_keyboard__title">Mostrar o teclado no ecrã</string>
@@ -672,7 +671,7 @@
     <string name="pref__clipboard__max_history_size__label">Tamanho máximo do histórico</string>
     <string name="pref__clipboard__history_hide_on_paste__label">Ocultar o histórico ao colar</string>
     <string name="pref__clipboard__history_hide_on_next_text_field__label">Ocultar histórico no campo de texto seguinte</string>
-    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Eliminar o clip primário afeta o histórico</string>
+    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Limpar o clip afeta o histórico</string>
     <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__summary">Apagar o clipe principal também o remove do histórico, caso não esteja fixado</string>
     <string name="send_to_clipboard__unknown_error">Ocorreu um erro desconhecido. Por favor, tente novamente!</string>
     <string name="send_to_clipboard__type_not_supported_error">Este tipo de media não é suportado.</string>
@@ -1048,7 +1047,7 @@
     <string name="quick_action__dictate_prompts">Prompts de IA</string>
     <string name="quick_action__dictate_prompts__tooltip">Abrir os prompts de reformulação com IA</string>
     <string name="about__based_on_floris__title">Baseado no FlorisBoard</string>
-    <string name="about__based_on_floris__summary">Uma derivação do FlorisBoard por Patrick Goldinger e colaboradores, licenciada sob Apache 2.0. Toque para abrir o projeto original.</string>
+    <string name="about__based_on_floris__summary">Uma derivação do FlorisBoard por Patrick Goldinger e colaboradores, Apache 2.0. Toque para abrir.</string>
     <string name="about__made_by">Feito com ❤️ por DevEmperor\nSoli deo gloria ✝️</string>
     <string name="about__feedback__title">Comentários e apoio</string>
     <string name="about__feedback__summary">Envie um e-mail com perguntas, erros ou ideias</string>
@@ -1129,7 +1128,7 @@
     <string name="dictate__floating_button_snap_title">Encaixar na margem</string>
     <string name="dictate__interrupted_recording">Interrompido ({time})</string>
     <string name="dictate__providers_summary_both">Transcrição: {transcription} · Reformulação: {rewording}</string>
-    <string name="dictate__remember_last_dictation_summary">Mantém o seu último ditado bem-sucedido para o poder inserir novamente com o botão «Reinserir» da Smartbar — uma rede de segurança caso o campo de texto seja limpo por uma rotação do ecrã ou troca de app. Adicione o botão através do editor da Smartbar. Guardado apenas neste dispositivo até ao próximo ditado.</string>
+    <string name="dictate__remember_last_dictation_summary">Guarda o seu último ditado para o reinserir com o botão Reinserir da Smartbar.</string>
     <string name="dictate__remember_last_dictation_title">Memorizar último ditado</string>
     <string name="changelog__v4_2_0">• NOVO: botão de ditado flutuante — dite diretamente em qualquer app, mesmo com outro teclado ativo. Escolha entre três estilos (Cápsula, Anel, Esfera), veja uma forma de onda ao vivo enquanto fala, arraste-o para qualquer lugar com encaixe nas margens, defina a cor e o tamanho e mantenha premido para reformular. Ative-o em Definições ▸ Dictate ▸ Botão flutuante.\n• NOVO: Google Gemini — use a sua própria chave de API do AI Studio para transcrição e reformulação.\n• Os prompts agora aparecem por predefinição numa linha fixa acima das teclas.\n• Inserção de texto mais fiável entre apps, incluindo navegadores e outros teclados.</string>
     <string name="dictate__promo_floating_button_message">Novo: dite em qualquer app</string>
@@ -1259,7 +1258,7 @@
     <string name="dictate__realtime_title">Transcrição em tempo real</string>
     <string name="dictate__realtime_summary">Mostra o texto ao vivo enquanto fala, para fornecedores compatíveis</string>
     <string name="dictate__longform_title">Ditado longo</string>
-    <string name="dictate__longform_summary">Transcreve ditados longos em segundo plano, parte a parte enquanto continua a falar — toque em “Segmento seguinte” durante a gravação para enviar a parte atual, para não haver uma longa espera no fim.</string>
+    <string name="dictate__longform_summary">Transcreve em segundo plano enquanto continua a falar — toque em Seguinte para enviar cada parte.</string>
     <string name="dictate__longform_autosplit_title">Dividir automaticamente nas pausas</string>
     <string name="dictate__longform_autosplit_summary">Também corta um segmento automaticamente após uma pausa suficientemente longa, não apenas com o botão “Segmento seguinte”.</string>
     <string name="dictate__longform_autosplit_threshold_title">Duração da pausa</string>
@@ -1430,7 +1429,7 @@
     <string name="dictate__floating_button_undo_title">Botão para anular</string>
     <string name="dictate__mappings_add">Adicionar substituição</string>
     <string name="dictate__mappings_editor_title">Substituição</string>
-    <string name="dictate__mappings_empty_summary">Adicione uma regra para substituir automaticamente palavras ou frases em todas as transcrições — de forma exata e sem usar tokens de IA.</string>
+    <string name="dictate__mappings_empty_summary">Adicione uma regra para substituir palavras ou frases em cada transcrição — exato, sem tokens de IA.</string>
     <string name="dictate__mappings_empty_title">Ainda sem substituições</string>
     <string name="dictate__mappings_entry_summary">Regras de localizar e substituir aplicadas à transcrição</string>
     <string name="dictate__mappings_field_from">Substituir</string>
@@ -1464,7 +1463,7 @@
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opções para ditar a partir de um relógio emparelhado</string>
     <string name="dictate__wear_install_title">Instalar o Dictate no seu relógio</string>
-    <string name="dictate__wear_install_summary">Abre a Play Store. Num relógio emparelhado (Wear OS 3 ou posterior), escolha o seu relógio como destino da instalação.</string>
+    <string name="dictate__wear_install_summary">Abre a Play Store — num relógio Wear OS 3+ emparelhado, escolha o seu relógio como destino.</string>
     <string name="dictate__wear_auto_rewording_title">Reformular automaticamente os ditados do relógio</string>
     <string name="dictate__wear_auto_rewording_summary">Reformula os ditados feitos no relógio, como no telemóvel.</string>
     <string name="quick_action__system_prev_input_method">Mudar teclado</string>
@@ -1480,8 +1479,8 @@
     <string name="dictate__audio_source_unprocessed">Sem processamento (bruto)</string>
     <string name="dictate__audio_source_unprocessed_summary">Sem qualquer processamento; recorre ao Reconhecimento de voz se o telemóvel não o suportar</string>
     <string name="dictate__security_group">Segurança</string>
-    <string name="dictate__trust_user_certs_title">Confiar em certificados instalados pelo utilizador</string>
-    <string name="dictate__trust_user_certs_summary">Confia em certificados de AC que instalaste, para endpoints auto-hospedados atrás de uma AC privada.</string>
+    <string name="dictate__trust_user_certs_title">Confiar em certificados do utilizador</string>
+    <string name="dictate__trust_user_certs_summary">Confia em certificados de AC que instalou, para endpoints auto-hospedados atrás de uma AC privada.</string>
     <string name="dictate__stats_title">Estatísticas</string>
     <string name="dictate__stats_menu_summary">Palavras, tempo poupado, sequência e mais</string>
     <string name="dictate__history_title">Histórico</string>
@@ -1583,9 +1582,9 @@
     <string name="dictate__legacy_select_all">Selecionar tudo</string>
     <string name="dictate__floating_button_retry_hint">%1$s — toque para repetir</string>
     <string name="dictate__haptic_feedback_title">Vibração</string>
-    <string name="dictate__haptic_feedback_summary">Vibra ao iniciar/parar a gravação, quando a transcrição está pronta e quando uma reformulação é aplicada</string>
+    <string name="dictate__haptic_feedback_summary">Vibra ao iniciar/parar a gravação, quando a transcrição fica pronta e ao reformular.</string>
     <string name="dictate__audio_source_voice_communication">Comunicação de voz</string>
-    <string name="dictate__audio_source_voice_communication_summary">Prioridade máxima — continua a funcionar quando outra app (gravador, câmara) usa o microfone, mas o processamento tipo chamada pode reduzir a precisão</string>
+    <string name="dictate__audio_source_voice_communication_summary">Prioridade máxima do micro — funciona quando outra app usa o micro, mas pode reduzir a precisão.</string>
     <string name="about__whats_new__title">Novidades da 5.0</string>
     <string name="about__whats_new__summary">Ver de novo o tour das funcionalidades</string>
     <string name="apptour__skip">Ignorar</string>

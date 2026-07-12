@@ -131,7 +131,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Podtypy</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Dodaj układ</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Zarządzaj zainstalowanymi pakietami językowymi</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Eksperymentalnie: zarządzaj rozszerzeniami, które dodają wsparcie dla konkretnych języków (na razie chiński, oparty na kształcie)</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Eksperymentalnie: rozszerzenia dodające konkretne języki (na razie chiński oparty na kształcie).</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Edytuj układ</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Język podstawowy</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Mapowanie wyskakującego okienka</string>
@@ -171,8 +171,7 @@
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Czas zachodu słońca</string>
     <string name="pref__theme__day" comment="Label of the day group (day means light theme)">Tryb dzienny</string>
     <string name="pref__theme__night" comment="Label of the night group (night means dark theme)">Tryb nocny</string>
-    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">        Kolor akcentujący (motywy Material you)
-    </string>
+    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">Kolor akcentujący (Material You)</string>
     <string name="settings__theme_manager__title_manage" comment="Title of the theme manager screen for managing installed and custom themes">Zarządzaj zainstalowanymi motywami</string>
     <string name="pref__theme__source_assets" comment="Label for the theme source field">Wbudowane w aplikację {app_name}</string>
     <string name="pref__theme__source_internal" comment="Label for the theme source field">Pamięć wewnętrzna</string>
@@ -433,8 +432,8 @@
     <string name="pref__keyboard__merge_hint_popups_enabled__label" comment="Preference title">Akcenty obejmują popup z symbolami</string>
     <string name="pref__keyboard__merge_hint_popups_enabled__summary" comment="Preference summary">Dodaje symbol popupu do akcentów domyślnego układu</string>
     <string name="pref__keyboard__long_press_delay__label" comment="Preference title">Opóznienie długiego przytrzymania</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Spacja przełącza na znaki</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Automatycznie przełącza się z powrotem na znaki w symbolach lub cyfrach</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Spacja wraca do liter</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">W układzie symboli/cyfr spacja wraca do klawiatury z literami.</string>
     <string name="pref__keyboard__incognito_indicator__label" comment="Preference title">Wskaźnik incognito</string>
     <!-- Smartbar strings -->
     <string name="settings__smartbar__title" comment="Title of Smartbar screen">Inteligentny pasek</string>
@@ -517,7 +516,7 @@
     <string name="pref__glide__immediate_backspace_deletes_word__summary">Naciśnięcie klawisza delete zaraz po przesunięciu usuwa całe słowo</string>
     <string name="pref__gestures__general_title" comment="Preference group title">Gesty ogólne</string>
     <string name="pref__gestures__space_bar_title" comment="Preference group title">Gesty klawisza spacji</string>
-    <string name="pref__gestures__other_title" comment="Preference group title">Inne gesty / Progi gestów</string>
+    <string name="pref__gestures__other_title" comment="Preference group title">Inne gesty</string>
     <string name="pref__gestures__swipe_up__label" comment="Preference title">Przesuń w górę</string>
     <string name="pref__gestures__swipe_down__label" comment="Preference title">Przesuń w dół</string>
     <string name="pref__gestures__swipe_left__label" comment="Preference title">Przesuń w lewo</string>
@@ -586,7 +585,7 @@
     <string name="setup__finish_up__finish_btn">Rozpocznij personalizowanie</string>
     <!-- Physical keyboard -->
     <string name="physical_keyboard__title">Klawiatura fizyczna</string>
-    <string name="physical_keyboard__system_settings__title">Ustawienia klawiatury fizycznej systemu</string>
+    <string name="physical_keyboard__system_settings__title">Ustawienia klawiatury fizycznej</string>
     <string name="physical_keyboard__system_settings__summary">Układy, skróty klawiaturowe i klawisze modyfikujące</string>
     <string name="physical_keyboard__system_settings__summary_not_attached">Dostępne tylko po podłączeniu klawiatury</string>
     <string name="physical_keyboard__show_on_screen_keyboard__title">Pokazuj klawiaturę ekranową</string>
@@ -685,7 +684,7 @@
     <string name="pref__clipboard__max_history_size__label">Maksymalny rozmiar historii</string>
     <string name="pref__clipboard__history_hide_on_paste__label">Ukryj historię wklejania</string>
     <string name="pref__clipboard__history_hide_on_next_text_field__label">Ukryj historię w następnym polu tekstowym</string>
-    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Czyszczenie głównego klipu wpływa na historię</string>
+    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Czyszczenie klipu wpływa na historię</string>
     <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__summary">Usunięcie głównego klipu powoduje również usunięcie go z historii, jeśli nie został przypięty</string>
     <string name="send_to_clipboard__unknown_error">Wystąpił nieoczekiwany błąd. Proszę spróbować ponownie!</string>
     <string name="send_to_clipboard__type_not_supported_error">Ten typ mediów nie jest wspierany.</string>
@@ -1084,7 +1083,7 @@
     <string name="quick_action__dictate_prompts">Prompty AI</string>
     <string name="quick_action__dictate_prompts__tooltip">Otwórz prompty przeformułowania AI</string>
     <string name="about__based_on_floris__title">Oparte na FlorisBoard</string>
-    <string name="about__based_on_floris__summary">Fork FlorisBoard autorstwa Patricka Goldingera i współtwórców, na licencji Apache 2.0. Dotknij, aby otworzyć oryginalny projekt.</string>
+    <string name="about__based_on_floris__summary">Fork FlorisBoard autorstwa Patricka Goldingera i współtwórców, Apache 2.0. Dotknij, aby otworzyć.</string>
     <string name="about__made_by">Stworzone z ❤️ przez DevEmperor\nSoli deo gloria ✝️</string>
     <string name="about__feedback__title">Opinie i pomoc</string>
     <string name="about__feedback__summary">Wyślij e-mail z pytaniami, błędami lub pomysłami</string>
@@ -1165,7 +1164,7 @@
     <string name="dictate__floating_button_snap_title">Przyciągaj do krawędzi</string>
     <string name="dictate__interrupted_recording">Przerwano ({time})</string>
     <string name="dictate__providers_summary_both">Transkrypcja: {transcription} · Przeredagowanie: {rewording}</string>
-    <string name="dictate__remember_last_dictation_summary">Zachowuje ostatnie udane dyktowanie, aby można je było ponownie wstawić przyciskiem „Wstaw ponownie” na Smartbarze — zabezpieczenie, gdy pole tekstowe zostanie wyczyszczone przez obrót ekranu lub przełączenie aplikacji. Dodaj przycisk w edytorze Smartbara. Przechowywane tylko na tym urządzeniu do następnego dyktowania.</string>
+    <string name="dictate__remember_last_dictation_summary">Zachowuje ostatnie dyktowanie, aby ponownie wstawić je przyciskiem Wstaw ponownie na Smartbarze.</string>
     <string name="dictate__remember_last_dictation_title">Zapamiętaj ostatnie dyktowanie</string>
     <string name="changelog__v4_2_0">• NOWOŚĆ: pływający przycisk dyktowania — dyktuj bezpośrednio w dowolnej aplikacji, nawet gdy aktywna jest inna klawiatura. Wybierz spośród trzech stylów (Pigułka, Pierścień, Kula), patrz na wykres dźwięku na żywo, gdy mówisz, przeciągaj go gdziekolwiek z przyciąganiem do krawędzi, ustaw kolor i rozmiar oraz przytrzymaj, aby przeredagować. Włącz go w Ustawieniach ▸ Dictate ▸ Pływający przycisk.\n• NOWOŚĆ: Google Gemini — użyj własnego klucza API AI Studio do transkrypcji i przeredagowania.\n• Podpowiedzi pojawiają się teraz domyślnie w stałym rzędzie nad klawiszami.\n• Bardziej niezawodne wstawianie tekstu w aplikacjach, w tym w przeglądarkach i innych klawiaturach.</string>
     <string name="dictate__promo_floating_button_message">Nowość: dyktuj wszędzie</string>
@@ -1295,7 +1294,7 @@
     <string name="dictate__realtime_title">Transkrypcja w czasie rzeczywistym</string>
     <string name="dictate__realtime_summary">Pokazuje tekst na żywo podczas mówienia u dostawców, którzy to obsługują</string>
     <string name="dictate__longform_title">Długie dyktowanie</string>
-    <string name="dictate__longform_summary">Transkrybuje długie dyktowanie w tle, część po części, gdy mówisz dalej — dotknij „Następny segment” podczas nagrywania, aby wysłać bieżącą część, dzięki czemu nie ma długiego oczekiwania na końcu.</string>
+    <string name="dictate__longform_summary">Transkrybuje w tle, gdy mówisz dalej — dotknij Dalej, aby wysłać każdą część.</string>
     <string name="dictate__longform_autosplit_title">Automatyczny podział przy pauzach</string>
     <string name="dictate__longform_autosplit_summary">Wycina segment automatycznie również po wystarczająco długiej pauzie, nie tylko przyciskiem „Następny segment”.</string>
     <string name="dictate__longform_autosplit_threshold_title">Długość pauzy</string>
@@ -1466,7 +1465,7 @@
     <string name="dictate__floating_button_undo_title">Przycisk cofania</string>
     <string name="dictate__mappings_add">Dodaj mapowanie</string>
     <string name="dictate__mappings_editor_title">Mapowanie</string>
-    <string name="dictate__mappings_empty_summary">Dodaj regułę, aby automatycznie zastępować słowa lub frazy w każdej transkrypcji — dokładnie i bez użycia tokenów AI.</string>
+    <string name="dictate__mappings_empty_summary">Dodaj regułę, aby automatycznie zastępować słowa lub frazy w każdej transkrypcji — dokładnie, bez tokenów AI.</string>
     <string name="dictate__mappings_empty_title">Brak mapowań</string>
     <string name="dictate__mappings_entry_summary">Reguły wyszukiwania i zamiany stosowane do transkrypcji</string>
     <string name="dictate__mappings_field_from">Zastąp</string>
@@ -1500,7 +1499,7 @@
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opcje dyktowania ze sparowanego zegarka</string>
     <string name="dictate__wear_install_title">Zainstaluj Dictate na zegarku</string>
-    <string name="dictate__wear_install_summary">Otwiera Play Store. Na sparowanym zegarku (Wear OS 3 lub nowszym) wybierz zegarek jako cel instalacji.</string>
+    <string name="dictate__wear_install_summary">Otwiera Play Store — na sparowanym zegarku Wear OS 3+ wybierz zegarek jako cel.</string>
     <string name="dictate__wear_auto_rewording_title">Automatyczne przeredagowanie dyktowań z zegarka</string>
     <string name="dictate__wear_auto_rewording_summary">Przeredaguj dyktowania z zegarka, tak jak w telefonie.</string>
     <string name="quick_action__system_prev_input_method">Zmień klawiaturę</string>
@@ -1516,8 +1515,8 @@
     <string name="dictate__audio_source_unprocessed">Nieprzetworzone (surowe)</string>
     <string name="dictate__audio_source_unprocessed_summary">Bez żadnego przetwarzania; wraca do Rozpoznawania mowy, jeśli telefon tego nie obsługuje</string>
     <string name="dictate__security_group">Bezpieczeństwo</string>
-    <string name="dictate__trust_user_certs_title">Ufaj certyfikatom zainstalowanym przez użytkownika</string>
-    <string name="dictate__trust_user_certs_summary">Ufaj certyfikatom CA zainstalowanym przez Ciebie – dla własnych punktów za prywatnym CA.</string>
+    <string name="dictate__trust_user_certs_title">Ufaj certyfikatom użytkownika</string>
+    <string name="dictate__trust_user_certs_summary">Ufaj certyfikatom CA, które zainstalowałeś, dla własnych punktów za prywatnym CA.</string>
     <string name="dictate__stats_title">Statystyki</string>
     <string name="dictate__stats_menu_summary">Słowa, zaoszczędzony czas, seria i więcej</string>
     <string name="dictate__history_title">Historia</string>
@@ -1619,9 +1618,9 @@
     <string name="dictate__legacy_select_all">Zaznacz wszystko</string>
     <string name="dictate__floating_button_retry_hint">%1$s — dotknij, aby ponowić</string>
     <string name="dictate__haptic_feedback_title">Wibracje</string>
-    <string name="dictate__haptic_feedback_summary">Wibruje przy rozpoczęciu/zatrzymaniu nagrywania, gdy transkrypcja jest gotowa i gdy zastosowano przeredagowanie</string>
+    <string name="dictate__haptic_feedback_summary">Wibruje przy starcie/stopie nagrywania, gdy transkrypcja jest gotowa i przy przeredagowaniu.</string>
     <string name="dictate__audio_source_voice_communication">Komunikacja głosowa</string>
-    <string name="dictate__audio_source_voice_communication_summary">Najwyższy priorytet — działa nawet, gdy inna aplikacja (dyktafon, aparat) używa mikrofonu, ale przetwarzanie jak w rozmowie może obniżyć dokładność</string>
+    <string name="dictate__audio_source_voice_communication_summary">Najwyższy priorytet mikrofonu — działa, gdy inna aplikacja używa mikrofonu, ale może obniżyć dokładność.</string>
     <string name="about__whats_new__title">Nowości w 5.0</string>
     <string name="about__whats_new__summary">Zobacz przewodnik po funkcjach ponownie</string>
     <string name="apptour__skip">Pomiń</string>

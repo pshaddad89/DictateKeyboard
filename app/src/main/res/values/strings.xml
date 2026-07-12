@@ -177,7 +177,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Subtypes</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Add subtype</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Manage installed language packs</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimental: manage extensions that add support for specific languages (shape-based Chinese input for now)</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimental: extensions that add specific languages (shape-based Chinese for now).</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Edit subtype</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Primary language</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Popup mapping</string>
@@ -224,9 +224,7 @@
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Sunset time</string>
     <string name="pref__theme__day" comment="Label of the day group (day means light theme)">Day theme</string>
     <string name="pref__theme__night" comment="Label of the night group (night means dark theme)">Night theme</string>
-    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">
-        Accent color (Material You themes)
-    </string>
+    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">Accent color (Material You)</string>
     <string name="settings__theme_manager__title_manage" comment="Title of the theme manager screen for managing installed and custom themes">Manage installed themes</string>
     <string name="pref__theme__source_assets" comment="Label for the theme source field">{app_name} App Assets</string>
     <string name="pref__theme__source_internal" comment="Label for the theme source field">Internal Storage</string>
@@ -512,8 +510,8 @@
     <string name="pref__keyboard__merge_hint_popups_enabled__label" comment="Preference title">Accents include symbol popups</string>
     <string name="pref__keyboard__merge_hint_popups_enabled__summary" comment="Preference summary">Adds symbol popups to the default layout\'s accents</string>
     <string name="pref__keyboard__long_press_delay__label" comment="Preference title">Long key press delay</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Space bar switches to characters</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Automatically switches back to characters when in symbols or numeric</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Space bar returns to letters</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">In symbols/numbers, the space bar returns to the letters keyboard.</string>
     <string name="pref__keyboard__incognito_indicator__label" comment="Preference title">Incognito indicator</string>
 
     <!-- Smartbar strings -->
@@ -606,7 +604,7 @@
     <string name="pref__glide__immediate_backspace_deletes_word__summary">Pressing delete right after a glide deletes the whole word</string>
     <string name="pref__gestures__general_title" comment="Preference group title">General gestures</string>
     <string name="pref__gestures__space_bar_title" comment="Preference group title">Space bar gestures</string>
-    <string name="pref__gestures__other_title" comment="Preference group title">Other gestures / Gesture thresholds</string>
+    <string name="pref__gestures__other_title" comment="Preference group title">Other gestures</string>
     <string name="pref__gestures__swipe_up__label" comment="Preference title">Swipe up</string>
     <string name="pref__gestures__swipe_down__label" comment="Preference title">Swipe down</string>
     <string name="pref__gestures__swipe_left__label" comment="Preference title">Swipe left</string>
@@ -696,7 +694,7 @@
     <string name="about__repository__title" comment="Preference title">Repository (GitHub)</string>
     <string name="about__repository__summary" comment="Preference summary">Source code, discussions, issues and info</string>
     <string name="about__based_on_floris__title" comment="Preference title crediting the upstream project Dictate is forked from">Based on FlorisBoard</string>
-    <string name="about__based_on_floris__summary" comment="Preference summary crediting the upstream project">A fork of FlorisBoard by Patrick Goldinger and contributors, licensed under Apache 2.0. Tap to open the original project.</string>
+    <string name="about__based_on_floris__summary" comment="Preference summary crediting the upstream project">A fork of FlorisBoard by Patrick Goldinger and contributors, Apache 2.0. Tap to open it.</string>
     <string name="about__made_by" comment="Personal signature shown under the app name in the About header" translatable="false">Made with ❤️ by DevEmperor\nSoli deo gloria ✝️</string>
     <string name="about__feedback__title" comment="Preference title">Feedback &amp; support</string>
     <string name="about__feedback__summary" comment="Preference summary">Send an email with questions, bugs or ideas</string>
@@ -768,7 +766,7 @@
 
     <!-- Physical keyboard -->
     <string name="physical_keyboard__title">Physical keyboard</string>
-    <string name="physical_keyboard__system_settings__title">System physical keyboard settings</string>
+    <string name="physical_keyboard__system_settings__title">Physical keyboard settings</string>
     <string name="physical_keyboard__system_settings__summary">Layouts, keyboard shortcuts and modifier keys</string>
     <string name="physical_keyboard__system_settings__summary_not_attached">Only available when keyboard is attached</string>
     <string name="physical_keyboard__show_on_screen_keyboard__title">Show on-screen keyboard</string>
@@ -873,7 +871,7 @@
     <string name="pref__clipboard__max_history_size__label">Max history size</string>
     <string name="pref__clipboard__history_hide_on_paste__label">Hide history on paste</string>
     <string name="pref__clipboard__history_hide_on_next_text_field__label">Hide history on next text field</string>
-    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Clear primary clip affects history</string>
+    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Clearing clip affects history</string>
     <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__summary">Clearing the primary clip also removes it from the history, if not pinned</string>
     <string name="send_to_clipboard__unknown_error">An unknown error occurred. Please try again!</string>
     <string name="send_to_clipboard__type_not_supported_error">This media type is not supported.</string>
@@ -1515,7 +1513,7 @@
     <string name="dictate__wear_title" comment="Title of the Wear OS companion settings screen">Wear OS</string>
     <string name="dictate__wear_summary" comment="Summary of the Wear OS settings entry on the main Dictate screen">Options for dictating from a paired watch</string>
     <string name="dictate__wear_install_title" comment="Title of the button that opens the Play Store to install the Wear OS app">Install Dictate on your watch</string>
-    <string name="dictate__wear_install_summary" comment="Summary explaining the install button opens the Play Store listing where a paired watch can be chosen">Opens the Play Store. On a paired watch (Wear OS 3 or newer), pick your watch as the install target.</string>
+    <string name="dictate__wear_install_summary" comment="Summary explaining the install button opens the Play Store listing where a paired watch can be chosen">Opens the Play Store — on a paired Wear OS 3+ watch, pick your watch as the target.</string>
     <string name="dictate__wear_auto_rewording_title" comment="Title of the toggle that auto-rewords watch dictations">Auto-reword watch dictations</string>
     <string name="dictate__wear_auto_rewording_summary" comment="Short summary for the auto-rewording-on-watch toggle">Reword dictations made from the watch, like on the phone.</string>
     <string name="dictate__wear_standalone_title" comment="Title of the toggle that lets a paired Wear OS watch transcribe on its own">Sync key to watch</string>
@@ -1538,8 +1536,8 @@
     <string name="dictate__proxy_username_title" comment="Label for the proxy username field">Username</string>
     <string name="dictate__proxy_password_title" comment="Label for the proxy password field">Password</string>
     <string name="dictate__security_group" comment="Group title for connection security settings">Security</string>
-    <string name="dictate__trust_user_certs_title" comment="Title of the setting to trust user-installed CA certificates">Trust user-installed certificates</string>
-    <string name="dictate__trust_user_certs_summary" comment="Summary explaining the user-installed CA trust setting">Trust CA certificates you installed yourself, for self-hosted endpoints behind a private CA.</string>
+    <string name="dictate__trust_user_certs_title" comment="Title of the setting to trust user-installed CA certificates">Trust user certificates</string>
+    <string name="dictate__trust_user_certs_summary" comment="Summary explaining the user-installed CA trust setting">Trust CA certificates you installed, for self-hosted endpoints behind a private CA.</string>
 
     <!-- Dictate model picker -->
     <string name="dictate__model_picker_title" comment="Title of the model picker dialog">Choose a model</string>
@@ -1578,7 +1576,7 @@
     <string name="dictate__audio_source_unprocessed" comment="Audio source option: unprocessed/raw">Unprocessed (raw)</string>
     <string name="dictate__audio_source_unprocessed_summary" comment="Summary for the unprocessed audio source">No processing at all; falls back to Voice recognition if your phone doesn\'t support it</string>
     <string name="dictate__audio_source_voice_communication" comment="Label for the voice communication audio source">Voice communication</string>
-    <string name="dictate__audio_source_voice_communication_summary" comment="Summary for the voice communication audio source">Highest priority — keeps working when another app (voice recorder, camera) is using the mic, but call-style processing may reduce accuracy</string>
+    <string name="dictate__audio_source_voice_communication_summary" comment="Summary for the voice communication audio source">Highest mic priority — works when another app uses the mic, but may lower accuracy.</string>
     <string name="dictate__keep_screen_awake_title" comment="Setting: keep the screen on while recording">Keep screen awake</string>
     <string name="dictate__keep_screen_awake_summary" comment="Summary for the keep-screen-awake setting">Prevent the screen from turning off while recording</string>
     <string name="dictate__skip_silent_title" comment="Setting: skip transcribing recordings that contain no speech">Skip silent recordings</string>
@@ -1586,7 +1584,7 @@
     <string name="dictate__realtime_title" comment="Setting: real-time streaming transcription">Real-time transcription</string>
     <string name="dictate__realtime_summary" comment="Summary for the real-time transcription setting">Show text live while you speak, for providers that support it</string>
     <string name="dictate__longform_title" comment="Setting: long-form segmented dictation">Long-form dictation</string>
-    <string name="dictate__longform_summary" comment="Summary for the long-form dictation setting">Transcribe long dictations in the background, part by part while you keep talking — tap Next during recording to send the current part, so there is no long wait at the end.</string>
+    <string name="dictate__longform_summary" comment="Summary for the long-form dictation setting">Transcribe in the background while you keep talking — tap Next to send each part.</string>
     <string name="dictate__longform_autosplit_title" comment="Setting: auto-cut a long-form segment at speech pauses">Auto-split at pauses</string>
     <string name="dictate__longform_autosplit_summary" comment="Summary for the auto-split setting">Also cut a segment automatically after a long enough pause, not only with the Next button.</string>
     <string name="dictate__longform_autosplit_threshold_title" comment="Setting: how long a pause must last to trigger an auto-cut">Pause length</string>
@@ -1611,9 +1609,9 @@
     <string name="dictate__resend_button_title" comment="Setting: show a resend button on failure">Resend button</string>
     <string name="dictate__resend_button_summary" comment="Summary for the resend button setting">If transcription fails, show a button to retry with the same recording</string>
     <string name="dictate__haptic_feedback_title" comment="Setting: vibrate on dictation state changes">Haptic feedback</string>
-    <string name="dictate__haptic_feedback_summary" comment="Summary for the haptic feedback setting">Vibrate on record start/stop, when the transcription is ready, and when a rewording is applied</string>
+    <string name="dictate__haptic_feedback_summary" comment="Summary for the haptic feedback setting">Vibrate on record start/stop, when a transcription is ready, and on rewording.</string>
     <string name="dictate__remember_last_dictation_title" comment="Setting: keep the last dictation so it can be re-inserted">Remember last dictation</string>
-    <string name="dictate__remember_last_dictation_summary" comment="Summary explaining the re-insert safety net">Keep your last successful dictation so you can insert it again with the \"Re-insert\" Smartbar button — a safety net if the text field is cleared by a screen rotation or app switch. Add the button via the Smartbar editor. Stored only on this device until your next dictation.</string>
+    <string name="dictate__remember_last_dictation_summary" comment="Summary explaining the re-insert safety net">Keep your last dictation so you can re-insert it via the Smartbar\'s Re-insert button.</string>
 
     <!-- Dictate main screen pipeline groups -->
     <string name="dictate__transcription_group" comment="Group title for the transcription (speech-to-text) stage on the main Dictate screen">Transcription (speech → text)</string>
@@ -1653,7 +1651,7 @@
     <string name="dictate__mappings_entry_summary" comment="Summary on the row that opens the mappings screen">Find-and-replace rules applied to the transcript</string>
     <string name="dictate__mappings_group" comment="Group title on the mappings screen">Replacement rules</string>
     <string name="dictate__mappings_empty_title" comment="Shown when no mapping rules exist yet">No mappings yet</string>
-    <string name="dictate__mappings_empty_summary" comment="Summary when no mapping rules exist">Add a rule to automatically replace words or phrases in every transcript — exact and without using AI tokens.</string>
+    <string name="dictate__mappings_empty_summary" comment="Summary when no mapping rules exist">Add a rule to auto-replace words or phrases in every transcript — exact, no AI tokens.</string>
     <string name="dictate__mappings_add" comment="Button to add a new mapping rule">Add mapping</string>
     <string name="dictate__mappings_opt_wholeword" comment="Tag: rule matches whole words only">Whole word</string>
     <string name="dictate__mappings_opt_substring" comment="Tag: rule matches anywhere, including inside words">Anywhere</string>

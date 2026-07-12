@@ -128,7 +128,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Alt türler</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Alt tür ekle</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Yüklü dil paketlerini yönet</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Deneysel: Belirli diller için destek ekleyen eklentileri yönetin (şimdilik şekil tabanlı Çince girişi)</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Deneysel: belirli diller ekleyen uzantılar (şimdilik şekil tabanlı Çince).</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Alt türü düzenle</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Birincil dil</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Açılır pencere eşlemesi</string>
@@ -168,8 +168,7 @@
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Gün batımı saati</string>
     <string name="pref__theme__day" comment="Label of the day group (day means light theme)">Gündüz teması</string>
     <string name="pref__theme__night" comment="Label of the night group (night means dark theme)">Gece teması</string>
-    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">        Vurgu rengi (Material You temaları)
-    </string>
+    <string name="pref__theme__theme_accent_color__label" comment="Label of accent color preference in Theme">Vurgu rengi (Material You)</string>
     <string name="settings__theme_manager__title_manage" comment="Title of the theme manager screen for managing installed and custom themes">Yüklü temaları yönet</string>
     <string name="pref__theme__source_assets" comment="Label for the theme source field">{app_name} Uygulama Varlıkları</string>
     <string name="pref__theme__source_internal" comment="Label for the theme source field">Dahili Depolama</string>
@@ -423,8 +422,8 @@
     <string name="pref__keyboard__merge_hint_popups_enabled__label" comment="Preference title">Aksanlar, sembol açılır pencerelerini içerir</string>
     <string name="pref__keyboard__merge_hint_popups_enabled__summary" comment="Preference summary">Varsayılan düzenin aksanlarına sembol açılır pencereleri ekler</string>
     <string name="pref__keyboard__long_press_delay__label" comment="Preference title">Uzun tuşa basma gecikmesi</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Ara çubuğu karakterlere geçer</string>
-    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Sembol veya sayısal moddayken otomatik olarak karakterlere geri döner</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__label" comment="Preference title">Boşluk çubuğu harflere döner</string>
+    <string name="pref__keyboard__space_bar_switches_to_characters__summary" comment="Preference summary">Sembol veya sayı düzeninde boşluk çubuğu harf klavyesine döner.</string>
     <string name="pref__keyboard__incognito_indicator__label" comment="Preference title">Gizli mod göstergesi</string>
     <!-- Smartbar strings -->
     <string name="settings__smartbar__title" comment="Title of Smartbar screen">Akıllı Çubuk</string>
@@ -507,7 +506,7 @@
     <string name="pref__glide__immediate_backspace_deletes_word__summary">Bir kaydırmadan hemen sonra silme tuşuna basmak tüm kelimeyi siler</string>
     <string name="pref__gestures__general_title" comment="Preference group title">Genel hareketler</string>
     <string name="pref__gestures__space_bar_title" comment="Preference group title">Ara çubuğu hareketleri</string>
-    <string name="pref__gestures__other_title" comment="Preference group title">Diğer hareketler / Hareket eşikleri</string>
+    <string name="pref__gestures__other_title" comment="Preference group title">Diğer hareketler</string>
     <string name="pref__gestures__swipe_up__label" comment="Preference title">Yukarı kaydır</string>
     <string name="pref__gestures__swipe_down__label" comment="Preference title">Aşağı kaydır</string>
     <string name="pref__gestures__swipe_left__label" comment="Preference title">Sola kaydır</string>
@@ -573,7 +572,7 @@
     <string name="setup__finish_up__finish_btn">Özelleştirmeye Başla</string>
     <!-- Physical keyboard -->
     <string name="physical_keyboard__title">Fiziksel klavye</string>
-    <string name="physical_keyboard__system_settings__title">Sistem fiziksel klavye ayarları</string>
+    <string name="physical_keyboard__system_settings__title">Fiziksel klavye ayarları</string>
     <string name="physical_keyboard__system_settings__summary">Dizilimler, klavye kısayolları ve değiştirici tuşlar</string>
     <string name="physical_keyboard__system_settings__summary_not_attached">Yalnızca klavye bağlıyken kullanılabilir</string>
     <string name="physical_keyboard__show_on_screen_keyboard__title">Ekran klavyesini göster</string>
@@ -672,6 +671,7 @@
     <string name="pref__clipboard__max_history_size__label">Maksimum geçmiş boyutu</string>
     <string name="pref__clipboard__history_hide_on_paste__label">Yapıştırırken geçmişi gizle</string>
     <string name="pref__clipboard__history_hide_on_next_text_field__label">Sonraki alanda geçmişi gizle</string>
+    <string name="pref__clipboard__clear_primary_clip_affects_history_if_unpinned__label">Klip temizleme geçmişi etkiler</string>
     <string name="send_to_clipboard__unknown_error">Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin!</string>
     <string name="send_to_clipboard__type_not_supported_error">Bu medya türü desteklenmiyor.</string>
     <string name="send_to_clipboard__description__copied_image_to_clipboard">Aşağıdaki resim panoya kopyalandı.</string>
@@ -1046,7 +1046,7 @@
     <string name="quick_action__dictate_prompts">Yapay zekâ komutları</string>
     <string name="quick_action__dictate_prompts__tooltip">Yapay zekâ yeniden ifade etme komutlarını açın</string>
     <string name="about__based_on_floris__title">FlorisBoard tabanlıdır</string>
-    <string name="about__based_on_floris__summary">Patrick Goldinger ve katkıda bulunanlar tarafından geliştirilen FlorisBoard\'ın bir çatalı, Apache 2.0 ile lisanslanmıştır. Orijinal projeyi açmak için dokunun.</string>
+    <string name="about__based_on_floris__summary">Patrick Goldinger ve katkıda bulunanların FlorisBoard çatalı, Apache 2.0. Açmak için dokunun.</string>
     <string name="about__made_by">❤️ ile yapan: DevEmperor\nSoli deo gloria ✝️</string>
     <string name="about__feedback__title">Geri bildirim ve destek</string>
     <string name="about__feedback__summary">Sorular, hatalar veya fikirlerle bir e-posta gönderin</string>
@@ -1127,7 +1127,7 @@
     <string name="dictate__floating_button_snap_title">Kenara yapıştır</string>
     <string name="dictate__interrupted_recording">Kesildi ({time})</string>
     <string name="dictate__providers_summary_both">Yazıya dökme: {transcription} · Yeniden ifade: {rewording}</string>
-    <string name="dictate__remember_last_dictation_summary">Son başarılı dikteyi saklar, böylece Smartbar’daki „Yeniden ekle” düğmesiyle tekrar ekleyebilirsiniz — metin alanı ekran döndürme veya uygulama değiştirme nedeniyle temizlenirse bir güvenlik ağı. Düğmeyi Smartbar düzenleyicisinden ekleyin. Yalnızca bu cihazda bir sonraki dikteye kadar saklanır.</string>
+    <string name="dictate__remember_last_dictation_summary">Son diktenizi saklar, Smartbar üzerindeki „Yeniden ekle” düğmesiyle tekrar ekleyebilirsiniz.</string>
     <string name="dictate__remember_last_dictation_title">Son dikteyi hatırla</string>
     <string name="changelog__v4_2_0">• YENİ: kayan dikte düğmesi — başka bir klavye etkin olsa bile herhangi bir uygulamaya doğrudan dikte edin. Üç stilden birini seçin (Hap, Halka, Küre), konuşurken canlı dalga biçimini izleyin, kenara yapışmayla istediğiniz yere sürükleyin, rengini ve boyutunu ayarlayın ve yeniden ifade etmek için basılı tutun. Ayarlar ▸ Dictate ▸ Kayan düğme bölümünden açın.\n• YENİ: Google Gemini — transkripsiyon ve yeniden ifade için kendi AI Studio API anahtarını kullan.\n• İstemler artık varsayılan olarak tuşların üzerinde sabit bir sırada görünür.\n• Tarayıcılar ve diğer klavyeler dahil uygulamalar arası daha güvenilir metin ekleme.</string>
     <string name="dictate__promo_floating_button_message">Yeni: her yerde dikte et</string>
@@ -1257,7 +1257,7 @@
     <string name="dictate__realtime_title">Gerçek zamanlı transkripsiyon</string>
     <string name="dictate__realtime_summary">Bunu destekleyen sağlayıcılarda konuşurken metni canlı gösterir</string>
     <string name="dictate__longform_title">Uzun dikte</string>
-    <string name="dictate__longform_summary">Uzun dikteleri arka planda, siz konuşmaya devam ederken bölüm bölüm yazıya döker — kayıt sırasında “Sonraki bölüm” öğesine dokunarak mevcut bölümü gönderin, böylece sonda uzun bir bekleme olmaz.</string>
+    <string name="dictate__longform_summary">Siz konuşurken arka planda yazıya döker — her bölümü göndermek için „Sonraki” öğesine dokunun.</string>
     <string name="dictate__longform_autosplit_title">Duraklamalarda otomatik böl</string>
     <string name="dictate__longform_autosplit_summary">Yeterince uzun bir duraklamadan sonra da bir bölümü otomatik olarak keser, yalnızca “Sonraki bölüm” düğmesiyle değil.</string>
     <string name="dictate__longform_autosplit_threshold_title">Duraklama süresi</string>
@@ -1428,7 +1428,7 @@
     <string name="dictate__floating_button_undo_title">Geri alma düğmesi</string>
     <string name="dictate__mappings_add">Eşleme ekle</string>
     <string name="dictate__mappings_editor_title">Eşleme</string>
-    <string name="dictate__mappings_empty_summary">Her metindeki kelime veya ifadeleri otomatik olarak değiştirmek için bir kural ekleyin — tam olarak ve YZ tokeni kullanmadan.</string>
+    <string name="dictate__mappings_empty_summary">Her metinde kelime veya ifadeleri otomatik değiştirmek için kural ekleyin — tam, YZ tokeni yok.</string>
     <string name="dictate__mappings_empty_title">Henüz eşleme yok</string>
     <string name="dictate__mappings_entry_summary">Metne uygulanan bul ve değiştir kuralları</string>
     <string name="dictate__mappings_field_from">Şunu değiştir</string>
@@ -1462,7 +1462,7 @@
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Eşleştirilmiş saatten dikte seçenekleri</string>
     <string name="dictate__wear_install_title">Dictate\'i saatinize yükleyin</string>
-    <string name="dictate__wear_install_summary">Play Store\'u açar. Eşleştirilmiş bir saatte (Wear OS 3 veya üzeri), yükleme hedefi olarak saatinizi seçin.</string>
+    <string name="dictate__wear_install_summary">Play Store\'u açar — eşleşmiş Wear OS 3+ saatte saatinizi hedef olarak seçin.</string>
     <string name="dictate__wear_auto_rewording_title">Saat diktelerini otomatik yeniden ifade et</string>
     <string name="dictate__wear_auto_rewording_summary">Saat diktelerini telefondaki gibi yeniden ifade et.</string>
     <string name="quick_action__system_prev_input_method">Klavye değiştir</string>
@@ -1478,8 +1478,8 @@
     <string name="dictate__audio_source_unprocessed">İşlenmemiş (ham)</string>
     <string name="dictate__audio_source_unprocessed_summary">Hiç işleme yok; telefonunuz desteklemiyorsa Ses tanımaya geri döner</string>
     <string name="dictate__security_group">Güvenlik</string>
-    <string name="dictate__trust_user_certs_title">Kullanıcının yüklediği sertifikalara güven</string>
-    <string name="dictate__trust_user_certs_summary">Kendi yüklediğiniz CA sertifikalarına güven – özel CA arkasındaki kendi uç noktalarınız için.</string>
+    <string name="dictate__trust_user_certs_title">Kullanıcı sertifikalarına güven</string>
+    <string name="dictate__trust_user_certs_summary">Kendi yüklediğiniz CA sertifikalarına güven — özel CA arkasındaki uç noktalar için.</string>
     <string name="dictate__stats_title">İstatistikler</string>
     <string name="dictate__stats_menu_summary">Kelimeler, kazanılan zaman, seri ve daha fazlası</string>
     <string name="dictate__history_title">Geçmiş</string>
@@ -1581,9 +1581,9 @@
     <string name="dictate__legacy_select_all">Tümünü seç</string>
     <string name="dictate__floating_button_retry_hint">%1$s — yeniden denemek için dokun</string>
     <string name="dictate__haptic_feedback_title">Titreşimli geri bildirim</string>
-    <string name="dictate__haptic_feedback_summary">Kayıt başlangıcında/durdurulmasında, transkripsiyon hazır olduğunda ve bir yeniden ifade uygulandığında titreşir</string>
+    <string name="dictate__haptic_feedback_summary">Kayıt başlangıç/durdurmada, transkripsiyon hazır olduğunda ve yeniden ifadede titreşir.</string>
     <string name="dictate__audio_source_voice_communication">Sesli iletişim</string>
-    <string name="dictate__audio_source_voice_communication_summary">En yüksek öncelik — başka bir uygulama (ses kaydedici, kamera) mikrofonu kullanırken bile çalışır, ancak arama tarzı işleme doğruluğu azaltabilir</string>
+    <string name="dictate__audio_source_voice_communication_summary">En yüksek mikrofon önceliği — başka bir uygulama mikrofonu kullanırken çalışır, ama doğruluğu düşürebilir.</string>
     <string name="about__whats_new__title">5.0’daki yenilikler</string>
     <string name="about__whats_new__summary">Özellik turunu yeniden gör</string>
     <string name="apptour__skip">Atla</string>
