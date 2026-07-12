@@ -13,6 +13,7 @@ package dev.patrickgold.florisboard.dictate.ui
 import android.os.SystemClock
 import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -43,6 +44,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardReturn
 import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.Backspace
 import androidx.compose.material.icons.filled.Close
@@ -52,17 +54,22 @@ import androidx.compose.material.icons.filled.ContentPaste
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Deselect
 import androidx.compose.material.icons.filled.EmojiEmotions
+import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.KeyboardHide
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SpaceBar
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
@@ -70,6 +77,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,6 +88,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -93,6 +102,7 @@ import dev.patrickgold.florisboard.FlorisImeService
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.dictate.DictateController
+import dev.patrickgold.florisboard.dictate.DictateLanguages
 import dev.patrickgold.florisboard.editorInstance
 import dev.patrickgold.florisboard.ime.ImeUiMode
 import dev.patrickgold.florisboard.ime.input.InputShiftState
@@ -216,6 +226,7 @@ fun LegacyDictateLayout(
     val dictateState by DictateController.state.collectAsState()
     val accent by prefs.theme.accentColor.collectAsState()
     val rewordingEnabled by prefs.dictate.rewordingEnabled.collectAsState()
+    val promptRows by prefs.dictate.legacyPromptRows.collectAsState()
 
     // The Smartbar (which normally loads the prompts) is replaced by this layout, so trigger the load
     // here whenever the panel appears / rewording toggles.
@@ -238,16 +249,22 @@ fun LegacyDictateLayout(
                     dictateState is DictateController.UiState.Interrupted ||
                     dictateState is DictateController.UiState.Promo
                 if (showStatus || rewordingEnabled) {
+                    // Status chips stay one row tall; the prompt strip can be one or two rows (#194).
+                    val stripHeight = when {
+                        showStatus -> FlorisImeSizing.smartbarHeight * 1.2f
+                        promptRows >= 2 -> FlorisImeSizing.smartbarHeight * 2.4f
+                        else -> FlorisImeSizing.smartbarHeight * 1.2f
+                    }
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(FlorisImeSizing.smartbarHeight * 1.2f)
+                            .height(stripHeight)
                             .padding(bottom = KeyMarginV),
                     ) {
                         if (showStatus) {
                             DictateSmartbarUi(dictateState, modifier = Modifier.fillMaxSize())
                         } else {
-                            DictatePromptRow(prompts, modifier = Modifier.fillMaxSize())
+                            DictatePromptRow(prompts, modifier = Modifier.fillMaxSize(), rows = promptRows)
                         }
                     }
                 }
@@ -335,9 +352,10 @@ private fun ThemedIconKey(
 }
 
 /**
- * Editing-action row: select-all · undo · redo · cut · copy · paste · emoji · numbers. The select-all
- * key toggles: with no selection it selects all; with an active selection it shows the crossed-out
- * "deselect" glyph and clears the selection (collapses the cursor to the end).
+ * Editing-action row. The buttons are user-configurable (issue #183/#194): the ordered set comes from
+ * [dev.patrickgold.florisboard.app.AppPrefs.Dictate.legacyActionRow] and is arranged in Settings. The
+ * default row is select-all · undo · redo · cut · copy · paste · emoji · numbers, but any of the actions
+ * in [LegacyEditAction] (also language, history, reinsert, GIF) can be placed here.
  */
 @Composable
 private fun LegacyEditRow(
@@ -346,9 +364,14 @@ private fun LegacyEditRow(
     onNumbers: () -> Unit,
 ) {
     val context = LocalContext.current
+    val prefs by FlorisPreferenceStore
     val editorInstance by context.editorInstance()
     val content by editorInstance.activeContentFlow.collectAsState()
     val hasSelection = content.selection.isSelectionMode
+
+    val actionRaw by prefs.dictate.legacyActionRow.collectAsState()
+    val actions = remember(actionRaw) { LegacyEditAction.parse(actionRaw) }
+    if (actions.isEmpty()) return
 
     Row(
         modifier = Modifier
@@ -357,11 +380,40 @@ private fun LegacyEditRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val keyMod = Modifier.weight(1f).fillMaxHeight()
-        ThemedIconKey(
+        actions.forEachIndexed { index, action ->
+            key(index, action) {
+                LegacyActionKey(
+                    action = action,
+                    modifier = keyMod,
+                    keyboardManager = keyboardManager,
+                    hasSelection = hasSelection,
+                    onEmoji = onEmoji,
+                    onNumbers = onNumbers,
+                )
+            }
+        }
+    }
+}
+
+/** Renders a single [LegacyEditAction] as a themed key with the right icon and behaviour. */
+@Composable
+private fun LegacyActionKey(
+    action: LegacyEditAction,
+    modifier: Modifier,
+    keyboardManager: KeyboardManager,
+    hasSelection: Boolean,
+    onEmoji: () -> Unit,
+    onNumbers: () -> Unit,
+) {
+    val context = LocalContext.current
+    val label = stringRes(action.labelRes)
+    when (action) {
+        // Select-all toggles: with a selection it becomes "deselect" and collapses the cursor.
+        LegacyEditAction.SELECT_ALL -> ThemedIconKey(
             code = KeyCode.CLIPBOARD_SELECT_ALL,
             icon = if (hasSelection) Icons.Default.Deselect else Icons.Default.SelectAll,
-            contentDescription = stringRes(R.string.dictate__legacy_select_all),
-            modifier = keyMod,
+            contentDescription = label,
+            modifier = modifier,
         ) {
             if (hasSelection) {
                 ic()?.let { c ->
@@ -372,13 +424,64 @@ private fun LegacyEditRow(
                 keyboardManager.tapKey(KeyCode.CLIPBOARD_SELECT_ALL)
             }
         }
-        ThemedIconKey(KeyCode.UNDO, Icons.AutoMirrored.Filled.Undo, stringRes(R.string.quick_action__undo), keyMod) { keyboardManager.tapKey(KeyCode.UNDO) }
-        ThemedIconKey(KeyCode.REDO, Icons.AutoMirrored.Filled.Redo, stringRes(R.string.quick_action__redo), keyMod) { keyboardManager.tapKey(KeyCode.REDO) }
-        ThemedIconKey(KeyCode.CLIPBOARD_CUT, Icons.Default.ContentCut, stringRes(R.string.quick_action__clipboard_cut), keyMod) { keyboardManager.tapKey(KeyCode.CLIPBOARD_CUT) }
-        ThemedIconKey(KeyCode.CLIPBOARD_COPY, Icons.Default.ContentCopy, stringRes(R.string.quick_action__clipboard_copy), keyMod) { keyboardManager.tapKey(KeyCode.CLIPBOARD_COPY) }
-        ThemedIconKey(KeyCode.CLIPBOARD_PASTE, Icons.Default.ContentPaste, stringRes(R.string.quick_action__clipboard_paste), keyMod) { keyboardManager.tapKey(KeyCode.CLIPBOARD_PASTE) }
-        ThemedIconKey(KeyCode.IME_UI_MODE_MEDIA, Icons.Default.EmojiEmotions, stringRes(R.string.dictate__legacy_emoji), keyMod, onClick = onEmoji)
-        ThemedIconKey(KeyCode.VIEW_NUMERIC, Icons.Default.Numbers, stringRes(R.string.dictate__legacy_numbers), keyMod, onClick = onNumbers)
+        LegacyEditAction.LANGUAGE -> LegacyLanguageKey(modifier)
+        LegacyEditAction.UNDO -> ThemedIconKey(KeyCode.UNDO, action.icon, label, modifier) { keyboardManager.tapKey(KeyCode.UNDO) }
+        LegacyEditAction.REDO -> ThemedIconKey(KeyCode.REDO, action.icon, label, modifier) { keyboardManager.tapKey(KeyCode.REDO) }
+        LegacyEditAction.CUT -> ThemedIconKey(KeyCode.CLIPBOARD_CUT, action.icon, label, modifier) { keyboardManager.tapKey(KeyCode.CLIPBOARD_CUT) }
+        LegacyEditAction.COPY -> ThemedIconKey(KeyCode.CLIPBOARD_COPY, action.icon, label, modifier) { keyboardManager.tapKey(KeyCode.CLIPBOARD_COPY) }
+        LegacyEditAction.PASTE -> ThemedIconKey(KeyCode.CLIPBOARD_PASTE, action.icon, label, modifier) { keyboardManager.tapKey(KeyCode.CLIPBOARD_PASTE) }
+        LegacyEditAction.EMOJI -> ThemedIconKey(KeyCode.IME_UI_MODE_MEDIA, action.icon, label, modifier, onClick = onEmoji)
+        LegacyEditAction.NUMBERS -> ThemedIconKey(KeyCode.VIEW_NUMERIC, action.icon, label, modifier, onClick = onNumbers)
+        LegacyEditAction.HISTORY -> ThemedIconKey(KeyCode.NOOP, action.icon, label, modifier) {
+            keyboardManager.activeState.imeUiMode = ImeUiMode.HISTORY
+        }
+        LegacyEditAction.GIF -> ThemedIconKey(KeyCode.NOOP, action.icon, label, modifier) {
+            keyboardManager.activeState.imeUiMode = ImeUiMode.GIF
+        }
+        LegacyEditAction.REINSERT -> ThemedIconKey(KeyCode.NOOP, action.icon, label, modifier) {
+            DictateController.reinsertLastDictation(context)
+        }
+    }
+}
+
+/**
+ * The language action: shows the active dictation language (globe for auto-detect, else the short code).
+ * Tap cycles through the selected languages; long-press opens a picker — mirrors the Smartbar chip.
+ */
+@Composable
+private fun LegacyLanguageKey(modifier: Modifier) {
+    val prefs by FlorisPreferenceStore
+    val activeCode by prefs.dictate.activeInputLanguage.collectAsState()
+    val selectionRaw by prefs.dictate.inputLanguages.collectAsState()
+    val selection = remember(selectionRaw) { DictateLanguages.parseSelection(selectionRaw) }
+    val active = remember(activeCode) { DictateLanguages.of(activeCode) }
+    var menuOpen by remember { mutableStateOf(false) }
+    Box(modifier = modifier) {
+        ThemedKey(
+            code = KeyCode.NOOP,
+            modifier = Modifier.fillMaxSize(),
+            onLongClick = { if (selection.size > 1) menuOpen = true },
+            onClick = { DictateController.cycleLanguage() },
+        ) { fg ->
+            if (active.code == DictateLanguages.DETECT) {
+                Icon(Icons.Default.Language, contentDescription = stringRes(R.string.dictate__language_detect), tint = fg, modifier = Modifier.size(22.dp))
+            } else {
+                Text(active.shortCode, color = fg, fontWeight = FontWeight.SemiBold)
+            }
+        }
+        DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+            selection.forEach { lang ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            if (lang.code == DictateLanguages.DETECT) stringRes(R.string.dictate__language_detect)
+                            else lang.displayName(),
+                        )
+                    },
+                    onClick = { DictateController.setLanguage(lang.code); menuOpen = false },
+                )
+            }
+        }
     }
 }
 
@@ -403,6 +506,21 @@ private fun LegacyRecordRow(
     val onAccent = if (accent.luminance() > 0.5f) Color.Black else Color.White
     val sideKey = Modifier.fillMaxHeight().aspectRatio(1f)
 
+    // Long-form segmented dictation (#170): whether the "Next segment" button replaces pause and how many
+    // cut segments are transcribing in the background; plus a one-shot flash of the Next button on each cut.
+    val segmented by DictateController.segmentedRecording.collectAsState()
+    val segmentsInFlight by DictateController.segmentsInFlight.collectAsState()
+    val flushCount by DictateController.segmentFlushCount.collectAsState()
+    val nextFlash = remember { Animatable(0f) }
+    LaunchedEffect(flushCount) {
+        if (flushCount > 0) {
+            nextFlash.snapTo(1f)
+            nextFlash.animateTo(0f, tween(550))
+        }
+    }
+    // Realtime streaming (#128): tapping the record button ends the live stream — hint that with a send glyph.
+    val realtime = recording != null && DictateController.isRealtimeRecording()
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -415,7 +533,8 @@ private fun LegacyRecordRow(
                 contentDescription = stringRes(R.string.dictate__action_cancel),
                 modifier = sideKey,
                 tint = Color(0xFFE53935),
-                onClick = { DictateController.cancelRecording() },
+                // In long-form this drops only the current (uncut) segment and keeps recording (#183).
+                onClick = { DictateController.cancelOrDiscardSegment(context) },
             )
         } else {
             ThemedIconKey(
@@ -487,6 +606,18 @@ private fun LegacyRecordRow(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(text = formatElapsed(elapsedMs), color = onAccent, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                        // Long-form: how many cut segments are transcribing in the background right now (#170).
+                        if (segmentsInFlight > 0) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(Icons.Default.Sync, contentDescription = null, tint = onAccent, modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(2.dp))
+                            Text(text = "$segmentsInFlight", color = onAccent, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                        }
+                        // Realtime (#128): tapping finalizes the live stream — show a send glyph as the hint.
+                        if (realtime) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(Icons.AutoMirrored.Filled.Send, contentDescription = null, tint = onAccent, modifier = Modifier.size(18.dp))
+                        }
                     }
                     rewording != null -> {
                         // Reworded, not transcribed: show the rewording label (prompt name / "Rewording…").
@@ -515,19 +646,35 @@ private fun LegacyRecordRow(
             }
         }
 
-        // Right slot: backspace when idle, pause/resume while recording.
-        if (recording != null) {
-            ThemedIconKey(
-                code = KeyCode.NOOP,
-                icon = if (recording.paused) Icons.Default.PlayArrow else Icons.Default.Pause,
-                contentDescription = stringRes(
-                    if (recording.paused) R.string.dictate__action_resume else R.string.dictate__action_pause,
-                ),
-                modifier = sideKey,
-                onClick = { DictateController.togglePause() },
-            )
-        } else {
-            LegacyBackspaceKey(modifier = sideKey)
+        // Right slot: backspace when idle; while recording, the "Next segment" cut button in long-form
+        // mode (#170, replacing pause — pausing is redundant there), otherwise pause/resume.
+        when {
+            recording != null && segmented -> {
+                ThemedKey(
+                    code = KeyCode.NOOP,
+                    modifier = sideKey.scale(1f + nextFlash.value * 0.3f),
+                    onClick = { DictateController.flushSegment(context) },
+                ) { fg ->
+                    Icon(
+                        imageVector = Icons.Default.FastForward,
+                        contentDescription = stringRes(R.string.dictate__action_next_segment),
+                        tint = lerp(fg, accent, nextFlash.value),
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+            }
+            recording != null -> {
+                ThemedIconKey(
+                    code = KeyCode.NOOP,
+                    icon = if (recording.paused) Icons.Default.PlayArrow else Icons.Default.Pause,
+                    contentDescription = stringRes(
+                        if (recording.paused) R.string.dictate__action_resume else R.string.dictate__action_pause,
+                    ),
+                    modifier = sideKey,
+                    onClick = { DictateController.togglePause() },
+                )
+            }
+            else -> LegacyBackspaceKey(modifier = sideKey)
         }
     }
 }

@@ -1657,4 +1657,26 @@
     <string name="gif__insert_failed">No se pudo insertar el GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Buscar GIFs</string>
+    <string name="dictate__legacy_action_select_all">Seleccionar todo</string>
+    <string name="dictate__legacy_action_undo">Deshacer</string>
+    <string name="dictate__legacy_action_redo">Rehacer</string>
+    <string name="dictate__legacy_action_cut">Cortar</string>
+    <string name="dictate__legacy_action_copy">Copiar</string>
+    <string name="dictate__legacy_action_paste">Pegar</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Números</string>
+    <string name="dictate__legacy_action_language">Idioma</string>
+    <string name="dictate__legacy_action_history">Historial</string>
+    <string name="dictate__legacy_action_reinsert">Reinsertar</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Botones de la fila de acciones</string>
+    <string name="dictate__legacy_action_row_summary">Arrastra para organizar los botones en la fila de acciones del diseño clásico</string>
+    <string name="dictate__legacy_action_row_add">Añadir un botón</string>
+    <string name="dictate__legacy_action_row_full">Elimina primero un botón para añadir este</string>
+    <string name="dictate__legacy_action_row_remove">Quitar</string>
+    <string name="dictate__legacy_action_row_drag">Arrastra para reordenar</string>
+    <string name="dictate__legacy_action_row_reset">Restablecer valores predeterminados</string>
+    <string name="dictate__legacy_prompt_rows_title">Filas de prompts</string>
+    <string name="dictate__legacy_prompt_rows_one">Una fila</string>
+    <string name="dictate__legacy_prompt_rows_two">Dos filas</string>
 </resources>

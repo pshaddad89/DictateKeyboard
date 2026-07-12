@@ -1549,4 +1549,26 @@
     <string name="gif__insert_failed">No s\'ha pogut inserir el GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Cerca GIFs</string>
+    <string name="dictate__legacy_action_select_all">Selecciona-ho tot</string>
+    <string name="dictate__legacy_action_undo">Desfés</string>
+    <string name="dictate__legacy_action_redo">Refés</string>
+    <string name="dictate__legacy_action_cut">Retalla</string>
+    <string name="dictate__legacy_action_copy">Copia</string>
+    <string name="dictate__legacy_action_paste">Enganxa</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Números</string>
+    <string name="dictate__legacy_action_language">Idioma</string>
+    <string name="dictate__legacy_action_history">Historial</string>
+    <string name="dictate__legacy_action_reinsert">Torna a inserir</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Botons de la barra d\'accions</string>
+    <string name="dictate__legacy_action_row_summary">Arrossega per organitzar els botons a la barra d\'accions de la disposició clàssica</string>
+    <string name="dictate__legacy_action_row_add">Afegeix un botó</string>
+    <string name="dictate__legacy_action_row_full">Elimineu primer un botó per afegir aquest</string>
+    <string name="dictate__legacy_action_row_remove">Elimina</string>
+    <string name="dictate__legacy_action_row_drag">Arrossega per reordenar</string>
+    <string name="dictate__legacy_action_row_reset">Restableix als valors predeterminats</string>
+    <string name="dictate__legacy_prompt_rows_title">Files d\'indicacions</string>
+    <string name="dictate__legacy_prompt_rows_one">Una fila</string>
+    <string name="dictate__legacy_prompt_rows_two">Dues files</string>
 </resources>

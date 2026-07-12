@@ -1575,4 +1575,26 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="gif__insert_failed">Kon de GIF niet invoegen</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">GIFs zoeken</string>
+    <string name="dictate__legacy_action_select_all">Alles selecteren</string>
+    <string name="dictate__legacy_action_undo">Annuleren</string>
+    <string name="dictate__legacy_action_redo">Opnieuw</string>
+    <string name="dictate__legacy_action_cut">Knippen</string>
+    <string name="dictate__legacy_action_copy">Kopiëren</string>
+    <string name="dictate__legacy_action_paste">Plakken</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Cijfers</string>
+    <string name="dictate__legacy_action_language">Taal</string>
+    <string name="dictate__legacy_action_history">Geschiedenis</string>
+    <string name="dictate__legacy_action_reinsert">Opnieuw invoegen</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Actiebalkknoppen</string>
+    <string name="dictate__legacy_action_row_summary">Sleep om de knoppen in de actiebalk van de klassieke lay-out te ordenen</string>
+    <string name="dictate__legacy_action_row_add">Knop toevoegen</string>
+    <string name="dictate__legacy_action_row_full">Verwijder eerst een knop om deze toe te voegen</string>
+    <string name="dictate__legacy_action_row_remove">Verwijderen</string>
+    <string name="dictate__legacy_action_row_drag">Sleep om te herordenen</string>
+    <string name="dictate__legacy_action_row_reset">Standaardinstellingen herstellen</string>
+    <string name="dictate__legacy_prompt_rows_title">Promptrijen</string>
+    <string name="dictate__legacy_prompt_rows_one">Eén rij</string>
+    <string name="dictate__legacy_prompt_rows_two">Twee rijen</string>
 </resources>

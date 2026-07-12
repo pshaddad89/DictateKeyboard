@@ -1457,4 +1457,26 @@
     <string name="gif__insert_failed">Impossibile inserire la GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Cerca GIF</string>
+    <string name="dictate__legacy_action_select_all">Seleziona tutto</string>
+    <string name="dictate__legacy_action_undo">Annulla</string>
+    <string name="dictate__legacy_action_redo">Ripristina</string>
+    <string name="dictate__legacy_action_cut">Taglia</string>
+    <string name="dictate__legacy_action_copy">Copia</string>
+    <string name="dictate__legacy_action_paste">Incolla</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Numeri</string>
+    <string name="dictate__legacy_action_language">Lingua</string>
+    <string name="dictate__legacy_action_history">Cronologia</string>
+    <string name="dictate__legacy_action_reinsert">Reinserisci</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Pulsanti della barra delle azioni</string>
+    <string name="dictate__legacy_action_row_summary">Trascina per disporre i pulsanti nella barra delle azioni del layout classico</string>
+    <string name="dictate__legacy_action_row_add">Aggiungi un pulsante</string>
+    <string name="dictate__legacy_action_row_full">Rimuovi prima un pulsante per aggiungere questo</string>
+    <string name="dictate__legacy_action_row_remove">Rimuovi</string>
+    <string name="dictate__legacy_action_row_drag">Trascina per riordinare</string>
+    <string name="dictate__legacy_action_row_reset">Ripristina impostazioni predefinite</string>
+    <string name="dictate__legacy_prompt_rows_title">Righe dei prompt</string>
+    <string name="dictate__legacy_prompt_rows_one">Una riga</string>
+    <string name="dictate__legacy_prompt_rows_two">Due righe</string>
 </resources>

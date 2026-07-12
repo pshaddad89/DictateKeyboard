@@ -1673,4 +1673,26 @@
     <string name="gif__insert_failed">Nem sikerült beszúrni a GIF-et</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">GIF-ek keresése</string>
+    <string name="dictate__legacy_action_select_all">Összes kijelölése</string>
+    <string name="dictate__legacy_action_undo">Visszavonás</string>
+    <string name="dictate__legacy_action_redo">Újra</string>
+    <string name="dictate__legacy_action_cut">Kivágás</string>
+    <string name="dictate__legacy_action_copy">Másolás</string>
+    <string name="dictate__legacy_action_paste">Beillesztés</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Számok</string>
+    <string name="dictate__legacy_action_language">Nyelv</string>
+    <string name="dictate__legacy_action_history">Előzmények</string>
+    <string name="dictate__legacy_action_reinsert">Újra beszúrás</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Műveletsor gombjai</string>
+    <string name="dictate__legacy_action_row_summary">Húzással rendezheti el a gombokat a klasszikus elrendezés műveletsorában</string>
+    <string name="dictate__legacy_action_row_add">Gomb hozzáadása</string>
+    <string name="dictate__legacy_action_row_full">Előbb távolítson el egy gombot ennek hozzáadásához</string>
+    <string name="dictate__legacy_action_row_remove">Eltávolítás</string>
+    <string name="dictate__legacy_action_row_drag">Húzza az átrendezéshez</string>
+    <string name="dictate__legacy_action_row_reset">Visszaállítás alapértelmezettre</string>
+    <string name="dictate__legacy_prompt_rows_title">Prompt sorok</string>
+    <string name="dictate__legacy_prompt_rows_one">Egy sor</string>
+    <string name="dictate__legacy_prompt_rows_two">Két sor</string>
 </resources>

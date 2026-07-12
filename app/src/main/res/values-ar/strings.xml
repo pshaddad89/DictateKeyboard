@@ -1530,4 +1530,26 @@
     <string name="gif__insert_failed">تعذّر إدراج GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">ابحث عن GIFs</string>
+    <string name="dictate__legacy_action_select_all">تحديد الكل</string>
+    <string name="dictate__legacy_action_undo">تراجع</string>
+    <string name="dictate__legacy_action_redo">إرجاع</string>
+    <string name="dictate__legacy_action_cut">قص</string>
+    <string name="dictate__legacy_action_copy">نسخ</string>
+    <string name="dictate__legacy_action_paste">لصق</string>
+    <string name="dictate__legacy_action_emoji">إيموجي</string>
+    <string name="dictate__legacy_action_numbers">أرقام</string>
+    <string name="dictate__legacy_action_language">اللغة</string>
+    <string name="dictate__legacy_action_history">السجل</string>
+    <string name="dictate__legacy_action_reinsert">إعادة الإدراج</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">أزرار شريط الإجراءات</string>
+    <string name="dictate__legacy_action_row_summary">اسحب لترتيب الأزرار في شريط الإجراءات للتخطيط الكلاسيكي</string>
+    <string name="dictate__legacy_action_row_add">إضافة زر</string>
+    <string name="dictate__legacy_action_row_full">أزل زرًا أولاً لإضافة هذا الزر</string>
+    <string name="dictate__legacy_action_row_remove">إزالة</string>
+    <string name="dictate__legacy_action_row_drag">اسحب لإعادة الترتيب</string>
+    <string name="dictate__legacy_action_row_reset">إعادة التعيين إلى الافتراضي</string>
+    <string name="dictate__legacy_prompt_rows_title">صفوف المطالبات</string>
+    <string name="dictate__legacy_prompt_rows_one">صف واحد</string>
+    <string name="dictate__legacy_prompt_rows_two">صفان</string>
 </resources>

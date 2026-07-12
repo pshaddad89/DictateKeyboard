@@ -1373,6 +1373,31 @@
     <string name="dictate__legacy_close" comment="Content description: close the emoji picker or number pad overlay">Close</string>
     <string name="dictate__legacy_emoji_title" comment="Title of the emoji picker overlay in the classic dictation layout">Pick an emoji</string>
     <string name="dictate__legacy_numbers_title" comment="Title of the number pad overlay in the classic dictation layout">Number pad</string>
+
+    <!-- Configurable action-row buttons for the classic dictation layout (issue #183/#194) -->
+    <string name="dictate__legacy_action_select_all" comment="Action-row button: select all / deselect">Select all</string>
+    <string name="dictate__legacy_action_undo" comment="Action-row button: undo">Undo</string>
+    <string name="dictate__legacy_action_redo" comment="Action-row button: redo">Redo</string>
+    <string name="dictate__legacy_action_cut" comment="Action-row button: cut">Cut</string>
+    <string name="dictate__legacy_action_copy" comment="Action-row button: copy">Copy</string>
+    <string name="dictate__legacy_action_paste" comment="Action-row button: paste">Paste</string>
+    <string name="dictate__legacy_action_emoji" comment="Action-row button: open emoji picker">Emoji</string>
+    <string name="dictate__legacy_action_numbers" comment="Action-row button: open number pad">Numbers</string>
+    <string name="dictate__legacy_action_language" comment="Action-row button: switch dictation language">Language</string>
+    <string name="dictate__legacy_action_history" comment="Action-row button: open transcription history">History</string>
+    <string name="dictate__legacy_action_reinsert" comment="Action-row button: re-insert the last dictation">Reinsert</string>
+    <string name="dictate__legacy_action_gif" comment="Action-row button: open GIF search">GIF</string>
+
+    <string name="dictate__legacy_action_row_title" comment="Setting: customise the classic layout action-row buttons">Action row buttons</string>
+    <string name="dictate__legacy_action_row_summary" comment="Setting summary">Drag to arrange the buttons in the classic layout\'s action row</string>
+    <string name="dictate__legacy_action_row_add" comment="Header above the buttons that can be added">Add a button</string>
+    <string name="dictate__legacy_action_row_full" comment="Tooltip when tapping a greyed-out button while the row is full">Remove a button first to add this one</string>
+    <string name="dictate__legacy_action_row_remove" comment="Content description: remove this button from the row">Remove</string>
+    <string name="dictate__legacy_action_row_drag" comment="Content description: drag handle to reorder">Drag to reorder</string>
+    <string name="dictate__legacy_action_row_reset" comment="Button: reset the action row to the default buttons">Reset to default</string>
+    <string name="dictate__legacy_prompt_rows_title" comment="Setting: number of prompt-button rows in the classic layout">Prompt rows</string>
+    <string name="dictate__legacy_prompt_rows_one" comment="Prompt rows option: one row">One row</string>
+    <string name="dictate__legacy_prompt_rows_two" comment="Prompt rows option: two rows">Two rows</string>
     <string name="dictate__legacy_layout_title" comment="Setting: enable the classic keyboard-less dictation layout">Classic dictation layout</string>
     <string name="dictate__legacy_layout_off_label" comment="Classic layout option: keep the modern keyboard">Off (modern keyboard)</string>
     <string name="dictate__legacy_layout_locked_label" comment="Classic layout option: only the classic dictation UI">Classic layout only</string>

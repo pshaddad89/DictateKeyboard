@@ -176,10 +176,11 @@ private fun RecordingContent(state: DictateController.UiState.Recording) {
         onDispose { view.keepScreenOn = false }
     }
 
-    // Cancel button (far left) – discards the recording.
+    // Cancel button (far left) – discards the recording. In long-form it drops only the current (uncut)
+    // segment and keeps recording, so you can scrap the last utterance without losing the transcript (#183).
     SnyggIconButton(
         elementName = FlorisImeUi.SmartbarActionKey.elementName,
-        onClick = { DictateController.cancelRecording() },
+        onClick = { DictateController.cancelOrDiscardSegment(context) },
         modifier = Modifier.fillMaxHeight().aspectRatio(1f),
     ) {
         SnyggIcon(

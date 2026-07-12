@@ -1605,4 +1605,26 @@
     <string name="gif__insert_failed">GIF を挿入できませんでした</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">GIF を検索</string>
+    <string name="dictate__legacy_action_select_all">すべて選択</string>
+    <string name="dictate__legacy_action_undo">元に戻す</string>
+    <string name="dictate__legacy_action_redo">やり直し</string>
+    <string name="dictate__legacy_action_cut">切り取り</string>
+    <string name="dictate__legacy_action_copy">コピー</string>
+    <string name="dictate__legacy_action_paste">貼り付け</string>
+    <string name="dictate__legacy_action_emoji">絵文字</string>
+    <string name="dictate__legacy_action_numbers">数字</string>
+    <string name="dictate__legacy_action_language">言語</string>
+    <string name="dictate__legacy_action_history">履歴</string>
+    <string name="dictate__legacy_action_reinsert">再挿入</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">アクション行のボタン</string>
+    <string name="dictate__legacy_action_row_summary">クラシックレイアウトのアクション行にボタンを配置するにはドラッグします</string>
+    <string name="dictate__legacy_action_row_add">ボタンを追加</string>
+    <string name="dictate__legacy_action_row_full">このボタンを追加するには、まず別のボタンを削除してください</string>
+    <string name="dictate__legacy_action_row_remove">削除</string>
+    <string name="dictate__legacy_action_row_drag">ドラッグして並べ替え</string>
+    <string name="dictate__legacy_action_row_reset">デフォルトにリセット</string>
+    <string name="dictate__legacy_prompt_rows_title">プロンプトの行数</string>
+    <string name="dictate__legacy_prompt_rows_one">1行</string>
+    <string name="dictate__legacy_prompt_rows_two">2行</string>
 </resources>

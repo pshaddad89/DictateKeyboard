@@ -170,6 +170,7 @@ object SettingsSearchIndex {
         SettingsSearchEntry(R.string.dictate__haptic_feedback_title, R.string.dictate__output_group, Routes.Settings.DictateOutput, parentRes = R.string.dictate__title, anchor = "dictate__haptic_feedback_title"),
         SettingsSearchEntry(R.string.dictate__remember_last_dictation_title, R.string.dictate__output_group, Routes.Settings.DictateOutput, parentRes = R.string.dictate__title, anchor = "dictate__remember_last_dictation_title"),
         SettingsSearchEntry(R.string.dictate__legacy_layout_title, R.string.dictate__layout_title, Routes.Settings.DictateLayout, parentRes = R.string.dictate__title, anchor = "dictate__legacy_layout_title"),
+        SettingsSearchEntry(R.string.dictate__legacy_prompt_rows_title, R.string.dictate__layout_title, Routes.Settings.DictateLayout, parentRes = R.string.dictate__title, anchor = "dictate__legacy_prompt_rows_title"),
         SettingsSearchEntry(R.string.dictate__wear_install_title, R.string.dictate__wear_title, Routes.Settings.DictateWear, parentRes = R.string.dictate__title, anchor = "dictate__wear_install_title"),
         SettingsSearchEntry(R.string.dictate__wear_standalone_title, R.string.dictate__wear_title, Routes.Settings.DictateWear, parentRes = R.string.dictate__title, anchor = "dictate__wear_standalone_title"),
         SettingsSearchEntry(R.string.dictate__wear_auto_rewording_title, R.string.dictate__wear_title, Routes.Settings.DictateWear, parentRes = R.string.dictate__title, anchor = "dictate__wear_auto_rewording_title"),

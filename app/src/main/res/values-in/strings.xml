@@ -1628,4 +1628,26 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="gif__insert_failed">Tidak dapat menyisipkan GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Cari GIF</string>
+    <string name="dictate__legacy_action_select_all">Pilih semua</string>
+    <string name="dictate__legacy_action_undo">Urungkan</string>
+    <string name="dictate__legacy_action_redo">Ulangi</string>
+    <string name="dictate__legacy_action_cut">Potong</string>
+    <string name="dictate__legacy_action_copy">Salin</string>
+    <string name="dictate__legacy_action_paste">Tempelkan</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Angka</string>
+    <string name="dictate__legacy_action_language">Bahasa</string>
+    <string name="dictate__legacy_action_history">Riwayat</string>
+    <string name="dictate__legacy_action_reinsert">Sisipkan ulang</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Tombol baris tindakan</string>
+    <string name="dictate__legacy_action_row_summary">Seret untuk mengatur tombol di baris tindakan tata letak klasik</string>
+    <string name="dictate__legacy_action_row_add">Tambah tombol</string>
+    <string name="dictate__legacy_action_row_full">Hapus tombol dulu untuk menambahkan yang ini</string>
+    <string name="dictate__legacy_action_row_remove">Hapus</string>
+    <string name="dictate__legacy_action_row_drag">Seret untuk menyusun ulang</string>
+    <string name="dictate__legacy_action_row_reset">Setel ulang ke default</string>
+    <string name="dictate__legacy_prompt_rows_title">Baris prompt</string>
+    <string name="dictate__legacy_prompt_rows_one">Satu baris</string>
+    <string name="dictate__legacy_prompt_rows_two">Dua baris</string>
 </resources>

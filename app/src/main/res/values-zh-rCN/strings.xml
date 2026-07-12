@@ -1669,4 +1669,26 @@
     <string name="gif__insert_failed">无法插入 GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">搜索 GIF</string>
+    <string name="dictate__legacy_action_select_all">全选</string>
+    <string name="dictate__legacy_action_undo">撤销</string>
+    <string name="dictate__legacy_action_redo">恢复</string>
+    <string name="dictate__legacy_action_cut">剪切</string>
+    <string name="dictate__legacy_action_copy">复制</string>
+    <string name="dictate__legacy_action_paste">粘贴</string>
+    <string name="dictate__legacy_action_emoji">表情</string>
+    <string name="dictate__legacy_action_numbers">数字</string>
+    <string name="dictate__legacy_action_language">语言</string>
+    <string name="dictate__legacy_action_history">历史</string>
+    <string name="dictate__legacy_action_reinsert">重新插入</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">操作栏按钮</string>
+    <string name="dictate__legacy_action_row_summary">拖动以排列经典布局操作栏中的按钮</string>
+    <string name="dictate__legacy_action_row_add">添加按钮</string>
+    <string name="dictate__legacy_action_row_full">请先移除一个按钮，才能添加此按钮</string>
+    <string name="dictate__legacy_action_row_remove">移除</string>
+    <string name="dictate__legacy_action_row_drag">拖动以重新排序</string>
+    <string name="dictate__legacy_action_row_reset">重置为默认</string>
+    <string name="dictate__legacy_prompt_rows_title">提示行</string>
+    <string name="dictate__legacy_prompt_rows_one">一行</string>
+    <string name="dictate__legacy_prompt_rows_two">两行</string>
 </resources>

@@ -1619,4 +1619,26 @@
     <string name="gif__insert_failed">Neizdevās ievietot GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Meklēt GIF</string>
+    <string name="dictate__legacy_action_select_all">Atlasīt visu</string>
+    <string name="dictate__legacy_action_undo">Atsaukt</string>
+    <string name="dictate__legacy_action_redo">Atatsaukt</string>
+    <string name="dictate__legacy_action_cut">Izgriezt</string>
+    <string name="dictate__legacy_action_copy">Kopēt</string>
+    <string name="dictate__legacy_action_paste">Ielīmēt</string>
+    <string name="dictate__legacy_action_emoji">Emocijzīme</string>
+    <string name="dictate__legacy_action_numbers">Cipari</string>
+    <string name="dictate__legacy_action_language">Valoda</string>
+    <string name="dictate__legacy_action_history">Vēsture</string>
+    <string name="dictate__legacy_action_reinsert">Ievietot atkārtoti</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Darbību rindas pogas</string>
+    <string name="dictate__legacy_action_row_summary">Velc, lai sakārtotu pogas klasiskā izkārtojuma darbību rindā</string>
+    <string name="dictate__legacy_action_row_add">Pievienot pogu</string>
+    <string name="dictate__legacy_action_row_full">Vispirms noņemiet pogu, lai pievienotu šo</string>
+    <string name="dictate__legacy_action_row_remove">Noņemt</string>
+    <string name="dictate__legacy_action_row_drag">Velc, lai pārkārtotu</string>
+    <string name="dictate__legacy_action_row_reset">Atiestatīt uz noklusējumu</string>
+    <string name="dictate__legacy_prompt_rows_title">Uzvednes rindas</string>
+    <string name="dictate__legacy_prompt_rows_one">Viena rinda</string>
+    <string name="dictate__legacy_prompt_rows_two">Divas rindas</string>
 </resources>

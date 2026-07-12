@@ -1691,4 +1691,26 @@
     <string name="gif__insert_failed">Nie udało się wstawić GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Szukaj GIFs</string>
+    <string name="dictate__legacy_action_select_all">Zaznacz wszystko</string>
+    <string name="dictate__legacy_action_undo">Cofnij</string>
+    <string name="dictate__legacy_action_redo">Powtórz</string>
+    <string name="dictate__legacy_action_cut">Wytnij</string>
+    <string name="dictate__legacy_action_copy">Kopiuj</string>
+    <string name="dictate__legacy_action_paste">Wklej</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Cyfry</string>
+    <string name="dictate__legacy_action_language">Język</string>
+    <string name="dictate__legacy_action_history">Historia</string>
+    <string name="dictate__legacy_action_reinsert">Wstaw ponownie</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Przyciski paska akcji</string>
+    <string name="dictate__legacy_action_row_summary">Przeciągnij, aby ułożyć przyciski w pasku akcji klasycznego układu</string>
+    <string name="dictate__legacy_action_row_add">Dodaj przycisk</string>
+    <string name="dictate__legacy_action_row_full">Najpierw usuń przycisk, aby dodać ten</string>
+    <string name="dictate__legacy_action_row_remove">Usuń</string>
+    <string name="dictate__legacy_action_row_drag">Przeciągnij, aby zmienić kolejność</string>
+    <string name="dictate__legacy_action_row_reset">Przywróć domyślne</string>
+    <string name="dictate__legacy_prompt_rows_title">Wiersze promptów</string>
+    <string name="dictate__legacy_prompt_rows_one">Jeden wiersz</string>
+    <string name="dictate__legacy_prompt_rows_two">Dwa wiersze</string>
 </resources>

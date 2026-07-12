@@ -1547,4 +1547,26 @@
     <string name="gif__insert_failed">GIF konnte nicht eingefügt werden</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">GIFs suchen</string>
+    <string name="dictate__legacy_action_select_all">Alles auswählen</string>
+    <string name="dictate__legacy_action_undo">Rückgängig</string>
+    <string name="dictate__legacy_action_redo">Wiederholen</string>
+    <string name="dictate__legacy_action_cut">Ausschneiden</string>
+    <string name="dictate__legacy_action_copy">Kopieren</string>
+    <string name="dictate__legacy_action_paste">Einfügen</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Zahlen</string>
+    <string name="dictate__legacy_action_language">Sprache</string>
+    <string name="dictate__legacy_action_history">Verlauf</string>
+    <string name="dictate__legacy_action_reinsert">Erneut einfügen</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Aktionsleisten-Schaltflächen</string>
+    <string name="dictate__legacy_action_row_summary">Ziehen, um die Schaltflächen in der Aktionsleiste des klassischen Layouts anzuordnen</string>
+    <string name="dictate__legacy_action_row_add">Schaltfläche hinzufügen</string>
+    <string name="dictate__legacy_action_row_full">Zum Hinzufügen zuerst eine Schaltfläche entfernen</string>
+    <string name="dictate__legacy_action_row_remove">Entfernen</string>
+    <string name="dictate__legacy_action_row_drag">Zum Neuordnen ziehen</string>
+    <string name="dictate__legacy_action_row_reset">Auf Standard zurücksetzen</string>
+    <string name="dictate__legacy_prompt_rows_title">Prompt-Reihen</string>
+    <string name="dictate__legacy_prompt_rows_one">Eine Reihe</string>
+    <string name="dictate__legacy_prompt_rows_two">Zwei Reihen</string>
 </resources>

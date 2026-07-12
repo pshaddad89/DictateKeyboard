@@ -1679,4 +1679,26 @@
     <string name="gif__insert_failed">Не удалось вставить GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Поиск GIF</string>
+    <string name="dictate__legacy_action_select_all">Выделить всё</string>
+    <string name="dictate__legacy_action_undo">Отменить</string>
+    <string name="dictate__legacy_action_redo">Повторить</string>
+    <string name="dictate__legacy_action_cut">Вырезать</string>
+    <string name="dictate__legacy_action_copy">Копировать</string>
+    <string name="dictate__legacy_action_paste">Вставить</string>
+    <string name="dictate__legacy_action_emoji">Эмодзи</string>
+    <string name="dictate__legacy_action_numbers">Цифры</string>
+    <string name="dictate__legacy_action_language">Язык</string>
+    <string name="dictate__legacy_action_history">История</string>
+    <string name="dictate__legacy_action_reinsert">Вставить снова</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Кнопки панели действий</string>
+    <string name="dictate__legacy_action_row_summary">Перетаскивайте, чтобы расположить кнопки на панели действий классического макета</string>
+    <string name="dictate__legacy_action_row_add">Добавить кнопку</string>
+    <string name="dictate__legacy_action_row_full">Сначала удалите кнопку, чтобы добавить эту</string>
+    <string name="dictate__legacy_action_row_remove">Удалить</string>
+    <string name="dictate__legacy_action_row_drag">Перетащите для изменения порядка</string>
+    <string name="dictate__legacy_action_row_reset">Сбросить по умолчанию</string>
+    <string name="dictate__legacy_prompt_rows_title">Строки подсказок</string>
+    <string name="dictate__legacy_prompt_rows_one">Одна строка</string>
+    <string name="dictate__legacy_prompt_rows_two">Две строки</string>
 </resources>

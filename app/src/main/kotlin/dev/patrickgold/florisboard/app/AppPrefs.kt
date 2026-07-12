@@ -695,6 +695,17 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__legacy_layout",
             default = DictateLegacyLayout.OFF,
         )
+        // Configurable legacy action row (#183/#194): comma-separated LegacyEditAction names, arranged by
+        // the user via drag-and-drop. Default reproduces the original fixed row.
+        val legacyActionRow = string(
+            key = "dictate__legacy_action_row",
+            default = "SELECT_ALL,UNDO,REDO,CUT,COPY,PASTE,EMOJI,NUMBERS",
+        )
+        // How many rows of prompt/revision buttons the legacy prompt strip shows (1 or 2, issue #194/#8).
+        val legacyPromptRows = int(
+            key = "dictate__legacy_prompt_rows",
+            default = 1,
+        )
         // Chat (rewording) provider id – any chat-capable ProviderRegistry id ("openai", "groq",
         // "openrouter", … or "custom"). Independent from the transcription provider.
         val rewordingProviderId = string(

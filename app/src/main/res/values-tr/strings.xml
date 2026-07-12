@@ -1653,4 +1653,26 @@
     <string name="gif__insert_failed">GIF eklenemedi</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">GIF ara</string>
+    <string name="dictate__legacy_action_select_all">Tümünü seç</string>
+    <string name="dictate__legacy_action_undo">Geri al</string>
+    <string name="dictate__legacy_action_redo">Yinele</string>
+    <string name="dictate__legacy_action_cut">Kes</string>
+    <string name="dictate__legacy_action_copy">Kopyala</string>
+    <string name="dictate__legacy_action_paste">Yapıştır</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Sayılar</string>
+    <string name="dictate__legacy_action_language">Dil</string>
+    <string name="dictate__legacy_action_history">Geçmiş</string>
+    <string name="dictate__legacy_action_reinsert">Yeniden ekle</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Eylem çubuğu düğmeleri</string>
+    <string name="dictate__legacy_action_row_summary">Klasik düzenin eylem çubuğundaki düğmeleri düzenlemek için sürükleyin</string>
+    <string name="dictate__legacy_action_row_add">Düğme ekle</string>
+    <string name="dictate__legacy_action_row_full">Bunu eklemek için önce bir düğmeyi kaldırın</string>
+    <string name="dictate__legacy_action_row_remove">Kaldır</string>
+    <string name="dictate__legacy_action_row_drag">Yeniden sıralamak için sürükleyin</string>
+    <string name="dictate__legacy_action_row_reset">Varsayılana sıfırla</string>
+    <string name="dictate__legacy_prompt_rows_title">İstem satırları</string>
+    <string name="dictate__legacy_prompt_rows_one">Tek satır</string>
+    <string name="dictate__legacy_prompt_rows_two">İki satır</string>
 </resources>

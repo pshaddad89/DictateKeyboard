@@ -1675,4 +1675,26 @@
     <string name="gif__insert_failed">GIF не може да бъде вмъкнат</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Търсене на GIFs</string>
+    <string name="dictate__legacy_action_select_all">Избери всичко</string>
+    <string name="dictate__legacy_action_undo">Отменяне</string>
+    <string name="dictate__legacy_action_redo">Възстанов.</string>
+    <string name="dictate__legacy_action_cut">Изрязване</string>
+    <string name="dictate__legacy_action_copy">Копиране</string>
+    <string name="dictate__legacy_action_paste">Поставяне</string>
+    <string name="dictate__legacy_action_emoji">Емоджи</string>
+    <string name="dictate__legacy_action_numbers">Цифри</string>
+    <string name="dictate__legacy_action_language">Език</string>
+    <string name="dictate__legacy_action_history">История</string>
+    <string name="dictate__legacy_action_reinsert">Повторно вмъкване</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Бутони на лентата с действия</string>
+    <string name="dictate__legacy_action_row_summary">Плъзнете, за да подредите бутоните в лентата с действия на класическата подредба</string>
+    <string name="dictate__legacy_action_row_add">Добавяне на бутон</string>
+    <string name="dictate__legacy_action_row_full">Първо премахнете бутон, за да добавите този</string>
+    <string name="dictate__legacy_action_row_remove">Премахване</string>
+    <string name="dictate__legacy_action_row_drag">Плъзнете за пренареждане</string>
+    <string name="dictate__legacy_action_row_reset">Нулиране по подразбиране</string>
+    <string name="dictate__legacy_prompt_rows_title">Редове с подкани</string>
+    <string name="dictate__legacy_prompt_rows_one">Един ред</string>
+    <string name="dictate__legacy_prompt_rows_two">Два реда</string>
 </resources>

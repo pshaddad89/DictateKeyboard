@@ -1690,4 +1690,26 @@
     <string name="gif__insert_failed">GIF se nepodařilo vložit</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Hledat GIFs</string>
+    <string name="dictate__legacy_action_select_all">Vybrat vše</string>
+    <string name="dictate__legacy_action_undo">Vrátit zpět</string>
+    <string name="dictate__legacy_action_redo">Znovu</string>
+    <string name="dictate__legacy_action_cut">Vyjmout</string>
+    <string name="dictate__legacy_action_copy">Kopírovat</string>
+    <string name="dictate__legacy_action_paste">Vložit</string>
+    <string name="dictate__legacy_action_emoji">Emoji</string>
+    <string name="dictate__legacy_action_numbers">Čísla</string>
+    <string name="dictate__legacy_action_language">Jazyk</string>
+    <string name="dictate__legacy_action_history">Historie</string>
+    <string name="dictate__legacy_action_reinsert">Znovu vložit</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Tlačítka řádku akcí</string>
+    <string name="dictate__legacy_action_row_summary">Přetažením uspořádejte tlačítka v řádku akcí klasického rozvržení</string>
+    <string name="dictate__legacy_action_row_add">Přidat tlačítko</string>
+    <string name="dictate__legacy_action_row_full">Nejprve odeberte tlačítko, abyste mohli přidat toto</string>
+    <string name="dictate__legacy_action_row_remove">Odebrat</string>
+    <string name="dictate__legacy_action_row_drag">Přetažením změňte pořadí</string>
+    <string name="dictate__legacy_action_row_reset">Obnovit výchozí</string>
+    <string name="dictate__legacy_prompt_rows_title">Řádky výzev</string>
+    <string name="dictate__legacy_prompt_rows_one">Jeden řádek</string>
+    <string name="dictate__legacy_prompt_rows_two">Dva řádky</string>
 </resources>

@@ -1519,4 +1519,26 @@
     <string name="gif__insert_failed">Не вдалося вставити GIF</string>
     <string name="quick_action__ime_ui_mode_gif">GIF</string>
     <string name="quick_action__ime_ui_mode_gif__tooltip">Пошук GIF</string>
+    <string name="dictate__legacy_action_select_all">Виділити все</string>
+    <string name="dictate__legacy_action_undo">Скасувати</string>
+    <string name="dictate__legacy_action_redo">Повторити</string>
+    <string name="dictate__legacy_action_cut">Вирізати</string>
+    <string name="dictate__legacy_action_copy">Копіювати</string>
+    <string name="dictate__legacy_action_paste">Вставити</string>
+    <string name="dictate__legacy_action_emoji">Емодзі</string>
+    <string name="dictate__legacy_action_numbers">Цифри</string>
+    <string name="dictate__legacy_action_language">Мова</string>
+    <string name="dictate__legacy_action_history">Історія</string>
+    <string name="dictate__legacy_action_reinsert">Вставити знову</string>
+    <string name="dictate__legacy_action_gif">GIF</string>
+    <string name="dictate__legacy_action_row_title">Кнопки панелі дій</string>
+    <string name="dictate__legacy_action_row_summary">Перетягуйте, щоб розташувати кнопки на панелі дій класичного макета</string>
+    <string name="dictate__legacy_action_row_add">Додати кнопку</string>
+    <string name="dictate__legacy_action_row_full">Спочатку вилучіть кнопку, щоб додати цю</string>
+    <string name="dictate__legacy_action_row_remove">Видалити</string>
+    <string name="dictate__legacy_action_row_drag">Перетягніть, щоб змінити порядок</string>
+    <string name="dictate__legacy_action_row_reset">Скинути до типового</string>
+    <string name="dictate__legacy_prompt_rows_title">Рядки підказок</string>
+    <string name="dictate__legacy_prompt_rows_one">Один рядок</string>
+    <string name="dictate__legacy_prompt_rows_two">Два рядки</string>
 </resources>

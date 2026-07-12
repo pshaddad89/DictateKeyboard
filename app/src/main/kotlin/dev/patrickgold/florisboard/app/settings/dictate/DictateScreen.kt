@@ -53,6 +53,7 @@ import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Spellcheck
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.filled.Vibration
+import androidx.compose.material.icons.filled.ViewAgenda
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
@@ -504,6 +505,8 @@ fun DictateLayoutScreen() = FlorisScreen {
     val prefs by FlorisPreferenceStore
 
     content {
+        val legacyMode by prefs.dictate.legacyLayout.collectAsState()
+
         // Classic keyboard-less dictation layout (issue #125): a compact record-first UI, optionally
         // with a swipe back to the modern typing keyboard.
         ListPreference(
@@ -526,6 +529,21 @@ fun DictateLayoutScreen() = FlorisScreen {
                 )
             },
         )
+
+        // The layout customisation only makes sense once the classic layout is actually in use (#183/#194).
+        if (legacyMode != DictateLegacyLayout.OFF) {
+            ListPreference(
+                prefs.dictate.legacyPromptRows,
+                icon = Icons.Default.ViewAgenda,
+                modifier = Modifier.settingsSearchAnchor("dictate__legacy_prompt_rows_title"),
+                title = stringRes(R.string.dictate__legacy_prompt_rows_title),
+                entries = listPrefEntries {
+                    entry(key = 1, label = stringRes(R.string.dictate__legacy_prompt_rows_one))
+                    entry(key = 2, label = stringRes(R.string.dictate__legacy_prompt_rows_two))
+                },
+            )
+            LegacyActionRowSetting()
+        }
     }
 }
 

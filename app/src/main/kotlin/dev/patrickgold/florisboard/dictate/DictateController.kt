@@ -1305,11 +1305,30 @@ object DictateController {
     }
 
     /**
+     * Cancel-button behaviour: in long-form mode, tapping the trash button ends the recording but keeps
+     * everything transcribed so far — the already-committed segments are finalized and saved to history as
+     * usual; only the current, not-yet-cut chunk is thrown away instead of being transcribed (#183).
+     * Outside long-form it aborts the whole recording ([cancelRecording]). Used by both the Smartbar and
+     * the legacy layout so the trash button behaves consistently.
+     */
+    fun cancelOrDiscardSegment(context: Context) {
+        if (segmentedActive && _state.value is UiState.Recording) {
+            stopSegmentedAndFinalize(context, discardFinal = true)
+        } else {
+            cancelRecording()
+        }
+    }
+
+    /**
      * Stops a segmented recording: cuts the final open segment, then finishes once every queued segment
      * has transcribed and been committed in order — at which point the whole assembled transcript runs
      * through the normal post-processing once (auto-format + prompts + mappings) and replaces the preview.
+     *
+     * [discardFinal] (the cancel button, #183) throws the final open chunk away instead of transcribing it,
+     * so the session still finalizes + saves to history with everything captured up to the last cut, but
+     * the current unfinished utterance is dropped.
      */
-    private fun stopSegmentedAndFinalize(context: Context) {
+    private fun stopSegmentedAndFinalize(context: Context, discardFinal: Boolean = false) {
         val appContext = context.applicationContext
         _livePromptActive.value = false
         unregisterScreenOffReceiver()
@@ -1323,14 +1342,19 @@ object DictateController {
                 recorder = null
                 val w = withContext(Dispatchers.IO) { activeRecorder?.stop() }
                 cleanupAudioRouting()
-                if (segmentKeepAudio && w != null && w.exists() && w.length() > 0L) segmentAudioFiles[i] = w
+                if (discardFinal) {
+                    // Deleted chunk: drop its audio so it lands in neither the transcript nor the history WAV.
+                    withContext(Dispatchers.IO) { runCatching { w?.delete() } }
+                } else if (segmentKeepAudio && w != null && w.exists() && w.length() > 0L) {
+                    segmentAudioFiles[i] = w
+                }
                 segmentStopped = true
                 segmentInFlightCount++
                 _segmentsInFlight.value = segmentInFlightCount
                 i to w
             }
             val (idx, wav) = assigned
-            if (wav != null && wav.exists() && wav.length() > 0L) {
+            if (!discardFinal && wav != null && wav.exists() && wav.length() > 0L) {
                 launchSegmentTranscription(appContext, idx, wav)
             } else {
                 onSegmentResult(appContext, idx, "")
