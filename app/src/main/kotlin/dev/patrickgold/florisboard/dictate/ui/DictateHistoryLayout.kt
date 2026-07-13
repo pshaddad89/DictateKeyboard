@@ -83,7 +83,8 @@ fun DictateHistoryLayout(
         elementName = FlorisImeUi.Media.elementName,
         modifier = modifier
             .fillMaxWidth()
-            .height(FlorisImeSizing.imeUiHeight()),
+            // Lock to the normal keyboard height so opening history never changes the IME height (no jump).
+            .height(FlorisImeSizing.panelUiHeight()),
     ) {
         // Header: back to the typing keyboard + panel title.
         SnyggRow(

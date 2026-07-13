@@ -111,6 +111,19 @@ object FlorisImeSizing {
     fun imeUiHeight(): Dp {
         return keyboardUiHeight() + smartbarUiHeight()
     }
+
+    /**
+     * The IME height locked to the *normal (characters) keyboard*, for the full-screen panels (emoji,
+     * clipboard, history). [keyboardUiHeight] derives its row count from the currently active evaluator,
+     * which for a panel can differ from the typing keyboard and make the panel a different height — so it
+     * visibly jumps when opened. Basing it on the last characters keyboard (like [rowCountAsState]) keeps a
+     * panel exactly as tall as the keyboard it replaces.
+     */
+    @Composable
+    fun panelUiHeight(): Dp {
+        val rowCount by rowCountAsState()
+        return keyboardRowBaseHeight * rowCount.coerceAtLeast(4) + smartbarUiHeight()
+    }
 }
 
 @Deprecated("TODO: move logic fully into ImeWindow impl")
