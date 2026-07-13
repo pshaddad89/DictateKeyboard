@@ -1393,6 +1393,10 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__local_model_action_cancel">Batal</string>
     <string name="dictate__local_model_downloading">Mengunduh… {percent}%</string>
     <string name="dictate__local_model_download_failed">Unduhan gagal — silakan coba lagi</string>
+    <string name="dictate__local_model_download_background">Mengunduh di latar belakang — Anda dapat meninggalkan aplikasi.</string>
+    <string name="dictate__local_model_notif_channel_name">Unduhan model</string>
+    <string name="dictate__local_model_notif_title">Mengunduh {model}</string>
+    <string name="dictate__local_model_notif_title_multi">Mengunduh {count} model</string>
     <string name="dictate__local_model_none_selected">Belum ada model yang diunduh</string>
     <string name="dictate__local_model_delete_confirm">Hapus “{model}”? Anda dapat mengunduhnya lagi nanti.</string>
     <string name="dictate__local_model_not_installed_error">Tidak ada model lokal yang diunduh</string>

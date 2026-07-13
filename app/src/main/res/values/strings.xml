@@ -1591,6 +1591,10 @@
     <string name="dictate__local_model_action_cancel" comment="Button that cancels an in-progress model download">Cancel</string>
     <string name="dictate__local_model_downloading" comment="Status while a model downloads. {percent} is a number 0-100.">Downloading… {percent}%</string>
     <string name="dictate__local_model_download_failed" comment="Generic error shown when a model download fails">Download failed — please try again</string>
+    <string name="dictate__local_model_download_background" comment="Toast shown when a model download starts, telling the user it keeps running in the background">Downloading in the background — you can leave the app.</string>
+    <string name="dictate__local_model_notif_channel_name" comment="Notification channel name for on-device model downloads">Model downloads</string>
+    <string name="dictate__local_model_notif_title" comment="Ongoing download notification title. {model} is the model name.">Downloading {model}</string>
+    <string name="dictate__local_model_notif_title_multi" comment="Ongoing download notification title for several downloads. {count} is a number.">Downloading {count} models</string>
     <string name="dictate__local_model_none_selected" comment="Summary on the on-device provider row when no model is downloaded/selected yet">No model downloaded yet</string>
     <string name="dictate__local_model_delete_confirm" comment="Confirmation question before deleting a downloaded model. {model} is the model name.">Delete “{model}”? You can download it again later.</string>
     <string name="dictate__local_model_not_installed_error" comment="Error shown when trying to dictate with the on-device provider but no model is downloaded">No on-device model downloaded</string>

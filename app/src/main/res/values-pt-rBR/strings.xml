@@ -1246,6 +1246,10 @@
     <string name="dictate__local_model_action_cancel">Cancelar</string>
     <string name="dictate__local_model_downloading">Baixando… {percent}%</string>
     <string name="dictate__local_model_download_failed">Falha no download — tente novamente</string>
+    <string name="dictate__local_model_download_background">Baixando em segundo plano — você pode sair do app.</string>
+    <string name="dictate__local_model_notif_channel_name">Downloads de modelos</string>
+    <string name="dictate__local_model_notif_title">Baixando {model}</string>
+    <string name="dictate__local_model_notif_title_multi">Baixando {count} modelos</string>
     <string name="dictate__local_model_none_selected">Nenhum modelo baixado ainda</string>
     <string name="dictate__local_model_delete_confirm">Excluir “{model}”? Você pode baixá-lo novamente mais tarde.</string>
     <string name="dictate__local_model_not_installed_error">Nenhum modelo local baixado</string>

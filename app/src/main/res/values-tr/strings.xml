@@ -1416,6 +1416,10 @@
     <string name="dictate__local_model_action_cancel">İptal</string>
     <string name="dictate__local_model_downloading">İndiriliyor… {percent}%</string>
     <string name="dictate__local_model_download_failed">İndirme başarısız — lütfen tekrar deneyin</string>
+    <string name="dictate__local_model_download_background">Arka planda indiriliyor — uygulamadan çıkabilirsiniz.</string>
+    <string name="dictate__local_model_notif_channel_name">Model indirmeleri</string>
+    <string name="dictate__local_model_notif_title">{model} indiriliyor</string>
+    <string name="dictate__local_model_notif_title_multi">{count} model indiriliyor</string>
     <string name="dictate__local_model_none_selected">Henüz model indirilmedi</string>
     <string name="dictate__local_model_delete_confirm">“{model}” silinsin mi? Daha sonra tekrar indirebilirsiniz.</string>
     <string name="dictate__local_model_not_installed_error">İndirilen yerel model yok</string>

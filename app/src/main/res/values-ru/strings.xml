@@ -1441,6 +1441,10 @@
     <string name="dictate__local_model_action_cancel">Отмена</string>
     <string name="dictate__local_model_downloading">Скачивание… {percent}%</string>
     <string name="dictate__local_model_download_failed">Не удалось скачать — повторите попытку</string>
+    <string name="dictate__local_model_download_background">Скачивание в фоновом режиме — можно выйти из приложения.</string>
+    <string name="dictate__local_model_notif_channel_name">Скачивание моделей</string>
+    <string name="dictate__local_model_notif_title">Скачивание {model}</string>
+    <string name="dictate__local_model_notif_title_multi">Скачивание {count} моделей</string>
     <string name="dictate__local_model_none_selected">Модель ещё не скачана</string>
     <string name="dictate__local_model_delete_confirm">Удалить «{model}»? Позже можно скачать снова.</string>
     <string name="dictate__local_model_not_installed_error">Локальная модель не скачана</string>

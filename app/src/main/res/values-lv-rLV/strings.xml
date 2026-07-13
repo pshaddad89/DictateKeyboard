@@ -1381,6 +1381,10 @@
     <string name="dictate__local_model_action_cancel">Atcelt</string>
     <string name="dictate__local_model_downloading">Lejupielāde… {percent}%</string>
     <string name="dictate__local_model_download_failed">Lejupielāde neizdevās — mēģiniet vēlreiz</string>
+    <string name="dictate__local_model_download_background">Lejupielāde fonā — varat aizvērt lietotni.</string>
+    <string name="dictate__local_model_notif_channel_name">Modeļu lejupielādes</string>
+    <string name="dictate__local_model_notif_title">Notiek {model} lejupielāde</string>
+    <string name="dictate__local_model_notif_title_multi">Notiek {count} modeļu lejupielāde</string>
     <string name="dictate__local_model_none_selected">Vēl nav lejupielādēts neviens modelis</string>
     <string name="dictate__local_model_delete_confirm">Dzēst “{model}”? Vēlāk to varēsiet lejupielādēt vēlreiz.</string>
     <string name="dictate__local_model_not_installed_error">Nav lejupielādēta lokāla modeļa</string>

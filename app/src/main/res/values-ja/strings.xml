@@ -1370,6 +1370,10 @@
     <string name="dictate__local_model_action_cancel">キャンセル</string>
     <string name="dictate__local_model_downloading">ダウンロード中… {percent}%</string>
     <string name="dictate__local_model_download_failed">ダウンロードに失敗しました — もう一度お試しください</string>
+    <string name="dictate__local_model_download_background">バックグラウンドでダウンロード中です — アプリを閉じても大丈夫です。</string>
+    <string name="dictate__local_model_notif_channel_name">モデルのダウンロード</string>
+    <string name="dictate__local_model_notif_title">{model} をダウンロード中</string>
+    <string name="dictate__local_model_notif_title_multi">{count} 個のモデルをダウンロード中</string>
     <string name="dictate__local_model_none_selected">まだモデルがダウンロードされていません</string>
     <string name="dictate__local_model_delete_confirm">「{model}」を削除しますか？後でもう一度ダウンロードできます。</string>
     <string name="dictate__local_model_not_installed_error">端末内モデルがありません</string>

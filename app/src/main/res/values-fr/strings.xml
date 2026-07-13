@@ -1315,6 +1315,10 @@
     <string name="dictate__local_model_action_cancel">Annuler</string>
     <string name="dictate__local_model_downloading">Téléchargement… {percent}%</string>
     <string name="dictate__local_model_download_failed">Échec du téléchargement — veuillez réessayer</string>
+    <string name="dictate__local_model_download_background">Téléchargement en arrière-plan — vous pouvez quitter l\'application.</string>
+    <string name="dictate__local_model_notif_channel_name">Téléchargements de modèles</string>
+    <string name="dictate__local_model_notif_title">Téléchargement de {model}</string>
+    <string name="dictate__local_model_notif_title_multi">Téléchargement de {count} modèles</string>
     <string name="dictate__local_model_none_selected">Aucun modèle téléchargé pour l’instant</string>
     <string name="dictate__local_model_delete_confirm">Supprimer « {model} » ? Vous pourrez le retélécharger plus tard.</string>
     <string name="dictate__local_model_not_installed_error">Aucun modèle local téléchargé</string>

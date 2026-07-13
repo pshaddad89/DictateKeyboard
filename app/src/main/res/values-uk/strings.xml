@@ -1285,6 +1285,10 @@
     <string name="dictate__local_model_action_cancel">Скасувати</string>
     <string name="dictate__local_model_downloading">Завантаження… {percent}%</string>
     <string name="dictate__local_model_download_failed">Не вдалося завантажити — спробуйте ще раз</string>
+    <string name="dictate__local_model_download_background">Завантаження у фоновому режимі — можна вийти із застосунку.</string>
+    <string name="dictate__local_model_notif_channel_name">Завантаження моделей</string>
+    <string name="dictate__local_model_notif_title">Завантаження {model}</string>
+    <string name="dictate__local_model_notif_title_multi">Завантаження {count} моделей</string>
     <string name="dictate__local_model_none_selected">Модель ще не завантажено</string>
     <string name="dictate__local_model_delete_confirm">Видалити «{model}»? Пізніше можна завантажити знову.</string>
     <string name="dictate__local_model_not_installed_error">Локальну модель не завантажено</string>

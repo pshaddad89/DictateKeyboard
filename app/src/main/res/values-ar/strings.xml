@@ -1296,6 +1296,10 @@
     <string name="dictate__local_model_action_cancel">إلغاء</string>
     <string name="dictate__local_model_downloading">جارٍ التنزيل… {percent}%</string>
     <string name="dictate__local_model_download_failed">فشل التنزيل — يرجى المحاولة مرة أخرى</string>
+    <string name="dictate__local_model_download_background">يجري التنزيل في الخلفية — يمكنك مغادرة التطبيق.</string>
+    <string name="dictate__local_model_notif_channel_name">تنزيلات النماذج</string>
+    <string name="dictate__local_model_notif_title">جارٍ تنزيل {model}</string>
+    <string name="dictate__local_model_notif_title_multi">جارٍ تنزيل {count} نماذج</string>
     <string name="dictate__local_model_none_selected">لم يتم تنزيل أي نموذج بعد</string>
     <string name="dictate__local_model_delete_confirm">حذف ”{model}“؟ يمكنك تنزيله مرة أخرى لاحقًا.</string>
     <string name="dictate__local_model_not_installed_error">لا يوجد نموذج محلي مُنزَّل</string>

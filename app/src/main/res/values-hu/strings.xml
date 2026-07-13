@@ -1436,6 +1436,10 @@
     <string name="dictate__local_model_action_cancel">Mégse</string>
     <string name="dictate__local_model_downloading">Letöltés… {percent}%</string>
     <string name="dictate__local_model_download_failed">A letöltés nem sikerült — próbáld újra</string>
+    <string name="dictate__local_model_download_background">Letöltés a háttérben — elhagyhatod az alkalmazást.</string>
+    <string name="dictate__local_model_notif_channel_name">Modellletöltések</string>
+    <string name="dictate__local_model_notif_title">{model} letöltése</string>
+    <string name="dictate__local_model_notif_title_multi">{count} modell letöltése</string>
     <string name="dictate__local_model_none_selected">Még nincs letöltött modell</string>
     <string name="dictate__local_model_delete_confirm">Törlöd a(z) „{model}“ modellt? Később újra letöltheted.</string>
     <string name="dictate__local_model_not_installed_error">Nincs letöltött helyi modell</string>

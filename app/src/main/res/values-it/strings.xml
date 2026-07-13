@@ -1221,6 +1221,10 @@
     <string name="dictate__local_model_action_cancel">Annulla</string>
     <string name="dictate__local_model_downloading">Download… {percent}%</string>
     <string name="dictate__local_model_download_failed">Download non riuscito — riprova</string>
+    <string name="dictate__local_model_download_background">Download in corso in background — puoi uscire dall\'app.</string>
+    <string name="dictate__local_model_notif_channel_name">Download dei modelli</string>
+    <string name="dictate__local_model_notif_title">Download di {model}</string>
+    <string name="dictate__local_model_notif_title_multi">Download di {count} modelli</string>
     <string name="dictate__local_model_none_selected">Nessun modello ancora scaricato</string>
     <string name="dictate__local_model_delete_confirm">Eliminare «{model}»? Potrai scaricarlo di nuovo più tardi.</string>
     <string name="dictate__local_model_not_installed_error">Nessun modello locale scaricato</string>

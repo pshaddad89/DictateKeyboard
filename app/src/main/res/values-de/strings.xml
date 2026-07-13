@@ -1313,6 +1313,10 @@
     <string name="dictate__local_model_action_cancel">Abbrechen</string>
     <string name="dictate__local_model_downloading">Wird heruntergeladen… {percent}%</string>
     <string name="dictate__local_model_download_failed">Download fehlgeschlagen — bitte erneut versuchen</string>
+    <string name="dictate__local_model_download_background">Lädt im Hintergrund herunter – du kannst die App verlassen.</string>
+    <string name="dictate__local_model_notif_channel_name">Modell-Downloads</string>
+    <string name="dictate__local_model_notif_title">Lädt {model} herunter</string>
+    <string name="dictate__local_model_notif_title_multi">Lädt {count} Modelle herunter</string>
     <string name="dictate__local_model_none_selected">Noch kein Modell heruntergeladen</string>
     <string name="dictate__local_model_delete_confirm">„{model}“ löschen? Du kannst es später erneut herunterladen.</string>
     <string name="dictate__local_model_not_installed_error">Kein lokales Modell heruntergeladen</string>

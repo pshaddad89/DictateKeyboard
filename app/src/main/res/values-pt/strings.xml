@@ -1417,6 +1417,10 @@
     <string name="dictate__local_model_action_cancel">Cancelar</string>
     <string name="dictate__local_model_downloading">A transferir… {percent}%</string>
     <string name="dictate__local_model_download_failed">Falha na transferência — tente novamente</string>
+    <string name="dictate__local_model_download_background">A transferir em segundo plano — pode sair da aplicação.</string>
+    <string name="dictate__local_model_notif_channel_name">Transferências de modelos</string>
+    <string name="dictate__local_model_notif_title">A transferir {model}</string>
+    <string name="dictate__local_model_notif_title_multi">A transferir {count} modelos</string>
     <string name="dictate__local_model_none_selected">Ainda não foi transferido nenhum modelo</string>
     <string name="dictate__local_model_delete_confirm">Eliminar «{model}»? Pode transferi-lo novamente mais tarde.</string>
     <string name="dictate__local_model_not_installed_error">Nenhum modelo local transferido</string>

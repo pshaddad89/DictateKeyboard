@@ -1433,6 +1433,10 @@
     <string name="dictate__local_model_action_cancel">取消</string>
     <string name="dictate__local_model_downloading">下载中… {percent}%</string>
     <string name="dictate__local_model_download_failed">下载失败 — 请重试</string>
+    <string name="dictate__local_model_download_background">正在后台下载 — 你可以离开应用。</string>
+    <string name="dictate__local_model_notif_channel_name">模型下载</string>
+    <string name="dictate__local_model_notif_title">正在下载 {model}</string>
+    <string name="dictate__local_model_notif_title_multi">正在下载 {count} 个模型</string>
     <string name="dictate__local_model_none_selected">尚未下载模型</string>
     <string name="dictate__local_model_delete_confirm">删除“{model}”？以后可以重新下载。</string>
     <string name="dictate__local_model_not_installed_error">未下载本地模型</string>

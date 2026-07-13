@@ -1313,6 +1313,10 @@
     <string name="dictate__local_model_action_cancel">Cancel·la</string>
     <string name="dictate__local_model_downloading">S’està baixant… {percent}%</string>
     <string name="dictate__local_model_download_failed">La baixada ha fallat — torna-ho a provar</string>
+    <string name="dictate__local_model_download_background">S\'està baixant en segon pla — pots sortir de l\'aplicació.</string>
+    <string name="dictate__local_model_notif_channel_name">Baixades de models</string>
+    <string name="dictate__local_model_notif_title">S\'està baixant {model}</string>
+    <string name="dictate__local_model_notif_title_multi">S\'està baixant {count} models</string>
     <string name="dictate__local_model_none_selected">Encara no s’ha baixat cap model</string>
     <string name="dictate__local_model_delete_confirm">Vols eliminar «{model}»? El pots tornar a baixar més tard.</string>
     <string name="dictate__local_model_not_installed_error">Cap model local baixat</string>
