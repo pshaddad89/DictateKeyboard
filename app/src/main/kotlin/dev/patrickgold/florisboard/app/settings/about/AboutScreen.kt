@@ -19,6 +19,7 @@ package dev.patrickgold.florisboard.app.settings.about
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,8 +34,14 @@ import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Policy
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -111,17 +118,45 @@ fun AboutScreen() = FlorisScreen {
                 }
             },
         )
-        // One entry per available "What's new" tour (newest first), so users on any prior version can view
-        // every release's tour — not just the latest. The registry is ascending, so reverse for display.
-        WHATS_NEW_TOURS.reversed().forEachIndexed { index, tour ->
-            val versionLabel = tour.version.toString().substringBeforeLast(".0")
-            Preference(
-                icon = Icons.Default.AutoAwesome,
-                // Keep the settings-search anchor on the newest tour only.
-                modifier = if (index == 0) Modifier.settingsSearchAnchor("about__whats_new__title") else Modifier,
-                title = stringRes(R.string.about__whats_new__versioned).replace("{version}", versionLabel),
-                summary = stringRes(R.string.about__whats_new__summary),
-                onClick = { WhatsNewTourState.open(tour.version) },
+        // A single "What's new" entry that opens a small version picker, so users on any prior version can
+        // re-view every release's tour without cluttering the list. (Auto-show on update still jumps
+        // straight to the updated version — see WhatsNewTour / pendingTourVersions.)
+        var showWhatsNewPicker by remember { mutableStateOf(false) }
+        Preference(
+            icon = Icons.Default.AutoAwesome,
+            modifier = Modifier.settingsSearchAnchor("about__whats_new__title"),
+            title = stringRes(R.string.about__whats_new__title),
+            summary = stringRes(R.string.about__whats_new__summary),
+            onClick = { showWhatsNewPicker = true },
+        )
+        if (showWhatsNewPicker) {
+            AlertDialog(
+                onDismissRequest = { showWhatsNewPicker = false },
+                title = { Text(stringRes(R.string.about__whats_new__title)) },
+                text = {
+                    // Newest first; the registry is ascending, so reverse for display.
+                    Column {
+                        WHATS_NEW_TOURS.reversed().forEach { tour ->
+                            val versionLabel = tour.version.toString().substringBeforeLast(".0")
+                            Text(
+                                text = stringRes(R.string.about__whats_new__versioned)
+                                    .replace("{version}", versionLabel),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        showWhatsNewPicker = false
+                                        WhatsNewTourState.open(tour.version)
+                                    }
+                                    .padding(vertical = 14.dp),
+                            )
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { showWhatsNewPicker = false }) {
+                        Text(stringRes(R.string.action__cancel))
+                    }
+                },
             )
         }
         Preference(
