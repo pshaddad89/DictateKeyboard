@@ -15,6 +15,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+          cache: gradle
 
       - name: Grant execute permission
         run: chmod +x ./gradlew ./tools/fetch-sherpa-onnx.sh
@@ -22,11 +23,23 @@ jobs:
       - name: Fetch sherpa-onnx native libs
         run: ./tools/fetch-sherpa-onnx.sh
 
-      - name: Build APK
-        run: ./gradlew assembleDebug
+      - name: Decode keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+
+      - name: Create keystore.properties
+        run: |
+          cat > keystore.properties <<EOF
+          storeFile=release.keystore
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          EOF
+
+      - name: Build signed release APK
+        run: ./gradlew assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: DictateKeyboard-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/release/*.apk
