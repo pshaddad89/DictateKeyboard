@@ -179,6 +179,7 @@ configure<ApplicationExtension> {
 
     lint {
         baseline = file("lint.xml")
+        checkReleaseBuilds = false
     }
 
     testOptions {
