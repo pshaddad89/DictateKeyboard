@@ -104,10 +104,53 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         // prefix, a NUL character that no dictionary word can contain.
         private const val TYPED_WORD_KEY = "\u0000"
 
+        // How frequent a word the user added counts as when glide ranks candidates (issue #263), on the
+        // dictionary's own 128..255 scale. Measured against the bundled English dictionary, 212 is its 90th
+        // percentile: a personal word beats nine tenths of the vocabulary, which is what it takes for a name
+        // to win against the similar-shaped rarities it actually competes with, while the words everybody
+        // writes still come first.
+        //
+        // Deliberately not the frequency stored on the entry. Every word added through this app is saved at
+        // the maximum (NlpManager's USER_DICTIONARY_FREQ, 255), so honouring it would put a nickname above
+        // "the" — and that number was chosen to protect words from autocorrect, a different question.
+        private const val USER_DICTIONARY_GLIDE_FREQ = 212
+
         // German umlaut/ß restoration (issue #219): bound the variant generation so a long word with many
         // a/o/u doesn't explode combinatorially (2^sites). Words needing more than this are left alone.
         private const val MAX_UMLAUT_SITES = 6
         private const val MAX_GERMAN_VARIANTS = 128
+
+        // Next-word prediction (issue #245) stops at these: past one of them the previous word belongs to a
+        // sentence that is over. Only the hard enders — a comma separates clauses that still read as one
+        // sentence, and the bigram across them would be worth having.
+        private val SENTENCE_ENDINGS = setOf('.', '!', '?', '…')
+
+        /**
+         * Whether the cursor stands somewhere a next-word prediction is worth offering. Split out of
+         * `nextWordPredictions` because it is the whole decision — the rest of that method is dictionary
+         * lookup — and because it is the part with edge cases worth pinning down in a test.
+         *
+         * Two things finish a word: a space that was typed, and a space that was promised. Accepting a
+         * suggestion leaves the second kind (issue #266) — nothing is written until the next commit needs
+         * it, so the text still ends in a letter while the word is as finished as if space had been pressed.
+         * Requiring a written space is what made the strip stay empty until the user pressed space.
+         *
+         * A sentence end stops it either way. The bigram tables know nothing about sentences, so what could
+         * be offered after a full stop continues the sentence that just ended; offering nothing is the better
+         * answer, and it hands the quick-action row back for the same reason an empty field does.
+         *
+         * That last rule changes nothing today, and is here on purpose. [previousWordOf] reads the word by
+         * walking letters backwards, so it already stops at *any* punctuation — measured on a device, a full
+         * stop was silent before this rule existed. But it stops there incidentally, not because anyone
+         * decided sentences should end a prediction: the day that walk learns to look past a comma (worth
+         * doing — the bigram context in `correctionsFor` wants exactly that), the full stop would quietly
+         * start being crossed too. The decision belongs where predictions are decided.
+         */
+        internal fun isAtPredictionPoint(textBeforeCursor: String, phantomSpacePending: Boolean): Boolean {
+            if (!textBeforeCursor.endsWith(" ") && !phantomSpacePending) return false
+            val settled = textBeforeCursor.trimEnd()
+            return settled.isNotEmpty() && settled.last() !in SENTENCE_ENDINGS
+        }
 
         // Legacy ISO-639 codes that java.util.Locale still reports; map them to the modern code the
         // dictionary files use.
@@ -126,6 +169,16 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
     private val subtypeManager by lazy { appContext.subtypeManager().value }
 
     private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    /**
+     * The personal words that went into the glide index last built, with the locale they were read for
+     * (issue #263). Written by [getListOfWords], read by [getFrequencyForWord] — which runs for every pruned
+     * candidate of every gesture, so this is a plain volatile reference to an immutable map rather than
+     * another lock on that path. Both always concern the active subtype: the classifier rebuilds its word
+     * data whenever the subtype changes, and asks for frequencies only afterwards.
+     */
+    @Volatile
+    private var glideUserWords: Pair<String, Map<String, Int>>? = null
 
     // Word→frequency dictionaries cached per language (issue #127, glide typing phase 2). Each bundled
     // ime/dict/<lang>.json maps a word to a frequency in [128,255]; languages without a bundled file fall
@@ -462,9 +515,7 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         maxCandidateCount: Int,
     ): List<SuggestionCandidate> {
         if (!prefs.suggestion.nextWordPrediction.get()) return emptyList()
-        // Only directly after a completed word: a trailing space means the previous word is finished, while
-        // a cursor sitting mid-word or right after punctuation gives nothing meaningful to continue from.
-        if (!content.textBeforeSelection.endsWith(" ")) return emptyList()
+        if (!isAtPredictionPoint(content.textBeforeSelection, content.phantomSpacePending)) return emptyList()
         val prevWord = previousWordOf(content) ?: return emptyList()
         val bigrams = bigramsFor(subtype)
         if (bigrams.isEmpty()) return emptyList()
@@ -936,13 +987,52 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         return false
     }
 
+    /**
+     * The vocabulary glide typing builds its index from: the bundled dictionary plus the words the user added
+     * themselves (issue #263).
+     *
+     * Those two used to disagree with [isKnownWord], which does consult the personal dictionary — so a word
+     * the user added was safe from autocorrect but could not be swiped, which is a strange thing to have to
+     * explain. Read fresh from the database on every call, because this runs once per index build and the
+     * personal dictionary is the one part of the vocabulary that changes while the app is running.
+     */
     override suspend fun getListOfWords(subtype: Subtype): List<String> {
-        return wordDataFor(subtype).keys.toList()
+        val bundled = wordDataFor(subtype)
+        val personal = userGlideWords(subtype)
+        // Remember them for getFrequencyForWord, which is asked about these very words moments later.
+        glideUserWords = subtype.primaryLocale.localeTag() to personal
+        flogDebug { "glide vocabulary (${subtype.primaryLocale.localeTag()}): ${bundled.size} + ${personal.size} personal" }
+        if (personal.isEmpty()) return bundled.keys.toList()
+        return buildList(bundled.size + personal.size) {
+            addAll(bundled.keys)
+            for (word in personal.keys) if (!bundled.containsKey(word)) add(word)
+        }
     }
 
     override suspend fun getFrequencyForWord(subtype: Subtype, word: String): Double {
-        return (wordDataFor(subtype)[word] ?: 0) / 255.0
+        val bundled = wordDataFor(subtype)[word]
+        if (bundled != null) return bundled / 255.0
+        val (locale, personal) = glideUserWords ?: return 0.0
+        if (locale != subtype.primaryLocale.localeTag()) return 0.0
+        return (personal[word] ?: 0) / 255.0
     }
+
+    /**
+     * The user's own words for [subtype], each at [USER_DICTIONARY_GLIDE_FREQ].
+     *
+     * Blank entries are dropped: the glide pruner indexes a word by its first and last character and would
+     * throw on an empty one, and the system dictionary is not ours to trust for that.
+     */
+    private fun userGlideWords(subtype: Subtype): Map<String, Int> = runCatching {
+        val dm = DictionaryManager.default()
+        dm.loadUserDictionariesIfNecessary()
+        buildMap {
+            for (entry in dm.queryAllUserWords(subtype.primaryLocale)) {
+                val word = entry.word.trim()
+                if (word.isNotEmpty()) put(word, USER_DICTIONARY_GLIDE_FREQ)
+            }
+        }
+    }.getOrDefault(emptyMap())
 
     override suspend fun destroy() {
         // Here we have the chance to de-allocate memory and finish our work. However this might never be called if

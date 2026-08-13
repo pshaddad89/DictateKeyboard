@@ -1,0 +1,146 @@
+// TEMPLATE. The real file is not in this repository.
+//
+// Two things do not belong in a public repo: the address the alerts are sent to (it also appears as
+// `destination_address` in the binding below, where it cannot be moved into a secret) and the
+// watchdog's thresholds. The latter are not secrets in the strict sense — they protect nothing, they
+// only report — but knowing them tells you exactly how to stay underneath.
+//
+// To set up: copy this file to `wrangler.jsonc`, fill in the placeholders, then set the secrets
+// (never in this file):
+//
+//   npx wrangler secret put OPENAI_API_KEY
+//   npx wrangler secret put GOOGLE_SERVICE_ACCOUNT   # the service account's entire JSON key
+//   npx wrangler secret put RTDN_SECRET
+//   npx wrangler secret put OPENAI_ADMIN_KEY         # optional, only for the cost figures
+//
+// The dashboard at /admin additionally needs ACCESS_TEAM_DOMAIN and ACCESS_AUD from Cloudflare
+// Access. Without them it answers 404 rather than 403 — see src/admin/auth.ts.
+
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dictate-cloud",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Only metadata reaches the log — never content. See the README, privacy section.
+  "observability": { "enabled": true },
+
+  // One public address, and one only. The app has it compiled in, so it must never change — unlike
+  // a workers.dev address, which hangs off the account subdomain.
+  "routes": [{ "pattern": "api.dictatekeyboard.com", "custom_domain": true }],
+
+  // Switched off deliberately, not merely as a side effect of the route: otherwise every version
+  // would get its own public URL, each one reaching the same database and the same OpenAI account —
+  // and each one an address at which a limit could be walked around.
+  "workers_dev": false,
+  "preview_urls": false,
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dictate-cloud",
+      // Created with `wrangler d1 create dictate-cloud --location weur` — western Europe, so the
+      // metadata does not leave the EU.
+      "database_id": "<d1-database-id>"
+    }
+  ],
+
+  "durable_objects": {
+    "bindings": [
+      { "name": "WALLET", "class_name": "Wallet" },
+      { "name": "GLOBAL", "class_name": "GlobalGuard" }
+    ]
+  },
+
+  // Append only, never shorten: Cloudflare remembers the last tag it applied. Remove an entry that
+  // has already been applied and the next deploy tries to apply v1 again, failing with "Cannot apply
+  // new-sqlite-class migration to class 'Wallet' that is already depended on by existing Durable
+  // Objects".
+  //
+  // v2 briefly gave the code throttle a class of its own. It answered every call with "internal
+  // error"; the counter now lives in GlobalGuard, which runs anyway. v3 clears the class away again
+  // — deleting rather than quietly abandoning it, or it stays in the account forever.
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Wallet", "GlobalGuard"]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["CodeGuard"]
+    },
+    {
+      "tag": "v3",
+      "deleted_classes": ["CodeGuard"]
+    }
+  ],
+
+  // Everything here is publicly readable — secrets belong in `wrangler secret put`. Thresholds sit
+  // in the configuration rather than in the code so that the source can be published without giving
+  // the limits away with it.
+  "vars": {
+    "TRANSCRIBE_MODEL": "gpt-transcribe",
+    "CHAT_MODEL": "gpt-5-nano",
+    "MAX_AUDIO_SECONDS": "<number>",
+    "MAX_CHAT_INPUT_TOKENS": "<number>",
+    "MAX_CHAT_OUTPUT_TOKENS": "<number>",
+    "RATE_LIMIT_PER_MINUTE": "<number>",
+    // How many devices may hold a working token for one balance at the same time. A phone, a watch
+    // and a tablet are the honest case; beyond that a recovery code is not an account any more but a
+    // shared password. Adjustable from the dashboard under Betrieb.
+    "MAX_DEVICES": "<number>",
+    "PACKAGE_NAME": "net.devemperor.dictate",
+    "DAILY_BUDGET_USD": "<number>",
+    // Individual request rows age out; the daily totals stay. See retention.ts.
+    "USAGE_RETENTION_DAYS": "<number>",
+    // Payout currency. The rate now arrives nightly from the ECB (src/fx.ts); the value here is only
+    // the stopgap for the very first run, before any rates exist.
+    "HOME_CURRENCY": "EUR",
+    "USD_TO_HOME_RATE": "<number>",
+
+    // Where the alerts go. The sender address must be on a domain cleared for sending in this
+    // Cloudflare account — otherwise sending fails with E_SENDER_NOT_VERIFIED and the alert only
+    // ever appears in the dashboard.
+    "ALERT_EMAIL_TO": "<your-address@example.com>",
+    "ALERT_EMAIL_FROM": "alerts@<your-domain>",
+    // Hour (UTC) for the daily report. 5 UTC is 6 or 7 in the morning in Germany.
+    "DIGEST_HOUR_UTC": "<number>",
+    "ADMIN_URL": "https://api.dictatekeyboard.com/admin",
+
+    // The watchdog's thresholds. The defaults are chosen so an ordinary day stays silent: an alarm
+    // that arrives weekly stops being read within a month.
+    "ALERT_BUDGET_STEPS": "<number>",
+    "ALERT_FAST_BURN_PERCENT": "<number>",
+    "ALERT_FAST_BURN_HOURS": "<number>",
+    "ALERT_REFUND_USED_PERCENT": "<number>",
+    "ALERT_WALLET_BUDGET_SHARE": "<number>",
+    "ALERT_DEVICES_PER_WALLET": "<number>",
+    "ALERT_COST_DRIFT_PERCENT": "<number>",
+    "ALERT_ERROR_RATE_PERCENT": "<number>",
+    // From how much cumulative loss to report, in the payout currency. Below that it is rounding, or
+    // the opening phase where a handful of test requests weigh more than the sales that have not
+    // happened yet.
+    "ALERT_MIN_LOSS": "<number>"
+  },
+
+  // Sent through Cloudflare's Email Service. No third party and no API key.
+  //
+  // `destination_address` is set on purpose rather than omitted, for two reasons. Without the
+  // restriction this worker could write to any address at all — a bug in the code or a compromised
+  // deployment would hand someone a mail sender. And sending to a *verified* destination is free on
+  // every plan, while unrestricted sending requires the paid Workers plan.
+  //
+  // The address must have been confirmed under Email Routing → Destination Addresses beforehand, or
+  // sending answers with E_RECIPIENT_NOT_ALLOWED.
+  "send_email": [{ "name": "MAIL", "destination_address": "<your-address@example.com>" }],
+
+  // Two rhythms, told apart in the code by the cron string (see src/index.ts):
+  //   every quarter hour — the watchdog, and the check whether the daily report is due
+  //   nightly            — cleaning up, fetching exchange rates, filling in missing conversions
+  // The nightly line sits on an odd minute rather than on the hour, where every cron on the platform
+  // piles up.
+  "triggers": {
+    "crons": ["*/15 * * * *", "17 3 * * *"]
+  }
+}
