@@ -1066,6 +1066,7 @@
     <string name="dictate__status_idle">Touchez pour dicter</string>
     <string name="dictate__status_recording">Enregistrement – touchez pour arrêter</string>
     <string name="dictate__status_transcribing">Transcription…</string>
+    <string name="dictate__status_transcribing_local">Transcription sur l\'appareil…</string>
     <string name="dictate__back_to_keyboard">Retour au clavier</string>
     <string name="dictate__error_recording_failed">Échec de l\'enregistrement – accordez l\'autorisation du microphone. (%s)</string>
     <string name="dictate__error_no_audio">Aucun enregistrement détecté – parlez un peu plus longtemps.</string>
@@ -1079,7 +1080,7 @@
     <string name="dictate__error_transcription_failed">Échec de la transcription.</string>
     <string name="dictate__error_unknown">Erreur inconnue lors de la transcription.</string>
     <string name="dictate__error_rewording_failed">Échec de la reformulation.</string>
-    <string name="dictate__error_overlay_insert_failed">Impossible d\'insérer dans cette application. Votre enregistrement est conservé — utilisez « Réinsérer » pour le récupérer.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Cette application n\'a pas accepté le texte. Il est dans le presse-papiers : appuyez longuement sur le champ et collez.</string>
     <string name="dictate__error_invalid_api_key">Vérifiez votre clé d\'API</string>
     <string name="dictate__error_quota_exceeded">Quota ou limite atteint</string>
     <string name="dictate__error_content_size_limit">Enregistrement trop long ou trop volumineux</string>
@@ -1188,6 +1189,12 @@
     <string name="dictate__skip_silent_summary">Évite le texte halluciné et les appels API inutiles sur un audio silencieux</string>
     <string name="dictate__trim_silent_gaps_title">Rogner les longues pauses</string>
     <string name="dictate__trim_silent_gaps_summary">Coupe les longues pauses avant l\'envoi : envoi plus rapide, coût réduit</string>
+    <string name="dictate__speed_up_title">Accélérer l\'audio</string>
+    <string name="dictate__speed_up_off">Désactivé</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Envoyé à la vitesse à laquelle vous avez parlé</string>
+    <string name="dictate__speed_up_summary">Mêmes mots, même hauteur de voix : environ {percent} % d\'audio en moins à payer</string>
+    <string name="dictate__speed_up_summary_caution">Environ {percent} % d\'audio en moins à payer, mais à cette vitesse les mots sont plus difficiles à reconnaître</string>
     <string name="dictate__paragraph_split_title">Diviser en paragraphes</string>
     <string name="dictate__paragraph_split_off">Désactivé</string>
     <string name="dictate__paragraph_split_value">Après {n} mots</string>
@@ -1247,6 +1254,7 @@
     <string name="dictate__style_prompt_custom_placeholder">p. ex. Bonjour. Merci beaucoup.</string>
     <string name="dictate__style_prompt_info_title">Voir l\'exemple par défaut</string>
     <string name="dictate__style_prompt_info_description">Cette phrase d\'exemple est envoyée avec chaque transcription pour orienter le modèle vers une majuscule et une ponctuation correctes. Elle s\'adapte automatiquement à la langue dans laquelle vous dictez.</string>
+    <string name="dictate__style_prompt_info_none">Cette langue n\'a pas encore de phrase d\'exemple, donc aucune n\'est envoyée. La transcription suit toujours la langue que vous avez choisie.</string>
     <string name="dictate__custom_words_title">Mots personnalisés</string>
     <string name="dictate__custom_words_summary_empty">Ajoutez des noms ou des termes techniques à orthographier correctement</string>
     <string name="dictate__custom_words_placeholder">ex. : FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1358,7 +1366,7 @@
     <string name="dictate__local_models_live_header">En direct (streaming)</string>
     <string name="dictate__local_models_live_summary">Ils écrivent pendant que vous parlez. Activez « Transcription en temps réel » dans Enregistrement pour les utiliser.</string>
     <string name="dictate__local_longpress_send_title">Appui long sur envoyer pour le modèle local</string>
-    <string name="dictate__local_longpress_send_summary">Pendant l\'enregistrement, maintiens envoyer pour utiliser ce modèle au lieu du cloud.</string>
+    <string name="dictate__local_longpress_send_summary">Maintiens envoyer pendant l\'enregistrement — ou arrêter pendant l\'envoi — pour utiliser ce modèle au lieu du cloud.</string>
     <string name="dictate__local_unload_after">Décharger le modèle inactif après {n} min</string>
     <string name="dictate__local_unload_pressure">Décharger le modèle inactif seulement en cas de mémoire faible</string>
     <string name="dictate__local_model_status_active">Actif</string>
@@ -1512,11 +1520,9 @@
     <string name="dictate__audio_save_failed">Impossible d\'enregistrer l\'audio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Ignorer les champs numériques</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Ne pas démarrer automatiquement sur les champs numériques, téléphone ou PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Saisie glissée prête</string>
-    <string name="settings__localization__subtype_glide_available">Saisie glissée disponible</string>
-    <string name="settings__localization__subtype_glide_downloading">Téléchargement de la saisie glissée… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Saisie glissée non disponible</string>
-    <string name="settings__localization__subtype_status_glide">Glissé</string>
+    <string name="settings__localization__subtype_status_words">Suggestions</string>
+    <string name="settings__localization__subtype_no_word_list_title">Aucune liste de mots pour cette langue</string>
+    <string name="settings__localization__subtype_no_word_list_message">Les suggestions de mots, la correction automatique et la saisie gestuelle restent désactivées pour cette langue tant qu\'il n\'existe pas de liste de mots. La saisie, la dictée et la reformulation ne sont pas concernées.</string>
     <string name="settings__localization__subtype_status_context">Contexte</string>
     <string name="pref__suggestion__auto_correct__label">Correction automatique</string>
     <string name="pref__suggestion__auto_correct__summary">Corriger les fautes de frappe automatiquement à l\'espace</string>

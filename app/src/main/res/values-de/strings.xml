@@ -1079,6 +1079,7 @@
     <string name="dictate__status_idle">Tippen zum Diktieren</string>
     <string name="dictate__status_recording">Aufnahme – tippen zum Stoppen</string>
     <string name="dictate__status_transcribing">Transkribiere…</string>
+    <string name="dictate__status_transcribing_local">Transkribiere auf dem Gerät…</string>
     <string name="dictate__back_to_keyboard">Zurück zur Tastatur</string>
     <string name="dictate__error_recording_failed">Aufnahme fehlgeschlagen – erteile die Mikrofonberechtigung. (%s)</string>
     <string name="dictate__error_no_audio">Keine Aufnahme erkannt – bitte sprich etwas länger.</string>
@@ -1092,7 +1093,7 @@
     <string name="dictate__error_transcription_failed">Transkription fehlgeschlagen.</string>
     <string name="dictate__error_unknown">Unbekannter Fehler bei der Transkription.</string>
     <string name="dictate__error_rewording_failed">Umformulierung fehlgeschlagen.</string>
-    <string name="dictate__error_overlay_insert_failed">Einfügen in dieser App nicht möglich. Deine Aufnahme bleibt erhalten — nutze „Erneut einfügen“, um sie wiederherzustellen.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Diese App hat den Text nicht angenommen. Er liegt in der Zwischenablage — Feld gedrückt halten und einfügen.</string>
     <string name="dictate__error_invalid_api_key">Überprüfe deinen API-Schlüssel</string>
     <string name="dictate__error_quota_exceeded">Kontingent oder Limit erreicht</string>
     <string name="dictate__error_content_size_limit">Aufnahme zu lang oder zu groß</string>
@@ -1266,6 +1267,12 @@
     <string name="dictate__skip_silent_summary">Vermeidet Geistertext und unnötige API-Aufrufe bei stiller Aufnahme</string>
     <string name="dictate__trim_silent_gaps_title">Lange Pausen kürzen</string>
     <string name="dictate__trim_silent_gaps_summary">Schneidet lange Pausen vor dem Senden heraus – schnellerer Upload, weniger Kosten</string>
+    <string name="dictate__speed_up_title">Audio beschleunigen</string>
+    <string name="dictate__speed_up_off">Aus</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Wird so gesendet, wie du gesprochen hast</string>
+    <string name="dictate__speed_up_summary">Gleiche Worte, gleiche Tonhöhe – etwa {percent} % weniger Audio zu bezahlen</string>
+    <string name="dictate__speed_up_summary_caution">Etwa {percent} % weniger Audio zu bezahlen, aber so schnell sind die Worte schwerer zu erkennen</string>
     <string name="dictate__paragraph_split_title">In Absätze aufteilen</string>
     <string name="dictate__paragraph_split_off">Aus</string>
     <string name="dictate__paragraph_split_value">Nach {n} Wörtern</string>
@@ -1325,6 +1332,7 @@
     <string name="dictate__style_prompt_custom_placeholder">z. B. Hallo. Vielen Dank.</string>
     <string name="dictate__style_prompt_info_title">Standardbeispiel ansehen</string>
     <string name="dictate__style_prompt_info_description">Dieser Beispielsatz wird mit jeder Transkription gesendet, um das Modell zu korrekter Groß- und Kleinschreibung sowie Zeichensetzung zu bewegen. Er passt sich automatisch an die Sprache an, in der du diktierst.</string>
+    <string name="dictate__style_prompt_info_none">Für diese Sprache gibt es noch keinen Beispielsatz, deshalb wird keiner mitgesendet. Die Transkription richtet sich weiterhin nach der gewählten Sprache.</string>
     <string name="dictate__custom_words_title">Eigene Wörter</string>
     <string name="dictate__custom_words_summary_empty">Namen oder Fachbegriffe hinzufügen, die korrekt geschrieben werden sollen</string>
     <string name="dictate__custom_words_placeholder">z. B. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1417,7 +1425,7 @@
     <string name="dictate__local_models_live_header">Live (Streaming)</string>
     <string name="dictate__local_models_live_summary">Sie tippen mit, während du sprichst. Aktiviere „Echtzeit-Transkription“ unter Aufnahme, um sie zu nutzen.</string>
     <string name="dictate__local_longpress_send_title">Senden gedrückt halten für lokales Modell</string>
-    <string name="dictate__local_longpress_send_summary">Beim Aufnehmen Senden gedrückt halten, um dieses Modell statt der Cloud zu nutzen.</string>
+    <string name="dictate__local_longpress_send_summary">Beim Aufnehmen Senden gedrückt halten – oder Stopp während des Hochladens – um dieses Modell statt der Cloud zu nutzen.</string>
     <string name="dictate__local_unload_after">Inaktives Modell nach {n} Min entladen</string>
     <string name="dictate__local_unload_pressure">Inaktives Modell nur bei Speicherdruck entladen</string>
     <string name="dictate__local_model_status_active">Aktiv</string>
@@ -1572,11 +1580,9 @@
     <string name="dictate__audio_save_failed">Audio konnte nicht gespeichert werden</string>
     <string name="dictate__instant_recording_skip_numeric_title">Zahlenfelder überspringen</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Bei Zahlen-, Telefon- oder PIN-Feldern nicht automatisch starten</string>
-    <string name="settings__localization__subtype_glide_ready">Glide-Eingabe bereit</string>
-    <string name="settings__localization__subtype_glide_available">Glide-Eingabe verfügbar</string>
-    <string name="settings__localization__subtype_glide_downloading">Gleittipp-Wörterbuch wird geladen… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Gleittipp nicht verfügbar</string>
-    <string name="settings__localization__subtype_status_glide">Gleiten</string>
+    <string name="settings__localization__subtype_status_words">Vorschläge</string>
+    <string name="settings__localization__subtype_no_word_list_title">Keine Wortliste für diese Sprache</string>
+    <string name="settings__localization__subtype_no_word_list_message">Wortvorschläge, Autokorrektur und Wischen bleiben für diese Sprache aus, solange es dafür keine Wortliste gibt. Tippen, Diktat und Umformulieren sind nicht betroffen.</string>
     <string name="settings__localization__subtype_status_context">Kontext</string>
     <string name="pref__suggestion__auto_correct__label">Autokorrektur</string>
     <string name="pref__suggestion__auto_correct__summary">Tippfehler beim Leerzeichen automatisch korrigieren</string>

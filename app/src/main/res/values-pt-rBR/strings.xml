@@ -997,6 +997,7 @@
     <string name="dictate__status_idle">Toque para ditar</string>
     <string name="dictate__status_recording">Gravando – toque para parar</string>
     <string name="dictate__status_transcribing">Transcrevendo…</string>
+    <string name="dictate__status_transcribing_local">Transcrevendo no dispositivo…</string>
     <string name="dictate__back_to_keyboard">Voltar ao teclado</string>
     <string name="dictate__error_recording_failed">Falha na gravação – conceda a permissão do microfone. (%s)</string>
     <string name="dictate__error_no_audio">Nenhuma gravação detectada – fale um pouco mais.</string>
@@ -1010,7 +1011,7 @@
     <string name="dictate__error_transcription_failed">Falha na transcrição.</string>
     <string name="dictate__error_unknown">Erro desconhecido durante a transcrição.</string>
     <string name="dictate__error_rewording_failed">Falha na reformulação.</string>
-    <string name="dictate__error_overlay_insert_failed">Não foi possível inserir neste app. Sua gravação foi mantida — use \"Inserir novamente\" para recuperá-la.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Este app não aceitou o texto. Ele está na área de transferência — mantenha o campo pressionado e cole.</string>
     <string name="dictate__error_invalid_api_key">Verifique sua chave de API</string>
     <string name="dictate__error_quota_exceeded">Cota ou limite atingido</string>
     <string name="dictate__error_content_size_limit">Gravação muito longa ou grande</string>
@@ -1119,6 +1120,12 @@
     <string name="dictate__skip_silent_summary">Evita texto alucinado e chamadas de API desnecessárias em áudio silencioso</string>
     <string name="dictate__trim_silent_gaps_title">Cortar pausas longas</string>
     <string name="dictate__trim_silent_gaps_summary">Corta as pausas longas antes de enviar — envio mais rápido, menor custo</string>
+    <string name="dictate__speed_up_title">Acelerar o áudio</string>
+    <string name="dictate__speed_up_off">Desligado</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Enviado na velocidade em que você falou</string>
+    <string name="dictate__speed_up_summary">As mesmas palavras e o mesmo tom — cerca de {percent} % menos áudio para pagar</string>
+    <string name="dictate__speed_up_summary_caution">Cerca de {percent} % menos áudio para pagar, mas nessa velocidade as palavras ficam mais difíceis de reconhecer</string>
     <string name="dictate__paragraph_split_title">Dividir em parágrafos</string>
     <string name="dictate__paragraph_split_off">Desligado</string>
     <string name="dictate__paragraph_split_value">Após {n} palavras</string>
@@ -1178,6 +1185,7 @@
     <string name="dictate__style_prompt_custom_placeholder">ex.: Olá. Muito obrigado.</string>
     <string name="dictate__style_prompt_info_title">Ver exemplo padrão</string>
     <string name="dictate__style_prompt_info_description">Esta frase de exemplo é enviada com cada transcrição para orientar o modelo ao uso correto de maiúsculas e pontuação. Ela se adapta automaticamente ao idioma em que você dita.</string>
+    <string name="dictate__style_prompt_info_none">Este idioma ainda não tem uma frase de exemplo, então nenhuma é enviada. A transcrição continua seguindo o idioma que você selecionou.</string>
     <string name="dictate__custom_words_title">Palavras personalizadas</string>
     <string name="dictate__custom_words_summary_empty">Adicione nomes ou termos técnicos para escrevê-los corretamente</string>
     <string name="dictate__custom_words_placeholder">ex.: FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1289,7 +1297,7 @@
     <string name="dictate__local_models_live_header">Ao vivo (streaming)</string>
     <string name="dictate__local_models_live_summary">Escrevem enquanto você fala. Ative “Transcrição em tempo real” em Gravação para usá-los.</string>
     <string name="dictate__local_longpress_send_title">Segurar enviar para o modelo local</string>
-    <string name="dictate__local_longpress_send_summary">Durante a gravação, segure enviar para usar este modelo em vez da nuvem.</string>
+    <string name="dictate__local_longpress_send_summary">Segure enviar durante a gravação — ou parar durante o envio — para usar este modelo em vez da nuvem.</string>
     <string name="dictate__local_unload_after">Descarregar modelo inativo após {n} min</string>
     <string name="dictate__local_unload_pressure">Descarregar modelo inativo só com pouca memória</string>
     <string name="dictate__local_model_status_active">Ativo</string>
@@ -1445,11 +1453,9 @@
     <string name="dictate__audio_save_failed">Não foi possível salvar o áudio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Ignorar campos numéricos</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Não iniciar automaticamente em campos de números, telefone ou PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Escrita deslizante pronta</string>
-    <string name="settings__localization__subtype_glide_available">Escrita deslizante disponível</string>
-    <string name="settings__localization__subtype_glide_downloading">Baixando escrita deslizante… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Escrita deslizante não disponível</string>
-    <string name="settings__localization__subtype_status_glide">Deslizar</string>
+    <string name="settings__localization__subtype_status_words">Sugestões</string>
+    <string name="settings__localization__subtype_no_word_list_title">Sem lista de palavras para este idioma</string>
+    <string name="settings__localization__subtype_no_word_list_message">As sugestões de palavras, a correção automática e a escrita por deslize continuam desativadas para este idioma enquanto não houver uma lista de palavras. Digitar, ditar e reformular não são afetados.</string>
     <string name="settings__localization__subtype_status_context">Contexto</string>
     <string name="pref__suggestion__auto_correct__label">Correção automática</string>
     <string name="pref__suggestion__auto_correct__summary">Corrigir erros de digitação automaticamente ao dar espaço</string>

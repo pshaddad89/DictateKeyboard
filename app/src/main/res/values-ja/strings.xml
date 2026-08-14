@@ -1121,6 +1121,7 @@
     <string name="dictate__status_idle">タップして音声入力</string>
     <string name="dictate__status_recording">録音中 – タップで停止</string>
     <string name="dictate__status_transcribing">文字起こし中…</string>
+    <string name="dictate__status_transcribing_local">端末で文字起こし中…</string>
     <string name="dictate__back_to_keyboard">キーボードに戻る</string>
     <string name="dictate__error_recording_failed">録音に失敗しました – マイクの権限を許可してください。(%s)</string>
     <string name="dictate__error_no_audio">録音が検出されませんでした – もう少し長く話してください。</string>
@@ -1134,7 +1135,7 @@
     <string name="dictate__error_transcription_failed">文字起こしに失敗しました。</string>
     <string name="dictate__error_unknown">文字起こし中に不明なエラーが発生しました。</string>
     <string name="dictate__error_rewording_failed">言い換えに失敗しました。</string>
-    <string name="dictate__error_overlay_insert_failed">このアプリに挿入できませんでした。録音は保持されています。「再挿入」で復元してください。</string>
+    <string name="dictate__error_overlay_insert_clipboard">このアプリはテキストを受け付けませんでした。クリップボードにあります — 入力欄を長押しして貼り付けてください。</string>
     <string name="dictate__error_invalid_api_key">APIキーを確認してください</string>
     <string name="dictate__error_quota_exceeded">クォータまたは上限に達しました</string>
     <string name="dictate__error_content_size_limit">録音が長すぎるか大きすぎます</string>
@@ -1243,6 +1244,12 @@
     <string name="dictate__skip_silent_summary">無音の録音での幻覚テキストや無駄なAPI呼び出しを回避します</string>
     <string name="dictate__trim_silent_gaps_title">長い無音を除去</string>
     <string name="dictate__trim_silent_gaps_summary">送信前に長い無音をカット — 高速アップロード、低コスト</string>
+    <string name="dictate__speed_up_title">音声を速める</string>
+    <string name="dictate__speed_up_off">オフ</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">話した速さのまま送信します</string>
+    <string name="dictate__speed_up_summary">言葉も声の高さもそのまま — 課金される音声が約 {percent} % 減ります</string>
+    <string name="dictate__speed_up_summary_caution">課金される音声が約 {percent} % 減りますが、この速さでは言葉を認識しにくくなります</string>
     <string name="dictate__paragraph_split_title">段落に分割</string>
     <string name="dictate__paragraph_split_off">オフ</string>
     <string name="dictate__paragraph_split_value">{n}語以降</string>
@@ -1302,6 +1309,7 @@
     <string name="dictate__style_prompt_custom_placeholder">例：こんにちは。どうもありがとうございます。</string>
     <string name="dictate__style_prompt_info_title">既定の例を表示</string>
     <string name="dictate__style_prompt_info_description">この例文は、正しい大文字使用と句読点へモデルを導くために、文字起こしごとに送信されます。音声入力する言語に自動的に適応します。</string>
+    <string name="dictate__style_prompt_info_none">この言語にはまだ例文がないため、何も送信されません。文字起こしは選択した言語に従います。</string>
     <string name="dictate__custom_words_title">カスタム単語</string>
     <string name="dictate__custom_words_summary_empty">正しく表記するために名前や専門用語を追加します</string>
     <string name="dictate__custom_words_placeholder">例: FlorisBoard、Kubernetes、Renée、OAuth、Anthropic</string>
@@ -1413,7 +1421,7 @@
     <string name="dictate__local_models_live_header">ライブ（ストリーミング）</string>
     <string name="dictate__local_models_live_summary">話しながら文字が入力されます。使うには「録音」の「リアルタイム文字起こし」をオンにしてください。</string>
     <string name="dictate__local_longpress_send_title">送信長押しでローカルモデル</string>
-    <string name="dictate__local_longpress_send_summary">録音中に送信を長押しで、クラウドではなくこのモデルを使用。</string>
+    <string name="dictate__local_longpress_send_summary">録音中は送信を、アップロード中は停止を長押しで、クラウドではなくこのモデルを使用。</string>
     <string name="dictate__local_unload_after">アイドル時、{n}分後にモデルを解放</string>
     <string name="dictate__local_unload_pressure">メモリ逼迫時のみモデルを解放</string>
     <string name="dictate__local_model_status_active">使用中</string>
@@ -1569,11 +1577,9 @@
     <string name="dictate__audio_save_failed">音声を保存できませんでした</string>
     <string name="dictate__instant_recording_skip_numeric_title">数字入力欄をスキップ</string>
     <string name="dictate__instant_recording_skip_numeric_summary">数字・電話・PIN入力欄では自動開始しない</string>
-    <string name="settings__localization__subtype_glide_ready">グライド入力の準備完了</string>
-    <string name="settings__localization__subtype_glide_available">グライド入力を利用可能</string>
-    <string name="settings__localization__subtype_glide_downloading">グライド入力をダウンロード中… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">グライド入力は利用できません</string>
-    <string name="settings__localization__subtype_status_glide">グライド</string>
+    <string name="settings__localization__subtype_status_words">予測変換</string>
+    <string name="settings__localization__subtype_no_word_list_title">この言語の単語リストはありません</string>
+    <string name="settings__localization__subtype_no_word_list_message">この言語に単語リストが用意されるまで、単語の予測、自動修正、グライド入力は無効のままです。入力、音声入力、言い換えには影響しません。</string>
     <string name="settings__localization__subtype_status_context">文脈</string>
     <string name="pref__suggestion__auto_correct__label">自動修正</string>
     <string name="pref__suggestion__auto_correct__summary">スペース入力時にタイプミスを自動修正</string>

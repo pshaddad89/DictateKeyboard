@@ -1047,6 +1047,7 @@
     <string name="dictate__status_idle">انقر للإملاء</string>
     <string name="dictate__status_recording">جارٍ التسجيل – انقر للإيقاف</string>
     <string name="dictate__status_transcribing">جارٍ التفريغ النصي…</string>
+    <string name="dictate__status_transcribing_local">جارٍ التفريغ على الجهاز…</string>
     <string name="dictate__back_to_keyboard">العودة إلى لوحة المفاتيح</string>
     <string name="dictate__error_recording_failed">فشل التسجيل – امنح إذن الميكروفون. (%s)</string>
     <string name="dictate__error_no_audio">لم يُكتشف أي تسجيل – من فضلك تحدّث لفترة أطول قليلًا.</string>
@@ -1060,7 +1061,7 @@
     <string name="dictate__error_transcription_failed">فشل التفريغ النصي.</string>
     <string name="dictate__error_unknown">خطأ غير معروف أثناء التفريغ النصي.</string>
     <string name="dictate__error_rewording_failed">فشلت إعادة الصياغة.</string>
-    <string name="dictate__error_overlay_insert_failed">تعذّر الإدراج في هذا التطبيق. تم الاحتفاظ بتسجيلك — استخدم «إعادة الإدراج» لاستعادته.</string>
+    <string name="dictate__error_overlay_insert_clipboard">لم يقبل هذا التطبيق النص. تم نسخه إلى الحافظة — اضغط مطولاً على الحقل والصقه.</string>
     <string name="dictate__error_invalid_api_key">تحقّق من مفتاح API الخاص بك</string>
     <string name="dictate__error_quota_exceeded">تم بلوغ الحصة أو الحد</string>
     <string name="dictate__error_content_size_limit">التسجيل طويل جدًا أو كبير جدًا</string>
@@ -1169,6 +1170,12 @@
     <string name="dictate__skip_silent_summary">تجنّب النصوص المُختلَقة واستدعاءات API المهدورة في الصوت الصامت</string>
     <string name="dictate__trim_silent_gaps_title">اقتصاص فترات التوقف الطويلة</string>
     <string name="dictate__trim_silent_gaps_summary">قص فترات التوقف الطويلة قبل الإرسال — رفع أسرع وتكلفة أقل</string>
+    <string name="dictate__speed_up_title">تسريع الصوت</string>
+    <string name="dictate__speed_up_off">إيقاف</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">يُرسَل بالسرعة التي تحدثت بها</string>
+    <string name="dictate__speed_up_summary">نفس الكلمات ونفس طبقة الصوت — صوت أقل بنحو {percent} % تدفع مقابله</string>
+    <string name="dictate__speed_up_summary_caution">صوت أقل بنحو {percent} % تدفع مقابله، لكن عند هذه السرعة يصعب التعرف على الكلمات</string>
     <string name="dictate__paragraph_split_title">التقسيم إلى فقرات</string>
     <string name="dictate__paragraph_split_off">إيقاف</string>
     <string name="dictate__paragraph_split_value">بعد {n} كلمة</string>
@@ -1228,6 +1235,7 @@
     <string name="dictate__style_prompt_custom_placeholder">مثلاً: مرحباً. شكراً جزيلاً.</string>
     <string name="dictate__style_prompt_info_title">عرض المثال الافتراضي</string>
     <string name="dictate__style_prompt_info_description">تُرسَل هذه الجملة النموذجية مع كل عملية تفريغ نصي لتوجيه النموذج نحو الأحرف الكبيرة وعلامات الترقيم الصحيحة. وتتكيّف تلقائيًا مع اللغة التي تُملي بها.</string>
+    <string name="dictate__style_prompt_info_none">لا توجد بعد جملة مثال لهذه اللغة، لذا لا يتم إرسال أي جملة. وتظل عملية التفريغ تتبع اللغة التي اخترتها.</string>
     <string name="dictate__custom_words_title">كلمات مخصّصة</string>
     <string name="dictate__custom_words_summary_empty">أضِف أسماء أو مصطلحات تقنية لكتابتها بشكل صحيح</string>
     <string name="dictate__custom_words_placeholder">مثال: FlorisBoard، Kubernetes، Renée، OAuth، Anthropic</string>
@@ -1339,7 +1347,7 @@
     <string name="dictate__local_models_live_header">مباشر (بث)</string>
     <string name="dictate__local_models_live_summary">تكتب أثناء تحدثك. فعّل «النسخ الفوري» ضمن التسجيل لاستخدامها.</string>
     <string name="dictate__local_longpress_send_title">الضغط المطوّل على الإرسال للنموذج المحلي</string>
-    <string name="dictate__local_longpress_send_summary">أثناء التسجيل، اضغط مطولاً على زر الإرسال لاستخدام هذا النموذج بدلاً من السحابة.</string>
+    <string name="dictate__local_longpress_send_summary">اضغط مطولاً على الإرسال أثناء التسجيل — أو على الإيقاف أثناء الرفع — لاستخدام هذا النموذج بدلاً من السحابة.</string>
     <string name="dictate__local_unload_after">تفريغ النموذج الخامل بعد {n} دقيقة</string>
     <string name="dictate__local_unload_pressure">تفريغ النموذج الخامل فقط عند انخفاض الذاكرة</string>
     <string name="dictate__local_model_status_active">نشط</string>
@@ -1495,11 +1503,9 @@
     <string name="dictate__audio_save_failed">تعذّر حفظ الصوت</string>
     <string name="dictate__instant_recording_skip_numeric_title">تخطي حقول الأرقام</string>
     <string name="dictate__instant_recording_skip_numeric_summary">لا تبدأ تلقائيًا في حقول الأرقام أو الهاتف أو رمز PIN</string>
-    <string name="settings__localization__subtype_glide_ready">الكتابة بالسحب جاهزة</string>
-    <string name="settings__localization__subtype_glide_available">الكتابة بالسحب متاحة</string>
-    <string name="settings__localization__subtype_glide_downloading">جارٍ تنزيل الكتابة بالسحب… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">الكتابة بالسحب غير متاحة</string>
-    <string name="settings__localization__subtype_status_glide">انزلاق</string>
+    <string name="settings__localization__subtype_status_words">الاقتراحات</string>
+    <string name="settings__localization__subtype_no_word_list_title">لا توجد قائمة كلمات لهذه اللغة</string>
+    <string name="settings__localization__subtype_no_word_list_message">تبقى اقتراحات الكلمات والتصحيح التلقائي والكتابة بالتمرير معطلة لهذه اللغة إلى أن تتوفر قائمة كلمات لها. أما الكتابة والإملاء وإعادة الصياغة فلا تتأثر.</string>
     <string name="settings__localization__subtype_status_context">السياق</string>
     <string name="pref__suggestion__auto_correct__label">التصحيح التلقائي</string>
     <string name="pref__suggestion__auto_correct__summary">تصحيح الأخطاء المطبعية تلقائيًا عند كتابة مسافة</string>

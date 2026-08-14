@@ -1064,6 +1064,7 @@
     <string name="dictate__status_idle">Toca per dictar</string>
     <string name="dictate__status_recording">Gravant – toca per aturar</string>
     <string name="dictate__status_transcribing">Transcrivint…</string>
+    <string name="dictate__status_transcribing_local">Transcrivint al dispositiu…</string>
     <string name="dictate__back_to_keyboard">Torna al teclat</string>
     <string name="dictate__error_recording_failed">Ha fallat la gravació – concedeix el permís del micròfon. (%s)</string>
     <string name="dictate__error_no_audio">No s\'ha detectat cap gravació – parla una mica més.</string>
@@ -1077,7 +1078,7 @@
     <string name="dictate__error_transcription_failed">Ha fallat la transcripció.</string>
     <string name="dictate__error_unknown">Error desconegut durant la transcripció.</string>
     <string name="dictate__error_rewording_failed">Ha fallat la reformulació.</string>
-    <string name="dictate__error_overlay_insert_failed">No s\'ha pogut inserir en aquesta aplicació. La teva gravació s\'ha conservat: fes servir «Torna a inserir» per recuperar-la.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Aquesta aplicació no ha acceptat el text. És al porta-retalls: manteniu premut el camp i enganxeu-lo.</string>
     <string name="dictate__error_invalid_api_key">Comprova la teva clau d\'API</string>
     <string name="dictate__error_quota_exceeded">Quota o límit assolit</string>
     <string name="dictate__error_content_size_limit">Gravació massa llarga o massa gran</string>
@@ -1186,6 +1187,12 @@
     <string name="dictate__skip_silent_summary">Evita el text al·lucinat i les crides a l\'API inútils en àudio silenciós</string>
     <string name="dictate__trim_silent_gaps_title">Retalla les pauses llargues</string>
     <string name="dictate__trim_silent_gaps_summary">Retalla les pauses llargues abans d\'enviar: pujada més ràpida i menys cost</string>
+    <string name="dictate__speed_up_title">Accelera l\'àudio</string>
+    <string name="dictate__speed_up_off">Desactivat</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">S\'envia a la velocitat amb què has parlat</string>
+    <string name="dictate__speed_up_summary">Mateixes paraules i mateix to: al voltant d\'un {percent} % menys d\'àudio a pagar</string>
+    <string name="dictate__speed_up_summary_caution">Al voltant d\'un {percent} % menys d\'àudio a pagar, però a aquesta velocitat les paraules costen més de reconèixer</string>
     <string name="dictate__paragraph_split_title">Divideix en paràgrafs</string>
     <string name="dictate__paragraph_split_off">Desactivat</string>
     <string name="dictate__paragraph_split_value">Després de {n} paraules</string>
@@ -1245,6 +1252,7 @@
     <string name="dictate__style_prompt_custom_placeholder">p. ex. Hola. Moltes gràcies.</string>
     <string name="dictate__style_prompt_info_title">Mostra l\'exemple per defecte</string>
     <string name="dictate__style_prompt_info_description">Aquesta frase d\'exemple s\'envia amb cada transcripció per orientar el model cap a un ús correcte de majúscules i puntuació. S\'adapta automàticament a l\'idioma en què dictes.</string>
+    <string name="dictate__style_prompt_info_none">Aquesta llengua encara no té cap frase d\'exemple, així que no se n\'envia cap. La transcripció continua seguint la llengua que heu triat.</string>
     <string name="dictate__custom_words_title">Paraules personalitzades</string>
     <string name="dictate__custom_words_summary_empty">Afegeix noms o termes tècnics perquè s\'escriguin correctament</string>
     <string name="dictate__custom_words_placeholder">p. ex. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1356,7 +1364,7 @@
     <string name="dictate__local_models_live_header">En directe (streaming)</string>
     <string name="dictate__local_models_live_summary">Escriuen mentre parles. Activa «Transcripció en temps real» a Gravació per fer-los servir.</string>
     <string name="dictate__local_longpress_send_title">Mantén premut enviar per al model local</string>
-    <string name="dictate__local_longpress_send_summary">Durant la gravació, mantén premut enviar per usar aquest model en lloc del núvol.</string>
+    <string name="dictate__local_longpress_send_summary">Mantén premut enviar durant la gravació — o aturar mentre puja — per usar aquest model en lloc del núvol.</string>
     <string name="dictate__local_unload_after">Descarrega el model inactiu després de {n} min</string>
     <string name="dictate__local_unload_pressure">Descarrega el model inactiu només amb poca memòria</string>
     <string name="dictate__local_model_status_active">Actiu</string>
@@ -1512,11 +1520,9 @@
     <string name="dictate__audio_save_failed">No s\'ha pogut desar l\'àudio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Omet camps numèrics</string>
     <string name="dictate__instant_recording_skip_numeric_summary">No iniciïs automàticament en camps de números, telèfon o PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Escriptura lliscant a punt</string>
-    <string name="settings__localization__subtype_glide_available">Escriptura lliscant disponible</string>
-    <string name="settings__localization__subtype_glide_downloading">S\'està baixant l\'escriptura lliscant… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Escriptura lliscant no disponible</string>
-    <string name="settings__localization__subtype_status_glide">Lliscar</string>
+    <string name="settings__localization__subtype_status_words">Suggeriments</string>
+    <string name="settings__localization__subtype_no_word_list_title">No hi ha cap llista de paraules per a aquesta llengua</string>
+    <string name="settings__localization__subtype_no_word_list_message">Els suggeriments de paraules, la correcció automàtica i l\'escriptura lliscant es mantenen desactivats per a aquesta llengua fins que n\'hi hagi una llista de paraules. Escriure, dictar i reformular no es veuen afectats.</string>
     <string name="settings__localization__subtype_status_context">Context</string>
     <string name="pref__suggestion__auto_correct__label">Correcció automàtica</string>
     <string name="pref__suggestion__auto_correct__summary">Corregeix errades automàticament en prémer espai</string>

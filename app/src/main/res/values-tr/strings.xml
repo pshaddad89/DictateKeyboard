@@ -1167,6 +1167,7 @@
     <string name="dictate__status_idle">Dikte etmek için dokunun</string>
     <string name="dictate__status_recording">Kaydediliyor – durdurmak için dokunun</string>
     <string name="dictate__status_transcribing">Yazıya dökülüyor…</string>
+    <string name="dictate__status_transcribing_local">Cihazda yazıya dökülüyor…</string>
     <string name="dictate__back_to_keyboard">Klavyeye geri dön</string>
     <string name="dictate__error_recording_failed">Kayıt başarısız oldu – mikrofon iznini verin. (%s)</string>
     <string name="dictate__error_no_audio">Kayıt algılanmadı – lütfen biraz daha uzun konuşun.</string>
@@ -1180,7 +1181,7 @@
     <string name="dictate__error_transcription_failed">Yazıya dökme başarısız oldu.</string>
     <string name="dictate__error_unknown">Yazıya dökme sırasında bilinmeyen hata.</string>
     <string name="dictate__error_rewording_failed">Yeniden ifade etme başarısız oldu.</string>
-    <string name="dictate__error_overlay_insert_failed">Bu uygulamaya eklenemedi. Kaydınız korunuyor — kurtarmak için „Yeniden ekle” seçeneğini kullanın.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Bu uygulama metni kabul etmedi. Metin panoda — alana uzun basıp yapıştırın.</string>
     <string name="dictate__error_invalid_api_key">API anahtarınızı kontrol edin</string>
     <string name="dictate__error_quota_exceeded">Kota veya sınıra ulaşıldı</string>
     <string name="dictate__error_content_size_limit">Kayıt çok uzun veya çok büyük</string>
@@ -1289,6 +1290,12 @@
     <string name="dictate__skip_silent_summary">Sessiz seste uydurma metni ve gereksiz API çağrılarını önler</string>
     <string name="dictate__trim_silent_gaps_title">Uzun duraklamaları kırp</string>
     <string name="dictate__trim_silent_gaps_summary">Göndermeden önce uzun duraklamaları keser — daha hızlı yükleme, daha az maliyet</string>
+    <string name="dictate__speed_up_title">Sesi hızlandır</string>
+    <string name="dictate__speed_up_off">Kapalı</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Konuştuğun hızla gönderilir</string>
+    <string name="dictate__speed_up_summary">Aynı kelimeler, aynı ses tonu — ücreti ödenen sesin yaklaşık %{percent} kadarı azalır</string>
+    <string name="dictate__speed_up_summary_caution">Ücreti ödenen ses yaklaşık %{percent} azalır, ancak bu hızda kelimeleri tanımak zorlaşır</string>
     <string name="dictate__paragraph_split_title">Paragraflara böl</string>
     <string name="dictate__paragraph_split_off">Kapalı</string>
     <string name="dictate__paragraph_split_value">{n} kelimeden sonra</string>
@@ -1348,6 +1355,7 @@
     <string name="dictate__style_prompt_custom_placeholder">örn. Merhaba. Çok teşekkür ederim.</string>
     <string name="dictate__style_prompt_info_title">Varsayılan örneği görüntüle</string>
     <string name="dictate__style_prompt_info_description">Bu örnek cümle, modeli doğru büyük harf ve noktalamaya yönlendirmek için her yazıya dökme ile birlikte gönderilir. Dikte ettiğiniz dile otomatik olarak uyum sağlar.</string>
+    <string name="dictate__style_prompt_info_none">Bu dil için henüz örnek cümle yok, bu yüzden hiçbiri gönderilmiyor. Deşifre yine seçtiğiniz dili izler.</string>
     <string name="dictate__custom_words_title">Özel sözcükler</string>
     <string name="dictate__custom_words_summary_empty">Doğru yazılması için adlar veya teknik terimler ekleyin</string>
     <string name="dictate__custom_words_placeholder">örn. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1459,7 +1467,7 @@
     <string name="dictate__local_models_live_header">Canlı (akış)</string>
     <string name="dictate__local_models_live_summary">Siz konuşurken yazarlar. Bunları kullanmak için Kayıt altındaki “Gerçek zamanlı transkripsiyon” seçeneğini açın.</string>
     <string name="dictate__local_longpress_send_title">Yerel model için gönder\'e basılı tut</string>
-    <string name="dictate__local_longpress_send_summary">Kayıt sırasında gönder\'e basılı tut, bulut yerine bu modeli kullan.</string>
+    <string name="dictate__local_longpress_send_summary">Kayıt sırasında gönder\'e, yükleme sırasında durdur\'a basılı tut; bulut yerine bu model kullanılsın.</string>
     <string name="dictate__local_unload_after">Boştaki modeli {n} dk sonra bellekten kaldır</string>
     <string name="dictate__local_unload_pressure">Boştaki modeli yalnızca bellek azaldığında kaldır</string>
     <string name="dictate__local_model_status_active">Etkin</string>
@@ -1615,11 +1623,9 @@
     <string name="dictate__audio_save_failed">Ses kaydedilemedi</string>
     <string name="dictate__instant_recording_skip_numeric_title">Sayı alanlarını atla</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Sayı, telefon veya PIN alanlarında otomatik başlatma</string>
-    <string name="settings__localization__subtype_glide_ready">Kaydırarak yazma hazır</string>
-    <string name="settings__localization__subtype_glide_available">Kaydırarak yazma kullanılabilir</string>
-    <string name="settings__localization__subtype_glide_downloading">Kaydırarak yazma indiriliyor… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Kaydırarak yazma kullanılamıyor</string>
-    <string name="settings__localization__subtype_status_glide">Kaydırma</string>
+    <string name="settings__localization__subtype_status_words">Öneriler</string>
+    <string name="settings__localization__subtype_no_word_list_title">Bu dil için kelime listesi yok</string>
+    <string name="settings__localization__subtype_no_word_list_message">Kelime önerileri, otomatik düzeltme ve kaydırarak yazma, bu dil için bir kelime listesi olana kadar kapalı kalır. Yazma, dikte ve yeniden ifade etme bundan etkilenmez.</string>
     <string name="settings__localization__subtype_status_context">Bağlam</string>
     <string name="pref__suggestion__auto_correct__label">Otomatik düzeltme</string>
     <string name="pref__suggestion__auto_correct__summary">Boşlukta yazım hatalarını otomatik düzelt</string>

@@ -1187,6 +1187,7 @@
     <string name="dictate__status_idle">Koppintson a diktáláshoz</string>
     <string name="dictate__status_recording">Felvétel – koppintson a leállításhoz</string>
     <string name="dictate__status_transcribing">Átírás…</string>
+    <string name="dictate__status_transcribing_local">Átírás az eszközön…</string>
     <string name="dictate__back_to_keyboard">Vissza a billentyűzethez</string>
     <string name="dictate__error_recording_failed">A felvétel sikertelen – engedélyezze a mikrofont. (%s)</string>
     <string name="dictate__error_no_audio">Nem érzékelhető felvétel – kérjük, beszéljen egy kicsit tovább.</string>
@@ -1200,7 +1201,7 @@
     <string name="dictate__error_transcription_failed">Az átírás sikertelen.</string>
     <string name="dictate__error_unknown">Ismeretlen hiba az átírás során.</string>
     <string name="dictate__error_rewording_failed">Az átfogalmazás sikertelen.</string>
-    <string name="dictate__error_overlay_insert_failed">Nem sikerült beszúrni ebbe az alkalmazásba. A felvételed megmarad — használd az „Újrabeillesztés” funkciót a visszaállításához.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Ez az alkalmazás nem fogadta el a szöveget. A vágólapon van — tartsa nyomva a mezőt és illessze be.</string>
     <string name="dictate__error_invalid_api_key">Ellenőrizze az API-kulcsát</string>
     <string name="dictate__error_quota_exceeded">Kvóta vagy korlát elérve</string>
     <string name="dictate__error_content_size_limit">A felvétel túl hosszú vagy túl nagy</string>
@@ -1309,6 +1310,12 @@
     <string name="dictate__skip_silent_summary">Kerüli a kitalált szöveget és a felesleges API-hívásokat néma hangnál</string>
     <string name="dictate__trim_silent_gaps_title">Hosszú szünetek levágása</string>
     <string name="dictate__trim_silent_gaps_summary">Küldés előtt levágja a hosszú szüneteket – gyorsabb feltöltés, kevesebb költség</string>
+    <string name="dictate__speed_up_title">Hang gyorsítása</string>
+    <string name="dictate__speed_up_off">Ki</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Olyan tempóban megy el, ahogy beszéltél</string>
+    <string name="dictate__speed_up_summary">Ugyanazok a szavak, ugyanaz a hangmagasság – nagyjából {percent} %-kal kevesebb fizetendő hang</string>
+    <string name="dictate__speed_up_summary_caution">Nagyjából {percent} %-kal kevesebb fizetendő hang, de ilyen tempóban nehezebb felismerni a szavakat</string>
     <string name="dictate__paragraph_split_title">Bekezdésekre bontás</string>
     <string name="dictate__paragraph_split_off">Ki</string>
     <string name="dictate__paragraph_split_value">{n} szó után</string>
@@ -1368,6 +1375,7 @@
     <string name="dictate__style_prompt_custom_placeholder">pl. Jó napot. Nagyon köszönöm.</string>
     <string name="dictate__style_prompt_info_title">Alapértelmezett példa megtekintése</string>
     <string name="dictate__style_prompt_info_description">Ezt a példamondatot minden átírással elküldjük, hogy a modellt a helyes nagybetűk és írásjelek felé terelje. Automatikusan alkalmazkodik ahhoz a nyelvhez, amelyen diktál.</string>
+    <string name="dictate__style_prompt_info_none">Ehhez a nyelvhez még nincs mintamondat, ezért nem kerül elküldésre. Az átirat továbbra is a kiválasztott nyelvet követi.</string>
     <string name="dictate__custom_words_title">Egyéni szavak</string>
     <string name="dictate__custom_words_summary_empty">Adjon hozzá neveket vagy szakkifejezéseket a helyes írásmódhoz</string>
     <string name="dictate__custom_words_placeholder">pl. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1479,7 +1487,7 @@
     <string name="dictate__local_models_live_header">Élő (streamelés)</string>
     <string name="dictate__local_models_live_summary">Gépelnek, miközben beszélsz. Kapcsold be a „Valós idejű átírás” lehetőséget a Felvétel alatt a használatukhoz.</string>
     <string name="dictate__local_longpress_send_title">Küldés lenyomva tartása helyi modellhez</string>
-    <string name="dictate__local_longpress_send_summary">Felvétel közben tartsd nyomva a küldést, hogy ezt a modellt használd a felhő helyett.</string>
+    <string name="dictate__local_longpress_send_summary">Tartsd nyomva a küldést felvétel közben — vagy a leállítást feltöltés közben — hogy ezt a modellt használd a felhő helyett.</string>
     <string name="dictate__local_unload_after">Tétlen modell felszabadítása {n} perc után</string>
     <string name="dictate__local_unload_pressure">Tétlen modell felszabadítása csak memórianyomás esetén</string>
     <string name="dictate__local_model_status_active">Aktív</string>
@@ -1635,11 +1643,9 @@
     <string name="dictate__audio_save_failed">Nem sikerült menteni a hangot</string>
     <string name="dictate__instant_recording_skip_numeric_title">Számmezők kihagyása</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Ne induljon automatikusan szám-, telefon- vagy PIN-mezőknél</string>
-    <string name="settings__localization__subtype_glide_ready">Csúsztatásos gépelés kész</string>
-    <string name="settings__localization__subtype_glide_available">Csúsztatásos gépelés elérhető</string>
-    <string name="settings__localization__subtype_glide_downloading">Csúsztatásos gépelés letöltése… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Csúsztatásos gépelés nem érhető el</string>
-    <string name="settings__localization__subtype_status_glide">Csúsztatás</string>
+    <string name="settings__localization__subtype_status_words">Javaslatok</string>
+    <string name="settings__localization__subtype_no_word_list_title">Nincs szólista ehhez a nyelvhez</string>
+    <string name="settings__localization__subtype_no_word_list_message">A szójavaslatok, az automatikus javítás és a csúsztatásos gépelés kikapcsolva marad ehhez a nyelvhez, amíg nincs hozzá szólista. A gépelést, a diktálást és az átfogalmazást ez nem érinti.</string>
     <string name="settings__localization__subtype_status_context">Kontextus</string>
     <string name="pref__suggestion__auto_correct__label">Automatikus javítás</string>
     <string name="pref__suggestion__auto_correct__summary">Elgépelések automatikus javítása szóköznél</string>

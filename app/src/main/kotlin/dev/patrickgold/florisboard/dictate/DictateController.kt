@@ -35,6 +35,7 @@ import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.dictate.audio.AudioConcat
 import dev.patrickgold.florisboard.dictate.audio.AudioDecode
 import dev.patrickgold.florisboard.dictate.audio.AudioLevelSmoother
+import dev.patrickgold.florisboard.dictate.audio.AudioSpeedUp
 import dev.patrickgold.florisboard.dictate.audio.BluetoothMicRouter
 import dev.patrickgold.florisboard.dictate.audio.LiveSpeechSplitter
 import dev.patrickgold.florisboard.dictate.audio.SmartTurnModel
@@ -144,8 +145,14 @@ object DictateController {
             val accumulatedMs: Long = 0L,
             val paused: Boolean = false,
         ) : UiState
-        /** [attempt] is 1 for the first try, 2/3/… while retrying after a transient failure. */
-        data class Transcribing(val attempt: Int = 1) : UiState
+        /**
+         * [attempt] is 1 for the first try, 2/3/… while retrying after a transient failure.
+         * [onDevice] means the on-device engine is doing the work — because it is the chosen provider,
+         * because the offline fallback took over (#104), or because the user held the button to send this
+         * one dictation locally (#228/#270). The bar says so: which engine is running is the difference
+         * between waiting on a network and waiting on this phone.
+         */
+        data class Transcribing(val attempt: Int = 1, val onDevice: Boolean = false) : UiState
         /** A rewording/GPT request is in flight (manual prompt, auto-apply, auto-format or live). */
         data class Rewording(val label: String) : UiState
         /**
@@ -456,6 +463,16 @@ object DictateController {
     /** Recorded seconds of [carryOverAudio], so the continued recording's total length stays correct. */
     private var carryOverSeconds = 0L
 
+    /**
+     * The recording a cloud request is currently carrying, or null when nothing is in flight (or the
+     * request is already the on-device one). It is what holding the stop button hands to the local model
+     * when a transcription hangs (#270) — see [cancelAndTranscribeLocal].
+     */
+    private var inFlightAudio: File? = null
+
+    /** Recorded seconds of [inFlightAudio], so a rescued dictation still counts for the right length. */
+    private var inFlightSeconds = 0L
+
     /** Cache file name for the merged audio when a continued interrupted recording is stitched together. */
     private const val MERGED_AUDIO_NAME = "dictate_merged.wav"
     // Silence trimming (issue #232): cache file for the trimmed upload, plus the gap thresholds — a silence
@@ -464,6 +481,10 @@ object DictateController {
     private const val TRIMMED_AUDIO_NAME = "dictate_trimmed.wav"
     private const val TRIM_MAX_SILENCE_MS = 2_000
     private const val TRIM_KEEP_SILENCE_MS = 400
+    /** Cache file for the sped-up upload copy (issue #272); the recording itself is never overwritten. */
+    private const val SPED_UP_AUDIO_NAME = "dictate_speedup.wav"
+    /** Cache file for a recording taken back from a hanging cloud request to finish on-device (#270). */
+    private const val RESCUED_AUDIO_NAME = "dictate_rescued.wav"
     // Realtime (#128): after finish(), how long to wait for the provider to flush the last words before we
     // commit the already-streamed text. Short — the text is already on screen; we only wait for the tail.
     private const val REALTIME_FINALIZE_TIMEOUT_MS = 1_200L
@@ -1083,6 +1104,51 @@ object DictateController {
     fun canLongPressSendLocal(): Boolean =
         _state.value is UiState.Recording && !segmentedActive && realtimeSession == null
 
+    /**
+     * True while a cloud transcription is in flight that could still be handed to the on-device model
+     * (issue #270): the request is waiting on a network we cannot hurry, and its recording is still here.
+     *
+     * The stop button's ordinary tap cancels — and cancelling throws the recording away. This is the same
+     * button, held, doing the opposite: keeping the dictation and finishing it here.
+     */
+    fun canCancelToLocalModel(): Boolean =
+        _state.value is UiState.Transcribing && inFlightAudio != null
+
+    /** Whether holding the Dictate button right now would run the on-device model (#228 or #270). */
+    fun canLongPressLocal(): Boolean = canLongPressSendLocal() || canCancelToLocalModel()
+
+    /**
+     * What holding the Dictate button does when the on-device shortcut is enabled: send this recording to
+     * the local model instead of the cloud ([stopAndTranscribeLocal], #228), or take a cloud request that
+     * is still running away from it ([cancelAndTranscribeLocal], #270). One entry point, so the keyboard
+     * and the floating button cannot end up disagreeing about which of the two applies.
+     */
+    fun holdForLocalModel(context: Context) {
+        when {
+            canLongPressSendLocal() -> stopAndTranscribeLocal(context)
+            canCancelToLocalModel() -> cancelAndTranscribeLocal(context)
+        }
+    }
+
+    /**
+     * Aborts the in-flight cloud transcription and transcribes the same recording on this device (#270).
+     *
+     * The audio is copied first: cancelling the job runs its `finally`, which deletes the file it was
+     * uploading. Copying is a few hundred kilobytes and removes the race entirely — no flag the cancelled
+     * coroutine has to notice, no ordering to get right.
+     */
+    fun cancelAndTranscribeLocal(context: Context) {
+        val audio = inFlightAudio?.takeIf { it.exists() && it.length() > 0L } ?: return
+        if (_state.value !is UiState.Transcribing) return
+        val seconds = inFlightSeconds
+        val rescued = File(context.applicationContext.cacheDir, RESCUED_AUDIO_NAME)
+        runCatching { audio.copyTo(rescued, overwrite = true) }.getOrElse { return }
+        cancelTranscription()
+        // gate=false: this recording has already passed the silence gate once — running it again would
+        // only spend the time twice, and a second opinion on the same audio is not the point here.
+        transcribe(context, rescued, seconds, gate = false, forceLocal = true)
+    }
+
     private fun stopAndTranscribe(context: Context, forceLocal: Boolean = false) {
         setPushToTalk(phase = PushToTalkPhase.NONE)
         // Long-form segmented (#170): finish the segment queue instead of uploading one big file.
@@ -1260,7 +1326,12 @@ object DictateController {
         }
 
         ensureHapticObserver(appContext)
-        _state.value = UiState.Transcribing()
+        val localEngine = preset.transcriptionApi == TranscriptionApi.LOCAL_ONDEVICE
+        _state.value = UiState.Transcribing(onDevice = localEngine)
+        // What a held button can still rescue (#270): the recording this request is carrying, for as long
+        // as it is in flight. Cleared in the finally below, so the offer disappears with the request.
+        inFlightAudio = if (localEngine) null else audioFile
+        inFlightSeconds = recordedSeconds
         // Live prompt is consumed by this transcription only (the next recording is normal again).
         val live = livePromptArmed
         livePromptArmed = false
@@ -1271,6 +1342,10 @@ object DictateController {
             // The file actually uploaded. Normally the original recording; the silence trimmer (#232) may
             // swap in a shorter copy, while history/retention/cleanup keep referencing the original audioFile.
             var uploadFile = audioFile
+            // Set only when the audio was sped up (#272): the same audio *before* that, which is what the
+            // on-device fallback (#104) transcribes — the local engine is deliberately never fed sped-up
+            // audio, since there is no bill to shorten there. Null means "the upload file is fine".
+            var localFallbackFile: File? = null
             try {
                 logLatency(latencyTrace, "coroutineStarted", coroutineScheduledNanos)
                 reconcileActiveLanguage() // correct a stale active language before it's read for the request
@@ -1322,6 +1397,30 @@ object DictateController {
                         }
                     }
                 }
+                // Time compression (issue #272): send the speech faster than it was spoken, at unchanged
+                // pitch, so a provider that bills by duration bills less. Whatever the file was before —
+                // the recording or the trimmed copy — is what gets sped up.
+                //
+                // Not for picked files (they would be rewritten as 16 kHz WAV, which for a long compressed
+                // source is *more* bytes than the original) and not for the on-device engine (nothing is
+                // billed there — it would be accuracy traded for nothing but speed).
+                val speedPercent = prefs.dictate.audioSpeedUpPercent.get()
+                if (speedPercent > AudioSpeedUp.MIN_PERCENT &&
+                    source != DictateHistorySource.IMPORT &&
+                    preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE
+                ) {
+                    val spedUp = AudioSpeedUp.process(
+                        uploadFile,
+                        File(appContext.cacheDir, SPED_UP_AUDIO_NAME),
+                        speedPercent / 100f,
+                    )
+                    if (spedUp != null) {
+                        // The un-sped copy stays on disk for the on-device fallback below; the finally
+                        // block knows about both files and removes whichever of them isn't the original.
+                        localFallbackFile = uploadFile
+                        uploadFile = spedUp
+                    }
+                }
                 // Single-call multimodal (issue #130): one chat/completions+input_audio request transcribes
                 // and formats together (cloud chat models only, never the on-device engine).
                 val chatAudio = account.transcriptionViaChat &&
@@ -1363,11 +1462,15 @@ object DictateController {
                         // Offline fallback (#104): the cloud call failed because we're offline (after its
                         // retries) — transcribe on-device with the downloaded model instead of erroring.
                         val fallback = localFallbackProvider(appContext, preset, e) ?: throw e
-                        _state.value = UiState.Transcribing()
                         LocalTranscriptionProvider.setIdleUnloadMillis(
                             prefs.dictate.localModelUnloadMinutes.get() * 60_000L,
                         )
-                        fallback.transcribe(request)
+                        // Sped-up audio (#272) is for the provider that charges by the second, not for the
+                        // engine on this phone: the fallback gets the recording as it was.
+                        _state.value = UiState.Transcribing(onDevice = true)
+                        fallback.transcribe(
+                            localFallbackFile?.let { request.copy(audioFile = it) } ?: request,
+                        )
                     }
                 }
                 logLatency(latencyTrace, "providerCompleted", providerStartedNanos)
@@ -1440,9 +1543,14 @@ object DictateController {
                     detail = t.message?.takeIf { it.isNotBlank() },
                 )
             } finally {
+                // The request is over, however it ended: there is nothing left for a held button to rescue.
+                inFlightAudio = null
                 if (!keepAudio) audioFile.delete()
-                // Drop the trimmed upload copy (#232); the original audioFile is the one history keeps.
+                // Drop the derived upload copies — trimmed (#232) and/or sped up (#272); the original
+                // audioFile is the one history keeps.
                 if (uploadFile !== audioFile) runCatching { uploadFile.delete() }
+                localFallbackFile?.takeIf { it !== audioFile && it !== uploadFile }
+                    ?.let { runCatching { it.delete() } }
                 // System voice input (#67): hand the terminal outcome back to the RecognitionService so it
                 // delivers results / an error to the calling app. One hook covers every path (success,
                 // no-speech, prompt-echo, API/unexpected error) since `outcome` is set before each return.
@@ -1506,8 +1614,16 @@ object DictateController {
             // Realtime (#128): replace the live-streamed preview with the finished (reworded) result via the
             // minimal diff, then honor auto-enter — instead of committing on top of the preview.
             val outSink = sink(appContext)
-            outSink.commitDictationFinal(outputText, realtimeShown.toString())
+            val landed = outSink.commitDictationFinal(outputText, realtimeShown.toString())
             realtimeShown.setLength(0)
+            // This branch never went through commitOutput, so it never saw the insert-failure check
+            // either (issue #277) — a swallowed write finished as Idle, i.e. a green check.
+            if (reportOverlayInsertFailure(appContext, landed, outputText)) {
+                rememberLastDictation(outputText)
+                recordHistory(appContext, outputText, originalForHistory, recordedSeconds, capture, reworded = live)
+                discardRetainedAudio()
+                return
+            }
             if (prefs.dictate.autoEnter.get() && outputText.isNotEmpty()) outSink.performEnter()
         } else {
             // Safety net (#214): for the floating button, optionally copy every dictation to the system
@@ -1523,8 +1639,8 @@ object DictateController {
             val committed = commitOutput(appContext, outputText)
             if (committed) latencyTrace?.let { logLatency(it, "outputCommitted") }
             // Floating button (#156): the accessibility insert can be silently swallowed by some app fields
-            // (Gemini's Compose box, WebViews). Don't flash a false green check — stash the text so the
-            // user can recover it via Reinsert, and surface an error instead of "success".
+            // (Gemini's Compose box, WebViews). Don't flash a false green check — surface an error, and
+            // put the text somewhere the user can actually reach.
             if (!committed && outputTarget == OutputTarget.OVERLAY && outputText.isNotEmpty()) {
                 rememberLastDictation(outputText)
                 if (capture?.isReplay != true) {
@@ -1533,9 +1649,12 @@ object DictateController {
                 }
                 recordHistory(appContext, outputText, originalForHistory, recordedSeconds, capture, reworded = live)
                 discardRetainedAudio()
-                _state.value = UiState.Error(
-                    message = appContext.getString(R.string.dictate__error_overlay_insert_failed),
-                )
+                // The clipboard is the recovery route, and only here (issue #277). The old message sent
+                // people to "Reinsert", which lives in the Dictate keyboard — unreachable for exactly the
+                // people who hit this, since they are using the floating button with another keyboard.
+                // Copying on failure alone keeps the clipboard (and the Samsung toast) out of the way of
+                // everyone whose insert works; the always-copy setting (#214) stays what it is.
+                reportOverlayInsertFailure(appContext, committed, outputText)
                 return
             }
         }
@@ -1554,6 +1673,23 @@ object DictateController {
     }
 
     /** Copies [text] to the system clipboard — the floating-button always-copy safety net (issue #214). */
+    /**
+     * A floating-button write the field refused: put the text on the clipboard and say so, instead of
+     * flashing a green check over nothing (issue #277).
+     *
+     * Returns whether it handled a failure, so callers can `if (reportOverlayInsertFailure(...)) return`.
+     * Only ever true for [OutputTarget.OVERLAY] — the keyboard writes through its own InputConnection
+     * and cannot silently no-op, and the recognition service has no field of its own.
+     */
+    private fun reportOverlayInsertFailure(context: Context, committed: Boolean, text: String): Boolean {
+        if (committed || outputTarget != OutputTarget.OVERLAY || text.isEmpty()) return false
+        copyToSystemClipboard(context, text)
+        _state.value = UiState.Error(
+            message = context.getString(R.string.dictate__error_overlay_insert_clipboard),
+        )
+        return true
+    }
+
     private fun copyToSystemClipboard(context: Context, text: String) {
         val clipboard = context.getSystemService(ClipboardManager::class.java) ?: return
         runCatching { clipboard.setPrimaryClip(ClipData.newPlainText("Dictate", text)) }
@@ -2018,7 +2154,21 @@ object DictateController {
         val language = prefs.dictate.activeInputLanguage.get().takeIf { it != DictateLanguages.DETECT }
         val style = transcriptionStylePrompt()
         val prompt = continuity.takeLast(200).trim().let { if (it.isEmpty()) style else "$it $style".trim() }
-        val request = TranscriptionRequest(audioFile = wav, model = model, language = language, prompt = prompt)
+        // Time compression (issue #272): every segment is billed on its own, so the speed-up belongs here
+        // too — this is where a long dictation's duration actually adds up. Segments are transcribed
+        // concurrently, hence a cache file per segment; the segment itself is left alone because it is
+        // merged into the retained history audio afterwards.
+        val speedPercent = prefs.dictate.audioSpeedUpPercent.get()
+        val spedUp = if (speedPercent > AudioSpeedUp.MIN_PERCENT &&
+            preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE
+        ) {
+            AudioSpeedUp.process(wav, File(appContext.cacheDir, "spd_${wav.name}"), speedPercent / 100f)
+        } else {
+            null
+        }
+        val request = TranscriptionRequest(
+            audioFile = spedUp ?: wav, model = model, language = language, prompt = prompt,
+        )
         return try {
             val result = if (preset.transcriptionApi == TranscriptionApi.LOCAL_ONDEVICE) {
                 if (!LocalModelManager.isInstalled(appContext, model)) return null
@@ -2037,7 +2187,8 @@ object DictateController {
                     ).transcribe(request)
                 } catch (e: DictateApiException) {
                     val fallback = localFallbackProvider(appContext, preset, e) ?: throw e
-                    fallback.transcribe(request)
+                    // On-device gets the segment as recorded, never the sped-up copy (#272).
+                    fallback.transcribe(if (spedUp != null) request.copy(audioFile = wav) else request)
                 }
             }
             result.text
@@ -2045,6 +2196,8 @@ object DictateController {
             throw c
         } catch (t: Throwable) {
             null
+        } finally {
+            spedUp?.let { runCatching { it.delete() } }
         }
     }
 
@@ -2082,18 +2235,37 @@ object DictateController {
             committed = sink.commitText(text)
         } else {
             val perChar = perCharDelayMs(prefs.dictate.outputSpeed.get())
-            committed = true
-            text.forEach { ch ->
-                if (!sink.commitText(ch.toString())) committed = false
+            val results = ArrayList<Boolean>(text.length)
+            // Verify the first character only: it is the one [typedCommitLanded] judges, and a read-back
+            // per character would be hundreds of extra round trips into the host app (issue #277).
+            text.forEachIndexed { i, ch ->
+                results.add(sink.commitText(ch.toString(), verify = i == 0))
                 delay(perChar)
             }
+            committed = typedCommitLanded(results)
         }
-        // No auto-enter on an empty result (e.g. silence): don't fire a stray newline into the field (#124).
-        if (prefs.dictate.autoEnter.get()) {
+        // No auto-enter on an empty result (e.g. silence): don't fire a stray newline into the field (#124),
+        // and none when nothing landed either (#278) — an Enter on a swallowed insert sends an empty message.
+        if (committed && prefs.dictate.autoEnter.get()) {
             sink.performEnter()
         }
         return committed
     }
+
+    /**
+     * Whether a character-by-character commit counts as having landed. **The first write decides.**
+     *
+     * Latching on any single refusal (issue #277) turned one flake out of hundreds into a total failure:
+     * a 400-character dictation makes 400 separate calls into the accessibility service, and a scroll, a
+     * recomposition or the host app rebuilding its field is enough for one of them to come back false —
+     * whereupon the user was told "Couldn't insert into this app" while the text sat visibly in the field.
+     * Those false alarms are the reason read-back verification was ruled out for the insert path, so they
+     * are worth removing at the source.
+     *
+     * If the field took the *first* character it accepts our writes; what follows is the app's business.
+     * An empty result cannot fail, hence true.
+     */
+    internal fun typedCommitLanded(writeResults: List<Boolean>): Boolean = writeResults.firstOrNull() ?: true
 
     /** Per-character delay for the typewriter output: speed 1 → 100 ms … 5 → 20 ms … 10 → 10 ms (legacy mapping). */
     private fun perCharDelayMs(speed: Int): Long = (100L / speed.coerceIn(1, 10)).coerceAtLeast(1L)
@@ -2805,7 +2977,9 @@ object DictateController {
 
         // Snippet shortcut: text wrapped in [...] is inserted literally (no network call).
         if (raw.length >= 2 && raw.startsWith("[") && raw.endsWith("]")) {
-            sink.commitText(raw.substring(1, raw.length - 1))
+            val snippet = raw.substring(1, raw.length - 1)
+            // A refused write here used to end in a green check as well (issue #277).
+            reportOverlayInsertFailure(appContext, sink.commitText(snippet), snippet)
             return
         }
 
@@ -2843,8 +3017,10 @@ object DictateController {
             try {
                 val text = requestReword(raw, input, prompt.reasoningEffort, prompt.reasoningEffortCustom)
                 // commitText replaces the active selection if any, else inserts at the cursor.
-                sink.commitText(text)
-                _state.value = UiState.Idle
+                val committed = sink.commitText(text)
+                // Don't declare success over a write the field refused (issue #277) — the reworded text
+                // is the expensive part, and it goes to the clipboard rather than nowhere.
+                if (!reportOverlayInsertFailure(appContext, committed, text)) _state.value = UiState.Idle
             } catch (e: CancellationException) {
                 throw e // stop button pressed: cancelRewording already reset the state, leave the field as-is
             } catch (e: DictateApiException) {
@@ -3112,6 +3288,9 @@ object DictateController {
             DictateLanguages.englishNameFor(langCode)?.takeIf { it.isNotBlank() }
                 ?.let { parts.add("The audio is spoken in $it.") }
         }
+        // Everything from here on is an *instruction*, and the wrapper this ends up inside tells the
+        // model they "may change the wording or even the language".
+        val instructionsFrom = parts.size
         transcriptionStylePrompt()?.takeIf { it.isNotBlank() }?.let { parts.add(it) }
         // Formatting/rewording is folded in only when the user has rewording enabled (mirrors
         // postProcessTranscript's gating), so single-call output matches the two-call output.
@@ -3123,12 +3302,17 @@ object DictateController {
                 promptsDb(context).getAll().filter { it.autoApply }
             }
             autoApply.forEach { p -> p.prompt?.takeIf { it.isNotBlank() }?.let { parts.add(it) } }
-            // The same anchor the two-call path gets from REWORDING_BE_PRECISE (issue #268). The
-            // prompts folded in above are seeded in the device's locale, so on a Ukrainian phone a
-            // "fix my grammar" instruction is a Ukrainian sentence — and without this line the model
-            // answers in the language it was addressed in rather than the one that was spoken.
-            if (autoApply.isNotEmpty()) parts.add(DictatePromptDefaults.KEEP_SPOKEN_LANGUAGE)
         }
+        // The same anchor the two-call path gets from REWORDING_BE_PRECISE (issue #268). The prompts
+        // folded in above are seeded in the device's locale, so on a Ukrainian phone a "fix my grammar"
+        // instruction is a Ukrainian sentence — and without this line the model answers in the language
+        // it was addressed in rather than the one that was spoken.
+        //
+        // Anchored for *any* folded instruction, not just auto-apply prompts (issue #275): the style
+        // prompt is one too, and given a wrapper that invites changing the language, an example sentence
+        // is enough to pull the output towards its own. It does not fight an explicit "translate to X" —
+        // the anchor defers to one that asks.
+        if (parts.size > instructionsFrom) parts.add(DictatePromptDefaults.KEEP_SPOKEN_LANGUAGE)
         return parts.joinToString("\n\n")
     }
 

@@ -59,6 +59,7 @@ import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.AddCard
@@ -490,6 +491,18 @@ private fun TranscribingContent(state: DictateController.UiState.Transcribing) {
             stringRes(R.string.dictate__status_transcribing)
         },
     )
+    // Transcribing is transcribing — the spinner and the wording stay the same wherever it happens. The
+    // phone alongside them says only where: this one is running here, not on a provider's machine. It
+    // matters most right after holding the button to escape a hanging request (#270), where it is the
+    // confirmation that the escape worked.
+    if (state.onDevice) {
+        Spacer(modifier = Modifier.width(8.dp))
+        SnyggIcon(
+            imageVector = Icons.Default.PhoneAndroid,
+            modifier = Modifier.size(16.dp),
+            contentDescription = stringRes(R.string.dictate__status_transcribing_local),
+        )
+    }
 }
 
 /**

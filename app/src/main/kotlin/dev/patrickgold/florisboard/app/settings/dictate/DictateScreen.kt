@@ -29,6 +29,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
+import java.text.DecimalFormat
 import kotlin.math.roundToInt
 import dev.patrickgold.jetpref.material.ui.JetPrefAlertDialog
 import dev.patrickgold.florisboard.dictate.DictateLongformMode
@@ -39,6 +40,7 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Dialpad
 import androidx.compose.material.icons.filled.BrightnessHigh
 import androidx.compose.material.icons.filled.ContentCut
+import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Dns
 import androidx.compose.material.icons.automirrored.filled.KeyboardReturn
@@ -90,6 +92,7 @@ import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.dictate.DictateLanguages
 import dev.patrickgold.florisboard.dictate.DictateLegacyLayout
 import dev.patrickgold.florisboard.dictate.DictateRecordingAnimation
+import dev.patrickgold.florisboard.dictate.audio.AudioSpeedUp
 import dev.patrickgold.florisboard.dictate.audio.DictateAudioSource
 import dev.patrickgold.florisboard.dictate.audio.SmartTurnModel
 import dev.patrickgold.florisboard.dictate.provider.LocalModelCatalog
@@ -276,7 +279,10 @@ fun DictateFormattingScreen() = FlorisScreen {
             entries = promptSelectionEntries(),
             infoTitle = stringRes(R.string.dictate__style_prompt_info_title),
             infoDescription = stringRes(R.string.dictate__style_prompt_info_description),
-            infoPromptText = DictatePromptDefaults.punctuationPromptFor(activeLang),
+            // Null for a language that has no example sentence: since issue #275 none is sent at all
+            // rather than an English one, and the info box should say so instead of showing nothing.
+            infoPromptText = DictatePromptDefaults.punctuationPromptFor(activeLang)
+                ?: stringRes(R.string.dictate__style_prompt_info_none),
         )
         if (styleSelection == DictatePromptDefaults.SELECTION_CUSTOM) {
             TextInputPreference(
@@ -438,6 +444,33 @@ fun DictateRecordingScreen() = FlorisScreen {
             modifier = Modifier.settingsSearchAnchor("dictate__trim_silent_gaps_title"),
             title = stringRes(R.string.dictate__trim_silent_gaps_title),
             summary = stringRes(R.string.dictate__trim_silent_gaps_summary),
+        )
+        // Sibling of the trimmer above (#272): that one removes the pauses, this one shortens the speech
+        // itself. The summary carries the saving, and past the tested rate it says what it costs.
+        DialogSliderPreference(
+            prefs.dictate.audioSpeedUpPercent,
+            icon = Icons.Default.FastForward,
+            modifier = Modifier.settingsSearchAnchor("dictate__speed_up_title"),
+            title = stringRes(R.string.dictate__speed_up_title),
+            valueLabel = { speedUpValueLabel(it) },
+            summary = { percent ->
+                when {
+                    percent <= AudioSpeedUp.MIN_PERCENT -> stringRes(R.string.dictate__speed_up_summary_off)
+                    // The rate leads, because a slider dialog shows its summary instead of its value:
+                    // without this the row would never say what it is set to.
+                    percent >= AudioSpeedUp.CAUTION_PERCENT -> speedUpValueLabel(percent) + " · " + stringRes(
+                        R.string.dictate__speed_up_summary_caution,
+                        "percent" to speedUpSaving(percent),
+                    )
+                    else -> speedUpValueLabel(percent) + " · " + stringRes(
+                        R.string.dictate__speed_up_summary,
+                        "percent" to speedUpSaving(percent),
+                    )
+                }
+            },
+            min = AudioSpeedUp.MIN_PERCENT,
+            max = AudioSpeedUp.MAX_PERCENT,
+            stepIncrement = 5,
         )
         SwitchPreference(
             prefs.dictate.instantRecording,
@@ -637,6 +670,23 @@ private fun NewBadge() {
         )
     }
 }
+
+/**
+ * The speed-up slider's value: "Off" at 1.0×, otherwise the rate itself (issue #272). Written through
+ * [DecimalFormat] so the decimal mark is the reader's own — "1,5×" in German, "1.5×" in English — and so
+ * the whole rates lose their pointless ".0".
+ */
+@Composable
+private fun speedUpValueLabel(percent: Int): String =
+    if (percent <= AudioSpeedUp.MIN_PERCENT) {
+        stringRes(R.string.dictate__speed_up_off)
+    } else {
+        stringRes(R.string.dictate__speed_up_value, "rate" to DecimalFormat("0.##").format(percent / 100.0))
+    }
+
+/** How much billed audio a given speed disposes of, as whole percent: 150 % of speed → 33 % less audio. */
+private fun speedUpSaving(percent: Int): String =
+    (100.0 * (1.0 - 100.0 / percent)).roundToInt().toString()
 
 /** One-line summary of the current long-form mode for the settings entry (issue #170). */
 @Composable

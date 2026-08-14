@@ -197,11 +197,9 @@
     <string name="settings__localization__subtype_search_locale_not_found" comment="Subtype search language not found">Could not find a language matching \"{search_term}\".</string>
     <string name="settings__localization__subtype_select_placeholder" comment="Subtype dialog select value placeholder (&amp;#8210; is a hyphen character)">&#8210; select &#8210;</string>
     <string name="settings__localization__subtype_summary" comment="Subtype summary">{characters_name} / {symbols_name} / {currency_set_name}</string>
-    <string name="settings__localization__subtype_glide_ready" comment="Shown on a subtype whose glide typing dictionary is ready">Glide typing ready</string>
-    <string name="settings__localization__subtype_glide_available" comment="Shown on a subtype whose glide typing dictionary downloads on first use">Glide typing available</string>
-    <string name="settings__localization__subtype_glide_downloading" comment="Shown while a subtype glide typing dictionary downloads; {v} is the percent">Downloading glide typing… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable" comment="Shown on a subtype that has no glide typing dictionary">Glide typing not available</string>
-    <string name="settings__localization__subtype_status_glide" comment="Compact label next to a status icon (✓/⤓/✕/⬇%) for the glide typing dictionary on a subtype">Glide</string>
+    <string name="settings__localization__subtype_status_words" comment="Compact label next to a status icon (✓/⤓/✕/⬇%) for the word list a language's suggestions, autocorrect and glide typing all come from">Suggestions</string>
+    <string name="settings__localization__subtype_no_word_list_title" comment="Title of the card shown when the chosen subtype language has no word list at all (issue #265)">No word list for this language</string>
+    <string name="settings__localization__subtype_no_word_list_message" comment="Explains that suggestions are absent rather than broken for a language without a word list">Word suggestions, autocorrect and glide typing stay off for this language until a word list exists for it. Typing, dictation and rewording are unaffected.</string>
     <string name="settings__localization__subtype_status_context" comment="Compact label next to a status icon (✓/⤓/✕) for the autocorrect context (bigram) data on a subtype">Context</string>
     <string name="settings__localization__suggested_subtype_presets" comment="Suggested presets title">Suggested subtype presets</string>
     <string name="settings__localization__suggested_subtype_presets_none_found" comment="Suggested presets none found">No suggested presets available. Use below button to view all subtype presets.</string>
@@ -1524,6 +1522,7 @@
     <string name="dictate__status_idle" comment="Status shown on the Dictate panel when ready to record">Tap to dictate</string>
     <string name="dictate__status_recording" comment="Status shown while recording audio">Recording – tap to stop</string>
     <string name="dictate__status_transcribing" comment="Status shown while the audio is being transcribed">Transcribing…</string>
+    <string name="dictate__status_transcribing_local" comment="Status shown while the on-device model is transcribing, instead of a cloud provider (issues #228/#270)">Transcribing on device…</string>
     <string name="dictate__back_to_keyboard" comment="Content description for the button that returns from the Dictate panel to the typing keyboard">Back to keyboard</string>
 
     <!-- Dictate errors. %s is a provider/system error detail. -->
@@ -1539,7 +1538,7 @@
     <string name="dictate__error_transcription_failed" comment="Generic transcription failure">Transcription failed.</string>
     <string name="dictate__error_unknown" comment="Unknown transcription error">Unknown error during transcription.</string>
     <string name="dictate__error_rewording_failed" comment="Generic rewording (GPT) failure">Rewording failed.</string>
-    <string name="dictate__error_overlay_insert_failed" comment="Floating-button error: the app's text field didn't accept the dictation; the text is kept for Reinsert">Couldn\'t insert into this app. Your recording is kept — use Reinsert to recover it.</string>
+    <string name="dictate__error_overlay_insert_clipboard" comment="Floating-button error: the app's text field didn't accept the dictation, so it was put on the clipboard to paste manually">This app wouldn\'t take the text. It\'s on your clipboard — long-press the field and paste.</string>
 
     <!-- Dictate specific provider errors (roadmap 1.12). Kept short to fit the Smartbar; tap shows the full provider detail. -->
     <string name="dictate__error_invalid_api_key" comment="Short error: the API key is missing, wrong or rejected">Check your API key</string>
@@ -1740,7 +1739,7 @@
     <string name="dictate__local_models_live_header" comment="Group heading above the on-device models that transcribe while you speak (issue #233)">Live (streaming)</string>
     <string name="dictate__local_models_live_summary" comment="Explainer under the live model group heading: these models need the real-time switch under Recording (issue #233)">These type while you speak. Turn on “Real-time transcription” under Recording to use them.</string>
     <string name="dictate__local_longpress_send_title" comment="Search-index label for the on-device long-press-send checkbox (issue #228)">Long-press send for local model</string>
-    <string name="dictate__local_longpress_send_summary" comment="Checkbox explainer in the on-device model dialog: long-pressing the send button transcribes with the local model (issue #228)">Hold send while recording to use this model instead of the cloud.</string>
+    <string name="dictate__local_longpress_send_summary" comment="Checkbox explainer in the on-device model dialog: holding send (while recording) or stop (while a cloud request runs) transcribes with the local model (issues #228/#270)">Hold send while recording — or stop while it uploads — to use this model instead of the cloud.</string>
     <string name="dictate__local_unload_after" comment="Slider label: free the on-device model from RAM after {n} minutes idle">Unload idle model after {n} min</string>
     <string name="dictate__local_unload_pressure" comment="Slider label at 0: free the on-device model only when the system is low on memory">Unload idle model only under memory pressure</string>
     <string name="dictate__local_model_status_active" comment="Badge on the on-device model that is currently selected for use">Active</string>
@@ -1792,6 +1791,12 @@
     <string name="dictate__skip_silent_summary" comment="Summary for the skip-silent-recordings setting">Avoid ghost text and wasted API calls on silent audio</string>
     <string name="dictate__trim_silent_gaps_title" comment="Setting: cut long pauses out of a recording before uploading it (issue #232)">Trim long pauses</string>
     <string name="dictate__trim_silent_gaps_summary" comment="Summary for the trim-long-pauses setting">Cut long pauses out before sending — faster upload, lower cost</string>
+    <string name="dictate__speed_up_title" comment="Setting: send the recording faster than it was spoken, at unchanged pitch (issue #272)">Speed up audio</string>
+    <string name="dictate__speed_up_off" comment="Slider value label when the speed-up is off (1.0x)">Off</string>
+    <string name="dictate__speed_up_value" comment="Slider value label for the playback rate. {rate} is a number like 1.5">{rate}×</string>
+    <string name="dictate__speed_up_summary_off" comment="Summary for the speed-up setting when it is off">Sent at the speed you spoke it</string>
+    <string name="dictate__speed_up_summary" comment="Summary for the speed-up setting. {percent} is a whole number like 33">Same words, same pitch — about {percent} % less audio to pay for</string>
+    <string name="dictate__speed_up_summary_caution" comment="Summary for the speed-up setting at rates where accuracy suffers. {percent} is a whole number like 50">About {percent} % less audio to pay for, but this fast the words are harder to recognise</string>
     <string name="dictate__paragraph_split_title" comment="Setting: break long plain transcripts into paragraphs at sentence boundaries (issue #225)">Break into paragraphs</string>
     <string name="dictate__paragraph_split_off" comment="Slider value label when paragraph splitting is off (0)">Off</string>
     <string name="dictate__paragraph_split_value" comment="Slider value label: after how many words a paragraph break may start. {n} is the word count">After {n} words</string>
@@ -1866,6 +1871,7 @@
     <string name="dictate__style_prompt_custom_placeholder" comment="Placeholder for the custom style prompt field">e.g. Hello. Thank you very much.</string>
     <string name="dictate__style_prompt_info_title" comment="Row that reveals the built-in default style prompt">View default example</string>
     <string name="dictate__style_prompt_info_description" comment="Explanation shown above the default style prompt example">This example sentence is sent with each transcription to nudge the model towards correct capitalization and punctuation. It adapts automatically to the language you dictate in.</string>
+    <string name="dictate__style_prompt_info_none" comment="Shown in the style-prompt info box for a language that has no example sentence, so none is sent (issue #275)">This language has no example sentence yet, so none is sent. The transcription still follows the language you selected.</string>
 
     <!-- Dictate custom words / vocabulary (appended to the transcription prompt, roadmap 11.12) -->
     <string name="dictate__custom_words_title" comment="Setting: custom vocabulary added to the transcription prompt so names/jargon are spelled correctly">Custom words</string>

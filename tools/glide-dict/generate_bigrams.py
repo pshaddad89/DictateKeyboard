@@ -7,7 +7,8 @@ Autocorrect re-ranks a misspelling's corrections by how often a candidate follow
 
     <w1> <w2>\t<count>
 
-sorted by count (desc), top N. Source is the Leipzig Corpora Collection (wortschatz-leipzig.de), whose
+sorted by count (desc), top N. What counts as a word comes from wordfilter.py, shared with generate.py so
+the two artifacts of a language always agree. Source is the Leipzig Corpora Collection (wortschatz-leipzig.de), whose
 download packages are CC BY (commercial use with attribution — cite Goldhahn, Eckart & Quasthoff, LREC
 2012, and "© Universität Leipzig / Sächsische Akademie der Wissenschaften / InfAI"). Each package's
 `*-co_n.txt` holds the adjacent (neighbour) co-occurrences as word-id pairs; `*-words.txt` maps id -> word.
@@ -22,11 +23,27 @@ Usage:
 
 Prints a catalog line "BigramDict(<lang>, <bytes>, <sha256>)" on success for pasting into the app catalog.
 """
-import sys, os, re, io, json, tarfile, tempfile, hashlib, argparse, urllib.request
+import sys, os, io, json, tarfile, tempfile, hashlib, argparse, urllib.request
+
+from wordfilter import is_word, strip_arabic_marks
 
 LEIPZIG = "https://downloads.wortschatz-leipzig.de/corpora"
-# Script-agnostic "real word": letters (any script), optionally joined by ' ' - internally. No digits.
-WORD_RE = re.compile(r"[^\W\d_]+(?:['’-][^\W\d_]+)*$", re.UNICODE)
+
+# Which Leipzig package each language was built from. Not used by the code — --pkg stays explicit — but
+# the record has to live somewhere, and until issue #265 it lived only in commit messages. Leipzig does
+# not offer the same source and year for every language: news where it exists, Wikipedia or a newscrawl
+# where it does not.
+KNOWN_PACKAGES = {
+    "ar": "ara_news_2022_1M",
+    "bn": "ben_wikipedia_2021_1M",
+    "de": "deu_news_2022_1M",
+    "fi": "fin_news_2022_1M",
+    "hi": "hin_news_2022_1M",
+    "id": "ind_news_2022_1M",
+    "nl": "nld_news_2023_1M",
+    "ta": "tam_wikipedia_2021_1M",
+    "ur": "urd_newscrawl_2016_1M",
+}
 
 
 def get(url: str) -> bytes:
@@ -34,10 +51,6 @@ def get(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": "dictate-bigram-gen"})
     with urllib.request.urlopen(req) as r:
         return r.read()
-
-
-def is_word(w: str) -> bool:
-    return 1 <= len(w) <= 30 and WORD_RE.match(w) is not None
 
 
 def build(lang: str, pkg: str, top: int, out_dir: str):
@@ -68,12 +81,13 @@ def _extract_and_write(tar, lang: str, pkg: str, top: int, out_dir: str):
             sys.exit(f"error: {suffix} not found in {pkg}")
         return tar.extractfile(name)
 
-    # id -> word (keep original case; we lowercase when emitting)
+    # id -> word (keep original case; we lowercase when emitting). Arabic marks come off here so the
+    # keys match what the runtime folds a typed word down to before looking the pair up.
     id2word: dict[int, str] = {}
     for line in io.TextIOWrapper(member("-words.txt"), encoding="utf-8", errors="replace"):
         parts = line.rstrip("\n").split("\t")
         if len(parts) >= 2 and parts[0].isdigit():
-            id2word[int(parts[0])] = parts[1]
+            id2word[int(parts[0])] = strip_arabic_marks(parts[1])
     sys.stderr.write(f"  words: {len(id2word)}\n")
 
     # neighbour co-occurrences = adjacent bigrams: w1id w2id freq significance

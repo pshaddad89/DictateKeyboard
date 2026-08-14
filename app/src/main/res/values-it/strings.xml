@@ -972,6 +972,7 @@
     <string name="dictate__status_idle">Tocca per dettare</string>
     <string name="dictate__status_recording">Registrazione – tocca per fermare</string>
     <string name="dictate__status_transcribing">Trascrizione…</string>
+    <string name="dictate__status_transcribing_local">Trascrizione sul dispositivo…</string>
     <string name="dictate__back_to_keyboard">Torna alla tastiera</string>
     <string name="dictate__error_recording_failed">Registrazione non riuscita – concedi l\'autorizzazione al microfono. (%s)</string>
     <string name="dictate__error_no_audio">Nessuna registrazione rilevata – parla un po\' più a lungo.</string>
@@ -985,7 +986,7 @@
     <string name="dictate__error_transcription_failed">Trascrizione non riuscita.</string>
     <string name="dictate__error_unknown">Errore sconosciuto durante la trascrizione.</string>
     <string name="dictate__error_rewording_failed">Riformulazione non riuscita.</string>
-    <string name="dictate__error_overlay_insert_failed">Impossibile inserire in questa app. La tua registrazione è conservata: usa «Reinserisci» per recuperarla.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Questa app non ha accettato il testo. È negli appunti: tieni premuto il campo e incollalo.</string>
     <string name="dictate__error_invalid_api_key">Controlla la tua chiave API</string>
     <string name="dictate__error_quota_exceeded">Quota o limite raggiunto</string>
     <string name="dictate__error_content_size_limit">Registrazione troppo lunga o troppo grande</string>
@@ -1094,6 +1095,12 @@
     <string name="dictate__skip_silent_summary">Evita testo allucinato e chiamate API inutili con audio silenzioso</string>
     <string name="dictate__trim_silent_gaps_title">Taglia le pause lunghe</string>
     <string name="dictate__trim_silent_gaps_summary">Taglia le pause lunghe prima dell\'invio: invio più rapido, costo minore</string>
+    <string name="dictate__speed_up_title">Accelera l\'audio</string>
+    <string name="dictate__speed_up_off">Disattivato</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Inviato alla velocità con cui hai parlato</string>
+    <string name="dictate__speed_up_summary">Stesse parole, stessa intonazione: circa il {percent} % di audio in meno da pagare</string>
+    <string name="dictate__speed_up_summary_caution">Circa il {percent} % di audio in meno da pagare, ma a questa velocità le parole sono più difficili da riconoscere</string>
     <string name="dictate__paragraph_split_title">Dividi in paragrafi</string>
     <string name="dictate__paragraph_split_off">Disattivato</string>
     <string name="dictate__paragraph_split_value">Dopo {n} parole</string>
@@ -1153,6 +1160,7 @@
     <string name="dictate__style_prompt_custom_placeholder">es. Ciao. Grazie mille.</string>
     <string name="dictate__style_prompt_info_title">Vedi esempio predefinito</string>
     <string name="dictate__style_prompt_info_description">Questa frase di esempio viene inviata con ogni trascrizione per orientare il modello verso un uso corretto di maiuscole e punteggiatura. Si adatta automaticamente alla lingua in cui detti.</string>
+    <string name="dictate__style_prompt_info_none">Questa lingua non ha ancora una frase di esempio, quindi non ne viene inviata alcuna. La trascrizione segue comunque la lingua che hai scelto.</string>
     <string name="dictate__custom_words_title">Parole personalizzate</string>
     <string name="dictate__custom_words_summary_empty">Aggiungi nomi o termini tecnici da scrivere correttamente</string>
     <string name="dictate__custom_words_placeholder">es. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1264,7 +1272,7 @@
     <string name="dictate__local_models_live_header">In diretta (streaming)</string>
     <string name="dictate__local_models_live_summary">Scrivono mentre parli. Attiva “Trascrizione in tempo reale” in Registrazione per usarli.</string>
     <string name="dictate__local_longpress_send_title">Tieni premuto invia per il modello locale</string>
-    <string name="dictate__local_longpress_send_summary">Durante la registrazione, tieni premuto invia per usare questo modello invece del cloud.</string>
+    <string name="dictate__local_longpress_send_summary">Tieni premuto invia durante la registrazione — o stop durante l\'invio — per usare questo modello invece del cloud.</string>
     <string name="dictate__local_unload_after">Scarica il modello inattivo dopo {n} min</string>
     <string name="dictate__local_unload_pressure">Scarica il modello inattivo solo con poca memoria</string>
     <string name="dictate__local_model_status_active">Attivo</string>
@@ -1420,11 +1428,9 @@
     <string name="dictate__audio_save_failed">Impossibile salvare l\'audio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Salta i campi numerici</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Non avviare automaticamente nei campi numerici, telefono o PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Digitazione con scorrimento pronta</string>
-    <string name="settings__localization__subtype_glide_available">Digitazione con scorrimento disponibile</string>
-    <string name="settings__localization__subtype_glide_downloading">Download digitazione con scorrimento… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Digitazione con scorrimento non disponibile</string>
-    <string name="settings__localization__subtype_status_glide">Scorrimento</string>
+    <string name="settings__localization__subtype_status_words">Suggerimenti</string>
+    <string name="settings__localization__subtype_no_word_list_title">Nessun elenco di parole per questa lingua</string>
+    <string name="settings__localization__subtype_no_word_list_message">I suggerimenti di parole, la correzione automatica e la scrittura con scorrimento restano disattivati per questa lingua finché non esiste un elenco di parole. Digitazione, dettatura e riformulazione non sono interessate.</string>
     <string name="settings__localization__subtype_status_context">Contesto</string>
     <string name="pref__suggestion__auto_correct__label">Correzione automatica</string>
     <string name="pref__suggestion__auto_correct__summary">Correggi i refusi automaticamente premendo spazio</string>

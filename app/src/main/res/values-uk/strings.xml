@@ -1036,6 +1036,7 @@
     <string name="dictate__status_idle">Торкніться, щоб диктувати</string>
     <string name="dictate__status_recording">Запис — торкніться, щоб зупинити</string>
     <string name="dictate__status_transcribing">Транскрибування…</string>
+    <string name="dictate__status_transcribing_local">Транскрибування на пристрої…</string>
     <string name="dictate__back_to_keyboard">Назад до клавіатури</string>
     <string name="dictate__error_recording_failed">Не вдалося записати — надайте дозвіл на доступ до мікрофона. (%s)</string>
     <string name="dictate__error_no_audio">Запис не виявлено — говоріть трохи довше.</string>
@@ -1049,7 +1050,7 @@
     <string name="dictate__error_transcription_failed">Не вдалося виконати транскрибування.</string>
     <string name="dictate__error_unknown">Невідома помилка під час транскрибування.</string>
     <string name="dictate__error_rewording_failed">Не вдалося переформулювати.</string>
-    <string name="dictate__error_overlay_insert_failed">Не вдалося вставити в цей застосунок. Ваш запис збережено — скористайтеся «Вставити знову», щоб відновити його.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Цей застосунок не прийняв текст. Він у буфері обміну — утримуйте поле й вставте.</string>
     <string name="dictate__error_invalid_api_key">Перевірте свій ключ API</string>
     <string name="dictate__error_quota_exceeded">Досягнуто квоту або ліміт</string>
     <string name="dictate__error_content_size_limit">Запис занадто довгий або великий</string>
@@ -1158,6 +1159,12 @@
     <string name="dictate__skip_silent_summary">Уникайте вигаданого тексту й зайвих викликів API при тихому записі</string>
     <string name="dictate__trim_silent_gaps_title">Обрізати довгі паузи</string>
     <string name="dictate__trim_silent_gaps_summary">Вирізає довгі паузи перед надсиланням — швидше завантаження, менші витрати</string>
+    <string name="dictate__speed_up_title">Пришвидшувати аудіо</string>
+    <string name="dictate__speed_up_off">Вимк.</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Надсилається зі швидкістю, з якою ви говорили</string>
+    <string name="dictate__speed_up_summary">Ті самі слова й та сама висота голосу — приблизно на {percent} % менше оплачуваного аудіо</string>
+    <string name="dictate__speed_up_summary_caution">Приблизно на {percent} % менше оплачуваного аудіо, але на такій швидкості слова розпізнаються гірше</string>
     <string name="dictate__paragraph_split_title">Розбивати на абзаци</string>
     <string name="dictate__paragraph_split_off">Вимк.</string>
     <string name="dictate__paragraph_split_value">Після {n} слів</string>
@@ -1217,6 +1224,7 @@
     <string name="dictate__style_prompt_custom_placeholder">напр. Вітаю. Щиро дякую.</string>
     <string name="dictate__style_prompt_info_title">Показати приклад за замовчуванням</string>
     <string name="dictate__style_prompt_info_description">Це зразкове речення надсилається з кожною транскрипцією, щоб спрямувати модель до правильного вживання великих літер і пунктуації. Воно автоматично підлаштовується під мову, якою ви диктуєте.</string>
+    <string name="dictate__style_prompt_info_none">Для цієї мови ще немає прикладу речення, тому жодне не надсилається. Транскрипція й далі керується обраною вами мовою.</string>
     <string name="dictate__custom_words_title">Власні слова</string>
     <string name="dictate__custom_words_summary_empty">Додайте імена або технічні терміни для правильного написання</string>
     <string name="dictate__custom_words_placeholder">напр. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1328,7 +1336,7 @@
     <string name="dictate__local_models_live_header">У реальному часі (потоково)</string>
     <string name="dictate__local_models_live_summary">Друкують, поки ви говорите. Увімкніть «Транскрипція в реальному часі» в розділі Запис, щоб їх використовувати.</string>
     <string name="dictate__local_longpress_send_title">Утримання надсилання для локальної моделі</string>
-    <string name="dictate__local_longpress_send_summary">Під час запису утримуйте надсилання, щоб використати цю модель замість хмари.</string>
+    <string name="dictate__local_longpress_send_summary">Утримуйте надсилання під час запису — або зупинку під час вивантаження — щоб використати цю модель замість хмари.</string>
     <string name="dictate__local_unload_after">Вивантажувати неактивну модель через {n} хв</string>
     <string name="dictate__local_unload_pressure">Вивантажувати неактивну модель лише за браку пам\'яті</string>
     <string name="dictate__local_model_status_active">Активна</string>
@@ -1484,11 +1492,9 @@
     <string name="dictate__audio_save_failed">Не вдалося зберегти аудіо</string>
     <string name="dictate__instant_recording_skip_numeric_title">Пропускати числові поля</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Не запускати автоматично в полях чисел, телефону або PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Свайп-введення готове</string>
-    <string name="settings__localization__subtype_glide_available">Свайп-введення доступне</string>
-    <string name="settings__localization__subtype_glide_downloading">Завантаження свайп-введення… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Свайп-введення недоступне</string>
-    <string name="settings__localization__subtype_status_glide">Свайп</string>
+    <string name="settings__localization__subtype_status_words">Підказки</string>
+    <string name="settings__localization__subtype_no_word_list_title">Для цієї мови немає словника</string>
+    <string name="settings__localization__subtype_no_word_list_message">Підказки слів, автовиправлення та введення ковзанням для цієї мови вимкнені, доки для неї немає словника. На набір, диктування та перефразування це не впливає.</string>
     <string name="settings__localization__subtype_status_context">Контекст</string>
     <string name="pref__suggestion__auto_correct__label">Автовиправлення</string>
     <string name="pref__suggestion__auto_correct__summary">Автоматично виправляти помилки при пробілі</string>

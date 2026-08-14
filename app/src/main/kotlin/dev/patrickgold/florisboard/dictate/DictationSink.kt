@@ -32,7 +32,7 @@ interface DictationSink {
      * actually landed: the keyboard path always succeeds, but the accessibility/overlay path can fail
      * silently on some app fields (Compose/WebView), so callers can avoid flashing a false success (#156).
      */
-    fun commitText(text: String): Boolean
+    fun commitText(text: String, verify: Boolean = true): Boolean
 
     /** The currently selected text, or empty when nothing is selected. */
     fun selectedText(): String
@@ -43,8 +43,12 @@ interface DictationSink {
     /** Selects the whole field so a subsequent [commitText] replaces its content. */
     fun selectAll()
 
-    /** Presses Enter / triggers the editor action (auto-enter, roadmap 10.1). */
-    fun performEnter()
+    /**
+     * Presses Enter / triggers the editor action (auto-enter, roadmap 10.1). Returns whether the field
+     * accepted it — the keyboard dispatches a real key event and always does, while the overlay can only
+     * *ask* the field, and an app that implements no editor action simply refuses (issue #278).
+     */
+    fun performEnter(): Boolean
 
     /**
      * Removes the last inserted [text] from the field again (undo, issue #133). Only deletes when the
@@ -61,8 +65,12 @@ interface DictationSink {
      */
     fun setDictationPreview(newText: String, prevText: String)
 
-    /** Finalize: replace the [prevText] preview with the finished/reworded [finalText] (minimal diff). */
-    fun commitDictationFinal(finalText: String, prevText: String)
+    /**
+     * Finalize: replace the [prevText] preview with the finished/reworded [finalText] (minimal diff).
+     * Returns whether the field took it — the realtime path used to skip the insert-failure check
+     * entirely, so a swallowed write ended in a green check (issue #277).
+     */
+    fun commitDictationFinal(finalText: String, prevText: String): Boolean
 
     /** Remove the [prevText] preview entirely (a realtime recording was cancelled / fell back to batch). */
     fun clearDictationPreview(prevText: String)
@@ -77,7 +85,7 @@ class ImeDictationSink(context: Context) : DictationSink {
     private val appContext = context.applicationContext
     private val editorInstance by appContext.editorInstance()
 
-    override fun commitText(text: String): Boolean {
+    override fun commitText(text: String, verify: Boolean): Boolean {
         editorInstance.commitText(text)
         return true // the keyboard writes through its own InputConnection; this never silently no-ops
     }
@@ -90,11 +98,13 @@ class ImeDictationSink(context: Context) : DictationSink {
         editorInstance.performClipboardSelectAll()
     }
 
-    override fun performEnter() {
+    override fun performEnter(): Boolean {
         val keyboardManager by appContext.keyboardManager()
         // Dispatches a real Enter key event so it reuses the keyboard's full enter logic (editor action,
-        // newline, …) rather than committing a literal "\n".
+        // newline, …) rather than committing a literal "\n". A key event is delivered unconditionally,
+        // so unlike the overlay there is nothing here that can refuse it.
         keyboardManager.inputEventDispatcher.sendDownUp(EnterKeyData)
+        return true
     }
 
     override fun deleteLastText(text: String): Boolean {
@@ -109,12 +119,13 @@ class ImeDictationSink(context: Context) : DictationSink {
 
     override fun setDictationPreview(newText: String, prevText: String) = applyDictationDiff(prevText, newText)
 
-    override fun commitDictationFinal(finalText: String, prevText: String) {
+    override fun commitDictationFinal(finalText: String, prevText: String): Boolean {
         // Atomic swap of the streamed preview for the finished/reworded text (keeps the common prefix,
         // replaces only the divergent tail in one batch → no character-by-character flicker).
-        if (prevText == finalText) return
+        if (prevText == finalText) return true
         val cp = prevText.commonPrefixWith(finalText).length
         editorInstance.replaceDictationTail(prevText.length - cp, finalText.substring(cp))
+        return true
     }
 
     override fun clearDictationPreview(prevText: String) {

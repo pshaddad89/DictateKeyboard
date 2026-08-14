@@ -1144,6 +1144,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__status_idle">Ketuk untuk mendikte</string>
     <string name="dictate__status_recording">Merekam – ketuk untuk berhenti</string>
     <string name="dictate__status_transcribing">Mentranskripsi…</string>
+    <string name="dictate__status_transcribing_local">Mentranskripsi di perangkat…</string>
     <string name="dictate__back_to_keyboard">Kembali ke papan ketik</string>
     <string name="dictate__error_recording_failed">Perekaman gagal – berikan izin mikrofon. (%s)</string>
     <string name="dictate__error_no_audio">Tidak ada rekaman terdeteksi – mohon bicara sedikit lebih lama.</string>
@@ -1157,7 +1158,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__error_transcription_failed">Transkripsi gagal.</string>
     <string name="dictate__error_unknown">Kesalahan tidak diketahui saat transkripsi.</string>
     <string name="dictate__error_rewording_failed">Penyusunan ulang gagal.</string>
-    <string name="dictate__error_overlay_insert_failed">Tidak dapat menyisipkan ke aplikasi ini. Rekaman Anda tetap tersimpan — gunakan „Sisipkan ulang” untuk memulihkannya.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Aplikasi ini tidak menerima teksnya. Teks ada di papan klip — tekan lama kolomnya lalu tempel.</string>
     <string name="dictate__error_invalid_api_key">Periksa kunci API Anda</string>
     <string name="dictate__error_quota_exceeded">Kuota atau batas tercapai</string>
     <string name="dictate__error_content_size_limit">Rekaman terlalu panjang atau terlalu besar</string>
@@ -1266,6 +1267,12 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__skip_silent_summary">Hindari teks halusinasi dan panggilan API sia-sia pada audio senyap</string>
     <string name="dictate__trim_silent_gaps_title">Pangkas jeda panjang</string>
     <string name="dictate__trim_silent_gaps_summary">Memotong jeda panjang sebelum dikirim — unggah lebih cepat, biaya lebih murah</string>
+    <string name="dictate__speed_up_title">Percepat audio</string>
+    <string name="dictate__speed_up_off">Nonaktif</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Dikirim dengan kecepatan saat kamu berbicara</string>
+    <string name="dictate__speed_up_summary">Kata dan nada yang sama — sekitar {percent} % lebih sedikit audio yang dibayar</string>
+    <string name="dictate__speed_up_summary_caution">Sekitar {percent} % lebih sedikit audio yang dibayar, tetapi secepat ini kata-kata lebih sulit dikenali</string>
     <string name="dictate__paragraph_split_title">Bagi menjadi paragraf</string>
     <string name="dictate__paragraph_split_off">Nonaktif</string>
     <string name="dictate__paragraph_split_value">Setelah {n} kata</string>
@@ -1325,6 +1332,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__style_prompt_custom_placeholder">mis. Halo. Terima kasih banyak.</string>
     <string name="dictate__style_prompt_info_title">Lihat contoh bawaan</string>
     <string name="dictate__style_prompt_info_description">Contoh kalimat ini dikirim bersama setiap transkripsi untuk mengarahkan model ke huruf kapital dan tanda baca yang benar. Ini menyesuaikan secara otomatis dengan bahasa yang Anda gunakan untuk mendikte.</string>
+    <string name="dictate__style_prompt_info_none">Bahasa ini belum memiliki kalimat contoh, jadi tidak ada yang dikirim. Transkripsi tetap mengikuti bahasa yang Anda pilih.</string>
     <string name="dictate__custom_words_title">Kata kustom</string>
     <string name="dictate__custom_words_summary_empty">Tambahkan nama atau istilah teknis agar dieja dengan benar</string>
     <string name="dictate__custom_words_placeholder">mis. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1436,7 +1444,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__local_models_live_header">Langsung (streaming)</string>
     <string name="dictate__local_models_live_summary">Mengetik saat kamu berbicara. Aktifkan “Transkripsi waktu nyata” di Perekaman untuk memakainya.</string>
     <string name="dictate__local_longpress_send_title">Tahan kirim untuk model lokal</string>
-    <string name="dictate__local_longpress_send_summary">Saat merekam, tahan kirim untuk memakai model ini alih-alih cloud.</string>
+    <string name="dictate__local_longpress_send_summary">Tahan kirim saat merekam — atau stop saat mengunggah — untuk memakai model ini alih-alih cloud.</string>
     <string name="dictate__local_unload_after">Bongkar model menganggur setelah {n} mnt</string>
     <string name="dictate__local_unload_pressure">Bongkar model menganggur hanya saat memori menipis</string>
     <string name="dictate__local_model_status_active">Aktif</string>
@@ -1592,11 +1600,9 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__audio_save_failed">Tidak dapat menyimpan audio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Lewati bidang angka</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Jangan mulai otomatis di bidang angka, telepon, atau PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Ketik geser siap</string>
-    <string name="settings__localization__subtype_glide_available">Ketik geser tersedia</string>
-    <string name="settings__localization__subtype_glide_downloading">Mengunduh ketik geser… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Ketik geser tidak tersedia</string>
-    <string name="settings__localization__subtype_status_glide">Geser</string>
+    <string name="settings__localization__subtype_status_words">Saran</string>
+    <string name="settings__localization__subtype_no_word_list_title">Tidak ada daftar kata untuk bahasa ini</string>
+    <string name="settings__localization__subtype_no_word_list_message">Saran kata, koreksi otomatis, dan pengetikan usap tetap nonaktif untuk bahasa ini selama belum ada daftar katanya. Mengetik, mendikte, dan menyusun ulang tidak terpengaruh.</string>
     <string name="settings__localization__subtype_status_context">Konteks</string>
     <string name="pref__suggestion__auto_correct__label">Koreksi otomatis</string>
     <string name="pref__suggestion__auto_correct__summary">Perbaiki salah ketik otomatis saat menekan spasi</string>

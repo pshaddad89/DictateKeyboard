@@ -1132,6 +1132,7 @@
     <string name="dictate__status_idle">Pieskarieties, lai diktētu</string>
     <string name="dictate__status_recording">Ieraksta – pieskarieties, lai apturētu</string>
     <string name="dictate__status_transcribing">Transkribē…</string>
+    <string name="dictate__status_transcribing_local">Transkribē ierīcē…</string>
     <string name="dictate__back_to_keyboard">Atpakaļ uz tastatūru</string>
     <string name="dictate__error_recording_failed">Ierakstīšana neizdevās – piešķiriet mikrofona atļauju. (%s)</string>
     <string name="dictate__error_no_audio">Ieraksts nav konstatēts – lūdzu, runājiet nedaudz ilgāk.</string>
@@ -1145,7 +1146,7 @@
     <string name="dictate__error_transcription_failed">Transkribēšana neizdevās.</string>
     <string name="dictate__error_unknown">Nezināma kļūda transkribēšanas laikā.</string>
     <string name="dictate__error_rewording_failed">Pārformulēšana neizdevās.</string>
-    <string name="dictate__error_overlay_insert_failed">Neizdevās ievietot šajā lietotnē. Jūsu ieraksts ir saglabāts — izmantojiet “Ievietot atkārtoti”, lai to atgūtu.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Šī lietotne tekstu nepieņēma. Tas ir starpliktuvē — turiet lauku un ielīmējiet.</string>
     <string name="dictate__error_invalid_api_key">Pārbaudiet savu API atslēgu</string>
     <string name="dictate__error_quota_exceeded">Sasniegta kvota vai ierobežojums</string>
     <string name="dictate__error_content_size_limit">Ieraksts ir pārāk garš vai liels</string>
@@ -1254,6 +1255,12 @@
     <string name="dictate__skip_silent_summary">Novērš izdomātu tekstu un liekus API izsaukumus klusā ierakstā</string>
     <string name="dictate__trim_silent_gaps_title">Apgriezt garās pauzes</string>
     <string name="dictate__trim_silent_gaps_summary">Pirms nosūtīšanas izgriež garās pauzes — ātrāka augšupielāde, mazākas izmaksas</string>
+    <string name="dictate__speed_up_title">Paātrināt audio</string>
+    <string name="dictate__speed_up_off">Izslēgts</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Tiek nosūtīts tādā ātrumā, kādā runāji</string>
+    <string name="dictate__speed_up_summary">Tie paši vārdi un tā pati balss — apmēram par {percent} % mazāk apmaksājamā audio</string>
+    <string name="dictate__speed_up_summary_caution">Apmēram par {percent} % mazāk apmaksājamā audio, taču šādā ātrumā vārdus atpazīt ir grūtāk</string>
     <string name="dictate__paragraph_split_title">Sadalīt rindkopās</string>
     <string name="dictate__paragraph_split_off">Izslēgts</string>
     <string name="dictate__paragraph_split_value">Pēc {n} vārdiem</string>
@@ -1313,6 +1320,7 @@
     <string name="dictate__style_prompt_custom_placeholder">piem. Sveiki. Liels paldies.</string>
     <string name="dictate__style_prompt_info_title">Skatīt noklusējuma piemēru</string>
     <string name="dictate__style_prompt_info_description">Šis teikuma piemērs tiek nosūtīts ar katru transkripciju, lai pamudinātu modeli pareizi lietot lielos burtus un pieturzīmes. Tas automātiski pielāgojas valodai, kurā diktējat.</string>
+    <string name="dictate__style_prompt_info_none">Šai valodai vēl nav parauga teikuma, tāpēc neviens netiek nosūtīts. Transkripcija joprojām seko jūsu izvēlētajai valodai.</string>
     <string name="dictate__custom_words_title">Pielāgoti vārdi</string>
     <string name="dictate__custom_words_summary_empty">Pievienojiet vārdus vai tehniskos terminus, lai tie tiktu pareizi uzrakstīti</string>
     <string name="dictate__custom_words_placeholder">piem. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1424,7 +1432,7 @@
     <string name="dictate__local_models_live_header">Tiešraidē (straumēšana)</string>
     <string name="dictate__local_models_live_summary">Tie raksta, kamēr runā. Ieslēdz “Reāllaika transkripcija” sadaļā Ierakstīšana, lai tos izmantotu.</string>
     <string name="dictate__local_longpress_send_title">Turēt sūtīšanu vietējam modelim</string>
-    <string name="dictate__local_longpress_send_summary">Ierakstīšanas laikā turi sūtīšanu, lai lietotu šo modeli mākoņa vietā.</string>
+    <string name="dictate__local_longpress_send_summary">Turi sūtīšanu ierakstīšanas laikā — vai apturēšanu augšupielādes laikā — lai lietotu šo modeli mākoņa vietā.</string>
     <string name="dictate__local_unload_after">Izlādēt dīkstāves modeli pēc {n} min</string>
     <string name="dictate__local_unload_pressure">Izlādēt dīkstāves modeli tikai pie zemas atmiņas</string>
     <string name="dictate__local_model_status_active">Aktīvs</string>
@@ -1580,11 +1588,9 @@
     <string name="dictate__audio_save_failed">Neizdevās saglabāt audio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Izlaist skaitļu laukus</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Nesākt automātiski skaitļu, tālruņa vai PIN laukos</string>
-    <string name="settings__localization__subtype_glide_ready">Slīdošā rakstīšana gatava</string>
-    <string name="settings__localization__subtype_glide_available">Slīdošā rakstīšana pieejama</string>
-    <string name="settings__localization__subtype_glide_downloading">Lejupielādē slīdošo rakstīšanu… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Slīdošā rakstīšana nav pieejama</string>
-    <string name="settings__localization__subtype_status_glide">Slīdēšana</string>
+    <string name="settings__localization__subtype_status_words">Ieteikumi</string>
+    <string name="settings__localization__subtype_no_word_list_title">Šai valodai nav vārdu saraksta</string>
+    <string name="settings__localization__subtype_no_word_list_message">Vārdu ieteikumi, automātiskā labošana un vilkšanas rakstīšana šai valodai paliek izslēgti, kamēr tai nav vārdu saraksta. Rakstīšanu, diktēšanu un pārfrāzēšanu tas neietekmē.</string>
     <string name="settings__localization__subtype_status_context">Konteksts</string>
     <string name="pref__suggestion__auto_correct__label">Automātiskā labošana</string>
     <string name="pref__suggestion__auto_correct__summary">Automātiski labot drukas kļūdas, nospiežot atstarpi</string>

@@ -23,7 +23,7 @@ import dev.patrickgold.florisboard.dictate.DictationSink
  */
 class RecognitionSink : DictationSink {
 
-    override fun commitText(text: String): Boolean {
+    override fun commitText(text: String, verify: Boolean): Boolean {
         RecognitionBridge.appendResult(text)
         return true
     }
@@ -34,7 +34,7 @@ class RecognitionSink : DictationSink {
 
     override fun selectAll() = Unit
 
-    override fun performEnter() = Unit
+    override fun performEnter(): Boolean = true
 
     override fun deleteLastText(text: String): Boolean = false
 
@@ -42,8 +42,9 @@ class RecognitionSink : DictationSink {
         RecognitionBridge.deliverPartial(newText)
     }
 
-    override fun commitDictationFinal(finalText: String, prevText: String) {
+    override fun commitDictationFinal(finalText: String, prevText: String): Boolean {
         RecognitionBridge.appendResult(finalText)
+        return true
     }
 
     override fun clearDictationPreview(prevText: String) = Unit

@@ -1203,6 +1203,7 @@
     <string name="dictate__status_idle">Klepnutím diktujte</string>
     <string name="dictate__status_recording">Nahrávání – klepnutím zastavíte</string>
     <string name="dictate__status_transcribing">Přepis…</string>
+    <string name="dictate__status_transcribing_local">Přepis v zařízení…</string>
     <string name="dictate__back_to_keyboard">Zpět na klávesnici</string>
     <string name="dictate__error_recording_failed">Nahrávání selhalo – udělte oprávnění k mikrofonu. (%s)</string>
     <string name="dictate__error_no_audio">Nebylo zjištěno žádné nahrávání – mluvte o něco déle.</string>
@@ -1216,7 +1217,7 @@
     <string name="dictate__error_transcription_failed">Přepis selhal.</string>
     <string name="dictate__error_unknown">Neznámá chyba při přepisu.</string>
     <string name="dictate__error_rewording_failed">Přeformulování selhalo.</string>
-    <string name="dictate__error_overlay_insert_failed">Nepodařilo se vložit do této aplikace. Vaše nahrávka je zachována — pro obnovení použijte „Vložit znovu“.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Tato aplikace text nepřijala. Je ve schránce — podržte pole a vložte ho.</string>
     <string name="dictate__error_invalid_api_key">Zkontrolujte svůj klíč API</string>
     <string name="dictate__error_quota_exceeded">Dosažen limit nebo kvóta</string>
     <string name="dictate__error_content_size_limit">Nahrávka je příliš dlouhá nebo velká</string>
@@ -1325,6 +1326,12 @@
     <string name="dictate__skip_silent_summary">Zabraňte vymyšlenému textu a zbytečným voláním API u tichého záznamu</string>
     <string name="dictate__trim_silent_gaps_title">Oříznout dlouhé pauzy</string>
     <string name="dictate__trim_silent_gaps_summary">Před odesláním ořízne dlouhé pauzy — rychlejší nahrání, nižší náklady</string>
+    <string name="dictate__speed_up_title">Zrychlit zvuk</string>
+    <string name="dictate__speed_up_off">Vypnuto</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Odesílá se rychlostí, jakou jste mluvili</string>
+    <string name="dictate__speed_up_summary">Stejná slova i výška hlasu — asi o {percent} % méně placeného zvuku</string>
+    <string name="dictate__speed_up_summary_caution">Asi o {percent} % méně placeného zvuku, ale takhle rychle se slova rozpoznávají hůř</string>
     <string name="dictate__paragraph_split_title">Rozdělit na odstavce</string>
     <string name="dictate__paragraph_split_off">Vypnuto</string>
     <string name="dictate__paragraph_split_value">Po {n} slovech</string>
@@ -1384,6 +1391,7 @@
     <string name="dictate__style_prompt_custom_placeholder">např. Dobrý den. Mnohokrát děkuji.</string>
     <string name="dictate__style_prompt_info_title">Zobrazit výchozí příklad</string>
     <string name="dictate__style_prompt_info_description">Tato vzorová věta se odesílá s každým přepisem, aby model nasměrovala ke správnému psaní velkých písmen a interpunkce. Automaticky se přizpůsobuje jazyku, ve kterém diktujete.</string>
+    <string name="dictate__style_prompt_info_none">Pro tento jazyk zatím není ukázková věta, proto se žádná neodesílá. Přepis se stále řídí jazykem, který jste zvolili.</string>
     <string name="dictate__custom_words_title">Vlastní slova</string>
     <string name="dictate__custom_words_summary_empty">Přidejte jména nebo odborné termíny, které se mají psát správně</string>
     <string name="dictate__custom_words_placeholder">např. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1495,7 +1503,7 @@
     <string name="dictate__local_models_live_header">Živě (streamování)</string>
     <string name="dictate__local_models_live_summary">Píší, zatímco mluvíte. Zapněte „Přepis v reálném čase“ v Nahrávání, abyste je mohli použít.</string>
     <string name="dictate__local_longpress_send_title">Podržení odeslat pro místní model</string>
-    <string name="dictate__local_longpress_send_summary">Během nahrávání podrž tlačítko odeslat, aby se použil tento model místo cloudu.</string>
+    <string name="dictate__local_longpress_send_summary">Podrž odeslat během nahrávání — nebo stop během odesílání — a použije se tento model místo cloudu.</string>
     <string name="dictate__local_unload_after">Uvolnit nečinný model po {n} min</string>
     <string name="dictate__local_unload_pressure">Uvolnit nečinný model jen při nedostatku paměti</string>
     <string name="dictate__local_model_status_active">Aktivní</string>
@@ -1651,11 +1659,9 @@
     <string name="dictate__audio_save_failed">Zvuk se nepodařilo uložit</string>
     <string name="dictate__instant_recording_skip_numeric_title">Přeskočit číselná pole</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Nespouštět automaticky u polí pro čísla, telefon nebo PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Psaní tahem připraveno</string>
-    <string name="settings__localization__subtype_glide_available">Psaní tahem dostupné</string>
-    <string name="settings__localization__subtype_glide_downloading">Stahování psaní tahem… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Psaní tahem není k dispozici</string>
-    <string name="settings__localization__subtype_status_glide">Tah</string>
+    <string name="settings__localization__subtype_status_words">Návrhy</string>
+    <string name="settings__localization__subtype_no_word_list_title">Pro tento jazyk není seznam slov</string>
+    <string name="settings__localization__subtype_no_word_list_message">Návrhy slov, automatické opravy a psaní tahem zůstávají pro tento jazyk vypnuté, dokud pro něj nebude seznam slov. Psaní, diktování a přeformulování to neovlivní.</string>
     <string name="settings__localization__subtype_status_context">Kontext</string>
     <string name="pref__suggestion__auto_correct__label">Automatické opravy</string>
     <string name="pref__suggestion__auto_correct__summary">Automaticky opravit překlepy při stisku mezerníku</string>

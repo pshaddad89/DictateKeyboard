@@ -1204,6 +1204,7 @@
     <string name="dictate__status_idle">Dotknij, aby dyktować</string>
     <string name="dictate__status_recording">Nagrywanie – dotknij, aby zatrzymać</string>
     <string name="dictate__status_transcribing">Transkrypcja…</string>
+    <string name="dictate__status_transcribing_local">Transkrypcja na urządzeniu…</string>
     <string name="dictate__back_to_keyboard">Powrót do klawiatury</string>
     <string name="dictate__error_recording_failed">Nagrywanie nie powiodło się – przyznaj uprawnienie do mikrofonu. (%s)</string>
     <string name="dictate__error_no_audio">Nie wykryto nagrania – mów trochę dłużej.</string>
@@ -1217,7 +1218,7 @@
     <string name="dictate__error_transcription_failed">Transkrypcja nie powiodła się.</string>
     <string name="dictate__error_unknown">Nieznany błąd podczas transkrypcji.</string>
     <string name="dictate__error_rewording_failed">Przeformułowanie nie powiodło się.</string>
-    <string name="dictate__error_overlay_insert_failed">Nie udało się wstawić do tej aplikacji. Twoje nagranie zostało zachowane — użyj „Wstaw ponownie”, aby je odzyskać.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Ta aplikacja nie przyjęła tekstu. Jest w schowku — przytrzymaj pole i wklej.</string>
     <string name="dictate__error_invalid_api_key">Sprawdź swój klucz API</string>
     <string name="dictate__error_quota_exceeded">Osiągnięto limit lub przydział</string>
     <string name="dictate__error_content_size_limit">Nagranie zbyt długie lub zbyt duże</string>
@@ -1326,6 +1327,12 @@
     <string name="dictate__skip_silent_summary">Unikaj zmyślonego tekstu i zbędnych wywołań API przy cichym nagraniu</string>
     <string name="dictate__trim_silent_gaps_title">Przycinaj długie pauzy</string>
     <string name="dictate__trim_silent_gaps_summary">Wycina długie pauzy przed wysłaniem — szybsze przesyłanie, niższy koszt</string>
+    <string name="dictate__speed_up_title">Przyspiesz dźwięk</string>
+    <string name="dictate__speed_up_off">Wył.</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Wysyłane w tempie, w jakim mówiłeś</string>
+    <string name="dictate__speed_up_summary">Te same słowa i ta sama wysokość głosu — około {percent} % mniej płatnego dźwięku</string>
+    <string name="dictate__speed_up_summary_caution">Około {percent} % mniej płatnego dźwięku, ale przy tym tempie słowa trudniej rozpoznać</string>
     <string name="dictate__paragraph_split_title">Dziel na akapity</string>
     <string name="dictate__paragraph_split_off">Wył.</string>
     <string name="dictate__paragraph_split_value">Po {n} słowach</string>
@@ -1385,6 +1392,7 @@
     <string name="dictate__style_prompt_custom_placeholder">np. Dzień dobry. Bardzo dziękuję.</string>
     <string name="dictate__style_prompt_info_title">Zobacz domyślny przykład</string>
     <string name="dictate__style_prompt_info_description">To przykładowe zdanie jest wysyłane z każdą transkrypcją, aby skierować model ku poprawnej pisowni wielkich liter i interpunkcji. Dostosowuje się automatycznie do języka, w którym dyktujesz.</string>
+    <string name="dictate__style_prompt_info_none">Ten język nie ma jeszcze zdania przykładowego, więc żadne nie jest wysyłane. Transkrypcja nadal kieruje się wybranym przez Ciebie językiem.</string>
     <string name="dictate__custom_words_title">Słowa niestandardowe</string>
     <string name="dictate__custom_words_summary_empty">Dodaj nazwy lub terminy techniczne, aby były pisane poprawnie</string>
     <string name="dictate__custom_words_placeholder">np. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1496,7 +1504,7 @@
     <string name="dictate__local_models_live_header">Na żywo (strumieniowo)</string>
     <string name="dictate__local_models_live_summary">Piszą, gdy mówisz. Włącz „Transkrypcja w czasie rzeczywistym” w sekcji Nagrywanie, aby ich użyć.</string>
     <string name="dictate__local_longpress_send_title">Przytrzymaj wyślij dla modelu lokalnego</string>
-    <string name="dictate__local_longpress_send_summary">Podczas nagrywania przytrzymaj wyślij, aby użyć tego modelu zamiast chmury.</string>
+    <string name="dictate__local_longpress_send_summary">Przytrzymaj wyślij podczas nagrywania — lub stop podczas wysyłania — aby użyć tego modelu zamiast chmury.</string>
     <string name="dictate__local_unload_after">Zwolnij bezczynny model po {n} min</string>
     <string name="dictate__local_unload_pressure">Zwolnij bezczynny model tylko przy braku pamięci</string>
     <string name="dictate__local_model_status_active">Aktywny</string>
@@ -1652,11 +1660,9 @@
     <string name="dictate__audio_save_failed">Nie udało się zapisać audio</string>
     <string name="dictate__instant_recording_skip_numeric_title">Pomijaj pola liczbowe</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Nie uruchamiaj automatycznie w polach liczb, telefonu lub PIN</string>
-    <string name="settings__localization__subtype_glide_ready">Pisanie gestem gotowe</string>
-    <string name="settings__localization__subtype_glide_available">Pisanie gestem dostępne</string>
-    <string name="settings__localization__subtype_glide_downloading">Pobieranie pisania gestem… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Pisanie gestem niedostępne</string>
-    <string name="settings__localization__subtype_status_glide">Gest</string>
+    <string name="settings__localization__subtype_status_words">Podpowiedzi</string>
+    <string name="settings__localization__subtype_no_word_list_title">Brak listy słów dla tego języka</string>
+    <string name="settings__localization__subtype_no_word_list_message">Podpowiedzi słów, autokorekta i pisanie gestem pozostają wyłączone dla tego języka, dopóki nie powstanie dla niego lista słów. Pisanie, dyktowanie i przeredagowanie działają normalnie.</string>
     <string name="settings__localization__subtype_status_context">Kontekst</string>
     <string name="pref__suggestion__auto_correct__label">Autokorekta</string>
     <string name="pref__suggestion__auto_correct__summary">Automatyczne poprawianie literówek po spacji</string>

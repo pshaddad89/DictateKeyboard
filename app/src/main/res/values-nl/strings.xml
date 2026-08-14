@@ -1088,6 +1088,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__status_idle">Tik om te dicteren</string>
     <string name="dictate__status_recording">Opnemen – tik om te stoppen</string>
     <string name="dictate__status_transcribing">Transcriberen…</string>
+    <string name="dictate__status_transcribing_local">Transcriberen op apparaat…</string>
     <string name="dictate__back_to_keyboard">Terug naar toetsenbord</string>
     <string name="dictate__error_recording_failed">Opname mislukt – verleen de microfoontoestemming. (%s)</string>
     <string name="dictate__error_no_audio">Geen opname gedetecteerd – spreek wat langer.</string>
@@ -1101,7 +1102,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__error_transcription_failed">Transcriptie mislukt.</string>
     <string name="dictate__error_unknown">Onbekende fout tijdens de transcriptie.</string>
     <string name="dictate__error_rewording_failed">Herformulering mislukt.</string>
-    <string name="dictate__error_overlay_insert_failed">Kan niet invoegen in deze app. Je opname is bewaard — gebruik „Opnieuw invoegen” om deze te herstellen.</string>
+    <string name="dictate__error_overlay_insert_clipboard">Deze app accepteerde de tekst niet. Hij staat op het klembord — houd het veld ingedrukt en plak.</string>
     <string name="dictate__error_invalid_api_key">Controleer je API-sleutel</string>
     <string name="dictate__error_quota_exceeded">Quotum of limiet bereikt</string>
     <string name="dictate__error_content_size_limit">Opname te lang of te groot</string>
@@ -1210,6 +1211,12 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__skip_silent_summary">Voorkomt gehallucineerde tekst en overbodige API-aanroepen bij stille audio</string>
     <string name="dictate__trim_silent_gaps_title">Lange pauzes inkorten</string>
     <string name="dictate__trim_silent_gaps_summary">Knipt lange pauzes weg vóór verzenden — sneller uploaden, lagere kosten</string>
+    <string name="dictate__speed_up_title">Audio versnellen</string>
+    <string name="dictate__speed_up_off">Uit</string>
+    <string name="dictate__speed_up_value">{rate}×</string>
+    <string name="dictate__speed_up_summary_off">Wordt verstuurd op de snelheid waarop je sprak</string>
+    <string name="dictate__speed_up_summary">Dezelfde woorden, dezelfde toonhoogte — ongeveer {percent} % minder audio om te betalen</string>
+    <string name="dictate__speed_up_summary_caution">Ongeveer {percent} % minder audio om te betalen, maar zo snel zijn de woorden lastiger te herkennen</string>
     <string name="dictate__paragraph_split_title">In alinea\'s opsplitsen</string>
     <string name="dictate__paragraph_split_off">Uit</string>
     <string name="dictate__paragraph_split_value">Na {n} woorden</string>
@@ -1269,6 +1276,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__style_prompt_custom_placeholder">bijv. Hallo. Hartelijk dank.</string>
     <string name="dictate__style_prompt_info_title">Standaardvoorbeeld bekijken</string>
     <string name="dictate__style_prompt_info_description">Deze voorbeeldzin wordt met elke transcriptie meegestuurd om het model richting correct hoofdlettergebruik en interpunctie te sturen. Hij past zich automatisch aan de taal aan waarin je dicteert.</string>
+    <string name="dictate__style_prompt_info_none">Deze taal heeft nog geen voorbeeldzin, dus er wordt er geen meegestuurd. De transcriptie volgt nog steeds de taal die je hebt gekozen.</string>
     <string name="dictate__custom_words_title">Aangepaste woorden</string>
     <string name="dictate__custom_words_summary_empty">Voeg namen of vaktermen toe die correct gespeld moeten worden</string>
     <string name="dictate__custom_words_placeholder">bv. FlorisBoard, Kubernetes, Renée, OAuth, Anthropic</string>
@@ -1380,7 +1388,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__local_models_live_header">Live (streaming)</string>
     <string name="dictate__local_models_live_summary">Ze typen terwijl je praat. Zet “Realtime-transcriptie” aan onder Opname om ze te gebruiken.</string>
     <string name="dictate__local_longpress_send_title">Verzenden ingedrukt houden voor lokaal model</string>
-    <string name="dictate__local_longpress_send_summary">Houd tijdens opnemen verzenden ingedrukt om dit model te gebruiken i.p.v. de cloud.</string>
+    <string name="dictate__local_longpress_send_summary">Houd verzenden ingedrukt tijdens opnemen — of stoppen tijdens uploaden — om dit model te gebruiken i.p.v. de cloud.</string>
     <string name="dictate__local_unload_after">Inactief model na {n} min ontladen</string>
     <string name="dictate__local_unload_pressure">Inactief model alleen bij geheugendruk ontladen</string>
     <string name="dictate__local_model_status_active">Actief</string>
@@ -1536,11 +1544,9 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__audio_save_failed">Kan de audio niet opslaan</string>
     <string name="dictate__instant_recording_skip_numeric_title">Numerieke velden overslaan</string>
     <string name="dictate__instant_recording_skip_numeric_summary">Niet automatisch starten bij cijfer-, telefoon- of pinvelden</string>
-    <string name="settings__localization__subtype_glide_ready">Veegtypen gereed</string>
-    <string name="settings__localization__subtype_glide_available">Veegtypen beschikbaar</string>
-    <string name="settings__localization__subtype_glide_downloading">Veegtypen downloaden… {v}%</string>
-    <string name="settings__localization__subtype_glide_unavailable">Veegtypen niet beschikbaar</string>
-    <string name="settings__localization__subtype_status_glide">Vegen</string>
+    <string name="settings__localization__subtype_status_words">Suggesties</string>
+    <string name="settings__localization__subtype_no_word_list_title">Geen woordenlijst voor deze taal</string>
+    <string name="settings__localization__subtype_no_word_list_message">Woordsuggesties, autocorrectie en veegtypen blijven uit voor deze taal zolang er geen woordenlijst voor bestaat. Typen, dicteren en herformuleren werken gewoon.</string>
     <string name="settings__localization__subtype_status_context">Context</string>
     <string name="pref__suggestion__auto_correct__label">Autocorrectie</string>
     <string name="pref__suggestion__auto_correct__summary">Typefouten automatisch corrigeren bij een spatie</string>
