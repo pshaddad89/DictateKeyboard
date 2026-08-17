@@ -35,6 +35,7 @@ import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.dictate.audio.AudioConcat
 import dev.patrickgold.florisboard.dictate.audio.AudioDecode
 import dev.patrickgold.florisboard.dictate.audio.AudioLevelSmoother
+import dev.patrickgold.florisboard.dictate.audio.AudioEncode
 import dev.patrickgold.florisboard.dictate.audio.AudioSpeedUp
 import dev.patrickgold.florisboard.dictate.audio.BluetoothMicRouter
 import dev.patrickgold.florisboard.dictate.audio.LiveSpeechSplitter
@@ -483,6 +484,31 @@ object DictateController {
     private const val TRIM_KEEP_SILENCE_MS = 400
     /** Cache file for the sped-up upload copy (issue #272); the recording itself is never overwritten. */
     private const val SPED_UP_AUDIO_NAME = "dictate_speedup.wav"
+    private const val PACKED_AUDIO_NAME = "dictate_upload.m4a"
+
+    /**
+     * From which recording size on the upload is packed into AAC (#281). 16 MiB of 16 kHz mono WAV is
+     * about 8 minutes 45 seconds of speech.
+     *
+     * Measured on a Galaxy A55: packing runs at 73–83× realtime and shrinks the file by 3.96×, so at
+     * this size it costs ~7 s and removes ~12 MB from the upload. Below it the sums invert — a 2.5 s
+     * dictation spent 113 ms encoding to save 58 kB, which on a fast connection is 15 ms of upload —
+     * so short dictations are left exactly as they were.
+     *
+     * Deliberately well under the 25 MiB that OpenAI and Groq allow, because [ProviderRegistry
+     * .maxUploadBytes] returns 0 for every other provider and 0 means "unknown", not "unlimited". A
+     * threshold sitting on the known limit would never rescue a provider whose real limit is lower.
+     */
+    private const val PACK_ABOVE_BYTES = 16L * 1024 * 1024
+
+    /**
+     * Whether a [wavBytes] upload is worth packing for a provider that allows [limitBytes] (0 =
+     * unknown). Above [PACK_ABOVE_BYTES] always; below it only when the provider's own limit is close
+     * enough that the WAV would otherwise be refused — three quarters of it, so the decision is made
+     * before the edge rather than at it.
+     */
+    internal fun shouldPack(wavBytes: Long, limitBytes: Long): Boolean =
+        wavBytes > PACK_ABOVE_BYTES || (limitBytes > 0L && wavBytes > limitBytes / 4 * 3)
     /** Cache file for a recording taken back from a hanging cloud request to finish on-device (#270). */
     private const val RESCUED_AUDIO_NAME = "dictate_rescued.wav"
     // Realtime (#128): after finish(), how long to wait for the provider to flush the last words before we
@@ -1346,6 +1372,9 @@ object DictateController {
             // on-device fallback (#104) transcribes — the local engine is deliberately never fed sped-up
             // audio, since there is no bill to shorten there. Null means "the upload file is fine".
             var localFallbackFile: File? = null
+            // Set only when the upload was packed into m4a (#281): the WAV it was packed from, so the
+            // finally block can drop it once the on-device fallback no longer needs it.
+            var packedFrom: File? = null
             try {
                 logLatency(latencyTrace, "coroutineStarted", coroutineScheduledNanos)
                 reconcileActiveLanguage() // correct a stale active language before it's read for the request
@@ -1425,6 +1454,25 @@ object DictateController {
                 // and formats together (cloud chat models only, never the on-device engine).
                 val chatAudio = account.transcriptionViaChat &&
                     preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE
+                // Pack it for the wire (issue #281). Recording stays WAV — the raw PCM is what feeds
+                // realtime, the silence gate and Smart Turn — but WAV is 32 kB per second, so a 25 MB
+                // provider limit arrives after 13½ minutes and a 14-minute dictation is simply refused.
+                // Skipped where WAV is the point (chat-audio only accepts wav/mp3), where nothing is
+                // uploaded (on-device), and for picked files, which are the user's own and stay untouched.
+                if (!chatAudio &&
+                    preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE &&
+                    source != DictateHistorySource.IMPORT &&
+                    shouldPack(uploadFile.length(), ProviderRegistry.maxUploadBytes(preset.id))
+                ) {
+                    val packed = AudioEncode.toM4a(uploadFile, File(appContext.cacheDir, PACKED_AUDIO_NAME))
+                    if (packed != null) {
+                        packedFrom = uploadFile
+                        // The on-device fallback below wants PCM, not a re-decode of what we just encoded.
+                        if (localFallbackFile == null) localFallbackFile = uploadFile
+                        uploadFile = packed
+                        logLatency(latencyTrace, "audioPacked")
+                    }
+                }
                 val request = TranscriptionRequest(
                     audioFile = uploadFile,
                     model = model,
@@ -1459,6 +1507,22 @@ object DictateController {
                             onRetry = { attempt -> _state.value = UiState.Transcribing(attempt) },
                         )
                     } catch (e: DictateApiException) {
+                        // A provider that will not take the m4a gets the WAV instead (#281). Three of the
+                        // supported providers were added after recording became WAV and have never been
+                        // sent anything else, so this costs one wasted request rather than a broken
+                        // provider — and only ever runs for one that actually rejected the format.
+                        if (packedFrom != null && e.kind == DictateApiException.Kind.FORMAT_NOT_SUPPORTED) {
+                            OpenAiCompatibleClient.from(
+                                preset, apiKey,
+                                baseUrlOverride = baseUrlOverrideFor(account),
+                                proxy = prefs.dictate.dictateProxyConfig(),
+                                useChatAudio = chatAudio,
+                                trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+                            ).transcribe(
+                                request.copy(audioFile = packedFrom!!),
+                                onRetry = { attempt -> _state.value = UiState.Transcribing(attempt) },
+                            )
+                        } else {
                         // Offline fallback (#104): the cloud call failed because we're offline (after its
                         // retries) — transcribe on-device with the downloaded model instead of erroring.
                         val fallback = localFallbackProvider(appContext, preset, e) ?: throw e
@@ -1471,6 +1535,7 @@ object DictateController {
                         fallback.transcribe(
                             localFallbackFile?.let { request.copy(audioFile = it) } ?: request,
                         )
+                        }
                     }
                 }
                 logLatency(latencyTrace, "providerCompleted", providerStartedNanos)
@@ -1550,6 +1615,10 @@ object DictateController {
                 // audioFile is the one history keeps.
                 if (uploadFile !== audioFile) runCatching { uploadFile.delete() }
                 localFallbackFile?.takeIf { it !== audioFile && it !== uploadFile }
+                    ?.let { runCatching { it.delete() } }
+                // The WAV the m4a was packed from (#281) — the sped-up copy, when both ran. Kept until
+                // here because the on-device fallback may still have needed it.
+                packedFrom?.takeIf { it !== audioFile && it !== uploadFile && it !== localFallbackFile }
                     ?.let { runCatching { it.delete() } }
                 // System voice input (#67): hand the terminal outcome back to the RecognitionService so it
                 // delivers results / an error to the calling app. One hook covers every path (success,
@@ -2166,8 +2235,18 @@ object DictateController {
         } else {
             null
         }
+        // Pack it for the wire (issue #281), same rule as the single-shot path — a long dictation is
+        // exactly where the segments add up. The WAV stays on disk: it is merged into the history audio.
+        val toUpload = spedUp ?: wav
+        val packed = if (preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE &&
+            shouldPack(toUpload.length(), ProviderRegistry.maxUploadBytes(preset.id))
+        ) {
+            AudioEncode.toM4a(toUpload, File(appContext.cacheDir, "pak_${wav.nameWithoutExtension}.m4a"))
+        } else {
+            null
+        }
         val request = TranscriptionRequest(
-            audioFile = spedUp ?: wav, model = model, language = language, prompt = prompt,
+            audioFile = packed ?: toUpload, model = model, language = language, prompt = prompt,
         )
         return try {
             val result = if (preset.transcriptionApi == TranscriptionApi.LOCAL_ONDEVICE) {
@@ -2186,9 +2265,21 @@ object DictateController {
                         trustUserCerts = prefs.dictate.trustUserCertificates.get(),
                     ).transcribe(request)
                 } catch (e: DictateApiException) {
-                    val fallback = localFallbackProvider(appContext, preset, e) ?: throw e
-                    // On-device gets the segment as recorded, never the sped-up copy (#272).
-                    fallback.transcribe(if (spedUp != null) request.copy(audioFile = wav) else request)
+                    // A provider that will not take the m4a gets the WAV instead (#281); everything else
+                    // falls through to the on-device engine as before.
+                    if (packed != null && e.kind == DictateApiException.Kind.FORMAT_NOT_SUPPORTED) {
+                        OpenAiCompatibleClient.from(
+                            preset, apiKey,
+                            baseUrlOverride = baseUrlOverrideFor(account),
+                            proxy = prefs.dictate.dictateProxyConfig(),
+                            useChatAudio = false,
+                            trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+                        ).transcribe(request.copy(audioFile = toUpload))
+                    } else {
+                        val fallback = localFallbackProvider(appContext, preset, e) ?: throw e
+                        // On-device gets the segment as recorded, never the sped-up copy (#272).
+                        fallback.transcribe(if (spedUp != null) request.copy(audioFile = wav) else request)
+                    }
                 }
             }
             result.text
@@ -2198,6 +2289,7 @@ object DictateController {
             null
         } finally {
             spedUp?.let { runCatching { it.delete() } }
+            packed?.let { runCatching { it.delete() } }
         }
     }
 
