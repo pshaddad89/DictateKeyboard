@@ -124,7 +124,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Indelingen</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Indeling toevoegen</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Geïnstalleerde taalpakketten beheren</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimenteel: extensies die specifieke talen toevoegen (voorlopig vormgebaseerd Chinees).</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Extensies die een invoermethode toevoegen: Chinees pinyin en de vormgebaseerde methoden.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Indeling bewerken</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Voorkeurstaal</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Popup-indeling</string>
@@ -153,7 +153,9 @@
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Één of meer velden zijn nog niet ingevuld. Kies een optie voor deze velden.</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (niet geïnstalleerd)</string>
     <string name="settings__localization__subtype_missing_language_pack_title">Woordenboek vereist</string>
-    <string name="settings__localization__subtype_missing_language_pack_message">Deze taal heeft een downloadbaar woordenboek nodig voor woordsuggesties en conversie (bijv. Romaji → Kana). Totdat het is geïnstalleerd, werkt typen wel, maar doet conversie niets.</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Deze invoermethode heeft een downloadbare tabel nodig om wat je typt in tekens om te zetten. Totdat die is geïnstalleerd, werken de toetsen wel, maar wordt er niets omgezet.</string>
+    <string name="settings__localization__subtype_language_pack_auto_title">Tabel wordt vanzelf opgehaald</string>
+    <string name="settings__localization__subtype_language_pack_auto_message">Deze invoermethode zet wat je typt om in tekens met een tabel van ongeveer 3 MB. Die wordt één keer opgehaald, meteen nadat je dit subtype opslaat.</string>
     <string name="settings__localization__subtype_missing_language_pack_action">Woordenboek downloaden</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Indelingen</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Bevestiging verwijderen</string>
@@ -978,14 +980,25 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="about__feedback__email">contact@devemperor.net</string>
     <string name="about__feedback__subject">Dictate Feedback</string>
     <string name="setup__provider__title">Kies hoe Dictate transcribeert</string>
-    <string name="setup__provider__choose_intro">Dictate zet je spraak om in tekst met een AI-dienst. Dat kan op twee manieren, en beide worden volledig ondersteund — kies wat je het beste uitkomt.</string>
+    <string name="setup__provider__choose_intro">Dictate zet je spraak om in tekst met een AI-dienst. Voor de meeste mensen voldoet een van deze twee manieren — en wil je helemaal geen clouddienst gebruiken, dan staan er hieronder nog twee.</string>
     <string name="setup__provider__choice_cloud_title">Tegoed kopen in de app</string>
     <string name="setup__provider__choice_cloud_body">Dictate Cloud: nergens een account, geen API-sleutel. Je koopt dicteerminuten via Google Play en ze verlopen nooit. De makkelijke weg — en wat duurder dan rechtstreeks naar een aanbieder gaan.</string>
     <string name="setup__provider__choice_cloud_btn">Tegoedpakketten tonen</string>
     <string name="setup__provider__choice_own_title">Je eigen AI-aanbieder gebruiken</string>
     <string name="setup__provider__choice_own_body">Maak een sleutel aan bij een aanbieder naar keuze — Groq is gratis voor dagelijks dicteren. Je houdt je eigen account en betaalt de aanbieder rechtstreeks tegen diens prijzen. Duurt zo\'n twee minuten.</string>
     <string name="setup__provider__choice_own_btn">Mijn eigen sleutel instellen</string>
-    <string name="setup__provider__back_to_choice">Terug naar beide mogelijkheden</string>
+    <string name="setup__provider__back_to_choice">Terug naar alle mogelijkheden</string>
+    <string name="setup__provider__more_ways">Liever helemaal zonder clouddienst?</string>
+    <string name="setup__provider__choice_local_title">Op je toestel, offline</string>
+    <string name="setup__provider__choice_local_body">Download één keer een spraakmodel. Geen account, geen kosten, en er verlaat geen audio je telefoon.</string>
+    <string name="setup__provider__choice_server_title">Je eigen server</string>
+    <string name="setup__provider__choice_server_body">Laat Dictate wijzen naar een spraakserver die je zelf draait, of naar elk OpenAI-compatibel endpoint.</string>
+    <string name="setup__provider__local_intro">Spraakherkenning draait dan op je telefoon: er wordt niets verstuurd en het werkt zonder verbinding. Kies nu één model om te downloaden — later kun je modellen toevoegen of wisselen.</string>
+    <string name="setup__provider__local_recommended">Aanbevolen voor jouw taal</string>
+    <string name="setup__provider__local_bigger">Nauwkeuriger, maar een veel grotere download</string>
+    <string name="setup__provider__local_download_btn">Model downloaden</string>
+    <string name="setup__provider__local_use_btn">Dit model gebruiken</string>
+    <string name="setup__provider__local_all_models">Alle modellen tonen</string>
     <string name="setup__provider__intro">Dictate zet je spraak om in tekst met behulp van een online AI-dienst. Om het te gebruiken heb je je eigen persoonlijke sleutel voor zo\'n dienst nodig.</string>
     <string name="setup__provider__what_is_key">Een API-sleutel is als een persoonlijk wachtwoord waarmee Dictate de dienst voor je kan gebruiken. Er een aanmaken is gratis en duurt ongeveer twee minuten.</string>
     <string name="setup__provider__recommended">We raden <b>Groq</b> aan: snel en gratis voor dagelijks dicteren.</string>
@@ -1113,6 +1126,8 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__error_timeout">Time-out van verzoek</string>
     <string name="dictate__error_network">Geen internetverbinding</string>
     <string name="dictate__error_server">Aanbieder niet beschikbaar – probeer het opnieuw</string>
+    <string name="dictate__error_try_on_device">Geen verbinding – probeer op apparaat</string>
+    <string name="dictate__error_try_on_device_detail">Transcriptie op het apparaat heeft helemaal geen verbinding nodig — handig als een aanbieder geblokkeerd is én als er geen bereik is. Stel het in bij AI-aanbieders en zet Offline terugval aan, zodat het vanzelf overneemt.</string>
     <string name="dictate__action_settings">Instellingen openen</string>
     <string name="dictate__action_error_details">Foutdetails tonen</string>
     <string name="dictate__error_details_title">Foutdetails</string>
@@ -1160,8 +1175,9 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__providers_status_unconfigured">Niet geconfigureerd</string>
     <string name="dictate__providers_cap_stt">Transcriptie</string>
     <string name="dictate__providers_cap_chat">Herformulering</string>
-    <string name="dictate__providers_add_custom">Aangepaste server toevoegen</string>
-    <string name="dictate__providers_add_custom_summary">Elk OpenAI-compatibel endpoint</string>
+    <string name="dictate__providers_add_custom">Je eigen server toevoegen</string>
+    <string name="dictate__providers_add_custom_summary">Zelf gehost of elk OpenAI-compatibel endpoint — voor spraakherkenning en herformuleren</string>
+    <string name="dictate__providers_ollama_no_stt">Ollama heeft geen endpoint voor spraakherkenning en kan dus alleen herformuleren. Wil je dicteren via een eigen server, draai dan een spraakserver (zoals Speaches, faster-whisper-server of whisper.cpp) en voeg die toe via “Je eigen server toevoegen” — of gebruik de herkenning op het toestel, waarvoor helemaal geen server nodig is.</string>
     <string name="dictate__providers_custom_title">Aangepaste server</string>
     <string name="dictate__providers_field_name">Naam</string>
     <string name="dictate__providers_field_transcription_model">Transcriptiemodel</string>

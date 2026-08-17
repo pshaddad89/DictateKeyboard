@@ -124,7 +124,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">サブタイプ</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">サブタイプを追加</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">インストール済み言語パックの管理</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">実験的：特定の言語を追加する拡張機能（現在は形状ベースの中国語）。</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">入力方式を追加する拡張機能：中国語ピンインと形状ベースの方式。</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">サブタイプを編集</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">ロケール</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">ポップアップマッピング</string>
@@ -153,7 +153,9 @@
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">少なくとも1つのフィールドで値が選択されていません。フィールドの値を選択してください。</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (未インストール)</string>
     <string name="settings__localization__subtype_missing_language_pack_title">辞書が必要です</string>
-    <string name="settings__localization__subtype_missing_language_pack_message">この言語では、単語の候補や変換（例: ローマ字 → かな）のためにダウンロード可能な辞書が必要です。インストールされるまでは、入力はできますが変換は機能しません。</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">この入力方式では、入力した文字を漢字に変換するためにダウンロード可能な変換表が必要です。インストールされるまでは、キーは使えますが変換は行われません。</string>
+    <string name="settings__localization__subtype_language_pack_auto_title">変換表は自動で入手されます</string>
+    <string name="settings__localization__subtype_language_pack_auto_message">この入力方式は約 3 MB の変換表を使って、入力した文字を漢字に変換します。このサブタイプを保存した直後に一度だけダウンロードされます。</string>
     <string name="settings__localization__subtype_missing_language_pack_action">辞書をダウンロード</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">レイアウト</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">削除の確認</string>
@@ -1011,14 +1013,25 @@
     <string name="about__feedback__email">contact@devemperor.net</string>
     <string name="about__feedback__subject">Dictate Feedback</string>
     <string name="setup__provider__title">文字起こしの方法を選ぶ</string>
-    <string name="setup__provider__choose_intro">Dictate は AI サービスを使って音声を文字にします。設定方法は2通りあり、どちらも完全にサポートされています。ご自身に合うほうを選んでください。</string>
+    <string name="setup__provider__choose_intro">Dictate は AI サービスを使って音声を文字にします。ほとんどの方には上の2つの方法が合いますが、クラウドサービスをまったく使いたくない場合は、下にさらに2つあります。</string>
     <string name="setup__provider__choice_cloud_title">アプリ内でクレジットを購入</string>
     <string name="setup__provider__choice_cloud_body">Dictate Cloud：どこにもアカウント不要、API キーも不要。Google Play で音声入力の分数を購入でき、有効期限はありません。手軽な方法ですが、プロバイダーに直接申し込むより少し割高です。</string>
     <string name="setup__provider__choice_cloud_btn">クレジットパックを見る</string>
     <string name="setup__provider__choice_own_title">自分の AI プロバイダーを使う</string>
     <string name="setup__provider__choice_own_body">お好きなプロバイダーでキーを作成します。Groq は日常的な音声入力なら無料です。ご自身のアカウントのまま、プロバイダーの料金で直接支払います。2分ほどで終わります。</string>
     <string name="setup__provider__choice_own_btn">自分のキーを設定する</string>
-    <string name="setup__provider__back_to_choice">2つの選択肢に戻る</string>
+    <string name="setup__provider__back_to_choice">すべての選択肢に戻る</string>
+    <string name="setup__provider__more_ways">クラウドサービスは使いたくないですか？</string>
+    <string name="setup__provider__choice_local_title">端末上で、オフライン</string>
+    <string name="setup__provider__choice_local_body">音声モデルを一度ダウンロードするだけ。アカウントも費用も不要で、音声が端末から出ることはありません。</string>
+    <string name="setup__provider__choice_server_title">自分のサーバー</string>
+    <string name="setup__provider__choice_server_body">自分で動かしている音声サーバー、または OpenAI 互換の任意のエンドポイントに Dictate を向けます。</string>
+    <string name="setup__provider__local_intro">音声認識は端末上で動きます。どこにも送信されず、接続がなくても使えます。まずはモデルを1つ選んでダウンロードしてください。あとから追加や変更もできます。</string>
+    <string name="setup__provider__local_recommended">あなたの言語におすすめ</string>
+    <string name="setup__provider__local_bigger">より高精度ですが、ダウンロードはかなり大きくなります</string>
+    <string name="setup__provider__local_download_btn">モデルをダウンロード</string>
+    <string name="setup__provider__local_use_btn">このモデルを使う</string>
+    <string name="setup__provider__local_all_models">すべてのモデルを表示</string>
     <string name="setup__provider__intro">Dictateは、オンラインのAIサービスを利用して音声をテキストに変換します。利用するには、そのサービスのご自身の個人キーが必要です。</string>
     <string name="setup__provider__what_is_key">APIキーは、Dictateがあなたに代わってサービスを利用できるようにする個人用パスワードのようなものです。作成は無料で、約2分で済みます。</string>
     <string name="setup__provider__recommended"><b>Groq</b>をおすすめします。日常の音声入力に高速で無料です。</string>
@@ -1146,6 +1159,8 @@
     <string name="dictate__error_timeout">リクエストがタイムアウトしました</string>
     <string name="dictate__error_network">インターネット接続がありません</string>
     <string name="dictate__error_server">プロバイダーが利用できません – もう一度お試しください</string>
+    <string name="dictate__error_try_on_device">接続なし – 端末内で試す</string>
+    <string name="dictate__error_try_on_device_detail">端末内の文字起こしは接続をまったく必要としません。プロバイダーがブロックされている場合にも、電波がない場合にも役立ちます。「AIプロバイダー」で設定し、「オフライン時のフォールバック」をオンにすると、自動的に引き継ぎます。</string>
     <string name="dictate__action_settings">設定を開く</string>
     <string name="dictate__action_error_details">エラーの詳細を表示</string>
     <string name="dictate__error_details_title">エラーの詳細</string>
@@ -1193,8 +1208,9 @@
     <string name="dictate__providers_status_unconfigured">未構成</string>
     <string name="dictate__providers_cap_stt">文字起こし</string>
     <string name="dictate__providers_cap_chat">言い換え</string>
-    <string name="dictate__providers_add_custom">カスタムサーバーを追加</string>
-    <string name="dictate__providers_add_custom_summary">OpenAI互換の任意のエンドポイント</string>
+    <string name="dictate__providers_add_custom">自分のサーバーを追加</string>
+    <string name="dictate__providers_add_custom_summary">セルフホストまたは OpenAI 互換の任意のエンドポイント — 音声認識と言い換えの両方に</string>
+    <string name="dictate__providers_ollama_no_stt">Ollama には音声認識のエンドポイントがないため、言い換えしかできません。自分のサーバーで音声入力するには、音声サーバー（Speaches、faster-whisper-server、whisper.cpp など）を動かし、「自分のサーバーを追加」から登録してください。サーバーが一切不要な端末上の認識を使うこともできます。</string>
     <string name="dictate__providers_custom_title">カスタムサーバー</string>
     <string name="dictate__providers_field_name">名前</string>
     <string name="dictate__providers_field_transcription_model">文字起こしモデル</string>

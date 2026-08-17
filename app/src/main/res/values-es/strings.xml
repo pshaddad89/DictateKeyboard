@@ -127,7 +127,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Subtipos</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Añadir subtipo</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Administrar paquetes de idioma instalados</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimental: extensiones que añaden idiomas específicos (chino basado en formas por ahora).</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Extensiones que añaden un método de entrada: pinyin chino y los métodos basados en formas.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Editar subtipo</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Idioma principal</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Gestionar ventanas emergentes</string>
@@ -156,7 +156,9 @@
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Al menos un campo no posee un valor seleccionado. Por favor escoja un valor para el(los) campo(s).</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (no instalado)</string>
     <string name="settings__localization__subtype_missing_language_pack_title">Diccionario necesario</string>
-    <string name="settings__localization__subtype_missing_language_pack_message">Este idioma necesita un diccionario descargable para las sugerencias de palabras y la conversión (p. ej. Romaji → Kana). Hasta que se instale, se puede escribir, pero la conversión no hace nada.</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Este método de entrada necesita una tabla descargable para convertir lo que escribes en caracteres. Hasta que se instale, las teclas funcionan pero no se convierte nada.</string>
+    <string name="settings__localization__subtype_language_pack_auto_title">La tabla se descarga sola</string>
+    <string name="settings__localization__subtype_language_pack_auto_message">Este método de entrada convierte lo que escribes en caracteres mediante una tabla de unos 3 MB. Se descarga una sola vez, justo después de guardar este subtipo.</string>
     <string name="settings__localization__subtype_missing_language_pack_action">Descargar diccionario</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Distribuciones</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Confirmación de eliminación</string>
@@ -1060,14 +1062,25 @@
     <string name="about__feedback__email">contact@devemperor.net</string>
     <string name="about__feedback__subject">Dictate Feedback</string>
     <string name="setup__provider__title">Elige cómo transcribe Dictate</string>
-    <string name="setup__provider__choose_intro">Dictate convierte tu voz en texto con un servicio de IA. Hay dos formas de configurarlo, y ambas son totalmente compatibles: elige la que prefieras.</string>
+    <string name="setup__provider__choose_intro">Dictate convierte tu voz en texto con un servicio de IA. A la mayoría le sirve una de estas dos formas, y si prefieres no usar ningún servicio en la nube, abajo tienes otras dos.</string>
     <string name="setup__provider__choice_cloud_title">Comprar saldo en la app</string>
     <string name="setup__provider__choice_cloud_body">Dictate Cloud: sin cuenta en ningún sitio, sin clave API. Compras minutos de dictado a través de Google Play y nunca caducan. La vía cómoda, y algo más cara que acudir directamente a un proveedor.</string>
     <string name="setup__provider__choice_cloud_btn">Ver paquetes de saldo</string>
     <string name="setup__provider__choice_own_title">Usar tu propio proveedor de IA</string>
     <string name="setup__provider__choice_own_body">Crea una clave con el proveedor que prefieras: Groq es gratuito para el dictado diario. Conservas tu propia cuenta y pagas directamente al proveedor a sus precios. Tarda unos dos minutos.</string>
     <string name="setup__provider__choice_own_btn">Configurar mi propia clave</string>
-    <string name="setup__provider__back_to_choice">Volver a las dos opciones</string>
+    <string name="setup__provider__back_to_choice">Volver a todas las opciones</string>
+    <string name="setup__provider__more_ways">¿Prefieres no usar ningún servicio en la nube?</string>
+    <string name="setup__provider__choice_local_title">En tu dispositivo, sin conexión</string>
+    <string name="setup__provider__choice_local_body">Descarga un modelo de voz una sola vez. Sin cuenta, sin costes y ningún audio sale de tu teléfono.</string>
+    <string name="setup__provider__choice_server_title">Tu propio servidor</string>
+    <string name="setup__provider__choice_server_body">Apunta Dictate a un servidor de voz que gestiones tú mismo, o a cualquier endpoint compatible con OpenAI.</string>
+    <string name="setup__provider__local_intro">El reconocimiento de voz se ejecuta entonces en tu teléfono: no se envía nada a ninguna parte y funciona sin conexión. Elige ahora un modelo para descargar; luego puedes añadir o cambiar modelos.</string>
+    <string name="setup__provider__local_recommended">Recomendado para tu idioma</string>
+    <string name="setup__provider__local_bigger">Más preciso, pero una descarga mucho mayor</string>
+    <string name="setup__provider__local_download_btn">Descargar modelo</string>
+    <string name="setup__provider__local_use_btn">Usar este modelo</string>
+    <string name="setup__provider__local_all_models">Ver todos los modelos</string>
     <string name="setup__provider__intro">Dictate convierte tu voz en texto con la ayuda de un servicio de IA en línea. Para usarlo, necesitas tu propia clave personal para ese servicio.</string>
     <string name="setup__provider__what_is_key">Una clave de API es como una contraseña personal que permite a Dictate usar el servicio por ti. Crear una es gratis y tarda unos dos minutos.</string>
     <string name="setup__provider__recommended">Recomendamos <b>Groq</b>: es rápido y gratuito para el dictado diario.</string>
@@ -1195,6 +1208,8 @@
     <string name="dictate__error_timeout">Tiempo de espera agotado</string>
     <string name="dictate__error_network">Sin conexión a internet</string>
     <string name="dictate__error_server">Proveedor no disponible: inténtalo de nuevo</string>
+    <string name="dictate__error_try_on_device">Sin conexión: prueba en el dispositivo</string>
+    <string name="dictate__error_try_on_device_detail">La transcripción en el dispositivo no necesita ninguna conexión: sirve tanto si un proveedor está bloqueado como si no hay cobertura. Configúrala en Proveedores de IA y activa Alternativa sin conexión para que actúe por sí sola.</string>
     <string name="dictate__action_settings">Abrir ajustes</string>
     <string name="dictate__action_error_details">Mostrar detalles del error</string>
     <string name="dictate__error_details_title">Detalles del error</string>
@@ -1242,8 +1257,9 @@
     <string name="dictate__providers_status_unconfigured">Sin configurar</string>
     <string name="dictate__providers_cap_stt">Transcripción</string>
     <string name="dictate__providers_cap_chat">Reformulación</string>
-    <string name="dictate__providers_add_custom">Añadir servidor personalizado</string>
-    <string name="dictate__providers_add_custom_summary">Cualquier endpoint compatible con OpenAI</string>
+    <string name="dictate__providers_add_custom">Añadir tu propio servidor</string>
+    <string name="dictate__providers_add_custom_summary">Autoalojado o cualquier endpoint compatible con OpenAI: para reconocimiento de voz y reformulación</string>
+    <string name="dictate__providers_ollama_no_stt">Ollama no tiene endpoint de reconocimiento de voz, así que solo puede reformular. Para dictar a través de un servidor propio, levanta un servidor de voz (como Speaches, faster-whisper-server o whisper.cpp) y añádelo en «Añadir tu propio servidor» — o usa el motor en el dispositivo, que no necesita ningún servidor.</string>
     <string name="dictate__providers_custom_title">Servidor personalizado</string>
     <string name="dictate__providers_field_name">Nombre</string>
     <string name="dictate__providers_field_transcription_model">Modelo de transcripción</string>

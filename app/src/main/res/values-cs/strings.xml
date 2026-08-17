@@ -130,7 +130,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Podtypy</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Přidat podtyp</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Spravovat nainstalované jazykové balíčky</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Experimentální: rozšíření přidávající konkrétní jazyky (zatím čínština podle tvarů).</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Rozšíření přidávající vstupní metodu: čínský pinyin a metody podle tvarů.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Upravit podtyp</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Hlavní jazyk</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Mapování vyskakovacích nabídek</string>
@@ -159,7 +159,9 @@
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">Minimálně jedno pole nemá vybranou hodnotu. Vyberte ji prosím.</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (nenainstalováno)</string>
     <string name="settings__localization__subtype_missing_language_pack_title">Vyžadován slovník</string>
-    <string name="settings__localization__subtype_missing_language_pack_message">Tento jazyk vyžaduje stažitelný slovník pro návrhy slov a převod (např. Rómadži → Kana). Dokud není nainstalován, psaní funguje, ale převod nic nedělá.</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Tato vstupní metoda potřebuje stažitelnou tabulku, aby psaný text převedla na znaky. Dokud není nainstalována, klávesy fungují, ale nic se nepřevádí.</string>
+    <string name="settings__localization__subtype_language_pack_auto_title">Tabulka se stáhne sama</string>
+    <string name="settings__localization__subtype_language_pack_auto_message">Tato vstupní metoda převádí psaný text na znaky pomocí tabulky o velikosti asi 3 MB. Stáhne se jednou, hned po uložení tohoto podtypu.</string>
     <string name="settings__localization__subtype_missing_language_pack_action">Stáhnout slovník</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Rozložení</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Potvrzení odstranění</string>
@@ -1093,14 +1095,25 @@
     <string name="about__feedback__email">contact@devemperor.net</string>
     <string name="about__feedback__subject">Dictate Feedback</string>
     <string name="setup__provider__title">Vyberte, jak má Dictate přepisovat</string>
-    <string name="setup__provider__choose_intro">Dictate převádí vaši řeč na text pomocí služby AI. Nastavit to jde dvěma způsoby a oba jsou plně podporované — vyberte si ten, který vám vyhovuje.</string>
+    <string name="setup__provider__choose_intro">Dictate převádí vaši řeč na text pomocí služby AI. Většině lidí vyhoví jeden ze dvou způsobů — a pokud nechcete používat žádnou cloudovou službu, níže najdete další dva.</string>
     <string name="setup__provider__choice_cloud_title">Koupit kredit v aplikaci</string>
     <string name="setup__provider__choice_cloud_body">Dictate Cloud: nikde žádný účet, žádný klíč API. Minuty diktování kupujete přes Google Play a nikdy nevyprší. Pohodlná cesta — a o něco dražší než jít k poskytovateli přímo.</string>
     <string name="setup__provider__choice_cloud_btn">Zobrazit balíčky kreditu</string>
     <string name="setup__provider__choice_own_title">Použít vlastního poskytovatele AI</string>
     <string name="setup__provider__choice_own_body">Vytvořte si klíč u poskytovatele podle svého výběru — Groq je pro běžné diktování zdarma. Zůstává vám vlastní účet a platíte přímo poskytovateli za jeho ceny. Zabere to asi dvě minuty.</string>
     <string name="setup__provider__choice_own_btn">Nastavit vlastní klíč</string>
-    <string name="setup__provider__back_to_choice">Zpět k oběma možnostem</string>
+    <string name="setup__provider__back_to_choice">Zpět ke všem možnostem</string>
+    <string name="setup__provider__more_ways">Raději úplně bez cloudové služby?</string>
+    <string name="setup__provider__choice_local_title">Ve vašem zařízení, offline</string>
+    <string name="setup__provider__choice_local_body">Jednou stáhnete řečový model. Žádný účet, žádné náklady a žádná nahrávka neopustí telefon.</string>
+    <string name="setup__provider__choice_server_title">Vlastní server</string>
+    <string name="setup__provider__choice_server_body">Nasměrujte Dictate na řečový server, který provozujete sami, nebo na jakýkoli koncový bod kompatibilní s OpenAI.</string>
+    <string name="setup__provider__local_intro">Rozpoznávání řeči pak běží ve vašem telefonu: nic se nikam neposílá a funguje to i bez připojení. Vyberte si teď jeden model ke stažení — další můžete přidat nebo změnit později.</string>
+    <string name="setup__provider__local_recommended">Doporučeno pro váš jazyk</string>
+    <string name="setup__provider__local_bigger">Přesnější, ale výrazně větší stahování</string>
+    <string name="setup__provider__local_download_btn">Stáhnout model</string>
+    <string name="setup__provider__local_use_btn">Použít tento model</string>
+    <string name="setup__provider__local_all_models">Zobrazit všechny modely</string>
     <string name="setup__provider__intro">Dictate převádí váš hlas na text pomocí online služby AI. K jejímu používání potřebujete vlastní osobní klíč pro takovou službu.</string>
     <string name="setup__provider__what_is_key">Klíč API je jako osobní heslo, které aplikaci Dictate umožňuje používat službu za vás. Jeho vytvoření je zdarma a trvá asi dvě minuty.</string>
     <string name="setup__provider__recommended">Doporučujeme <b>Groq</b> – je rychlý a zdarma pro každodenní diktování.</string>
@@ -1228,6 +1241,8 @@
     <string name="dictate__error_timeout">Vypršel časový limit požadavku</string>
     <string name="dictate__error_network">Žádné připojení k internetu</string>
     <string name="dictate__error_server">Poskytovatel není dostupný – zkuste to znovu</string>
+    <string name="dictate__error_try_on_device">Bez připojení – zkuste v zařízení</string>
+    <string name="dictate__error_try_on_device_detail">Přepis v zařízení nepotřebuje vůbec žádné připojení — pomůže, když je poskytovatel blokovaný, i když není signál. Nastavte jej v sekci Poskytovatelé AI a zapněte Offline záloha, aby se spustil sám.</string>
     <string name="dictate__action_settings">Otevřít nastavení</string>
     <string name="dictate__action_error_details">Zobrazit podrobnosti chyby</string>
     <string name="dictate__error_details_title">Podrobnosti chyby</string>
@@ -1276,7 +1291,8 @@
     <string name="dictate__providers_cap_stt">Přepis</string>
     <string name="dictate__providers_cap_chat">Přeformulování</string>
     <string name="dictate__providers_add_custom">Přidat vlastní server</string>
-    <string name="dictate__providers_add_custom_summary">Jakýkoli koncový bod kompatibilní s OpenAI</string>
+    <string name="dictate__providers_add_custom_summary">Vlastní hosting nebo jakýkoli koncový bod kompatibilní s OpenAI — pro rozpoznávání řeči i přeformulování</string>
+    <string name="dictate__providers_ollama_no_stt">Ollama nemá koncový bod pro rozpoznávání řeči, umí tedy jen přeformulovat. Pro diktování přes vlastní server spusťte řečový server (například Speaches, faster-whisper-server nebo whisper.cpp) a přidejte ho přes „Přidat vlastní server“ — nebo použijte rozpoznávání v zařízení, které žádný server nepotřebuje.</string>
     <string name="dictate__providers_custom_title">Vlastní server</string>
     <string name="dictate__providers_field_name">Název</string>
     <string name="dictate__providers_field_transcription_model">Model přepisu</string>

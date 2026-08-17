@@ -48,6 +48,16 @@ One-shot models — these transcribe after you stop speaking:
     https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
   - Parakeet German (primeline) — a German-specialized fine-tune of NVIDIA Parakeet TDT 0.6B v3,
     © primeline, licensed CC BY 4.0. https://huggingface.co/primeline/parakeet-primeline
+  - Canary 180M Flash — © NVIDIA, licensed CC BY 4.0.
+    https://huggingface.co/nvidia/canary-180m-flash
+  - GigaAM v2 Russian — © Salute Devices, MIT License.
+    https://github.com/salute-developers/GigaAM
+  - SenseVoice Small (Chinese, Cantonese, English, Japanese, Korean) — © Alibaba Group,
+    licensed under the FunASR Model Open Source License Agreement v1.1, which permits use,
+    modification and sharing with attribution of the source, the author and the model name.
+    https://github.com/FunAudioLLM/SenseVoice
+    License text: https://github.com/modelscope/FunASR/blob/main/MODEL_LICENSE
+    Redistributed unmodified, under its own name.
 
 Streaming models — these transcribe live, while you are still speaking:
 
@@ -85,7 +95,21 @@ Locale Data Repository (CLDR v48), both the curated and the derived annotation s
     https://github.com/unicode-org/cldr-json — https://www.unicode.org/license.txt
   - Regenerate with tools/emoji-annotations/generate.py
 
-7. Provider logos
+7. Chinese Pinyin reading table (the Chinese Pinyin keyboard)
+-------------------------------------------------------------
+File: net.devemperor.dictate.pinyin.flex  (downloaded when the subtype is added)
+
+Which characters a pinyin spelling produces, and how they are ranked.
+
+  - Readings from CC-CEDICT, published by MDBG, licensed CC BY-SA 4.0.
+    Referenced work: CEDICT, © 1997, 1998 Paul Andrew Denisowski.
+    https://www.mdbg.net/chinese/dictionary?page=cc-cedict
+    The generated table is a derivative and carries the same CC BY-SA 4.0 license.
+  - Ranking from the OPUS OpenSubtitles zh_cn frequency list (cited in section 1 above);
+    only aggregate word counts are used.
+  - Regenerate with tools/pinyin-dict/generate.py — see its ATTRIBUTION.md.
+
+8. Provider logos
 ------------------
 
 The settings list marks each AI provider with its own logo, so a row can be found by its mark rather
@@ -96,7 +120,8 @@ The monochrome outlines come from two collections, both freely licensed:
 
   - Simple Icons, CC0-1.0 — OpenAI, OpenRouter, Google Gemini, Anthropic, Mistral AI, ElevenLabs,
     Deepgram, DeepSeek, Ollama. https://github.com/simple-icons/simple-icons
-  - Lobe Icons, MIT License — Groq, Together AI, DeepInfra, AssemblyAI, xAI.
+  - Lobe Icons, MIT License — Groq, Together AI, DeepInfra, AssemblyAI, xAI, SiliconFlow (filed
+    there under SiliconCloud, the name of their platform).
     https://github.com/lobehub/lobe-icons
 
 Soniox publish no vector mark, so theirs was traced from their own app icon and fitted to the same

@@ -129,7 +129,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Подвиды</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Добавить раскладку</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Установленные языковые пакеты</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Экспериментально: расширения, добавляющие определённые языки (пока китайский по форме).</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Расширения, добавляющие метод ввода: китайский пиньинь и методы по форме.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Изменить раскладку</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Основной язык</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Отображение всплывающих окон</string>
@@ -158,7 +158,9 @@
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">По крайней мере, для одного поля не выбрано значение. Пожалуйста, выберите значение для этого поля (полей).</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (не установлен)</string>
     <string name="settings__localization__subtype_missing_language_pack_title">Требуется словарь</string>
-    <string name="settings__localization__subtype_missing_language_pack_message">Для этого языка нужен загружаемый словарь для подсказок слов и преобразования (напр. Ромадзи → Кана). Пока он не установлен, ввод работает, но преобразование ничего не делает.</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Этому методу ввода нужна загружаемая таблица, чтобы превращать набранное в иероглифы. Пока она не установлена, клавиши работают, но ничего не преобразуется.</string>
+    <string name="settings__localization__subtype_language_pack_auto_title">Таблица загрузится сама</string>
+    <string name="settings__localization__subtype_language_pack_auto_message">Этот метод ввода превращает набранное в иероглифы с помощью таблицы размером около 3 МБ. Она загружается один раз, сразу после сохранения этого подтипа.</string>
     <string name="settings__localization__subtype_missing_language_pack_action">Загрузить словарь</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Раскладки</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Подтверждение удаления</string>
@@ -1082,14 +1084,25 @@
     <string name="about__feedback__email">contact@devemperor.net</string>
     <string name="about__feedback__subject">Dictate Feedback</string>
     <string name="setup__provider__title">Выберите, как Dictate распознаёт речь</string>
-    <string name="setup__provider__choose_intro">Dictate превращает вашу речь в текст с помощью сервиса ИИ. Настроить это можно двумя способами, и оба поддерживаются полностью — выберите тот, что вам удобнее.</string>
+    <string name="setup__provider__choose_intro">Dictate превращает вашу речь в текст с помощью сервиса ИИ. Большинству подойдёт один из двух способов выше — а если вы вообще не хотите пользоваться облачным сервисом, ниже есть ещё два.</string>
     <string name="setup__provider__choice_cloud_title">Купить баланс в приложении</string>
     <string name="setup__provider__choice_cloud_body">Dictate Cloud: нигде не нужен аккаунт, не нужен ключ API. Вы покупаете минуты диктовки через Google Play, и они не сгорают. Удобный путь — и немного дороже, чем идти к провайдеру напрямую.</string>
     <string name="setup__provider__choice_cloud_btn">Показать пакеты</string>
     <string name="setup__provider__choice_own_title">Использовать своего провайдера ИИ</string>
     <string name="setup__provider__choice_own_body">Создайте ключ у провайдера на ваш выбор — Groq бесплатен для повседневной диктовки. Вы сохраняете свой аккаунт и платите провайдеру напрямую по его ценам. Займёт около двух минут.</string>
     <string name="setup__provider__choice_own_btn">Настроить свой ключ</string>
-    <string name="setup__provider__back_to_choice">Назад к обоим вариантам</string>
+    <string name="setup__provider__back_to_choice">Назад ко всем вариантам</string>
+    <string name="setup__provider__more_ways">Предпочитаете обойтись без облака?</string>
+    <string name="setup__provider__choice_local_title">На вашем устройстве, офлайн</string>
+    <string name="setup__provider__choice_local_body">Один раз скачайте речевую модель. Без учётной записи, без затрат, и ни одна запись не покидает телефон.</string>
+    <string name="setup__provider__choice_server_title">Свой сервер</string>
+    <string name="setup__provider__choice_server_body">Направьте Dictate на речевой сервер, который держите сами, или на любую конечную точку, совместимую с OpenAI.</string>
+    <string name="setup__provider__local_intro">Распознавание речи тогда работает на вашем телефоне: ничего никуда не отправляется, и всё работает без связи. Выберите сейчас одну модель для загрузки — позже можно добавить или сменить.</string>
+    <string name="setup__provider__local_recommended">Рекомендуется для вашего языка</string>
+    <string name="setup__provider__local_bigger">Точнее, но загрузка заметно больше</string>
+    <string name="setup__provider__local_download_btn">Скачать модель</string>
+    <string name="setup__provider__local_use_btn">Использовать эту модель</string>
+    <string name="setup__provider__local_all_models">Показать все модели</string>
     <string name="setup__provider__intro">Dictate превращает вашу речь в текст с помощью онлайн-сервиса ИИ. Чтобы им пользоваться, нужен собственный личный ключ для такого сервиса.</string>
     <string name="setup__provider__what_is_key">Ключ API — это как личный пароль, позволяющий Dictate пользоваться сервисом от вашего имени. Создать его бесплатно и занимает около двух минут.</string>
     <string name="setup__provider__recommended">Рекомендуем <b>Groq</b> — быстрый и бесплатный для повседневной диктовки.</string>
@@ -1217,6 +1230,8 @@
     <string name="dictate__error_timeout">Истекло время ожидания запроса</string>
     <string name="dictate__error_network">Нет подключения к интернету</string>
     <string name="dictate__error_server">Поставщик недоступен — повторите попытку</string>
+    <string name="dictate__error_try_on_device">Нет связи — попробуйте на устройстве</string>
+    <string name="dictate__error_try_on_device_detail">Расшифровке на устройстве связь не нужна вообще — это помогает и когда поставщик заблокирован, и когда нет сети. Настройте её в разделе Поставщики ИИ и включите Офлайн-резерв, чтобы она подключалась сама.</string>
     <string name="dictate__action_settings">Открыть настройки</string>
     <string name="dictate__action_error_details">Показать сведения об ошибке</string>
     <string name="dictate__error_details_title">Сведения об ошибке</string>
@@ -1264,8 +1279,9 @@
     <string name="dictate__providers_status_unconfigured">Не настроен</string>
     <string name="dictate__providers_cap_stt">Транскрибирование</string>
     <string name="dictate__providers_cap_chat">Переформулирование</string>
-    <string name="dictate__providers_add_custom">Добавить пользовательский сервер</string>
-    <string name="dictate__providers_add_custom_summary">Любая конечная точка, совместимая с OpenAI</string>
+    <string name="dictate__providers_add_custom">Добавить свой сервер</string>
+    <string name="dictate__providers_add_custom_summary">Собственный хостинг или любая конечная точка, совместимая с OpenAI — для распознавания речи и переформулирования</string>
+    <string name="dictate__providers_ollama_no_stt">У Ollama нет конечной точки распознавания речи, поэтому он умеет только переформулировать. Чтобы диктовать через свой сервер, запустите речевой сервер (например, Speaches, faster-whisper-server или whisper.cpp) и добавьте его через «Добавить свой сервер» — или используйте распознавание на устройстве, которому сервер не нужен вовсе.</string>
     <string name="dictate__providers_custom_title">Пользовательский сервер</string>
     <string name="dictate__providers_field_name">Имя</string>
     <string name="dictate__providers_field_transcription_model">Модель транскрибирования</string>

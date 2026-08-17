@@ -43,8 +43,34 @@ distribution. They are mirrored unmodified on the project's GitHub releases.
     NVIDIA Canary 180M Flash — https://huggingface.co/nvidia/canary-180m-flash
     (CC-BY-4.0)
     GigaAM v2 Russian — https://github.com/salute-developers/GigaAM (MIT)
+
+    SenseVoice Small (Chinese, Cantonese, English, Japanese, Korean)
+    Copyright Alibaba Group — https://github.com/FunAudioLLM/SenseVoice
+    Licensed under the FunASR Model Open Source License Agreement v1.1
+    (https://github.com/modelscope/FunASR/blob/main/MODEL_LICENSE), which permits
+    use, modification and sharing with attribution of source, author and model
+    name. Mirrored unmodified; the model name is retained as required.
+
     Silero VAD — https://github.com/snakers4/silero-vad (MIT)
     Smart Turn v3 — https://github.com/pipecat-ai/smart-turn (BSD-2-Clause)
 
     All of the above are exported to ONNX by the sherpa-onnx project
     (https://github.com/k2-fsa/sherpa-onnx), licensed under Apache-2.0.
+
+================================================================================
+Chinese Pinyin language pack
+================================================================================
+
+Downloaded on demand and not part of this source distribution. Built by
+tools/pinyin-dict/generate.py; see tools/pinyin-dict/ATTRIBUTION.md.
+
+    CC-CEDICT — https://www.mdbg.net/chinese/dictionary?page=cc-cedict
+    Published by MDBG, licensed under Creative Commons Attribution-ShareAlike 4.0
+    International (CC BY-SA 4.0). Referenced work: CEDICT, Copyright (C) 1997,
+    1998 Paul Andrew Denisowski. The generated table is a derivative and carries
+    the same license.
+
+    OPUS OpenSubtitles frequency lists — https://opus.nlpl.eu
+    P. Lison & J. Tiedemann (2016), "OpenSubtitles2016: Extracting Large Parallel
+    Corpora from Movie and TV Subtitles", LREC 2016. Only aggregate word counts
+    are used; no source text is redistributed.

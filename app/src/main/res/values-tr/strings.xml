@@ -128,7 +128,7 @@
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Alt türler</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Alt tür ekle</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Yüklü dil paketlerini yönet</string>
-    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Deneysel: belirli diller ekleyen uzantılar (şimdilik şekil tabanlı Çince).</string>
+    <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Bir giriş yöntemi ekleyen uzantılar: Çince pinyin ve şekil tabanlı yöntemler.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Alt türü düzenle</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Birincil dil</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Açılır pencere eşlemesi</string>
@@ -157,7 +157,9 @@
     <string name="settings__localization__subtype_error_fields_no_value" comment="Error message shown in subtype editor if at least one field is set to '- select -' (means no value specified)">En az bir alan için değer seçilmemiş. Lütfen alan(lar) için bir değer seçin.</string>
     <string name="settings__localization__subtype_error_layout_not_installed" comment="Error message shown in subtype list when a layout is not installed, where %s will be replaced by the layout ID">{layout_id} (yüklü değil)</string>
     <string name="settings__localization__subtype_missing_language_pack_title">Sözlük gerekli</string>
-    <string name="settings__localization__subtype_missing_language_pack_message">Bu dil, kelime önerileri ve dönüştürme için indirilebilir bir sözlük gerektirir (ör. Romaji → Kana). Yüklenene kadar yazma çalışır ancak dönüştürme hiçbir şey yapmaz.</string>
+    <string name="settings__localization__subtype_missing_language_pack_message">Bu giriş yöntemi, yazdıklarınızı karakterlere dönüştürmek için indirilebilir bir tabloya ihtiyaç duyar. Yüklenene kadar tuşlar çalışır ama hiçbir şey dönüştürülmez.</string>
+    <string name="settings__localization__subtype_language_pack_auto_title">Tablo kendiliğinden iniyor</string>
+    <string name="settings__localization__subtype_language_pack_auto_message">Bu giriş yöntemi, yazdıklarınızı yaklaşık 3 MB\'lık bir tabloyla karakterlere dönüştürür. Tablo, bu alt türü kaydettikten hemen sonra bir kez indirilir.</string>
     <string name="settings__localization__subtype_missing_language_pack_action">Sözlük indir</string>
     <string name="settings__localization__group_layouts__label" comment="Label of layouts group">Düzenler</string>
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Silme Onayı</string>
@@ -1057,14 +1059,25 @@
     <string name="about__feedback__email">contact@devemperor.net</string>
     <string name="about__feedback__subject">Dictate Feedback</string>
     <string name="setup__provider__title">Dictate\'in nasıl yazıya dökeceğini seçin</string>
-    <string name="setup__provider__choose_intro">Dictate, konuşmanızı bir yapay zekâ hizmetiyle metne dönüştürür. Bunu kurmanın iki yolu var ve ikisi de tam olarak destekleniyor — hangisi size uyuyorsa onu seçin.</string>
+    <string name="setup__provider__choose_intro">Dictate, konuşmanızı bir yapay zekâ hizmetiyle metne dönüştürür. Çoğu kişiye yukarıdaki iki yoldan biri uyar — hiç bulut hizmeti kullanmak istemiyorsanız aşağıda iki yol daha var.</string>
     <string name="setup__provider__choice_cloud_title">Uygulamada kontör satın alın</string>
     <string name="setup__provider__choice_cloud_body">Dictate Cloud: hiçbir yerde hesap yok, API anahtarı yok. Dikte dakikalarını Google Play üzerinden satın alırsınız ve süreleri hiç dolmaz. Rahat yol — ve doğrudan bir sağlayıcıya gitmekten biraz daha pahalı.</string>
     <string name="setup__provider__choice_cloud_btn">Kontör paketlerini göster</string>
     <string name="setup__provider__choice_own_title">Kendi yapay zekâ sağlayıcınızı kullanın</string>
     <string name="setup__provider__choice_own_body">Seçtiğiniz sağlayıcıda bir anahtar oluşturun — Groq günlük dikte için ücretsiz. Kendi hesabınızı korur ve sağlayıcıya doğrudan kendi fiyatlarından ödersiniz. Yaklaşık iki dakika sürer.</string>
     <string name="setup__provider__choice_own_btn">Kendi anahtarımı kur</string>
-    <string name="setup__provider__back_to_choice">İki seçeneğe geri dön</string>
+    <string name="setup__provider__back_to_choice">Tüm seçeneklere geri dön</string>
+    <string name="setup__provider__more_ways">Hiç bulut hizmeti istemiyor musunuz?</string>
+    <string name="setup__provider__choice_local_title">Cihazınızda, çevrimdışı</string>
+    <string name="setup__provider__choice_local_body">Bir konuşma modelini bir kez indirin. Hesap yok, ücret yok ve hiçbir ses telefonunuzdan çıkmaz.</string>
+    <string name="setup__provider__choice_server_title">Kendi sunucunuz</string>
+    <string name="setup__provider__choice_server_body">Dictate\'i kendi işlettiğiniz bir konuşma sunucusuna ya da OpenAI uyumlu herhangi bir uç noktaya yönlendirin.</string>
+    <string name="setup__provider__local_intro">Konuşma tanıma o zaman telefonunuzda çalışır: hiçbir şey hiçbir yere gönderilmez ve bağlantı olmadan da çalışır. Şimdi indirmek için bir model seçin — sonradan model ekleyebilir veya değiştirebilirsiniz.</string>
+    <string name="setup__provider__local_recommended">Diliniz için önerilir</string>
+    <string name="setup__provider__local_bigger">Daha doğru, ama çok daha büyük bir indirme</string>
+    <string name="setup__provider__local_download_btn">Modeli indir</string>
+    <string name="setup__provider__local_use_btn">Bu modeli kullan</string>
+    <string name="setup__provider__local_all_models">Tüm modelleri göster</string>
     <string name="setup__provider__intro">Dictate, çevrimiçi bir yapay zekâ hizmetinin yardımıyla konuşmanızı metne dönüştürür. Bunu kullanmak için böyle bir hizmete ait kendi kişisel anahtarınıza ihtiyacınız vardır.</string>
     <string name="setup__provider__what_is_key">API anahtarı, Dictate\'in hizmeti sizin adınıza kullanmasını sağlayan kişisel bir parola gibidir. Oluşturmak ücretsizdir ve yaklaşık iki dakika sürer.</string>
     <string name="setup__provider__recommended"><b>Groq</b>\'u öneriyoruz — günlük dikte için hızlı ve ücretsizdir.</string>
@@ -1192,6 +1205,8 @@
     <string name="dictate__error_timeout">İstek zaman aşımına uğradı</string>
     <string name="dictate__error_network">İnternet bağlantısı yok</string>
     <string name="dictate__error_server">Sağlayıcı kullanılamıyor – tekrar deneyin</string>
+    <string name="dictate__error_try_on_device">Bağlantı yok – cihazda deneyin</string>
+    <string name="dictate__error_try_on_device_detail">Cihaz üzerinde yazıya dökme hiçbir bağlantı gerektirmez — bir sağlayıcı engellendiğinde de, şebeke olmadığında da işe yarar. Yapay zekâ sağlayıcıları bölümünden kurun ve kendiliğinden devreye girmesi için Çevrimdışı yedek seçeneğini açın.</string>
     <string name="dictate__action_settings">Ayarları aç</string>
     <string name="dictate__action_error_details">Hata ayrıntılarını göster</string>
     <string name="dictate__error_details_title">Hata ayrıntıları</string>
@@ -1239,8 +1254,9 @@
     <string name="dictate__providers_status_unconfigured">Yapılandırılmadı</string>
     <string name="dictate__providers_cap_stt">Yazıya dökme</string>
     <string name="dictate__providers_cap_chat">Yeniden ifade etme</string>
-    <string name="dictate__providers_add_custom">Özel sunucu ekle</string>
-    <string name="dictate__providers_add_custom_summary">Herhangi bir OpenAI uyumlu uç nokta</string>
+    <string name="dictate__providers_add_custom">Kendi sunucunuzu ekleyin</string>
+    <string name="dictate__providers_add_custom_summary">Kendi barındırdığınız ya da OpenAI uyumlu herhangi bir uç nokta — konuşma tanıma ve yeniden yazma için</string>
+    <string name="dictate__providers_ollama_no_stt">Ollama\'nın konuşma tanıma uç noktası yoktur, bu yüzden yalnızca yeniden yazabilir. Kendi sunucunuzla dikte etmek için bir konuşma sunucusu çalıştırın (örneğin Speaches, faster-whisper-server veya whisper.cpp) ve “Kendi sunucunuzu ekleyin” altından ekleyin — ya da hiç sunucu gerektirmeyen cihaz üzerindeki motoru kullanın.</string>
     <string name="dictate__providers_custom_title">Özel sunucu</string>
     <string name="dictate__providers_field_name">Ad</string>
     <string name="dictate__providers_field_transcription_model">Yazıya dökme modeli</string>
