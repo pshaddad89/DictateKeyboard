@@ -1,3 +1,6 @@
 <lint>
     <issue id="ExtraTranslation" severity="warning"/>
+    <issue id="InvalidFragmentVersionForActivityResult">
+    <location file="src/main/kotlin/dev/patrickgold/florisboard/dictate/FileTranscriptionActivity.kt" line="37"/>
+</issue>
 </lint>
