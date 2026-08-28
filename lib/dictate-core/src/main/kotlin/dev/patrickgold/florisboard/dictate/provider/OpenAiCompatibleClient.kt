@@ -196,12 +196,24 @@ class OpenAiCompatibleClient(
             .addFormDataPart("model", request.model)
             .addFormDataPart("response_format", "json")
             .apply {
-                val lang = request.language
-                if (!lang.isNullOrEmpty() && lang != "detect") {
-                    // gpt-transcribe replaced the singular `language` with `languages`, which also accepts
-                    // several codes for code-switching audio. Sending the old field to it would silently
-                    // drop the user's language choice, so pick the name the model actually reads.
-                    addFormDataPart(if (usesLanguagesField(request.model)) "languages" else "language", lang)
+                val lang = request.language?.takeIf { it.isNotEmpty() && it != "detect" }
+                if (usesLanguagesField(request.model)) {
+                    // gpt-transcribe replaced the singular `language` with `languages`, "a list of
+                    // expected input languages when the recording may contain more than one language".
+                    // A list in multipart is the repeated bracket form the docs use (`-F 'languages[]=en'
+                    // -F 'languages[]=fr'`). Measured against the live endpoint on 2026-08-28: an invalid
+                    // code comes back 400 under `language`, `languages` and `languages[]` alike, so the
+                    // spelling was never what decided whether a language applied — but every entry of the
+                    // bracket list is validated, which is the proof that several languages actually
+                    // arrive rather than only the first.
+                    // A pinned language is that one language; auto-detect passes the languages the user
+                    // actually dictates in, which is what makes a four-language setup work at all (#99).
+                    languageHintsOf(request.language, request.expectedLanguages)
+                        .forEach { addFormDataPart("languages[]", it) }
+                } else if (lang != null) {
+                    // Every older model hints a single language, and the docs are explicit that the two
+                    // fields must never be sent together.
+                    addFormDataPart("language", lang)
                 }
                 if (!request.prompt.isNullOrEmpty()) addFormDataPart("prompt", request.prompt)
                 if (temperature != null) addFormDataPart("temperature", temperature.toString())

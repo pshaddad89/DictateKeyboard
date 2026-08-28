@@ -196,4 +196,34 @@ object DictateLanguages {
     /** Serializes a subset back into the comma-separated pref format. */
     fun serializeSelection(languages: List<DictateLanguage>): String =
         languages.joinToString(",") { it.code }
+
+    /**
+     * How many languages are still an *expectation* a model can work with (#99). Six covers anyone who
+     * really switches languages mid-dictation; a longer list is a wish list, and free detection serves
+     * that better than a wall of hints.
+     */
+    private const val MAX_EXPECTED = 6
+
+    /**
+     * The codes to give a provider whose language field takes a *list* — OpenAI's gpt-transcribe
+     * generation, Soniox, Gemini — given the active language [activeCode] and the raw selection
+     * [selectionRaw]. Only auto-detect spends the selection: on those providers "detect automatically"
+     * then means "detect among the languages I dictate in", instead of against every language there is
+     * (issue #99). A picked language is a decision and never widened, and one language on its own is
+     * already covered by the ordinary single-language hint, so both return empty.
+     */
+    fun expectedLanguages(activeCode: String, selectionRaw: String): List<String> {
+        if (activeCode != DETECT) return emptyList()
+        val selected = parseSelection(selectionRaw)
+            .map { it.code }
+            .filter { it != DETECT }
+            // Regions are dropped here, and only here. A pinned language still goes out exactly as the
+            // user picked it, but a *set* is assembled by us, and four of the catalog's codes carry a
+            // region (`zh-CN`, `zh-TW`, `yue-CN`, `yue-HK`) that the plain ISO-639-1 field may not know.
+            // A rejected code fails the whole request, so what used to be free detection would become a
+            // failed dictation — too high a price for a distinction no language *hint* can act on.
+            .map { it.substringBefore('-') }
+            .distinct()
+        return if (selected.size in 2..MAX_EXPECTED) selected else emptyList()
+    }
 }
