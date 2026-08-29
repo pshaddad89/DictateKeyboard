@@ -1431,6 +1431,7 @@
     <string name="dictate__prompt_library_all">Visas</string>
     <string name="dictate__prompt_library_add">Pievienot</string>
     <string name="dictate__prompt_library_added">Pievienota</string>
+    <string name="dictate__prompt_library_add_again">Pievienot vēlreiz</string>
     <string name="dictate__prompt_library_empty">Nav uzvednu, kas atbilstu jūsu meklējumam.</string>
     <string name="dictate__prompt_library_error">Neizdevās ielādēt kopienas bibliotēku. Pārbaudiet savienojumu un mēģiniet vēlreiz.</string>
     <string name="dictate__prompt_library_retry">Mēģināt vēlreiz</string>
@@ -1630,7 +1631,7 @@
     <string name="pref__suggestion__next_word_prediction__label">Nākamā vārda ieteikumi</string>
     <string name="pref__suggestion__next_word_prediction__summary">Iesaka iespējamos nākamos vārdus, kad vārds ir pabeigts</string>
     <string name="pref__suggestion__ignore_app_suggestion_block__label">Ignorēt lietotnes, kas izslēdz ieteikumus</string>
-    <string name="pref__suggestion__ignore_app_suggestion_block__summary">Dažas lietotnes lūdz tastatūrai paslēpt ieteikumus un automātisko labošanu. Rādīt tos tik un tā — nekad paroles laukos</string>
+    <string name="pref__suggestion__ignore_app_suggestion_block__summary">Rādīt tos tik un tā, izņemot paroles laukos</string>
     <string name="suggestion__added_to_dictionary">\"{word}\" pievienots jūsu vārdnīcai</string>
     <string name="suggestion__already_in_dictionary">\"{word}\" jau ir jūsu vārdnīcā</string>
     <string name="dictate__legacy_record">Ierakstīt</string>

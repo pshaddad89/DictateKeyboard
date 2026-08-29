@@ -1363,6 +1363,7 @@
     <string name="dictate__prompt_library_all">Tots</string>
     <string name="dictate__prompt_library_add">Afegeix</string>
     <string name="dictate__prompt_library_added">Afegit</string>
+    <string name="dictate__prompt_library_add_again">Torna a afegir</string>
     <string name="dictate__prompt_library_empty">Cap prompt coincideix amb la teva cerca.</string>
     <string name="dictate__prompt_library_error">No s\'ha pogut carregar la biblioteca de la comunitat. Comprova la connexió i torna-ho a provar.</string>
     <string name="dictate__prompt_library_retry">Torna-ho a provar</string>
@@ -1562,7 +1563,7 @@
     <string name="pref__suggestion__next_word_prediction__label">Suggeriments de paraula següent</string>
     <string name="pref__suggestion__next_word_prediction__summary">Suggereix paraules probables quan hàgiu acabat una paraula</string>
     <string name="pref__suggestion__ignore_app_suggestion_block__label">Ignora les aplicacions que desactiven els suggeriments</string>
-    <string name="pref__suggestion__ignore_app_suggestion_block__summary">Algunes aplicacions demanen al teclat que amagui els suggeriments i la correcció automàtica. Mostra\'ls igualment — mai als camps de contrasenya</string>
+    <string name="pref__suggestion__ignore_app_suggestion_block__summary">Mostra\'ls igualment, excepte als camps de contrasenya</string>
     <string name="suggestion__added_to_dictionary">S\'ha afegit \"{word}\" al vostre diccionari</string>
     <string name="suggestion__already_in_dictionary">\"{word}\" ja és al vostre diccionari</string>
     <string name="dictate__legacy_record">Grava</string>

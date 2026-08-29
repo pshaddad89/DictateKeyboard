@@ -1346,6 +1346,7 @@
     <string name="dictate__prompt_library_all">الكل</string>
     <string name="dictate__prompt_library_add">إضافة</string>
     <string name="dictate__prompt_library_added">تمت الإضافة</string>
+    <string name="dictate__prompt_library_add_again">إضافة مرة أخرى</string>
     <string name="dictate__prompt_library_empty">لا توجد مطالبات مطابقة لبحثك.</string>
     <string name="dictate__prompt_library_error">تعذّر تحميل مكتبة المجتمع. تحقّق من اتصالك وأعد المحاولة.</string>
     <string name="dictate__prompt_library_retry">إعادة المحاولة</string>
@@ -1545,7 +1546,7 @@
     <string name="pref__suggestion__next_word_prediction__label">اقتراحات الكلمة التالية</string>
     <string name="pref__suggestion__next_word_prediction__summary">اقتراح الكلمات المحتملة بعد إنهاء كلمة</string>
     <string name="pref__suggestion__ignore_app_suggestion_block__label">تجاهل التطبيقات التي توقف الاقتراحات</string>
-    <string name="pref__suggestion__ignore_app_suggestion_block__summary">تطلب بعض التطبيقات من لوحة المفاتيح إخفاء الاقتراحات والتصحيح التلقائي. أظهرها على أي حال — لكن ليس في حقول كلمات المرور</string>
+    <string name="pref__suggestion__ignore_app_suggestion_block__summary">أظهرها على أي حال، إلا في حقول كلمات المرور</string>
     <string name="suggestion__added_to_dictionary">تمت إضافة \"{word}\" إلى قاموسك</string>
     <string name="suggestion__already_in_dictionary">\"{word}\" موجود بالفعل في قاموسك</string>
     <string name="dictate__legacy_record">تسجيل</string>
