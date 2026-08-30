@@ -21,6 +21,7 @@ import android.net.Uri
 import android.content.ContentUris
 import android.content.Context
 import android.view.KeyEvent
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.FileProvider
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
@@ -343,6 +344,22 @@ class EditorInstance(context: Context) : AbstractEditorInstance(context) {
      *
      * @return True on success, false if an error occurred or the input connection is invalid.
      */
+    /**
+     * The text [commitCompletion] is about to replace, or empty when it would only insert.
+     *
+     * Exists so the caller can remember what was there before a correction overwrites it (issue #295)
+     * without repeating the rule for *which* text that is — a second copy of that rule would restore
+     * the wrong word on exactly the cases the first one was written for.
+     */
+    fun textCompletionWouldReplace(): String {
+        val content = activeContent
+        if (!completionReplacementRange(content.composing, content.currentWord).isValid) return ""
+        return if (content.composing.isValid) content.composingText else content.currentWordText
+    }
+
+    /** The colour an auto-corrected word is marked with for a moment (issue #295). */
+    fun correctionFlashColor(): Int = prefs.theme.accentColor.get().copy(alpha = 0.4f).toArgb()
+
     fun commitCompletion(candidate: SuggestionCandidate): Boolean {
         val text = candidate.text.toString()
         if (text.isEmpty() || activeInfo.isRawInputEditor) return false
