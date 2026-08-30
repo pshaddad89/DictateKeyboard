@@ -54,9 +54,32 @@ export const DASHBOARD_HTML = `<!doctype html>
     --accent-ink: #04121A;        /* text placed ON the accent */
     --accent-soft: rgba(48, 183, 230, .14);
     --bg: #0B0F14;
-    --surface: #121820;
-    --surface-2: #19212B;
-    --line: #1E2833;
+    /*
+     * The panels let the fog through rather than sitting on top of it.
+     *
+     * Deliberately plain alpha and no backdrop-filter. Frosted glass exists to blur detail behind a
+     * surface, and there is none here: the background is a 200-pixel image stretched tenfold, which
+     * is already softer than any blur would make it. A filter would look the same and cost a blur
+     * pass per panel per frame — fifteen panels against a background that repaints sixteen times a
+     * second is two hundred and forty of them a second, which is the trap this whole page has twice
+     * fallen into.
+     */
+    --surface: rgba(18, 24, 32, .56);
+    /* Where a surface must hide what is behind it: dialogs, and the boxes and labels of the network
+       diagram, where a line showing through a label is worse than no transparency at all. */
+    --surface-solid: #121820;
+    /*
+     * The calm ground, for the panels that carry tables.
+     *
+     * Letting the fog through is right for a panel and wrong for forty numbers in rows: a column of
+     * figures wants a contrast that does not depend on where a cloud happens to be. So this sits
+     * behind the rows themselves rather than under the whole panel — everything keeps the glass,
+     * and only the densest thing on the page gets a quieter ground under it.
+     */
+    --surface-dense: rgba(13, 18, 25, .55);
+    /* A lightening rather than a colour, so it holds up over whatever the fog is doing behind it. */
+    --surface-2: rgba(255, 255, 255, .055);
+    --line: rgba(255, 255, 255, .13);
     --text: #E6EDF3;
     --muted: #7D8B9A;
     --ok: #3FB950;
@@ -79,73 +102,77 @@ export const DASHBOARD_HTML = `<!doctype html>
   }
 
   /*
-   * The sky behind the numbers.
+   * The sky behind the numbers — a slow flow of colour, drawn at postage-stamp size.
    *
-   * Two fixed layers, no JavaScript, no canvas, no animation frame: this page sits open all day on
-   * a machine that has better things to do, and a background is not worth a millisecond of it. The
-   * only properties that move are transform and opacity, both of which the compositor handles on
-   * its own — the tiles are rasterised once and then merely pushed around, so there is no layout
-   * and no repainting per frame.
+   * Two attempts at this in CSS pegged a GPU, and the reason both times was the same one: a
+   * full-screen layer means the compositor handles millions of pixels, and a 4K window is eight
+   * million of them. Whether the layer scaled, translated or merely tiled a gradient across itself
+   * only decided how often that happened.
    *
-   * inset: -12% rather than 0, because the layers drift: one exactly the size of the viewport would
-   * show its own edge halfway through the cycle. Oversized, it cannot run out.
+   * So the field is not a full-screen layer at all. It is a canvas of about 160 by 100 pixels —
+   * fourteen thousand, half a percent of that window — on which five soft lights are drawn
+   * additively, and which the browser then stretches over the whole viewport. The stretch is one
+   * textured quad, the cheapest thing a GPU does, and the bilinear filtering on a 24-fold upscale
+   * is what gives the soft edges: no blur filter, and no banding either, because there is not
+   * enough resolution left to band.
    *
-   * The cards stay opaque. This lives in the margins and in the gaps between them, where it costs
-   * nothing in contrast — a column of figures has to stay as readable as it was.
+   * The lights move on sine pairs whose periods share no factor, so the picture never returns to
+   * an earlier state — that is where the flow comes from, rather than from a keyframe loop.
+   *
+   * Redrawn about twelve times a second, which at this size is a few thousand pixel writes, and not
+   * at all while the tab is in the background. The cards stay opaque, so no column of figures gets
+   * harder to read.
    */
   .sky {
-    position: fixed; inset: -12%; z-index: -1; pointer-events: none;
-    /* The layer is static content that only ever moves: promoting it once is cheaper than letting
-       the compositor decide again on every frame. */
-    will-change: transform;
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    width: 100%; height: 100%; display: block;
+  }
+  /*
+   * The header carries the same sky rather than sitting on it as a slab.
+   *
+   * It cannot simply be made translucent: it is sticky, so what would show through is the content
+   * scrolling underneath it, not the background. It gets its own canvas instead, holding a copy of
+   * the very same image, sized to the viewport and clipped to the bar. Because the header padding
+   * box starts at the viewport top-left corner, the copy lands exactly where the field behind the
+   * page would have been.
+   */
+  #skyBar {
+    position: absolute; left: 0; top: 0; z-index: 0;
+    width: 100vw; height: 100vh; pointer-events: none;
   }
 
-  /* Three very soft clouds, together barely a tenth of the ground's brightness. Their colours are
-     the ones the diagram already uses for the services, so the page keeps one palette.
-     No blur filter on purpose: a blur pass over a full-screen layer is real work on every resize,
-     and on a high-DPI display it is not cheap. A radial gradient that fades out over two thirds of
-     its radius is already softer than any blur radius worth paying for. */
-  .sky.nebula {
-    background:
-      radial-gradient(46vw 42vw at 18% 22%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 70%),
-      radial-gradient(52vw 46vw at 82% 34%, color-mix(in srgb, var(--z-openai) 17%, transparent) 0%, transparent 68%),
-      radial-gradient(48vw 44vw at 52% 88%, color-mix(in srgb, var(--z-google) 12%, transparent) 0%, transparent 72%);
-    opacity: .5;
-    animation: drift 84s ease-in-out infinite alternate;
+  /* The base is --bg rather than --surface: with the sky painted across it the bar is a piece of
+     the background, and the cards are the only thing that lifts off it. overflow: hidden is what
+     crops the copy of the field down to the height of the bar. */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg); border-bottom: 1px solid var(--line);
+    padding-top: env(safe-area-inset-top);
+    overflow: hidden;
   }
-
-  /* Stars, as three tiled gradients rather than an image: no request, no bytes worth counting, and
-     they scale with the display instead of blurring on it. Two layers at different tile sizes drift
-     at different speeds, which is the whole of the parallax. */
-  .sky.stars {
-    background-image:
-      radial-gradient(1.6px 1.6px at 34px 52px, rgba(230, 237, 243, .85) 50%, transparent 50%),
-      radial-gradient(1.2px 1.2px at 148px 96px, rgba(230, 237, 243, .55) 50%, transparent 50%),
-      radial-gradient(1px 1px at 92px 178px, rgba(48, 183, 230, .6) 50%, transparent 50%);
-    background-size: 220px 220px, 310px 310px, 170px 170px;
-    opacity: .5;
-    animation: sail 190s linear infinite, twinkle 11s ease-in-out infinite alternate;
-  }
-
-  @keyframes drift {
-    from { transform: translate3d(-1.5%, -1%, 0) scale(1.04); }
-    to   { transform: translate3d(2%, 1.5%, 0) scale(1.12); }
-  }
-  @keyframes sail {
-    from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(-220px, -110px, 0); }
-  }
-  @keyframes twinkle {
-    from { opacity: .38; }
-    to   { opacity: .62; }
-  }
-
-  header { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
+  /* The canvas is a child too, and would otherwise be lifted along with the labels — it carries its
+     own z-index above, and an id outranks this. */
+  header > * { position: relative; z-index: 1; }
   /* Wraps, and every item may shrink. Without both, the row simply grew past the window: flex
      items refuse to go below their own content width by default, so on a phone the bar pushed the
      whole document 45px wider than the screen and every tab under it sat shifted and clipped. */
   .bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; padding: 10px var(--pad); }
   .bar > * { min-width: 0; }
+  /*
+   * One row, one line.
+   *
+   * Centring boxes is not the same as aligning what is written in them. The bell and the refresh
+   * button were built for different places and came out 32px and 39px tall, so even perfectly
+   * centred they read as two sizes rather than one row; here they are given a common height and
+   * their vertical padding is replaced by it.
+   *
+   * The address was a second, separate problem: it wears .sub, whose 4px top margin is right for
+   * its real job — a line of detail under a value in a card — and simply pushed it down here.
+   */
+  .bar .sub { margin-top: 0; }
+  .bar .bell, .bar button.btn { min-height: 34px; display: inline-flex; align-items: center; justify-content: center; }
+  .bar .bell { padding: 0 13px; }
+  .bar button.btn { padding: 0 15px; }
   /* Loading, shown on the button that asked for it rather than beside it.
      A separate bar needed a strip of the header reserved for it at all times — visible for a second
      now and then, blank the rest of the day. The accent sweeping through the label says the same
@@ -165,7 +192,12 @@ export const DASHBOARD_HTML = `<!doctype html>
      The sky stops too, and stays as a still image: the point of it is the depth, not the drift. */
   @media (prefers-reduced-motion: reduce) {
     #refresh.working span { animation: none; background: none; color: var(--accent); }
-    .sky { animation: none; will-change: auto; }
+    /* Everything that arrives, arrives already there; the traffic dots stand still on their routes;
+       the sky is drawn once and left. Nothing here is load-bearing — each is a way of saying
+       something the page also says in words or in a number. */
+    .grid > .card, .stack > .panel, #taxYears > .card, #planCards > .card,
+    .spark path.line, .spark path.area, .spark circle, .gedge path.flow { animation: none; }
+    .spark path.line { stroke-dashoffset: 0; }
   }
   .brand { display: flex; align-items: center; gap: 9px; font-weight: 680; letter-spacing: -0.015em; white-space: nowrap; }
   .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); flex: none; }
@@ -189,8 +221,20 @@ export const DASHBOARD_HTML = `<!doctype html>
      because on a desk the tables happen to fit. */
   .stack > *, .dlg-body > * { min-width: 0; }
   .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+  /*
+   * Lifted off the fog rather than drawn on it.
+   *
+   * Two shadows doing two jobs: the outer one puts the panel in front of the background, which a
+   * hairline border alone cannot do once that background has depth of its own; the inner top line
+   * is a lit edge, and it is what makes a translucent surface read as glass instead of as something
+   * that has faded.
+   */
+  .card, .panel, .zgroup, .gwrap {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .09);
+  }
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
-  .card.lead { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  /* Keeps its accent ring, and gains the depth with it. */
+  .card.lead { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset, 0 10px 30px rgba(0, 0, 0, .45); }
   @media (min-width: 780px) { .card.lead { grid-column: span 2; } }
   .label { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 640; display: flex; align-items: center; gap: 6px; }
   .value { font-size: 27px; font-weight: 680; font-variant-numeric: tabular-nums; margin-top: 5px; letter-spacing: -0.025em; line-height: 1.15; }
@@ -230,7 +274,9 @@ export const DASHBOARD_HTML = `<!doctype html>
   h3 { font-size: 15px; margin: 0 0 10px; font-weight: 660; }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--pad); }
   .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  /* The rows get their own quieter ground inside the glass, and only they: forty numbers in columns
+     are the one thing on this page whose contrast must not depend on where a cloud happens to be. */
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--surface-dense); border-radius: 10px; }
   th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
   th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 650; }
   td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
@@ -255,9 +301,9 @@ export const DASHBOARD_HTML = `<!doctype html>
   .chart > div { flex: 1; background: color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 3px 3px 0 0; min-height: 2px; }
   .chart > div:last-child { background: var(--accent); }
 
-  dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); padding: 0; max-width: min(940px, 96vw); width: 100%; max-height: 92vh; }
-  dialog::backdrop { background: rgba(4, 12, 18, .55); }
-  .dlg-head { display: flex; align-items: center; gap: 12px; padding: 13px var(--pad); border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface); z-index: 2; }
+  dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-solid); color: var(--text); padding: 0; max-width: min(940px, 96vw); width: 100%; max-height: 92vh; }
+  dialog::backdrop { background: rgba(4, 12, 18, .7); }
+  .dlg-head { display: flex; align-items: center; gap: 12px; padding: 13px var(--pad); border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface-solid); z-index: 2; }
   .dlg-body { padding: var(--pad); display: grid; gap: 18px; overflow: auto; max-height: calc(92vh - 62px); }
   /* The account view is the one screen that has to hold everything known about a wallet at once.
      At the shared dialog width its tables each grew a horizontal scrollbar of their own, and a
@@ -299,16 +345,33 @@ export const DASHBOARD_HTML = `<!doctype html>
   .act .label .chg { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 11px; padding: 1px 8px; }
 
   /* ---- network graph ---- */
+  /*
+   * The diagram floats on the fog instead of sitting in a dark box of its own.
+   *
+   * That is what the transparent svg is for: it used to paint --bg across the whole plate, which
+   * made the one page with the most to look at the only one that had cut itself out of the design.
+   * Everything drawn on it — zones, boxes, labels — carries its own backing now, so nothing relies
+   * on the plate underneath being opaque.
+   */
   .gwrap { position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
   .gtools { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; z-index: 3; flex-wrap: wrap; justify-content: flex-end; }
-  .gtools button { background: var(--surface); border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 6px 11px; font-size: 13px; font-weight: 620; cursor: pointer; }
+  .gtools button { background: var(--surface-solid); border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 6px 11px; font-size: 13px; font-weight: 620; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 0, 0, .4); }
   .gtools button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-  #gsvg { display: block; width: 100%; height: min(72vh, 720px); touch-action: none; cursor: grab; background: var(--bg); }
+  #gsvg { display: block; width: 100%; height: min(72vh, 720px); touch-action: none; cursor: grab; background: rgba(11, 15, 20, .45); }
   #gsvg.dragging { cursor: grabbing; }
-  .zone-bg { rx: 18; fill-opacity: .07; stroke-opacity: .35; stroke-width: 1.5; stroke-dasharray: 7 6; }
+  /* A shade more presence than before, because the fog behind them now has some of its own. */
+  .zone-bg { rx: 18; fill-opacity: .09; stroke-opacity: .42; stroke-width: 1.5; stroke-dasharray: 7 6; }
   .zone-label { font: 650 15px ui-sans-serif, system-ui, sans-serif; fill-opacity: .85; }
   .zone-sub { font: 400 12px ui-sans-serif, system-ui, sans-serif; fill: currentColor; opacity: .55; }
-  .gnode rect { rx: 11; fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  /*
+   * A box is a card, in SVG.
+   *
+   * The same three things that make the panels read as glass: a translucent ground, a border of
+   * white rather than of grey, and light from above. The sheen is a gradient defined once in defs
+   * and referenced by all twenty-six boxes rather than a filter on each — a drop shadow here would
+   * be re-rasterised on every pan and zoom, which on this page is exactly the cost not to pay.
+   */
+  .gnode rect { rx: 11; fill: url(#gglass); stroke: rgba(255, 255, 255, .16); stroke-width: 1.2; }
   /* Both of these are rects inside .gnode and would otherwise inherit the box's own fill and
      border from the rule above — a CSS declaration beats a fill="…" attribute every time. The
      accent bar was painted over in surface grey, and the invisible tap target came out as an
@@ -324,7 +387,9 @@ export const DASHBOARD_HTML = `<!doctype html>
   .gedge.hot path { opacity: 1; stroke-width: 3; }
   /* Labels live above the nodes, so a chip that lands on a box is still readable. */
   .glabel text { font: 550 10.5px ui-sans-serif, system-ui, sans-serif; fill: var(--text); }
-  .glabel rect.lbl { fill: var(--surface); stroke: var(--line); stroke-width: .8; rx: 5; }
+  /* Chips stay nearly opaque: they sit on the routes, and a line running through a word is worse
+     than any amount of transparency is worth. */
+  .glabel rect.lbl { fill: rgba(12, 17, 24, .93); stroke: rgba(255, 255, 255, .14); stroke-width: .8; rx: 5; }
   .glabel.dim { opacity: .12; }
   .glabel.hot rect.lbl { stroke: var(--accent); stroke-width: 1.6; }
   .glabel.hot text { fill: var(--text); }
@@ -333,11 +398,11 @@ export const DASHBOARD_HTML = `<!doctype html>
   .swatch { width: 22px; height: 3px; border-radius: 2px; }
   .ndetail { padding: var(--pad); border-top: 1px solid var(--line); }
   .gmode { display: flex; gap: 6px; }
-  .gmode button { background: var(--surface); border: 1px solid var(--line); color: var(--muted); border-radius: 10px; padding: 8px 15px; font-size: 13.5px; font-weight: 620; cursor: pointer; }
+  .gmode button { background: var(--surface); border: 1px solid var(--line); color: var(--muted); border-radius: 10px; padding: 8px 15px; font-size: 13.5px; font-weight: 620; cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .07); }
   .gmode button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
   /* The "?" on a box. Drawn as SVG rather than an HTML overlay so it pans and zooms with the
      diagram instead of drifting away from the box it belongs to. */
-  .gask circle { fill: var(--surface-2); stroke: var(--line); stroke-width: 1; }
+  .gask circle { fill: rgba(255, 255, 255, .07); stroke: rgba(255, 255, 255, .16); stroke-width: 1; }
   .gask text { font: 700 11px ui-sans-serif, system-ui, sans-serif; fill: var(--muted); }
   .gnode:hover .gask circle, .gnode.sel .gask circle { stroke: var(--accent); }
   .gnode:hover .gask text, .gnode.sel .gask text { fill: var(--accent); }
@@ -421,6 +486,61 @@ export const DASHBOARD_HTML = `<!doctype html>
   .spark path.line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; }
   .spark circle { fill: var(--accent); }
 
+  /*
+   * Arriving.
+   *
+   * All one-shot: they run once when a view is rendered and then the element is static for as long
+   * as it is on screen. Nothing here loops, which is what separates a page that settles from one
+   * that fidgets.
+   *
+   * The line draws itself left to right, which is the direction it is read in, and the endpoint
+   * lands last because on a series ending today that is the value being looked for. It works on any
+   * series because the path carries pathLength="100": the dash arithmetic is then in percent and
+   * does not depend on how long the line actually is.
+   */
+  @keyframes rise { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+
+  .grid > .card, .stack > .panel, #taxYears > .card, #planCards > .card { animation: rise .34s ease-out both; }
+  /* A short ladder, then nothing: past the eighth card the delay would be longer than the animation
+     and the last row would visibly lag behind the scroll. */
+  .grid > .card:nth-child(2), .stack > .panel:nth-child(2), #taxYears > .card:nth-child(2), #planCards > .card:nth-child(2) { animation-delay: .04s; }
+  .grid > .card:nth-child(3), .stack > .panel:nth-child(3), #taxYears > .card:nth-child(3), #planCards > .card:nth-child(3) { animation-delay: .08s; }
+  .grid > .card:nth-child(4), .stack > .panel:nth-child(4), #taxYears > .card:nth-child(4), #planCards > .card:nth-child(4) { animation-delay: .12s; }
+  .grid > .card:nth-child(5), .stack > .panel:nth-child(5), #planCards > .card:nth-child(5) { animation-delay: .16s; }
+  .grid > .card:nth-child(6), .stack > .panel:nth-child(6) { animation-delay: .20s; }
+  .grid > .card:nth-child(7) { animation-delay: .24s; }
+  .grid > .card:nth-child(8) { animation-delay: .28s; }
+
+  .spark path.line { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw .85s ease-out .1s forwards; }
+  .spark path.area { animation: appear .5s ease-out .4s both; }
+  .spark circle { transform-box: fill-box; transform-origin: center; animation: pop .28s ease-out .85s both; }
+
+  /*
+   * Traffic on the diagram: dots travelling each route in the direction the arrow points.
+   *
+   * A dash pattern of zero-length dashes with a round cap is a row of dots, and sliding the offset
+   * by exactly one gap moves them along by one place — so the pattern lands back on itself and
+   * there is no jump at the end of the cycle. The path is a second copy of the same d attribute,
+   * which means the dots follow the routing that graph-layout.ts already worked out, curves and all.
+   *
+   * This is the one animation here that loops, and it is the only reason to watch the GPU on this
+   * page: an SVG dash offset is repainted rather than composited. It runs on this tab alone —
+   * section[hidden] is display: none, and a display: none subtree animates nothing.
+   */
+  .gedge path.flow {
+    fill: none; stroke-width: 3.4; stroke-linecap: round;
+    /* 0.1 rather than 0: a zero-length dash with a round cap is a dot in Chrome but not everywhere,
+       and a tenth of a unit under a 3.4-wide round cap looks identical where it does work. */
+    stroke-dasharray: 0.1 26; opacity: .85;
+    animation: gflow 2.6s linear infinite;
+  }
+  @keyframes gflow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -26; } }
+  /* A route the current filter has dimmed carries no traffic worth showing. */
+  .gedge.dim path.flow { display: none; }
+
   .stale { font-size: 11px; color: var(--muted); }
 
   /* Phones.
@@ -467,12 +587,13 @@ export const DASHBOARD_HTML = `<!doctype html>
 </head>
 <body>
 
-<!-- Decoration only, and marked as such: two empty layers behind everything, invisible to a screen
-     reader and untouchable by the pointer. The .sky rules in the stylesheet say why they are free. -->
-<div class="sky nebula" aria-hidden="true"></div>
-<div class="sky stars" aria-hidden="true"></div>
+<!-- Decoration only, and marked as such: a tiny canvas stretched over the window, invisible to a
+     screen reader and untouchable by the pointer. The .sky rules in the stylesheet say why it is
+     drawn at this size, and what the two full-screen attempts before it cost. -->
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
 
 <header>
+  <canvas id="skyBar" aria-hidden="true"></canvas>
   <div class="bar">
     <span class="brand"><span class="dot"></span>Dictate&nbsp;Cloud</span>
     <span id="killPill"></span>
@@ -819,6 +940,121 @@ var GRAPH = ${GRAPH_JSON};
       (sub ? '<div class="sub">' + sub + '</div>' : '') + (extra || '') + '</div>';
   }
 
+  /* ------------------------------------------------------- Zahlen, die laufen */
+
+  /*
+   * A figure counts up to what it now says — but only when it is not what it said before.
+   *
+   * That condition is the point of the whole thing. On a page that is refreshed all day, motion
+   * that happens every time says nothing; motion that happens only on a change turns the animation
+   * itself into information, and the eye finds the one card that moved without reading the others.
+   *
+   * The numbers arrive here already formatted, as text, so they have to be read back out of it.
+   * [numberIn] does that without guessing a locale: it works out the decimal and grouping
+   * characters from the string in front of it and puts the same ones back, and returns null the
+   * moment anything is ambiguous — a figure that cannot be read back is simply not animated, which
+   * is always better than one that is redrawn wrong.
+   */
+  var seenValues = {}, rollCount = 0, valueTimer = 0;
+  var motionOff = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  function numberIn(text) {
+    var m = /^([^\\d-]*)(-?[\\d.,]*\\d)(.*)$/.exec(text);
+    if (!m) return null;
+    var prefix = m[1], raw = m[2], suffix = m[3];
+    var cut = Math.max(raw.lastIndexOf(','), raw.lastIndexOf('.'));
+    var dec = 0, decSep = '', groupSep = '';
+    if (cut >= 0) {
+      var tail = raw.slice(cut + 1);
+      if (!/^\\d+$/.test(tail)) return null;
+      // Exactly three digits after the last separator is a thousands group, not a fraction: 1.234
+      // is a thousand, 33.04 is not. Nothing on this page is written to three decimal places.
+      if (tail.length === 3) {
+        groupSep = raw.charAt(cut);
+      } else {
+        dec = tail.length; decSep = raw.charAt(cut);
+        var earlier = /[.,]/.exec(raw.slice(0, cut));
+        if (earlier) groupSep = earlier[0];
+      }
+    }
+    var digits = '';
+    for (var i = 0; i < raw.length; i++) {
+      var c = raw.charAt(i);
+      if ((c >= '0' && c <= '9') || c === '-') digits += c;
+      else if (i === cut && decSep) digits += '.';
+    }
+    var value = parseFloat(digits);
+    if (!isFinite(value)) return null;
+    return {
+      value: value,
+      write: function (v) {
+        var body = Math.abs(v).toFixed(dec);
+        var whole = dec ? body.slice(0, body.length - dec - 1) : body;
+        var frac = dec ? body.slice(body.length - dec) : '';
+        if (groupSep) whole = whole.replace(/\\B(?=(\\d{3})+(?!\\d))/g, groupSep);
+        return prefix + (v < 0 ? '-' : '') + whole + (dec ? decSep + frac : '') + suffix;
+      },
+    };
+  }
+
+  /* A card is identified by its heading, so the same figure is recognised across a re-render. */
+  function valueKey(el) {
+    if (!el.closest) return null;
+    var box = el.closest('.card');
+    var label = box ? box.querySelector('.label') : null;
+    var text = label ? label.textContent.trim() : '';
+    if (!text) return null;
+    var sect = el.closest('section');
+    return (sect ? sect.id : '-') + '|' + text;
+  }
+
+  function rollValue(el, from, to, write) {
+    rollCount++;
+    var t0 = 0;
+    function frame(now) {
+      if (!t0) t0 = now;
+      var p = Math.min(1, (now - t0) / 520);
+      // Fast at first and settling at the end, so the final figure is legible well before it stops.
+      el.textContent = write(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(frame); else rollCount--;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function countUp(scope) {
+    var nodes = (scope || document).querySelectorAll('.value');
+    Array.prototype.forEach.call(nodes, function (el) {
+      // Only a plain number: a .value holding markup, or an error message, is left alone.
+      if (el.children.length) return;
+      var key = valueKey(el);
+      if (!key) return;
+      var read = numberIn(el.textContent);
+      if (!read) { delete seenValues[key]; return; }
+      var before = seenValues[key];
+      seenValues[key] = read.value;
+      // The first sighting is recorded, never animated — a page that counts up on arrival says
+      // "everything changed", which is the opposite of what this is for.
+      if (motionOff || before === undefined || before === read.value) return;
+      rollValue(el, before, read.value, read.write);
+    });
+  }
+
+  /*
+   * One hook rather than a call at the end of every render: each view replaces its own innerHTML,
+   * and there are a dozen places that do it. The observer fires on those replacements, not per
+   * frame, and stands down entirely while a figure is mid-roll — otherwise the roll would observe
+   * itself sixty times a second.
+   */
+  function watchValues() {
+    var root = document.querySelector('main');
+    if (!root || !window.MutationObserver) return;
+    new MutationObserver(function () {
+      if (rollCount) return;
+      clearTimeout(valueTimer);
+      valueTimer = setTimeout(function () { countUp(root); }, 30);
+    }).observe(root, { childList: true, subtree: true });
+  }
+
   /**
    * A filled area over a series of numbers, with the last point marked.
    *
@@ -833,9 +1069,11 @@ var GRAPH = ${GRAPH_JSON};
     var pts = values.map(function (v, i) {
       return (i * step).toFixed(2) + ',' + (30 - (n(v) / max) * 28).toFixed(2);
     });
+    // pathLength="100" so the draw-in animation can work in percent: without it the dash arithmetic
+    // would depend on the real length of the line, which differs with every series.
     return '<svg class="spark" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true">' +
       '<path class="area" d="M0,32 L' + pts.join(' L') + ' L100,32 Z"></path>' +
-      '<path class="line" d="M' + pts.join(' L') + '"></path>' +
+      '<path class="line" pathLength="100" d="M' + pts.join(' L') + '"></path>' +
       '<circle cx="100" cy="' + (30 - (n(values[values.length - 1]) / max) * 28).toFixed(2) + '" r="1.9"></circle></svg>';
   }
 
@@ -1969,7 +2207,13 @@ var GRAPH = ${GRAPH_JSON};
 
   function drawGraph() {
     var parts = [], labels = [];
-    parts.push('<defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>');
+    // One gradient for all twenty-six boxes: light from above over a translucent ground, which is
+    // the same thing the cards do with an inset highlight. Defined once and referenced, so the cost
+    // is a single paint server rather than a filter per node.
+    parts.push('<defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker>' +
+      '<linearGradient id="gglass" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="rgba(34,45,60,.88)"/>' +
+      '<stop offset="1" stop-color="rgba(13,18,26,.88)"/></linearGradient></defs>');
 
     GRAPH.zones.forEach(function (z) {
       parts.push('<rect class="zone-bg" x="' + z.x + '" y="' + z.y + '" width="' + z.w + '" height="' + z.h +
@@ -1984,8 +2228,13 @@ var GRAPH = ${GRAPH_JSON};
       var dim = (filter === 'token' && !e.token) || (filter === 'guard' && !e.guard);
       var on = selected && selected.type === 'edge' && selected.i === i;
       var label = filter === 'guard' && e.guard ? e.guard : (filter === 'token' && e.token ? e.token : e.label);
+      // A second copy of the same d, carrying the dots. Its speed is nudged per route so the whole
+      // diagram does not pulse in unison — different pipes, different flow — and it takes no arrow
+      // marker: the line underneath already says which way this goes.
+      var flowSecs = (2.2 + (i % 7) * 0.31).toFixed(2);
       parts.push('<g class="gedge' + (dim ? ' dim' : '') + (on ? ' sel' : '') + '" data-e="' + i + '">' +
-        '<path d="' + e.d + '" stroke="' + EKIND[e.kind] + '" marker-end="url(#arw)"/></g>');
+        '<path d="' + e.d + '" stroke="' + EKIND[e.kind] + '" marker-end="url(#arw)"/>' +
+        '<path class="flow" d="' + e.d + '" stroke="' + EKIND[e.kind] + '" style="animation-duration:' + flowSecs + 's"/></g>');
       labels.push('<g class="glabel' + (dim ? ' dim' : '') + (on ? ' sel' : '') + '" data-e="' + i + '">' +
         '<rect class="lbl"/><text text-anchor="middle">' + esc(label) + '</text></g>');
     });
@@ -2544,6 +2793,146 @@ var GRAPH = ${GRAPH_JSON};
     URL.revokeObjectURL(a.href);
   };
   window.addEventListener('resize', function () { if (!$('view-network').hidden) fit(); });
+
+  /* ------------------------------------------------------------------ Himmel */
+
+  /*
+   * The fog behind the page.
+   *
+   * Five soft banks of colour, each drifting on its own small orbit and each fading slowly between
+   * the accent blue and a violet, so the two run into one another instead of sitting side by side.
+   * Nothing has an edge, which is the point: the earlier flow field was drawn with one-pixel
+   * strokes, and a one-pixel stroke is the one thing that cannot survive being stretched twelvefold.
+   *
+   * Same arithmetic as every version of this: it is drawn at 200 by about 125 and stretched over
+   * the window, so the work is proportional to twenty-five thousand pixels rather than to the
+   * several million a full-screen layer would cost. Two attempts at that in CSS pegged a GPU.
+   *
+   * Each bank keeps its own quarter of the canvas and only orbits inside it. Letting them all
+   * circle the centre — which is what the first draft did — leaves half the window empty and piles
+   * the rest into one bright lump.
+   *
+   * Rendered offline before shipping, at the size it is actually seen: blue and violet legible,
+   * whole surface covered, nothing saturating.
+   */
+  function startSky() {
+    var canvas = $('sky');
+    var bar = $('skyBar');
+    if (!canvas || !canvas.getContext) return;
+    // #nosky leaves the background blank, so the cost of this can be measured against its absence
+    // rather than argued about. Two versions of this feature were defended with reasoning that
+    // turned out to be wrong; a switch settles it in one reload.
+    if ((location.hash || '').indexOf('nosky') >= 0) return;
+    var ctx = canvas.getContext('2d');
+    var barCtx = bar && bar.getContext ? bar.getContext('2d') : null;
+    var still = motionOff;
+
+    var BLUE = [48, 183, 230];      // --accent
+    var VIOLET = [169, 154, 240];   // --z-openai
+    /*
+     * home x/y, orbit x/y, the two periods that carry it, and the period on which its colour
+     * crosses from one to the other. All of them awkward numbers with no common factor, so the
+     * arrangement does not come back round: the shortest pair here repeats after about six hours.
+     */
+    var BANKS = [
+      { from: BLUE,   to: VIOLET, a: .24, r: .58, hx: .20, hy: .24, ox: .19, oy: .21, px: 23, py: 31, pc: 37 },
+      { from: VIOLET, to: BLUE,   a: .21, r: .54, hx: .80, hy: .28, ox: .18, oy: .23, px: 29, py: 19, pc: 43 },
+      { from: BLUE,   to: VIOLET, a: .19, r: .52, hx: .50, hy: .86, ox: .23, oy: .17, px: 17, py: 37, pc: 29 },
+      { from: VIOLET, to: BLUE,   a: .16, r: .46, hx: .90, hy: .80, ox: .17, oy: .21, px: 41, py: 23, pc: 53 },
+      { from: BLUE,   to: VIOLET, a: .15, r: .48, hx: .08, hy: .82, ox: .21, oy: .19, px: 19, py: 43, pc: 31 },
+    ];
+
+    var w = 0, h = 0, last = -1e9, frame = 0, shownAt = 11;
+
+    // The backing store follows the window's proportions so the banks stay round rather than
+    // stretched, but never grows past a few hundred pixels on a side. That ceiling is the reason
+    // this is cheap and it must not quietly rise.
+    function skyMeasure() {
+      var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
+      w = 200;
+      h = Math.max(100, Math.min(320, Math.round(200 * vh / vw)));
+      canvas.width = w; canvas.height = h;
+      if (bar) { bar.width = w; bar.height = h; }
+      // Setting width wipes the canvas, so it has to be repainted at once rather than left blank
+      // until the next frame — and under reduced motion there is no next frame at all.
+      skyPaint(shownAt);
+    }
+
+    function ink(from, to, t, alpha) {
+      var m = 0.5 + 0.5 * Math.sin(t);
+      return 'rgba(' + Math.round(from[0] + (to[0] - from[0]) * m) + ',' +
+        Math.round(from[1] + (to[1] - from[1]) * m) + ',' +
+        Math.round(from[2] + (to[2] - from[2]) * m) + ',' + alpha + ')';
+    }
+
+    function skyPaint(t) {
+      shownAt = t;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#0B0F14';
+      ctx.fillRect(0, 0, w, h);
+      // Added rather than painted over, so where two banks meet the colours mix into a third
+      // instead of one hiding the other. Safe here in a way it was not for the flow field: these
+      // are wide and faint, and five of them at these alphas cannot reach white.
+      ctx.globalCompositeOperation = 'lighter';
+      var reach = Math.max(w, h);
+      for (var i = 0; i < BANKS.length; i++) {
+        var b = BANKS[i];
+        var x = (b.hx + b.ox * Math.sin(t / b.px)) * w;
+        var y = (b.hy + b.oy * Math.cos(t / b.py)) * h;
+        var r = b.r * reach * (1 + 0.15 * Math.sin(t / (b.px * 1.6)));
+        var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        // The middle stop is what makes it a fog rather than a lamp: a plain two-stop gradient
+        // falls off in a straight line and reads as a disc with a soft edge.
+        g.addColorStop(0, ink(b.from, b.to, t / b.pc, b.a));
+        g.addColorStop(0.45, ink(b.from, b.to, t / b.pc, b.a * 0.34));
+        g.addColorStop(1, ink(b.from, b.to, t / b.pc, 0));
+        ctx.fillStyle = g;
+        // Only the square the bank actually reaches, not the whole canvas: five full-canvas fills
+        // a frame would be five times the pixels for no visible difference.
+        ctx.fillRect(Math.max(0, x - r), Math.max(0, y - r), Math.min(w, 2 * r), Math.min(h, 2 * r));
+      }
+      // The header shows the same image, not a second rendering of it: one copy of twenty-five
+      // thousand pixels, which is also what keeps the two exactly in step.
+      if (barCtx) barCtx.drawImage(canvas, 0, 0);
+    }
+
+    // Sixteen pictures a second. A fog has no edge to judge a frame rate by — what moves between
+    // one picture and the next is a soft gradient shifting a fraction of a canvas pixel — so the
+    // rate buys nothing above this, and every frame not drawn is twenty-five thousand pixels saved.
+    function skyTick(ms) {
+      frame = requestAnimationFrame(skyTick);
+      if (ms - last < 62) return;
+      last = ms;
+      skyPaint(ms / 1000);
+    }
+
+    function skyRun() {
+      if (frame || still) return;
+      last = -1e9;
+      frame = requestAnimationFrame(skyTick);
+    }
+    function skyHalt() {
+      if (frame) { cancelAnimationFrame(frame); frame = 0; }
+    }
+
+    skyMeasure();
+    // One picture either way; where motion is unwelcome that is the end of it. Unlike a field of
+    // trails, a fog needs no warming up — any single moment of it is the whole thing.
+    skyRun();
+    // Nothing is drawn for a tab nobody is looking at. A dashboard is left open all day, and this
+    // is the difference between a background that costs nothing and one that costs nothing visible.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) skyHalt(); else skyRun();
+    });
+    var resizeTimer = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(skyMeasure, 200);
+    });
+  }
+
+  startSky();
+  watchValues();
 
   initGraph();
   get('/admin/api/me').then(function (r) { $('who').textContent = r.email; });
