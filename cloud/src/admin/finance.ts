@@ -1,9 +1,10 @@
 import {
-  COST, PACKAGES, PLAY_SERVICE_FEE, TYPICAL_REWORD_SECONDS, chatCostNano, limitsFrom,
-  savingsPercent, type Env,
+  NANO_PER_NEURON, NEURONS, PACKAGES, PLAY_SERVICE_FEE, SECOND_VALUE_NANO, TYPICAL_REWORD_NANO,
+  TYPICAL_REWORD_SECONDS, WORST_COST_PER_SECOND_NANO, billedNanoForDay, limitsFrom, savingsPercent,
+  type Env,
 } from '../config';
-import { num, openaiCosts } from '../costs';
 import { homeCurrency, usdRate } from '../fx';
+import { num } from '../util';
 
 /**
  * The money, from the sources that actually hold it.
@@ -12,7 +13,11 @@ import { homeCurrency, usdRate } from '../fx';
  * requests and seconds but wrong for counting money: the list price in `config.ts` is what we ask
  * for, not what Play collects (it converts per country and adds local tax) and certainly not what
  * Play pays out (it keeps a share). So the takings come from Google's Orders API, stored per
- * purchase, and the spend comes from OpenAI's own cost endpoint.
+ * purchase.
+ *
+ * **The spend does not.** It is the list price of what ran, out of our own roll-up — a self-report
+ * rather than an invoice, because Workers AI bills the account this Worker lives on and there is no
+ * endpoint to ask. The check on it is the monthly Cloudflare invoice, read by hand.
  *
  * **Currencies are added up now, and that is a change.** Until recently only the euro row counted
  * towards the profit and a sale in francs was quietly worth nothing. Each purchase now carries the
@@ -148,25 +153,46 @@ export async function playRevenue(env: Env, sinceMs = 0) {
 /**
  * The bottom line, in one place so the overview and the statistics view cannot disagree.
  *
- * Both outside figures — Play's developer revenue and OpenAI's billing — are cached, so this is
- * fast after the first call of the ten-minute window. `ctx` lets an expired entry refresh behind
- * the response rather than making someone wait for OpenAI's pagination.
+ * The one outside figure — Play's developer revenue — is cached, so this is fast after the first
+ * call of the ten-minute window. The spend needs nothing from outside: it is our own ledger.
  */
-export async function summary(env: Env, ctx?: ExecutionContext) {
+export async function summary(env: Env) {
   const home = homeCurrency(env);
-  const [play, openai, fx] = await Promise.all([
-    playRevenue(env),
-    openaiCosts(env, 180, ctx),
-    usdRate(env),
-  ]);
+  const [play, fx] = await Promise.all([playRevenue(env), usdRate(env)]);
 
   const revenueHome = play.revenueHomeTotal;
   // Converted per purchase with its own stored rate — see the query in [playRevenue].
   const paidHome = play.paidHomeTotal;
 
-  const costUsd = openai.connected ? openai.serviceUsd : null;
-  const costHome = costUsd === null ? null : costUsd * fx.rate;
-  const profitHome = costHome === null ? null : revenueHome - costHome;
+  // The spend, from our own ledger — and that is worth saying out loud, because it used to come
+  // from an invoice.
+  //
+  // Workers AI is billed to the same account this Worker runs on, and there is no equivalent of
+  // no billing endpoint to ask. So this is summed from `daily_totals`, and it is a *self-report*: a
+  // different class of evidence from a bill, and the page says so. The one thing that replaces the
+  // lost second opinion is the monthly invoice, read by hand.
+  //
+  // **Cost here is what Cloudflare charges, not the list price.** The two differ by the daily free
+  // allowance, and on a small service they differ by nearly all of it: a day that stays under the
+  // allowance costs nothing at all, whatever its list price says. Reporting the list price as the
+  // cost would understate the profit by the whole allowance every single day — an error that grows
+  // with time and always in the same direction, which is the kind that goes unnoticed longest.
+  //
+  // It has to be summed **per day**, because the allowance is a daily figure and does not carry
+  // over: a month is a sum of per-day results and never a calculation on the summed neurons. Both
+  // neuron columns go in, because the allowance belongs to the account — own testing eats it
+  // exactly like a customer's request does, and once the day is over the allowance, that testing
+  // costs real money.
+  const costRows = await env.DB.prepare(
+    `SELECT neurons_micro + test_neurons_micro AS neuronsMicro, cost_nano AS costNano
+       FROM daily_totals`,
+  ).all<{ neuronsMicro: number; costNano: number }>();
+  const days = costRows.results ?? [];
+  const costUsd = days.reduce((sum, r) => sum + billedNanoForDay(num(r.neuronsMicro)), 0) / NANO_PER_USD;
+  /** The same traffic before the allowance — what the margin is calculated against. */
+  const listUsd = days.reduce((sum, r) => sum + num(r.costNano), 0) / NANO_PER_USD;
+  const costHome = costUsd * fx.rate;
+  const profitHome = revenueHome - costHome;
 
   return {
     homeCurrency: home,
@@ -175,6 +201,8 @@ export async function summary(env: Env, ctx?: ExecutionContext) {
     revenueHome,
     paidHome,
     costUsd,
+    listUsd,
+    listHome: listUsd * fx.rate,
     costHome,
     profitHome,
     /**
@@ -190,17 +218,12 @@ export async function summary(env: Env, ctx?: ExecutionContext) {
     withoutFigures: play.withoutFigures,
     withoutRate: play.withoutRate,
     byCurrency: play.byCurrency,
-    openaiConnected: openai.connected,
-    openaiReason: openai.connected ? null : openai.reason,
-    openaiFetchedAt: openai.fetchedAt,
-    serviceProject: openai.connected ? openai.serviceProject : null,
   };
 }
 
-/** The finance panel: takings per currency and the spend, side by side. */
-export async function finance(env: Env, days = 30, ctx?: ExecutionContext) {
-  const [play, openai] = await Promise.all([playRevenue(env), openaiCosts(env, days, ctx)]);
-  return { play, openai };
+/** The finance panel: takings per currency. */
+export async function finance(env: Env) {
+  return { play: await playRevenue(env) };
 }
 
 /**
@@ -216,7 +239,8 @@ export async function history(env: Env, days = 365) {
   const [usage, sales, signups] = await Promise.all([
     env.DB.prepare(
       `SELECT day, requests, seconds, rewords, cost_nano AS costNano, errors,
-              test_requests AS testRequests, test_cost_nano AS testCostNano
+              test_requests AS testRequests, test_cost_nano AS testCostNano,
+              neurons_micro + test_neurons_micro AS neuronsMicro
          FROM daily_totals WHERE day >= date('now', ?) ORDER BY day ASC`,
     ).bind(`-${days} days`).all(),
     env.DB.prepare(
@@ -236,14 +260,17 @@ export async function history(env: Env, days = 365) {
   // Merged into one series so the front end never has to align three arrays by date.
   const merged: Record<string, Record<string, unknown>> = {};
   const touch = (day: string) => (merged[day] = merged[day] || {
-    day, requests: 0, seconds: 0, rewords: 0, costUsd: 0, errors: 0, testRequests: 0,
+    day, requests: 0, seconds: 0, rewords: 0, costUsd: 0, listUsd: 0, errors: 0, testRequests: 0,
     orders: 0, secondsSold: 0, revenue: 0, newWallets: 0,
   });
 
   for (const r of (usage.results ?? []) as Array<Record<string, unknown>>) {
     const e = touch(String(r.day));
     e.requests = num(r.requests); e.seconds = num(r.seconds); e.rewords = num(r.rewords);
-    e.costUsd = num(r.costNano) / NANO_PER_USD; e.errors = num(r.errors);
+    // Was der Tag gekostet hat, ist was er *berechnet* bekommt — das Freikontingent lässt sich hier
+    // exakt anwenden, weil eine Zeile genau einen Tag ist. Der Listenpreis bleibt daneben stehen.
+    e.costUsd = billedNanoForDay(num(r.neuronsMicro)) / NANO_PER_USD;
+    e.listUsd = num(r.costNano) / NANO_PER_USD; e.errors = num(r.errors);
     e.testRequests = num(r.testRequests);
   }
   for (const r of (sales.results ?? []) as Array<Record<string, unknown>>) {
@@ -262,10 +289,13 @@ export async function history(env: Env, days = 365) {
 export async function months(env: Env, count = 24) {
   const [rows, sales] = await Promise.all([
     env.DB.prepare(
-      `SELECT substr(day, 1, 7) AS month, SUM(requests) AS requests, SUM(seconds) AS seconds,
-              SUM(cost_nano) AS costNano, SUM(errors) AS errors
-         FROM daily_totals GROUP BY month ORDER BY month DESC LIMIT ?`,
-    ).bind(count).all(),
+      // Tageszeilen und **nicht** nach Monat summiert: Das Freikontingent ist ein Tageswert, also
+      // ist der Monat die Summe der Tagesergebnisse und niemals eine Rechnung auf den
+      // Monatsneuronen. Andersherum bekäme jeder Monat nur ein einziges Kontingent abgezogen.
+      `SELECT day, substr(day, 1, 7) AS month, requests, seconds, cost_nano AS costNano, errors,
+              neurons_micro + test_neurons_micro AS neuronsMicro
+         FROM daily_totals ORDER BY day DESC`,
+    ).all(),
     env.DB.prepare(
       `SELECT strftime('%Y-%m', p.purchased_at / 1000, 'unixepoch') AS month,
               COUNT(*) AS orders, SUM(COALESCE(p.revenue_home_micros, 0)) AS revenueHomeMicros,
@@ -275,17 +305,18 @@ export async function months(env: Env, count = 24) {
   ]);
 
   const blank = (month: string) => ({
-    month, requests: 0, seconds: 0, costUsd: 0, errors: 0, orders: 0, revenue: 0, secondsSold: 0,
+    month, requests: 0, seconds: 0, costUsd: 0, listUsd: 0, errors: 0, orders: 0, revenue: 0, secondsSold: 0,
   });
   const byMonth: Record<string, ReturnType<typeof blank>> = {};
 
   for (const r of (rows.results ?? []) as Array<Record<string, unknown>>) {
     const month = String(r.month);
-    byMonth[month] = {
-      ...blank(month),
-      requests: num(r.requests), seconds: num(r.seconds),
-      costUsd: num(r.costNano) / NANO_PER_USD, errors: num(r.errors),
-    };
+    const e = byMonth[month] ?? (byMonth[month] = blank(month));
+    e.requests += num(r.requests);
+    e.seconds += num(r.seconds);
+    e.errors += num(r.errors);
+    e.costUsd += billedNanoForDay(num(r.neuronsMicro)) / NANO_PER_USD;
+    e.listUsd += num(r.costNano) / NANO_PER_USD;
   }
   for (const r of (sales.results ?? []) as Array<Record<string, unknown>>) {
     const month = String(r.month);
@@ -295,7 +326,9 @@ export async function months(env: Env, count = 24) {
     entry.secondsSold = num(r.secondsSold);
   }
 
-  return Object.keys(byMonth).sort().reverse().map((k) => byMonth[k]);
+  // Begrenzt wird erst hier. Die Tageszeilen mussten vollständig gelesen werden, weil sich sonst
+  // ein Monat aus einem angeschnittenen Satz Tage zusammensetzt.
+  return Object.keys(byMonth).sort().reverse().slice(0, count).map((k) => byMonth[k]);
 }
 
 /**
@@ -374,16 +407,36 @@ export async function plans(env: Env) {
     actual.set(productId, entry);
   }
 
-  const transcribeUsdPerMinute = COST.transcribePerMinuteNano / NANO_PER_USD;
-  // A typical rewording as the plan measured it: ~500 tokens in, ~300 out.
-  const rewordUsd = chatCostNano(500, 300) / NANO_PER_USD;
+  const transcribeUsdPerMinute =
+    (NEURONS['@cf/openai/whisper-large-v3-turbo'].perAudioMinute * NANO_PER_NEURON) / NANO_PER_USD;
+  // What a sold minute is worth, which is what bounds the spend — not what a bought minute costs.
+  const secondValueUsdPerMinute = (SECOND_VALUE_NANO * 60) / NANO_PER_USD;
+  // A rewording of ordinary length, as 131 real ones measured out: 327 tokens in, 63 out.
+  const rewordUsd = TYPICAL_REWORD_NANO / NANO_PER_USD;
 
   const packs = Object.values(PACKAGES).map((pack) => {
-    // The whole cost of a pack, and not an estimate of it: every service is priced into the same
-    // seconds, so the seconds sold *are* the upstream spend. Whatever the buyer does with them —
-    // all dictation, all rewording, any mixture — this figure cannot be exceeded.
-    const costUsd = pack.minutes * transcribeUsdPerMinute;
+    // Three figures, and which of them leads decides whether this card is read as encouraging or
+    // as alarming.
+    //
+    // `boundUsd` is the *structural* guarantee: `costToSeconds` rounds up, so no service can deduct
+    // fewer seconds than it cost, and a pack therefore cannot exceed the value of the seconds it
+    // sold — whatever the buyer does with it. True, and useless as a headline: it describes a
+    // service priced at exactly what it sells for, which neither of ours is. Led with, it reported
+    // 66 % where the business actually runs at 96 %.
+    //
+    // `worstUsd` is the floor that can really be reached: the whole pack spent on the dearer of the
+    // two services. That is rewording — one of ordinary length deducts a second and costs 51.6 of
+    // the 75 nano-dollars that second sold for, against dictation's 8.5.
+    //
+    // `typicalUsd` is the ordinary case: the pack spent on dictation, which is how packs are spent
+    // — 94.3 % of credit-seconds, measured. This is what the margin badge shows, with the floor
+    // beside it, because a number nobody's usage produces is not the honest headline either.
+    const boundUsd = pack.minutes * secondValueUsdPerMinute;
+    const worstUsd = (pack.minutes * 60 * WORST_COST_PER_SECOND_NANO) / NANO_PER_USD;
+    const typicalUsd = pack.minutes * transcribeUsdPerMinute;
+    const costUsd = typicalUsd;
     const costHome = costUsd * rate;
+    const worstHome = worstUsd * rate;
     // How far the pack goes if it is spent entirely on rewordings of ordinary length. Shown
     // beside the minutes because "150 minutes" and "or about 4500 rewordings" are the same pack.
     const rewordsIfOnly = Math.floor((pack.minutes * 60) / TYPICAL_REWORD_SECONDS);
@@ -417,16 +470,28 @@ export async function plans(env: Env) {
       currency: real?.currency ?? home,
 
       cost: {
-        dictationUsd: costUsd,
+        dictationUsd: typicalUsd,
         rewordsUsd: 0,
+        /** The ordinary case — the pack spent on dictation. What the headline margin uses. */
         totalUsd: costUsd,
         totalHome: costHome,
+        typicalUsd,
+        typicalHome: costHome,
+        /** The whole pack spent on rewording: the dearest thing it can actually be spent on. */
+        worstUsd,
+        worstHome,
+        /** The structural ceiling. Cannot be exceeded by any usage; also cannot be reached. */
+        boundUsd,
+        boundHome: boundUsd * rate,
         perMinuteUsd: transcribeUsdPerMinute,
       },
       model: {
         revenue: modelRevenue,
         margin: modelRevenue - costHome,
         marginPercent: modelRevenue > 0 ? ((modelRevenue - costHome) / modelRevenue) * 100 : 0,
+        /** The same pack spent entirely on rewording. */
+        marginWorst: modelRevenue - worstHome,
+        marginPercentWorst: modelRevenue > 0 ? ((modelRevenue - worstHome) / modelRevenue) * 100 : 0,
       },
       /** Sales that exist but carry no revenue figure yet — shown, never averaged in. */
       unreportedOrders: row?.unreported ?? 0,
@@ -449,6 +514,8 @@ export async function plans(env: Env) {
             revenueHome: realRevenueHome ?? 0,
             margin: (realRevenueHome ?? 0) - costHome,
             marginPercent: realRevenueHome ? ((realRevenueHome - costHome) / realRevenueHome) * 100 : 0,
+            marginWorst: (realRevenueHome ?? 0) - worstHome,
+            marginPercentWorst: realRevenueHome ? ((realRevenueHome - worstHome) / realRevenueHome) * 100 : 0,
           }
         : null,
       // What a minute costs the customer, and what it earns you. The pair that shows whether the
@@ -473,5 +540,87 @@ export async function plans(env: Env) {
     /** So the page can work back from a target margin to a price without a second copy of it. */
     playServiceFee: PLAY_SERVICE_FEE,
     packs,
+  };
+}
+
+/**
+ * Our own arithmetic against Cloudflare's invoice, month by month.
+ *
+ * Until the move there was a rule that did this every day: the old provider published a billing
+ * endpoint, and `cost_drift` compared what we had calculated against what it said. Workers AI bills
+ * the account this Worker runs on and has no such endpoint, so **the monthly invoice, read by hand,
+ * is now the only check against real money.** Everything else on the dashboard is self-report.
+ *
+ * A check that depends on remembering is a check that stops happening, so it is given a place to be
+ * written down and a column that shows the difference. A month with no invoice recorded is not
+ * silently blank: it says so, and after a fortnight the watchdog says so too.
+ *
+ * Both sides are in the payout currency. Ours is converted at today's rate rather than the rate of
+ * each day — the invoice is one payment on one date, and pretending to a precision the comparison
+ * does not have would only make a real difference look like a rounding one.
+ */
+export async function reconciliation(env: Env) {
+  const home = homeCurrency(env);
+  const { rate } = await usdRate(env);
+
+  const [dayRows, invoiceRows] = await Promise.all([
+    env.DB.prepare(
+      `SELECT day, substr(day, 1, 7) AS month,
+              neurons_micro + test_neurons_micro AS neuronsMicro, cost_nano AS costNano
+         FROM daily_totals ORDER BY day DESC`,
+    ).all<{ day: string; month: string; neuronsMicro: number; costNano: number }>(),
+    env.DB.prepare(
+      `SELECT strftime('%Y-%m', paid_at / 1000, 'unixepoch') AS month,
+              COUNT(*) AS n,
+              COALESCE(SUM(amount_home_micros), 0) AS homeMicros,
+              COALESCE(SUM(CASE WHEN amount_home_micros IS NULL THEN 1 ELSE 0 END), 0) AS unconverted,
+              MAX(reference) AS reference
+         FROM expenses WHERE kind = 'cloudflare' GROUP BY month`,
+    ).all<{ month: string; n: number; homeMicros: number; unconverted: number; reference: string | null }>(),
+  ]);
+
+  const invoices = new Map<string, { n: number; home: number; unconverted: number; reference: string | null }>();
+  for (const r of invoiceRows.results ?? []) {
+    invoices.set(r.month, {
+      n: num(r.n), home: num(r.homeMicros) / MICROS,
+      unconverted: num(r.unconverted), reference: r.reference,
+    });
+  }
+
+  const byMonth = new Map<string, { month: string; billedUsd: number; listUsd: number; days: number }>();
+  for (const r of dayRows.results ?? []) {
+    const e = byMonth.get(r.month) ?? { month: r.month, billedUsd: 0, listUsd: 0, days: 0 };
+    // Per day, always — the free allowance does not carry over. See `billedNanoForDay`.
+    e.billedUsd += billedNanoForDay(num(r.neuronsMicro)) / NANO_PER_USD;
+    e.listUsd += num(r.costNano) / NANO_PER_USD;
+    e.days += 1;
+    byMonth.set(r.month, e);
+  }
+
+  const thisMonth = new Date().toISOString().slice(0, 7);
+  return {
+    homeCurrency: home,
+    rate,
+    months: [...byMonth.values()].sort((a, b) => (a.month < b.month ? 1 : -1)).map((m) => {
+      const invoice = invoices.get(m.month) ?? null;
+      const ownHome = m.billedUsd * rate;
+      return {
+        month: m.month,
+        days: m.days,
+        /** What we say it cost: neurons, less the daily allowance. */
+        ownUsd: m.billedUsd,
+        ownHome,
+        /** The same traffic at list price, for context. */
+        listUsd: m.listUsd,
+        /** What was actually invoiced, if it has been entered. */
+        invoiceHome: invoice ? invoice.home : null,
+        invoiceCount: invoice?.n ?? 0,
+        invoiceReference: invoice?.reference ?? null,
+        invoiceUnconverted: invoice?.unconverted ?? 0,
+        deltaHome: invoice ? invoice.home - ownHome : null,
+        /** A month still running cannot be missing its invoice yet. */
+        open: m.month >= thisMonth,
+      };
+    }),
   };
 }

@@ -1,21 +1,28 @@
 import { raise } from '../alerts';
-import { limitsFrom, type Env } from '../config';
-import { num, openaiCosts } from '../costs';
+import { FREE_NEURONS_PER_DAY, billedNanoForDay, limitsFrom, type Env } from '../config';
 import { homeCurrency, usdRate } from '../fx';
 import { alertSettings } from '../settings';
-import { today } from '../util';
+import { num, today } from '../util';
 
 /**
  * The watchdog, run every quarter of an hour against the ledger.
  *
  * What is deliberately **not** in here: high consumption. A customer cannot dictate you into a
- * loss — the balance is debited before OpenAI is called, and even the largest pack consumed to the
- * last second leaves a healthy margin. Alerting on heavy use would train you to ignore the mails
- * that matter.
+ * loss — the balance is debited before the model is called, and even the largest pack consumed to
+ * the last second leaves a healthy margin. Alerting on heavy use would train you to ignore the
+ * mails that matter.
  *
- * What is in here are the four shapes that actually cost money or hide a problem: credit spent
- * suspiciously fast (the run-up to a refund), one account starving the shared daily budget,
- * a token being passed around, and OpenAI's invoice drifting away from our own price list.
+ * What is in here are the shapes that actually cost money or hide a problem: credit spent
+ * suspiciously fast (the run-up to a refund), one account starving the shared daily budget, a token
+ * being passed around, a day whose compute is unlike the week before it, and a model that has
+ * started thinking again.
+ *
+ * **What used to be in here and no longer can be:** the comparison against the provider's own
+ * invoice. It was the only rule able to find a mistake in our *own* arithmetic, and it worked
+ * because the old provider published a billing endpoint. Workers AI bills the account this Worker runs on and
+ * offers nothing to ask, so the check moved out of the software and onto a calendar: the monthly
+ * Cloudflare invoice, read by hand against the dashboard. Written down here because a guarantee
+ * that quietly disappears is worse than one that was never claimed.
  *
  * The budget thresholds live in `guard.ts` instead, because only the Durable Object can decide
  * "this request crossed 80 %" without two of them crossing it at once. Refunds live in
@@ -39,10 +46,12 @@ export async function evaluateRules(env: Env, ctx: ExecutionContext): Promise<nu
     on('fast_burn', () => fastBurn(env, ctx, t.fastBurnPercent, t.fastBurnHours)),
     on('budget_hog', () => hogsTheBudget(env, ctx, t.walletBudgetSharePercent)),
     on('shared_token', () => sharedToken(env, ctx, t.devicesPerWallet)),
-    on('cost_drift', () => costDrift(env, ctx, t.costDriftPercent)),
     on('overall_loss', () => overallLoss(env, ctx, t.minLossHome)),
     on('error_rate', () => errorRate(env, ctx, t.errorRatePercent)),
     on('revenue_unreported', () => revenueUnreported(env, ctx)),
+    on('neuron_spike', () => neuronSpike(env, ctx, t.neuronSpikeFactor)),
+    on('slow_upstream', () => slowUpstream(env, ctx, t.slowShortMs)),
+    on('invoice_missing', () => invoiceMissing(env, ctx)),
   ]);
 
   // One broken rule must not silence the other five. A rule that throws is itself worth knowing
@@ -179,44 +188,6 @@ async function sharedToken(env: Env, ctx: ExecutionContext, maxDevices: number):
 }
 
 /**
- * OpenAI's invoice drifting away from our own price list.
- *
- * The quiet one. Everything else in this service calculates cost from the numbers in `config.ts`,
- * so if OpenAI raises a price, the calculation carries on agreeing with itself while the margin
- * disappears. Comparing yesterday against OpenAI's own figure is the only way that ever surfaces.
- */
-async function costDrift(env: Env, ctx: ExecutionContext, percent: number): Promise<number> {
-  const costs = await openaiCosts(env, 7, ctx);
-  if (!costs.connected || costs.serviceUsd === null) return 0;
-
-  const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
-  const theirs = costs.days.find((d) => d.day === yesterday)?.usd ?? 0;
-
-  const row = await env.DB.prepare('SELECT cost_nano AS costNano FROM daily_totals WHERE day = ?')
-    .bind(yesterday).first<{ costNano: number }>();
-  const ours = num(row?.costNano) / NANO_PER_USD;
-
-  // Below a few cents the percentage is noise: one long dictation moves it by half.
-  if (ours < 0.1 || theirs < 0.1) return 0;
-
-  const drift = ((theirs - ours) / ours) * 100;
-  if (Math.abs(drift) < percent) return 0;
-
-  return (await raise(env, {
-    kind: 'cost_drift',
-    severity: 'critical',
-    value: drift,
-    title: `OpenAI rechnet ${drift > 0 ? 'mehr' : 'weniger'} ab als kalkuliert (${Math.round(drift)} %)`,
-    detail:
-      `Für ${yesterday} weist OpenAI ${theirs.toFixed(4)} $ aus, unsere eigene Rechnung kommt auf ` +
-      `${ours.toFixed(4)} $. Die Preise in config.ts stimmen dann nicht mehr mit der Wirklichkeit überein — ` +
-      `bei einer Erhöhung schrumpft die Marge, ohne dass irgendeine Zahl im Dashboard sich verändert. ` +
-      `Preisliste bei OpenAI prüfen und COST in config.ts nachziehen.`,
-    dedupeKey: `cost_drift:${yesterday}`,
-  }, ctx)) ? 1 : 0;
-}
-
-/**
  * The bottom line turning negative.
  *
  * Deliberately cumulative rather than per day. Credit is prepaid: the money arrives on the day of
@@ -225,20 +196,24 @@ async function costDrift(env: Env, ctx: ExecutionContext, percent: number): Prom
  * ever spent.
  */
 async function overallLoss(env: Env, ctx: ExecutionContext, minLoss: number): Promise<number> {
-  const costs = await openaiCosts(env, 180, ctx);
-  if (!costs.connected || costs.serviceUsd === null) return 0;
-
   const { rate } = await usdRate(env);
   const home = homeCurrency(env);
 
-  const row = await env.DB.prepare(
-    `SELECT COALESCE(SUM(p.revenue_home_micros), 0) AS revenue
-       FROM purchases p JOIN wallets w ON w.id = p.wallet_id AND w.is_test = 0
-      WHERE p.state = 'granted'`,
-  ).first<{ revenue: number }>();
+  const [row, spend] = await Promise.all([
+    env.DB.prepare(
+      `SELECT COALESCE(SUM(p.revenue_home_micros), 0) AS revenue
+         FROM purchases p JOIN wallets w ON w.id = p.wallet_id AND w.is_test = 0
+        WHERE p.state = 'granted'`,
+    ).first<{ revenue: number }>(),
+    // Our own ledger, at list price: there is no invoice endpoint to ask, and the free daily
+    // allowance is deliberately not deducted. Both make the cost err upwards, so this rule warns
+    // slightly too eagerly rather than slightly too late — the right way round for a loss.
+    env.DB.prepare('SELECT COALESCE(SUM(cost_nano), 0) AS costNano FROM daily_totals')
+      .first<{ costNano: number }>(),
+  ]);
 
   const revenue = num(row?.revenue) / 1_000_000;
-  const cost = costs.serviceUsd * rate;
+  const cost = (num(spend?.costNano) / NANO_PER_USD) * rate;
   const margin = revenue - cost;
 
   // A floor, not a sign test. Right at the start there are no sales and a handful of test requests,
@@ -253,7 +228,7 @@ async function overallLoss(env: Env, ctx: ExecutionContext, minLoss: number): Pr
     title: `Insgesamt im Minus: ${margin.toFixed(2)} ${home}`,
     detail:
       `Eingenommen wurden bisher ${revenue.toFixed(2)} ${home} (nach Googles Anteil, ohne Testkonten), ` +
-      `bei OpenAI ausgegeben ${costs.serviceUsd.toFixed(2)} $ ≈ ${cost.toFixed(2)} ${home}. ` +
+      `an Rechenzeit eingekauft ${(num(spend?.costNano) / NANO_PER_USD).toFixed(2)} $ ≈ ${cost.toFixed(2)} ${home}. ` +
       `Am Anfang ist das normal, solange die Testphase mehr kostet als die ersten Verkäufe einbringen. ` +
       `Bleibt es so, stimmt entweder die Kalkulation nicht oder es wurde erstattet, nachdem verbraucht war.`,
     // Once a day at most: this is a state, not an event.
@@ -330,7 +305,156 @@ async function errorRate(env: Env, ctx: ExecutionContext, percent: number): Prom
     title: `${Math.round(share)} % Fehler in der letzten Stunde`,
     detail:
       `${errors} von ${total} Anfragen sind fehlgeschlagen. Kunden bekommen dann Fehlermeldungen statt Text. ` +
-      `Meist ist es eine Störung bei OpenAI; im Verkehrsprotokoll steht, welcher Statuscode zurückkam.`,
+      `Meist ist es eine Störung bei Workers AI; im Verkehrsprotokoll steht, welcher Statuscode zurückkam.`,
     dedupeKey: `error_rate:${new Date().toISOString().slice(0, 13)}`,
+  }, ctx)) ? 1 : 0;
+}
+
+/**
+ * A day whose compute use is unlike the week before it.
+ *
+ * Neurons are the one figure that turns straight into an invoice, and they can move for reasons
+ * that are nobody's fault — a new customer, a stack of long recordings — as well as for reasons
+ * that are: a retry loop, a model that quietly started thinking again, another project on the same
+ * account eating the allowance. The rule does not try to tell those apart. It says the day is
+ * unlike the week, which is the point at which looking is cheap and not looking is not.
+ *
+ * Both neuron columns are summed, test traffic included, because Cloudflare's allowance is granted
+ * to the account and does not care whose request spent it.
+ *
+ * Two guards against crying wolf. Nothing fires below a floor — going from four neurons to twenty
+ * is a factor of five and worth nothing — and nothing fires before there is a week to compare
+ * against, since the first days of a service are all spikes by construction.
+ */
+async function neuronSpike(env: Env, ctx: ExecutionContext, factor: number): Promise<number> {
+  const day = today();
+  const rows = (await env.DB.prepare(
+    `SELECT day, neurons_micro + test_neurons_micro AS neuronsMicro
+       FROM daily_totals WHERE day <= ? ORDER BY day DESC LIMIT 8`,
+  ).bind(day).all<{ day: string; neuronsMicro: number }>()).results ?? [];
+
+  const todayMicro = num(rows.find((r) => r.day === day)?.neuronsMicro);
+  const before = rows.filter((r) => r.day < day);
+  if (before.length < 5) return 0;
+
+  const avgMicro = before.reduce((sum, r) => sum + num(r.neuronsMicro), 0) / before.length;
+  // A tenth of the free allowance. Below that the whole day still costs nothing at all, and a
+  // multiple of nothing is not news.
+  const floorMicro = 1_000 * 1_000_000;
+  if (todayMicro < floorMicro || avgMicro <= 0) return 0;
+  if (todayMicro < avgMicro * factor) return 0;
+
+  const neurons = Math.round(todayMicro / 1_000_000);
+  const avg = Math.round(avgMicro / 1_000_000);
+  const billedUsd = billedNanoForDay(todayMicro) / NANO_PER_USD;
+  return (await raise(env, {
+    kind: 'neuron_spike',
+    severity: 'notice',
+    value: todayMicro / avgMicro,
+    title: `${neurons.toLocaleString('de-DE')} Neuronen heute — ${(todayMicro / avgMicro).toFixed(1)}× der Wochenschnitt`,
+    detail:
+      `Der Schnitt der letzten ${before.length} Tage liegt bei ${avg.toLocaleString('de-DE')}. ` +
+      `Berechnet werden für heute bisher ${billedUsd.toFixed(4)} $ — alles über ${FREE_NEURONS_PER_DAY.toLocaleString('de-DE')} ` +
+      `Neuronen am Tag kostet. Harmlos, wenn jemand viel diktiert hat; nachsehen lohnt trotzdem, ` +
+      `weil dieselbe Kurve entsteht, wenn ein Modell wieder nachdenkt oder etwas in eine Schleife läuft.`,
+    // A state of the day, not an event: once per day is enough.
+    dedupeKey: `neuron_spike:${day}`,
+  }, ctx)) ? 1 : 0;
+}
+
+/**
+ * Short dictations that suddenly take a long time.
+ *
+ * Measured against **short recordings only** — thirty seconds of audio or less — and that
+ * restriction is the whole idea. A ten-minute recording legitimately takes thirty to fifty seconds
+ * on Workers AI, and the spread between one run and the next is wider than any threshold worth
+ * setting; a rule over all requests would either shout at every long dictation or never fire at
+ * all. Under thirty seconds the answer comes back in two to four, and 89 % of real dictations are
+ * in that group — so a p95 of ten seconds there is unambiguous, and it is the number the people
+ * using the service actually feel.
+ *
+ * Latency is the one thing the move to Workers AI made worse and nothing else watches. The error
+ * rate stays flat while a service crawls, and a customer noticing before the operator does is the
+ * failure this exists to prevent.
+ */
+async function slowUpstream(env: Env, ctx: ExecutionContext, thresholdMs: number): Promise<number> {
+  if (thresholdMs <= 0) return 0;
+  const since = Date.now() - 3_600_000;
+
+  const counted = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM usage_log
+      WHERE ts >= ? AND kind = 'transcribe' AND ms IS NOT NULL AND seconds > 0 AND seconds <= 30
+        AND status = 200`,
+  ).bind(since).first<{ n: number }>();
+  const n = num(counted?.n);
+  // Four is not a sample, and a single slow request is not a trend. Below this the rule says
+  // nothing rather than something it cannot support.
+  if (n < 5) return 0;
+
+  const offset = Math.min(n - 1, Math.floor(n * 0.95));
+  const row = await env.DB.prepare(
+    `SELECT ms FROM usage_log
+      WHERE ts >= ? AND kind = 'transcribe' AND ms IS NOT NULL AND seconds > 0 AND seconds <= 30
+        AND status = 200
+      ORDER BY ms ASC LIMIT 1 OFFSET ?`,
+  ).bind(since, offset).first<{ ms: number }>();
+  const p95 = num(row?.ms);
+  if (p95 <= thresholdMs) return 0;
+
+  return (await raise(env, {
+    kind: 'slow_upstream',
+    severity: 'notice',
+    value: p95,
+    title: `Kurze Diktate brauchen ${(p95 / 1000).toFixed(1)} s`,
+    detail:
+      `Das p95 kurzer Aufnahmen (bis 30 s Audio) liegt in der letzten Stunde bei ${p95} ms, über der ` +
+      `Schwelle von ${thresholdMs} ms — gemessen an ${n} Anfragen. Normal sind zwei bis vier Sekunden. ` +
+      `Lange Aufnahmen sind hier absichtlich nicht mitgezählt: Die schwanken bei Workers AI von Haus ` +
+      `aus zu stark, um eine Schwelle zu tragen. Wenn diese Zahl steigt, merken es die Nutzenden.`,
+    dedupeKey: `slow_upstream:${new Date().toISOString().slice(0, 13)}`,
+  }, ctx)) ? 1 : 0;
+}
+
+/**
+ * A finished month whose Cloudflare invoice has not been entered.
+ *
+ * Before the move, a rule compared our arithmetic against the provider's own billing figures every
+ * day. Workers AI has no billing endpoint, so that comparison is now a monthly one, done by hand —
+ * and a check that depends on remembering is a check that stops happening. This is the reminder.
+ *
+ * Two weeks after a month ends, not one day: Cloudflare does not invoice on the first, and an alarm
+ * that fires before the thing it asks for exists teaches you to ignore it.
+ */
+async function invoiceMissing(env: Env, ctx: ExecutionContext): Promise<number> {
+  const now = new Date();
+  // The month that ended most recently, and only once a fortnight has passed inside the new one.
+  if (now.getUTCDate() < 15) return 0;
+  const previous = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1))
+    .toISOString().slice(0, 7);
+
+  // Nothing was bought, so there is nothing to reconcile.
+  const used = await env.DB.prepare(
+    'SELECT COUNT(*) AS n FROM daily_totals WHERE day LIKE ?',
+  ).bind(`${previous}%`).first<{ n: number }>();
+  if (num(used?.n) === 0) return 0;
+
+  const invoice = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM expenses
+      WHERE kind = 'cloudflare' AND strftime('%Y-%m', paid_at / 1000, 'unixepoch') = ?`,
+  ).bind(previous).first<{ n: number }>();
+  if (num(invoice?.n) > 0) return 0;
+
+  return (await raise(env, {
+    kind: 'invoice_missing',
+    severity: 'notice',
+    value: 0,
+    title: `Für ${previous} ist keine Cloudflare-Rechnung erfasst`,
+    detail:
+      `Der Monat ist abgeschlossen und hat Verkehr, aber unter Steuer → Ausgaben steht keine Rechnung ` +
+      `dafür. Das ist die einzige Prüfung gegen echtes Geld, die es seit dem Umzug noch gibt: Alles ` +
+      `andere auf dem Dashboard ist die eigene Rechnung. Eintragen, dann steht die Differenz im ` +
+      `Abgleich.`,
+    // Einmal je Monat, nicht einmal je Viertelstunde bis zum Eintrag.
+    dedupeKey: `invoice_missing:${previous}`,
   }, ctx)) ? 1 : 0;
 }

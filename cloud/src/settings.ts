@@ -26,7 +26,7 @@ export interface AlertSettings extends AlertThresholds {
    * The day's ceiling on upstream spend, in dollars.
    *
    * The one setting here that is not about warnings but about the service itself: once the day's
-   * estimated OpenAI spend reaches it, requests are answered with 503 instead of being bought.
+   * estimated spend reaches it, requests are answered with 503 instead of being bought.
    * It is the fuse — whatever else is wrong, a day cannot cost more than this.
    *
    * Adjustable from the dashboard because it is the number most likely to need moving, and needing
@@ -52,14 +52,32 @@ export interface AlertSettings extends AlertThresholds {
 }
 
 /** The rules that can be switched off individually, in the order they are shown. */
+/**
+ * Every setting the dashboard may write, in one place.
+ *
+ * It used to be a second list in `admin/index.ts`, hand-kept beside this one, and they drifted:
+ * `costDriftPercent` stayed on it after the rule was deleted, and `neuronSpikeFactor` never made it
+ * on — so the dashboard offered a threshold, accepted it, said "Gespeichert", and dropped it. A
+ * setting that silently does not save is worse than one that is missing, because it is believed.
+ */
+export const SETTING_KEYS = [
+  'enabled', 'mail', 'digest', 'digestHourUtc', 'emailTo', 'emailFrom',
+  'dailyBudgetUsd', 'maxDevices', 'budgetSteps',
+  'fastBurnPercent', 'fastBurnHours', 'refundUsedPercent', 'walletBudgetSharePercent',
+  'devicesPerWallet', 'errorRatePercent', 'neuronSpikeFactor', 'slowShortMs', 'minLossHome',
+] as const;
+
 export const RULE_KEYS = [
   'fast_burn',
   'budget_hog',
   'shared_token',
-  'cost_drift',
   'overall_loss',
   'error_rate',
   'revenue_unreported',
+  'neuron_spike',
+  'reasoning_leak',
+  'slow_upstream',
+  'invoice_missing',
 ] as const;
 
 async function overrides(env: Env): Promise<Record<string, string>> {
@@ -115,8 +133,9 @@ export async function alertSettings(env: Env): Promise<AlertSettings> {
     refundUsedPercent: number('refundUsedPercent', base.refundUsedPercent),
     walletBudgetSharePercent: number('walletBudgetSharePercent', base.walletBudgetSharePercent),
     devicesPerWallet: number('devicesPerWallet', base.devicesPerWallet),
-    costDriftPercent: number('costDriftPercent', base.costDriftPercent),
     errorRatePercent: number('errorRatePercent', base.errorRatePercent),
+    neuronSpikeFactor: number('neuronSpikeFactor', base.neuronSpikeFactor),
+    slowShortMs: number('slowShortMs', base.slowShortMs),
     minLossHome: number('minLossHome', base.minLossHome),
 
     rules,
@@ -151,13 +170,24 @@ export async function changedKeys(env: Env): Promise<string[]> {
     refundUsedPercent: String(base.refundUsedPercent),
     walletBudgetSharePercent: String(base.walletBudgetSharePercent),
     devicesPerWallet: String(base.devicesPerWallet),
-    costDriftPercent: String(base.costDriftPercent),
     errorRatePercent: String(base.errorRatePercent),
+    neuronSpikeFactor: String(base.neuronSpikeFactor),
+    slowShortMs: String(base.slowShortMs),
     minLossHome: String(base.minLossHome),
   };
   for (const key of RULE_KEYS) shipped[`rule.${key}`] = '1';
 
-  return Object.keys(stored).filter((key) => !matchesShipped(stored[key] ?? '', shipped[key]));
+  // Keys with a colon are the cron's own bookkeeping, not settings — `digest:last-day` records which
+  // day the daily report already went out for. They live in this table because it is the one that
+  // survives a ledger wipe, and they must never appear in the dashboard's list of changed settings:
+  // a mark that rewrites itself every morning would make that list permanently non-empty.
+  // Ein Schlüssel, den `SETTING_KEYS` nicht kennt, ist entweder eine Regel (`rule.…`) oder eine
+  // Altlast aus einer entfernten Einstellung. Beides gehört nicht in die Liste „geändert".
+  const known = (key: string) => (SETTING_KEYS as readonly string[]).includes(key) || key.startsWith('rule.');
+  return Object.keys(stored)
+    .filter((key) => !key.includes(':'))
+    .filter(known)
+    .filter((key) => !matchesShipped(stored[key] ?? '', shipped[key]));
 }
 
 function matchesShipped(stored: string, shipped: string | undefined): boolean {

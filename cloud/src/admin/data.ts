@@ -1,8 +1,10 @@
-import { PACKAGES, PLAY_SERVICE_FEE, type Env } from '../config';
-import { num } from '../costs';
+import {
+  FREE_NEURONS_PER_DAY, NANO_PER_NEURON, NEURONS, PACKAGES, PLAY_SERVICE_FEE, billedNanoForDay,
+  type Env,
+} from '../config';
 import { guardStub, walletStub } from '../meter';
 import { alertSettings } from '../settings';
-import { today } from '../util';
+import { num, today } from '../util';
 import { REAL_SALES } from './finance';
 
 /**
@@ -45,9 +47,21 @@ export async function overview(env: Env) {
       ).all<{ productId: string; count: number; revenueMicros: number }>(),
       salesSince(dayStartMs),
       salesSince(monthStartMs),
+      // Offenes Guthaben, und daneben wie alt es ist.
+      //
+      // Die Summe allein sagt nur, wie viel Arbeit noch geschuldet wird. Interessant ist, wie viel
+      // davon auf Konten liegt, die sich nicht mehr melden: Das ist zugleich die Verbindlichkeit,
+      // die vermutlich nie eingelöst wird, und das deutlichste Produktsignal, das dieser Dienst
+      // hat — gekauft und aufgehört. `last_seen_at` ist der letzte Kontakt, nicht der letzte
+      // Verbrauch; wer die App offen hat, aber nicht diktiert, zählt hier als aktiv.
       env.DB.prepare(
-        "SELECT COALESCE(SUM(seconds_left), 0) AS seconds FROM wallets WHERE status = 'active' AND is_test = 0",
-      ).first<{ seconds: number }>(),
+        `SELECT COALESCE(SUM(seconds_left), 0) AS seconds,
+                COALESCE(SUM(CASE WHEN last_seen_at >= ? THEN seconds_left ELSE 0 END), 0) AS fresh,
+                COALESCE(SUM(CASE WHEN last_seen_at <  ? THEN seconds_left ELSE 0 END), 0) AS stale,
+                COALESCE(SUM(CASE WHEN last_seen_at <  ? AND seconds_left > 0 THEN 1 ELSE 0 END), 0) AS staleWallets
+           FROM wallets WHERE status = 'active' AND is_test = 0`,
+      ).bind(now - 30 * 86_400_000, now - 30 * 86_400_000, now - 90 * 86_400_000)
+        .first<{ seconds: number; fresh: number; stale: number; staleWallets: number }>(),
       // A deleted account is counted as deleted and nowhere else. Its row only still exists
       // because the receipts point at it; leaving it in "accounts" would make the customer count
       // a number that never goes down.
@@ -71,11 +85,12 @@ export async function overview(env: Env) {
         `SELECT COALESCE(SUM(cost_nano), 0) AS costNano, COALESCE(SUM(seconds), 0) AS seconds,
                 COALESCE(SUM(requests), 0) AS requests, COALESCE(SUM(errors), 0) AS errors,
                 COALESCE(SUM(test_requests), 0) AS testRequests,
-                COALESCE(SUM(test_cost_nano), 0) AS testCostNano
+                COALESCE(SUM(test_cost_nano), 0) AS testCostNano,
+                COALESCE(SUM(cost_nano_cf), 0) AS costNanoCf
            FROM daily_totals`,
       ).first<{
         costNano: number; seconds: number; requests: number; errors: number;
-        testRequests: number; testCostNano: number;
+        testRequests: number; testCostNano: number; costNanoCf: number;
       }>(),
       env.DB.prepare('SELECT * FROM daily_totals WHERE day = ?').bind(day)
         .first<{ requests: number; seconds: number; cost_nano: number; errors: number }>(),
@@ -92,6 +107,48 @@ export async function overview(env: Env) {
   const monthCost = await env.DB.prepare(
     'SELECT COALESCE(SUM(cost_nano), 0) AS costNano FROM daily_totals WHERE day LIKE ?',
   ).bind(`${monthPrefix}%`).first<{ costNano: number }>();
+
+  // How much of the cost figure is a measurement rather than an estimate.
+  //
+  // Every reply from Workers AI carries the neurons it spent, and that number is what gets booked —
+  // the estimate exists only to reserve budget before the request goes out, and is replaced on the
+  // way back. But it is *only* replaced when a figure comes back: a reply without `usage.neurons`
+  // leaves the estimate standing, and nothing on the page would have said so.
+  //
+  // So it is counted. A cost built entirely from measurements can be presented as exact; one with
+  // estimates in it cannot, and the difference belongs on the page rather than in a comment.
+  const measured = await env.DB.prepare(
+    `SELECT COUNT(*) AS requests,
+            COALESCE(SUM(CASE WHEN neurons_micro > 0 THEN 1 ELSE 0 END), 0) AS measured
+       FROM usage_log WHERE cost_nano > 0`,
+  ).first<{ requests: number; measured: number }>();
+  const measuredToday = await env.DB.prepare(
+    `SELECT COUNT(*) AS requests,
+            COALESCE(SUM(CASE WHEN neurons_micro > 0 THEN 1 ELSE 0 END), 0) AS measured
+       FROM usage_log WHERE cost_nano > 0 AND ts >= ?`,
+  ).bind(dayStartMs).first<{ requests: number; measured: number }>();
+
+  // Every day, not the last thirty: what Cloudflare bills can only be worked out one day at a time
+  // (the free allowance is a daily figure and does not carry over), so a month or a lifetime total
+  // is a sum of per-day results and never a calculation on the summed neurons. One row per day —
+  // a decade of them is still four thousand rows.
+  //
+  // Both neuron columns are added together on purpose. The allowance belongs to the account, so
+  // your own testing eats it exactly like a customer's request does; keeping test traffic out here
+  // would understate what is left of it, which is the one number this section exists to show.
+  const neuronDays = (await env.DB.prepare(
+    `SELECT day, neurons_micro + test_neurons_micro AS neuronsMicro, cost_nano AS costNano
+       FROM daily_totals ORDER BY day DESC`,
+  ).all<{ day: string; neuronsMicro: number; costNano: number }>()).results ?? [];
+
+  const neuronsOn = (d: string) => num(neuronDays.find((r) => r.day === d)?.neuronsMicro);
+  const billedSum = (rows: typeof neuronDays) =>
+    rows.reduce((sum, r) => sum + billedNanoForDay(num(r.neuronsMicro)), 0);
+  const yesterday = new Date(dayStartMs - 86_400_000).toISOString().slice(0, 10);
+  // The seven days before today, so today is judged against a week it is not part of.
+  const lastSeven = neuronDays.filter((r) => r.day < day).slice(0, 7);
+  const neuronsToday = neuronsOn(day);
+  const freeMicro = FREE_NEURONS_PER_DAY * 1_000_000;
 
   // The ceiling as it currently stands: the dashboard's figure once one has been set there, the
   // deployment's otherwise. Reading the deployment's here would show a limit the service is not
@@ -125,17 +182,75 @@ export async function overview(env: Env) {
       purchasesMonth: num(salesMonth?.count),
       byPack,
     },
+    /**
+     * Two figures for the same thing, and both are needed.
+     *
+     * `…Usd` is the list price: what the traffic cost before Cloudflare's daily allowance is taken
+     * off. It is what the margin is calculated against, and it errs upwards, which is the right
+     * direction for a cost.
+     *
+     * `billed…Usd` is what lands on the invoice. On most days it is zero, and then it jumps. Shown
+     * beside the list price rather than alone, because a tile that reads 0.00 $ for a week and then
+     * suddenly does not looks like a fault instead of a day that stayed under the allowance.
+     */
     cost: {
       todayUsd: round6(num(todayRow?.cost_nano) / NANO_PER_USD),
       monthUsd: round6(num(monthCost?.costNano) / NANO_PER_USD),
       totalUsd: round6(num(totals?.costNano) / NANO_PER_USD),
+      billedTodayUsd: round6(billedNanoForDay(neuronsToday) / NANO_PER_USD),
+      billedMonthUsd: round6(billedSum(neuronDays.filter((r) => r.day.startsWith(monthPrefix))) / NANO_PER_USD),
+      billedTotalUsd: round6(billedSum(neuronDays) / NANO_PER_USD),
       /** Your own testing, kept apart so it never quietly inflates the cost of the business. */
       testTotalUsd: round6(num(totals?.testCostNano) / NANO_PER_USD),
+      /** The Workers AI share of the lifetime figure — zero until the switch is thrown. */
+      workersAiTotalUsd: round6(num(totals?.costNanoCf) / NANO_PER_USD),
+      /**
+       * Whether the figures above are measurements. `estimated` counts the requests whose cost is
+       * still the reservation estimate because the reply carried no neuron count — the only reason
+       * any number here would not be exact.
+       */
+      measuredRequests: num(measured?.measured),
+      estimatedRequests: num(measured?.requests) - num(measured?.measured),
+      measuredToday: num(measuredToday?.measured),
+      estimatedToday: num(measuredToday?.requests) - num(measuredToday?.measured),
+    },
+    /**
+     * The free allowance, as a day that is being used up rather than a fact about the plan.
+     *
+     * Reset is 00:00 **UTC** — 02:00 German summer time, 01:00 in winter. Handed to the page as a
+     * timestamp rather than a formatted time, so it can be shown as a remaining span: "in 6 h 12 min"
+     * is the one form nobody can misread, and a date would have to be read twice.
+     */
+    neurons: {
+      today: Math.round(neuronsToday / 1_000_000),
+      yesterday: Math.round(neuronsOn(yesterday) / 1_000_000),
+      avg7: lastSeven.length
+        ? Math.round(lastSeven.reduce((s, r) => s + num(r.neuronsMicro), 0) / lastSeven.length / 1_000_000)
+        : 0,
+      month: Math.round(
+        neuronDays.filter((r) => r.day.startsWith(monthPrefix))
+          .reduce((s, r) => s + num(r.neuronsMicro), 0) / 1_000_000,
+      ),
+      total: Math.round(neuronDays.reduce((s, r) => s + num(r.neuronsMicro), 0) / 1_000_000),
+      freePerDay: FREE_NEURONS_PER_DAY,
+      /** Can exceed 100: past the allowance is a normal day, not an error. */
+      freeUsedPercent: Math.round((neuronsToday / freeMicro) * 100),
+      /** What the allowance is worth if it is used up — the ceiling on what it can ever save. */
+      freeValueUsd: round6((FREE_NEURONS_PER_DAY * NANO_PER_NEURON) / NANO_PER_USD),
+      /** Only meaningful for speech: mixed traffic has no single second unit. */
+      freeAudioMinutes: Math.round(FREE_NEURONS_PER_DAY / NEURONS['@cf/openai/whisper-large-v3-turbo'].perAudioMinute),
+      resetAtMs: dayStartMs + 86_400_000,
     },
     /** Minutes paid for and not yet used — money owed as work, not earned. */
     liability: {
       seconds: num(liability?.seconds),
       minutes: Math.floor(num(liability?.seconds) / 60),
+      /** On accounts seen in the last 30 days — credit that is plausibly still going to be used. */
+      freshSeconds: num(liability?.fresh),
+      /** On accounts that have not been seen for 30 days. */
+      staleSeconds: num(liability?.stale),
+      /** How many accounts hold credit and have not been seen for 90 days. */
+      dormantWallets: num(liability?.staleWallets),
     },
     wallets: {
       total: num(wallets?.total),
@@ -312,6 +427,9 @@ export async function recentRequests(
     env.DB.prepare(
       `SELECT u.id, u.wallet_id AS walletId, u.ts, u.kind, u.seconds,
               u.tokens_in AS tokensIn, u.tokens_out AS tokensOut, u.cost_nano AS costNano,
+              -- Null on rows written before migration 006, which is the honest answer for them:
+              -- "not recorded then" is a different thing from a name filled in afterwards.
+              u.provider, u.model, u.neurons_micro AS neuronsMicro,
               u.status, u.ms, COALESCE(t.label, '') AS device, COALESCE(w.is_test, 0) AS isTest
          ${from} LEFT JOIN tokens t ON t.token_hash = u.token_hash
          ${clause}
