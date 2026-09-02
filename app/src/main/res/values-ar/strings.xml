@@ -1084,6 +1084,7 @@
     <string name="dictate__error_transcription_failed">فشل التفريغ النصي.</string>
     <string name="dictate__error_unknown">خطأ غير معروف أثناء التفريغ النصي.</string>
     <string name="dictate__error_rewording_failed">فشلت إعادة الصياغة.</string>
+    <string name="dictate__error_rewording_default_model">‏%1$s هو النموذج الافتراضي المدمج لدى %2$s، وليس نموذجًا اخترته. اختر نموذج إعادة الصياغة من مزوّدي الذكاء الاصطناعي.</string>
     <string name="dictate__notice_rewording_failed">فشلت إعادة الصياغة – تم إدراج النص الخام</string>
     <string name="dictate__error_overlay_insert_clipboard">لم يقبل هذا التطبيق النص. تم نسخه إلى الحافظة — اضغط مطولاً على الحقل والصقه.</string>
     <string name="dictate__error_invalid_api_key">تحقّق من مفتاح API الخاص بك</string>
@@ -1911,9 +1912,9 @@
     <string name="prefs__media__sticker_rescan">إعادة قراءة المجلد</string>
     <string name="prefs__media__sticker_rescan__summary">استخدمه بعد إضافة ملفات أو حذفها</string>
     <string name="prefs__media__sticker_thumbnail_size">حجم الملصق</string>
-    <string name="prefs__media__sticker_history_enabled">المفضلة والمستخدمة مؤخرًا</string>
-    <string name="prefs__media__sticker_history_enabled__summary">إظهار الملصقات المثبتة والمستخدمة مؤخرًا أعلى كل مجلد</string>
     <string name="prefs__media__sticker_history_recent_max_size">عدد الملصقات المستخدمة مؤخرًا المحفوظة</string>
+    <string name="prefs__media__sticker_confirm_before_insert">التأكيد قبل الإرسال</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">اضغط على الملصق مرة لتحديده ومرة أخرى لإرساله. الضغط المزدوج السريع يرسله فورًا</string>
     <string name="prefs__media__sticker_pinned_reset">مسح الملصقات المفضلة</string>
     <string name="prefs__media__sticker_history_reset">مسح الملصقات المستخدمة مؤخرًا</string>
     <string name="sticker__title">الملصقات</string>

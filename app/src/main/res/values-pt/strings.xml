@@ -1205,6 +1205,7 @@
     <string name="dictate__error_transcription_failed">Falha na transcrição.</string>
     <string name="dictate__error_unknown">Erro desconhecido durante a transcrição.</string>
     <string name="dictate__error_rewording_failed">Falha na reformulação.</string>
+    <string name="dictate__error_rewording_default_model">%1$s é o modelo predefinido incorporado de %2$s, não um que tenhas escolhido. Escolhe um modelo de reformulação em Fornecedores de IA.</string>
     <string name="dictate__notice_rewording_failed">Falha na reformulação – texto bruto inserido</string>
     <string name="dictate__error_overlay_insert_clipboard">Esta aplicação não aceitou o texto. Está na área de transferência — mantenha o campo premido e cole.</string>
     <string name="dictate__error_invalid_api_key">Verifique a sua chave de API</string>
@@ -2032,9 +2033,9 @@
     <string name="prefs__media__sticker_rescan">Ler a pasta de novo</string>
     <string name="prefs__media__sticker_rescan__summary">Use depois de adicionar ou remover ficheiros</string>
     <string name="prefs__media__sticker_thumbnail_size">Tamanho dos autocolantes</string>
-    <string name="prefs__media__sticker_history_enabled">Favoritos e usados recentemente</string>
-    <string name="prefs__media__sticker_history_enabled__summary">Mostrar os autocolantes fixados e usados recentemente acima de cada pasta</string>
     <string name="prefs__media__sticker_history_recent_max_size">Autocolantes recentes a guardar</string>
+    <string name="prefs__media__sticker_confirm_before_insert">Confirmar antes de enviar</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">Toque uma vez num autocolante para o selecionar e outra para o enviar. Um toque duplo rápido envia logo</string>
     <string name="prefs__media__sticker_pinned_reset">Limpar autocolantes favoritos</string>
     <string name="prefs__media__sticker_history_reset">Limpar autocolantes usados recentemente</string>
     <string name="sticker__title">Autocolantes</string>

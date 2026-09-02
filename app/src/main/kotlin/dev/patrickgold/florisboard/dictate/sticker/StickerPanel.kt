@@ -10,9 +10,12 @@
 
 package dev.patrickgold.florisboard.dictate.sticker
 
+import android.graphics.drawable.Animatable
 import android.net.Uri
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,8 +51,6 @@ import androidx.compose.material.icons.outlined.Gif
 import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -63,23 +64,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import coil3.DrawableImage
 import coil3.compose.AsyncImage
 import dev.patrickgold.florisboard.FlorisImeService
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
+import dev.patrickgold.florisboard.dictate.ui.MediaAction
+import dev.patrickgold.florisboard.dictate.ui.MediaActionOverlay
 import dev.patrickgold.florisboard.ime.ImeUiMode
 import dev.patrickgold.florisboard.ime.editor.EditorInstance
+import dev.patrickgold.florisboard.ime.input.LocalInputFeedbackController
 import dev.patrickgold.florisboard.ime.keyboard.FlorisImeSizing
+import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import dev.patrickgold.florisboard.ime.theme.FlorisImeUi
 import dev.patrickgold.florisboard.keyboardManager
 import dev.patrickgold.jetpref.datastore.model.collectAsState as collectPrefAsState
@@ -130,6 +137,22 @@ fun StickerPanel(
     // tap; a second with a ring on the cell reads as work.
     var preparingDocId by remember { mutableStateOf<String?>(null) }
     val canWrite = remember(folderUri) { StickerWriter.canWrite(context, folderUri) }
+    // The long-pressed sticker, and which section it was long-pressed in — "forget this recent" only
+    // makes sense for a cell that is in the recents row. Held here rather than per page so the sheet
+    // covers the whole panel, tabs included, the way the clipboard's does.
+    var menuItem by remember { mutableStateOf<StickerItem?>(null) }
+    var menuSection by remember { mutableStateOf("") }
+    // Deleting removes the user's own file, so it takes a second tap. Reset with the sheet, so
+    // closing it also disarms.
+    var deleteArmed by remember { mutableStateOf(false) }
+    // The sheet's second face: which pack to move into. A submenu would need somewhere to hang.
+    var packPickerOpen by remember { mutableStateOf(false) }
+
+    fun closeMenu() {
+        menuItem = null
+        deleteArmed = false
+        packPickerOpen = false
+    }
     // An import started from the settings screen finishes while this panel may already be composed.
     val importedTick by StickerImports.importedTick.collectAsState()
 
@@ -172,10 +195,10 @@ fun StickerPanel(
         }
     }
 
-    fun insert(item: StickerItem, categoryId: String, asGif: Boolean = false) {
+    fun insert(item: StickerItem, asGif: Boolean = false) {
         val treeUri = folderUri.takeIf { it.isNotBlank() }?.toUri() ?: return
         scope.launch {
-            val outcome = StickerManager.insert(context, treeUri, item, categoryId, asGif) { preparing ->
+            val outcome = StickerManager.insert(context, treeUri, item, asGif) { preparing ->
                 preparingDocId = if (preparing) item.docId else null
             }
             when (outcome) {
@@ -276,8 +299,11 @@ fun StickerPanel(
             currentIndex?.categories.orEmpty().filter { it.items.isNotEmpty() }
         }
         val openSettings: () -> Unit = { FlorisImeService.launchSettings("settings/media") }
+        // Dimmed rather than covered, so the sticker being acted on stays visible behind the sheet.
+        val panelAlpha by animateFloatAsState(targetValue = if (menuItem != null) 0.12f else 1f)
 
-        Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
+        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
+        Column(modifier = Modifier.fillMaxSize().alpha(panelAlpha)) {
             when {
                 folderUri.isBlank() -> StickerNotice(
                     message = stringRes(R.string.sticker__setup_needed),
@@ -338,49 +364,155 @@ fun StickerPanel(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        beyondViewportPageCount = 1,
+                        // Only the page being looked at. Keeping the neighbour composed made swiping
+                        // between tabs seamless, but a composed page of animated stickers is a second
+                        // grid of running decoders behind the first one — which is why the frame rate
+                        // was reported as dropping on tab switches specifically (#308).
+                        beyondViewportPageCount = 0,
                     ) { page ->
                         val category = categories[page]
                         val isRoot = category.id == StickerCategory.ROOT_ID
-                        // The first tab aggregates: its favourites and recents span every folder, while
-                        // the plain grid below stays the loose files of the picked folder itself.
-                        val historyKey = if (isRoot) StickerHistory.GLOBAL else category.id
+                        // What this tab can resolve, which is also what decides how much of the history
+                        // it shows: everything on the first tab, and a pack's own files on a pack tab.
+                        // The plain grid below stays the loose files of the picked folder itself.
                         val pool = if (isRoot) currentIndex!!.allItems else category.items
 
                         StickerCategoryPage(
                             category = category,
                             pool = pool,
-                            historyKey = historyKey,
                             history = history,
                             preparingDocId = preparingDocId,
                             thumbnailSize = thumbnailSize,
                             treeUri = treeUri,
                             restLabel = restLabel,
                             accent = accent,
-                            canDelete = canWrite,
-                            // Every pack, not just the ones with something in them: moving a sticker
-                            // into a pack you just created is the whole point of having created it.
-                            packs = if (canWrite) {
-                                currentIndex!!.categories.filter { it.id != StickerCategory.ROOT_ID }
-                            } else {
-                                emptyList()
-                            },
-                            packOf = { docId -> currentIndex!!.categoryOf(docId) },
-                            onInsert = { item -> insert(item, category.id) },
-                            onDelete = { item -> deleteFile(item) },
-                            onShare = { item -> shareSticker(item) },
-                            onInsertAsGif = { item -> insert(item, category.id, asGif = true) },
-                            onMoveToPack = { item, packId -> moveToPack(item, packId) },
-                            onPin = { item ->
-                                scope.launch { StickerHistoryHelper.pin(prefs, historyKey, item.docId) }
-                            },
-                            onUnpin = { item ->
-                                scope.launch { StickerHistoryHelper.unpin(prefs, historyKey, item.docId) }
-                            },
-                            onForget = { item ->
-                                scope.launch { StickerHistoryHelper.removeRecent(prefs, historyKey, item.docId) }
+                            onInsert = { item -> insert(item) },
+                            onLongPress = { item, section ->
+                                menuItem = item
+                                menuSection = section
+                                deleteArmed = false
+                                packPickerOpen = false
                             },
                         )
+                    }
+                }
+            }
+        }
+
+            val sheetItem = menuItem
+            if (sheetItem != null) {
+                val sheetTreeUri = remember(folderUri) { folderUri.toUri() }
+                // Every pack, not just the ones with something in them: moving a sticker into a pack
+                // you just created is the whole point of having created it.
+                val packs = if (canWrite) {
+                    currentIndex?.categories.orEmpty().filter { it.id != StickerCategory.ROOT_ID }
+                } else {
+                    emptyList()
+                }
+                val currentPack = currentIndex?.categoryOf(sheetItem.docId)
+                MediaActionOverlay(
+                    onDismiss = { closeMenu() },
+                    preview = {
+                        AsyncImage(
+                            model = StickerScanner.documentUri(sheetTreeUri, sheetItem.docId),
+                            contentDescription = sheetItem.name,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .aspectRatio(1f),
+                        )
+                        SnyggText(
+                            elementName = FlorisImeUi.ClipboardItemTimestamp.elementName,
+                            text = sheetItem.name,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                ) {
+                    if (packPickerOpen) {
+                        // The sheet's second face rather than a submenu: the same column, showing
+                        // where this sticker could go instead of what could be done to it.
+                        if (!currentPack.isNullOrEmpty()) {
+                            MediaAction(
+                                icon = Icons.Outlined.FolderOff,
+                                text = stringRes(R.string.sticker__pack_none),
+                            ) {
+                                moveToPack(sheetItem, StickerCategory.ROOT_ID)
+                                closeMenu()
+                            }
+                        }
+                        for (pack in packs) {
+                            if (pack.id == currentPack) continue
+                            MediaAction(icon = Icons.Outlined.Folder, text = pack.name) {
+                                moveToPack(sheetItem, pack.id)
+                                closeMenu()
+                            }
+                        }
+                        return@MediaActionOverlay
+                    }
+                    val isPinned = history.isPinned(sheetItem.docId)
+                    MediaAction(
+                        icon = if (isPinned) Icons.Outlined.PushPin else Icons.Default.PushPin,
+                        text = stringRes(if (isPinned) R.string.sticker__unpin else R.string.sticker__pin),
+                    ) {
+                        scope.launch {
+                            if (isPinned) {
+                                StickerHistoryHelper.unpin(prefs, sheetItem.docId)
+                            } else {
+                                StickerHistoryHelper.pin(prefs, sheetItem.docId)
+                            }
+                        }
+                        closeMenu()
+                    }
+                    if (packs.isNotEmpty()) {
+                        MediaAction(
+                            icon = Icons.Outlined.DriveFileMove,
+                            text = stringRes(R.string.sticker__move_to_pack),
+                        ) { packPickerOpen = true }
+                    }
+                    if (menuSection == "recent") {
+                        MediaAction(
+                            icon = Icons.Default.HistoryToggleOff,
+                            text = stringRes(R.string.sticker__forget_recent),
+                        ) {
+                            scope.launch { StickerHistoryHelper.removeRecent(prefs, sheetItem.docId) }
+                            closeMenu()
+                        }
+                    }
+                    // Offered for WebP only: a GIF is already one, and a PNG has nothing to animate.
+                    // Whether this particular WebP moves is not in the index, so the entry shows and
+                    // the insert falls back to the ordinary route if there is no animation in it.
+                    if (sheetItem.mime == "image/webp") {
+                        MediaAction(
+                            icon = Icons.Outlined.Gif,
+                            text = stringRes(R.string.sticker__insert_as_gif),
+                        ) {
+                            insert(sheetItem, asGif = true)
+                            closeMenu()
+                        }
+                    }
+                    MediaAction(
+                        icon = Icons.Outlined.Share,
+                        text = stringRes(R.string.sticker__share),
+                    ) {
+                        shareSticker(sheetItem)
+                        closeMenu()
+                    }
+                    if (canWrite) {
+                        MediaAction(
+                            icon = Icons.Default.Delete,
+                            text = stringRes(
+                                if (deleteArmed) R.string.sticker__delete_confirm
+                                else R.string.sticker__delete_file
+                            ),
+                        ) {
+                            if (deleteArmed) {
+                                deleteFile(sheetItem)
+                                closeMenu()
+                            } else {
+                                deleteArmed = true
+                            }
+                        }
                     }
                 }
             }
@@ -392,41 +524,37 @@ fun StickerPanel(
 private fun StickerCategoryPage(
     category: StickerCategory,
     pool: List<StickerItem>,
-    historyKey: String,
     history: StickerHistory,
     preparingDocId: String?,
     thumbnailSize: Int,
     treeUri: Uri,
     restLabel: String,
     accent: Color,
-    canDelete: Boolean,
-    packs: List<StickerCategory>,
-    packOf: (String) -> String?,
     onInsert: (StickerItem) -> Unit,
-    onDelete: (StickerItem) -> Unit,
-    onShare: (StickerItem) -> Unit,
-    onInsertAsGif: (StickerItem) -> Unit,
-    onMoveToPack: (StickerItem, String) -> Unit,
-    onPin: (StickerItem) -> Unit,
-    onUnpin: (StickerItem) -> Unit,
-    onForget: (StickerItem) -> Unit,
+    onLongPress: (StickerItem, String) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
-    var menuFor by remember { mutableStateOf<String?>(null) }
-    // Deleting removes the user's own file, so it takes a second tap. Held per menu rather than per
-    // sticker so closing the menu also cancels the armed confirmation.
-    var deleteArmed by remember { mutableStateOf(false) }
-    // The same menu, second page: which pack to move into. A submenu would need somewhere to hang,
-    // and a long-pressed grid cell has no room for one.
-    var packPickerOpen by remember { mutableStateOf(false) }
+    val prefs by FlorisPreferenceStore
+    val inputFeedbackController = LocalInputFeedbackController.current
+    val confirmBeforeInsert by prefs.sticker.confirmBeforeInsert.collectPrefAsState()
+    // Which sticker is waiting for its confirming tap, by section and document — the same sticker can
+    // appear under favourites and again in the grid, and only the one that was tapped should light up.
+    // Cleared as soon as the grid moves: a sticker armed before a scroll is a sticker the user has
+    // stopped looking at, and leaving it armed is how a confirmation turns into a misfire of its own.
+    var armedKey by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(gridState) {
+        snapshotFlow { gridState.isScrollInProgress }.collect { scrolling ->
+            if (scrolling) armedKey = null
+        }
+    }
 
     val byId = remember(pool) { pool.associateBy { it.docId } }
-    // Favourites and recents live on the first tab only. Inside a pack every sticker is equal — the
-    // pack *is* the sorting, and repeating a sticker at the top under a second heading only made it
-    // harder to find the one you came for.
-    val showHistory = category.id == StickerCategory.ROOT_ID
-    val pinned = if (showHistory) history.pinnedIn(historyKey).mapNotNull { byId[it] } else emptyList()
-    val recent = if (showHistory) history.recentIn(historyKey).mapNotNull { byId[it] } else emptyList()
+    // One history, shown through the tab (#308). Looking each id up in this tab's own items is what
+    // narrows it: the combined tab resolves everything, a pack tab resolves only its own files, and an
+    // id whose file has since been deleted resolves nowhere. No list is kept per tab, so no two lists
+    // can disagree about what the user just did.
+    val pinned = history.pinned.mapNotNull { byId[it] }
+    val recent = history.recent.mapNotNull { byId[it] }
     val shown = remember(pinned, recent, category.items) {
         val used = HashSet<String>(pinned.size + recent.size)
         pinned.mapTo(used) { it.docId }
@@ -437,14 +565,32 @@ private fun StickerCategoryPage(
 
     @Composable
     fun Cell(item: StickerItem, section: String) {
-        val menuKey = "$section/${item.docId}"
-        val isPinned = history.isPinned(historyKey, item.docId)
+        val cellKey = "$section/${item.docId}"
+        val isArmed = armedKey == cellKey
         Box {
             StickerThumb(
                 item = item,
                 treeUri = treeUri,
-                onClick = { onInsert(item) },
-                onLongClick = { menuFor = menuKey; deleteArmed = false; packPickerOpen = false },
+                armed = isArmed,
+                accent = accent,
+                scrolling = { gridState.isScrollInProgress },
+                onClick = {
+                    inputFeedbackController.keyPress(TextKeyData.UNSPECIFIED)
+                    // With confirmation on, the first tap arms and the second sends. A quick
+                    // double-tap therefore sends in one motion without a shortcut of its own, and
+                    // tapping a different sticker moves the armed state rather than sending it.
+                    if (!confirmBeforeInsert || isArmed) {
+                        armedKey = null
+                        onInsert(item)
+                    } else {
+                        armedKey = cellKey
+                    }
+                },
+                onLongClick = {
+                    inputFeedbackController.keyLongPress(TextKeyData.UNSPECIFIED)
+                    armedKey = null
+                    onLongPress(item, section)
+                },
             )
             if (preparingDocId == item.docId) {
                 // Sized to the cell so it reads as "this one is busy" rather than "the panel is busy".
@@ -459,123 +605,6 @@ private fun StickerCategoryPage(
                         modifier = Modifier.size(24.dp),
                         strokeWidth = 2.dp,
                         color = accent,
-                    )
-                }
-            }
-            DropdownMenu(
-                expanded = menuFor == menuKey,
-                onDismissRequest = { menuFor = null; deleteArmed = false; packPickerOpen = false },
-                // Not focusable, and that is load-bearing. A focusable popup takes window focus off
-                // the keyboard, the target app re-attaches its editor, and onStartInputView resets
-                // imeUiMode to TEXT — which looked like the menu flashing and the panel closing by
-                // itself.
-                properties = PopupProperties(focusable = false),
-            ) {
-                if (packPickerOpen) {
-                    val currentPack = packOf(item.docId)
-                    if (!currentPack.isNullOrEmpty()) {
-                        DropdownMenuItem(
-                            text = { Text(stringRes(R.string.sticker__pack_none)) },
-                            leadingIcon = { Icon(Icons.Outlined.FolderOff, contentDescription = null) },
-                            onClick = {
-                                onMoveToPack(item, StickerCategory.ROOT_ID)
-                                menuFor = null
-                                packPickerOpen = false
-                            },
-                        )
-                    }
-                    for (pack in packs) {
-                        if (pack.id == currentPack) continue
-                        DropdownMenuItem(
-                            text = { Text(pack.name) },
-                            leadingIcon = { Icon(Icons.Outlined.Folder, contentDescription = null) },
-                            onClick = {
-                                onMoveToPack(item, pack.id)
-                                menuFor = null
-                                packPickerOpen = false
-                            },
-                        )
-                    }
-                    return@DropdownMenu
-                }
-                DropdownMenuItem(
-                    text = {
-                        Text(stringRes(if (isPinned) R.string.sticker__unpin else R.string.sticker__pin))
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = if (isPinned) Icons.Outlined.PushPin else Icons.Default.PushPin,
-                            contentDescription = null,
-                        )
-                    },
-                    onClick = {
-                        if (isPinned) onUnpin(item) else onPin(item)
-                        menuFor = null
-                    },
-                )
-                if (packs.isNotEmpty()) {
-                    DropdownMenuItem(
-                        text = { Text(stringRes(R.string.sticker__move_to_pack)) },
-                        leadingIcon = { Icon(Icons.Outlined.DriveFileMove, contentDescription = null) },
-                        onClick = { packPickerOpen = true },
-                    )
-                }
-                if (section == "recent") {
-                    DropdownMenuItem(
-                        text = { Text(stringRes(R.string.sticker__forget_recent)) },
-                        leadingIcon = { Icon(Icons.Default.HistoryToggleOff, contentDescription = null) },
-                        onClick = {
-                            onForget(item)
-                            menuFor = null
-                        },
-                    )
-                }
-                // Offered for WebP only: a GIF is already one, and a PNG has nothing to animate.
-                // Whether this particular WebP moves is not in the index, so the entry shows and the
-                // insert falls back to the ordinary route if there is no animation in the file.
-                if (item.mime == "image/webp") DropdownMenuItem(
-                    text = { Text(stringRes(R.string.sticker__insert_as_gif)) },
-                    leadingIcon = { Icon(Icons.Outlined.Gif, contentDescription = null) },
-                    onClick = {
-                        onInsertAsGif(item)
-                        menuFor = null
-                    },
-                )
-                DropdownMenuItem(
-                    text = { Text(stringRes(R.string.sticker__share)) },
-                    leadingIcon = { Icon(Icons.Outlined.Share, contentDescription = null) },
-                    onClick = {
-                        onShare(item)
-                        menuFor = null
-                    },
-                )
-                if (canDelete) {
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                                text = stringRes(
-                                    if (deleteArmed) R.string.sticker__delete_confirm
-                                    else R.string.sticker__delete_file
-                                ),
-                                color = if (deleteArmed) MaterialTheme.colorScheme.error else Color.Unspecified,
-                            )
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = null,
-                                tint = if (deleteArmed) MaterialTheme.colorScheme.error else LocalContentColor.current,
-                            )
-                        },
-                        onClick = {
-                            if (deleteArmed) {
-                                onDelete(item)
-                                menuFor = null
-                                deleteArmed = false
-                            } else {
-                                deleteArmed = true
-                            }
-                        },
                     )
                 }
             }
@@ -622,19 +651,55 @@ private fun StickerCategoryPage(
 private fun StickerThumb(
     item: StickerItem,
     treeUri: Uri,
+    armed: Boolean,
+    accent: Color,
+    scrolling: () -> Boolean,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
+    // An animated sticker keeps decoding frames for as long as it is on screen, and a grid of them
+    // does it in parallel — which is the work that has to give way while the grid is moving. Nobody
+    // reads an animation mid-fling, so it is paused for the duration and resumed the moment the grid
+    // settles; the sticker stays animated, it just stops competing with the scroll (#308).
+    //
+    // Coil hands over an AnimatedImageDrawable and starts it when the cell is composed. It is never
+    // memory-cached — a running drawable cannot be shared between callers, so `Image.shareable` is
+    // false and the cache refuses it — which is also why every cell that scrolls back into view pays
+    // for a fresh decode. Pausing does not fix that; it stops it landing all at once.
+    var animation by remember(item.docId) { mutableStateOf<Animatable?>(null) }
+    LaunchedEffect(animation) {
+        val running = animation ?: return@LaunchedEffect
+        // snapshotFlow rather than reading the flag in composition: the cell must not recompose twice
+        // per scroll gesture just to learn something only its drawable acts on.
+        snapshotFlow { scrolling() }.collect { moving ->
+            if (moving) running.stop() else running.start()
+        }
+    }
+    // Waiting for its confirming tap: the accent ring and its wash mark one cell out of the grid
+    // without moving anything, so the answer to "which one did I hit" needs no second look. Drawn on
+    // the cell itself rather than as a popup over the panel — a focusable popup raised by an input
+    // method takes focus off the field, the system hides the keyboard, and the keyboard takes the
+    // popup down with it.
+    val ring = if (armed) {
+        Modifier
+            .border(2.dp, accent, RoundedCornerShape(8.dp))
+            .background(accent.copy(alpha = 0.16f))
+    } else {
+        Modifier.background(Color(0x14808080))
+    }
     AsyncImage(
         model = StickerScanner.documentUri(treeUri, item.docId),
         contentDescription = item.name,
         // Fit, not Crop: a sticker cropped to a square loses exactly the part that makes it readable.
         contentScale = ContentScale.Fit,
+        onSuccess = { state ->
+            animation = (state.result.image as? DrawableImage)?.drawable as? Animatable
+        },
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0x14808080))
+            .then(ring)
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .padding(3.dp),
     )

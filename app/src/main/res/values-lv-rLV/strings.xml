@@ -1169,6 +1169,7 @@
     <string name="dictate__error_transcription_failed">Transkribēšana neizdevās.</string>
     <string name="dictate__error_unknown">Nezināma kļūda transkribēšanas laikā.</string>
     <string name="dictate__error_rewording_failed">Pārformulēšana neizdevās.</string>
+    <string name="dictate__error_rewording_default_model">%1$s ir %2$s iebūvētais noklusējuma modelis, nevis jūsu izvēlētais. Izvēlieties pārfrāzēšanas modeli sadaļā MI pakalpojumu sniedzēji.</string>
     <string name="dictate__notice_rewording_failed">Pārformulēšana neizdevās – ievietots neapstrādāts teksts</string>
     <string name="dictate__error_overlay_insert_clipboard">Šī lietotne tekstu nepieņēma. Tas ir starpliktuvē — turiet lauku un ielīmējiet.</string>
     <string name="dictate__error_invalid_api_key">Pārbaudiet savu API atslēgu</string>
@@ -1996,9 +1997,9 @@
     <string name="prefs__media__sticker_rescan">Nolasīt mapi vēlreiz</string>
     <string name="prefs__media__sticker_rescan__summary">Izmantojiet pēc failu pievienošanas vai noņemšanas</string>
     <string name="prefs__media__sticker_thumbnail_size">Uzlīmju izmērs</string>
-    <string name="prefs__media__sticker_history_enabled">Izlase un nesen lietotās</string>
-    <string name="prefs__media__sticker_history_enabled__summary">Rādīt piespraustās un nesen lietotās uzlīmes virs katras mapes</string>
     <string name="prefs__media__sticker_history_recent_max_size">Saglabājamo nesen lietoto uzlīmju skaits</string>
+    <string name="prefs__media__sticker_confirm_before_insert">Apstiprināt pirms nosūtīšanas</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">Pieskarieties uzlīmei vienreiz, lai to atlasītu, un vēlreiz, lai nosūtītu. Ātrs dubultskāriens nosūta uzreiz</string>
     <string name="prefs__media__sticker_pinned_reset">Notīrīt izlases uzlīmes</string>
     <string name="prefs__media__sticker_history_reset">Notīrīt nesen lietotās uzlīmes</string>
     <string name="sticker__title">Uzlīmes</string>

@@ -1158,6 +1158,7 @@
     <string name="dictate__error_transcription_failed">文字起こしに失敗しました。</string>
     <string name="dictate__error_unknown">文字起こし中に不明なエラーが発生しました。</string>
     <string name="dictate__error_rewording_failed">言い換えに失敗しました。</string>
+    <string name="dictate__error_rewording_default_model">%1$s は %2$s の組み込みの既定モデルで、あなたが選んだものではありません。「AIプロバイダ」で書き換え用モデルを選んでください。</string>
     <string name="dictate__notice_rewording_failed">言い換えに失敗しました – 元のテキストを挿入しました</string>
     <string name="dictate__error_overlay_insert_clipboard">このアプリはテキストを受け付けませんでした。クリップボードにあります — 入力欄を長押しして貼り付けてください。</string>
     <string name="dictate__error_invalid_api_key">APIキーを確認してください</string>
@@ -1985,9 +1986,9 @@
     <string name="prefs__media__sticker_rescan">フォルダを読み直す</string>
     <string name="prefs__media__sticker_rescan__summary">ファイルを追加・削除した後に使用します</string>
     <string name="prefs__media__sticker_thumbnail_size">ステッカーの大きさ</string>
-    <string name="prefs__media__sticker_history_enabled">お気に入りと最近使ったもの</string>
-    <string name="prefs__media__sticker_history_enabled__summary">固定したステッカーと最近使ったステッカーを各フォルダの上に表示</string>
     <string name="prefs__media__sticker_history_recent_max_size">保存する最近使ったステッカーの数</string>
+    <string name="prefs__media__sticker_confirm_before_insert">送信前に確認</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">ステッカーを1回タップして選択し、もう一度タップして送信します。すばやく2回タップするとすぐに送信されます</string>
     <string name="prefs__media__sticker_pinned_reset">お気に入りのステッカーを消去</string>
     <string name="prefs__media__sticker_history_reset">最近使ったステッカーを消去</string>
     <string name="sticker__title">ステッカー</string>

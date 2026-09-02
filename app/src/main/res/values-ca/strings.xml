@@ -1101,6 +1101,7 @@
     <string name="dictate__error_transcription_failed">Ha fallat la transcripció.</string>
     <string name="dictate__error_unknown">Error desconegut durant la transcripció.</string>
     <string name="dictate__error_rewording_failed">Ha fallat la reformulació.</string>
+    <string name="dictate__error_rewording_default_model">%1$s és el model predeterminat integrat de %2$s, no pas un que hàgiu triat. Trieu un model de reformulació a Proveïdors d\'IA.</string>
     <string name="dictate__notice_rewording_failed">Ha fallat la reformulació – text brut inserit</string>
     <string name="dictate__error_overlay_insert_clipboard">Aquesta aplicació no ha acceptat el text. És al porta-retalls: manteniu premut el camp i enganxeu-lo.</string>
     <string name="dictate__error_invalid_api_key">Comprova la teva clau d\'API</string>
@@ -1928,9 +1929,9 @@
     <string name="prefs__media__sticker_rescan">Torna a llegir la carpeta</string>
     <string name="prefs__media__sticker_rescan__summary">Feu-ho servir després d\'afegir o eliminar fitxers</string>
     <string name="prefs__media__sticker_thumbnail_size">Mida dels adhesius</string>
-    <string name="prefs__media__sticker_history_enabled">Preferits i utilitzats recentment</string>
-    <string name="prefs__media__sticker_history_enabled__summary">Mostra els adhesius fixats i utilitzats recentment a dalt de cada carpeta</string>
     <string name="prefs__media__sticker_history_recent_max_size">Adhesius recents que cal conservar</string>
+    <string name="prefs__media__sticker_confirm_before_insert">Confirma abans d\'enviar</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">Toca un adhesiu una vegada per seleccionar-lo i una altra per enviar-lo. Un doble toc ràpid l\'envia directament</string>
     <string name="prefs__media__sticker_pinned_reset">Esborra els adhesius preferits</string>
     <string name="prefs__media__sticker_history_reset">Esborra els adhesius utilitzats recentment</string>
     <string name="sticker__title">Adhesius</string>

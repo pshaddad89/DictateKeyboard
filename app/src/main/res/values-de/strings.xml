@@ -1116,6 +1116,7 @@
     <string name="dictate__error_transcription_failed">Transkription fehlgeschlagen.</string>
     <string name="dictate__error_unknown">Unbekannter Fehler bei der Transkription.</string>
     <string name="dictate__error_rewording_failed">Umformulierung fehlgeschlagen.</string>
+    <string name="dictate__error_rewording_default_model">%1$s ist das eingebaute Standardmodell von %2$s, nicht deine Wahl. Wähle unter KI-Anbieter ein Modell für die Umformulierung.</string>
     <string name="dictate__notice_rewording_failed">Umformulierung fehlgeschlagen – Rohtext eingefügt</string>
     <string name="dictate__error_overlay_insert_clipboard">Diese App hat den Text nicht angenommen. Er liegt in der Zwischenablage — Feld gedrückt halten und einfügen.</string>
     <string name="dictate__error_invalid_api_key">Überprüfe deinen API-Schlüssel</string>
@@ -1928,9 +1929,9 @@
     <string name="prefs__media__sticker_rescan">Ordner neu einlesen</string>
     <string name="prefs__media__sticker_rescan__summary">Nach dem Hinzufügen oder Löschen von Dateien verwenden</string>
     <string name="prefs__media__sticker_thumbnail_size">Stickergröße</string>
-    <string name="prefs__media__sticker_history_enabled">Favoriten und zuletzt verwendet</string>
-    <string name="prefs__media__sticker_history_enabled__summary">Angeheftete und zuletzt verwendete Sticker über jedem Ordner anzeigen</string>
     <string name="prefs__media__sticker_history_recent_max_size">Anzahl gemerkter zuletzt verwendeter Sticker</string>
+    <string name="prefs__media__sticker_confirm_before_insert">Vor dem Senden bestätigen</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">Einmal tippen wählt den Sticker aus, noch einmal sendet ihn. Ein schneller Doppeltipp sendet sofort</string>
     <string name="prefs__media__sticker_pinned_reset">Lieblingssticker löschen</string>
     <string name="prefs__media__sticker_history_reset">Zuletzt verwendete Sticker löschen</string>
     <string name="sticker__title">Sticker</string>

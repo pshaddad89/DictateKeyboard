@@ -46,9 +46,9 @@
     <string name="prefs__media__sticker_rescan" comment="Preference title">Read the folder again</string>
     <string name="prefs__media__sticker_rescan__summary" comment="Preference summary">Use after adding or removing files</string>
     <string name="prefs__media__sticker_thumbnail_size" comment="Preference title, slider for the grid cell size">Sticker size</string>
-    <string name="prefs__media__sticker_history_enabled" comment="Preference title">Favourites and recently used</string>
-    <string name="prefs__media__sticker_history_enabled__summary" comment="Preference summary">Show pinned and recently used stickers above each folder</string>
     <string name="prefs__media__sticker_history_recent_max_size" comment="Preference title, slider for how many recents to keep">Recently used stickers to keep</string>
+    <string name="prefs__media__sticker_confirm_before_insert" comment="Preference title">Confirm before sending</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary" comment="Preference summary">Tap a sticker once to select it, again to send. A quick double tap sends straight away</string>
     <string name="prefs__media__sticker_pinned_reset" comment="Preference title">Clear favourite stickers</string>
     <string name="prefs__media__sticker_history_reset" comment="Preference title">Clear recently used stickers</string>
     <string name="sticker__title" comment="Title of the sticker panel">Stickers</string>
@@ -1710,6 +1710,7 @@
     <string name="dictate__error_transcription_failed" comment="Generic transcription failure">Transcription failed.</string>
     <string name="dictate__error_unknown" comment="Unknown transcription error">Unknown error during transcription.</string>
     <string name="dictate__error_rewording_failed" comment="Generic rewording (GPT) failure">Rewording failed.</string>
+    <string name="dictate__error_rewording_default_model" comment="Rewording error detail: the failing model was the built-in default of the provider preset, because the user never chose one">%1$s is %2$s\'s built-in default model, not one you picked. Choose a rewording model under AI providers.</string>
     <string name="dictate__notice_rewording_failed" comment="Neutral notice (not a failure) shown after the raw transcript was inserted because the rewording step failed. The text is safely in the field – this only says why it was not polished. One line on the keyboard, so keep it short.">Rewording failed – raw text inserted</string>
     <string name="dictate__error_overlay_insert_clipboard" comment="Floating-button error: the app's text field didn't accept the dictation, so it was put on the clipboard to paste manually">This app wouldn\'t take the text. It\'s on your clipboard — long-press the field and paste.</string>
 

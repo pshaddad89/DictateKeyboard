@@ -70,6 +70,9 @@ import dev.patrickgold.florisboard.dictate.provider.ProviderRegistry
 import dev.patrickgold.florisboard.dictate.provider.TranscriptionApi
 import dev.patrickgold.florisboard.dictate.provider.TranscriptionRequest
 import dev.patrickgold.florisboard.dictate.overlay.AccessibilitySink
+import dev.patrickgold.florisboard.dictate.provider.chatModelFor
+import dev.patrickgold.florisboard.dictate.provider.chatModelIsPresetDefault
+import dev.patrickgold.florisboard.dictate.provider.singleCallApplies
 import dev.patrickgold.florisboard.dictate.recognition.RecognitionSink
 import dev.patrickgold.florisboard.dictate.snippet.SnippetTriggers
 import dev.patrickgold.florisboard.ime.text.key.KeyVariation
@@ -900,6 +903,31 @@ object DictateController {
         return !(ready && prefs.dictate.localFallbackEnabled.get())
     }
 
+    /**
+     * A sentence saying where the failing model came from, when the provider complained about a model
+     * the user never chose (issue #313).
+     *
+     * An empty stored model means "follow the preset", which is what lets an app update move a provider
+     * off a retired model — but when nobody moves it, the user is shown a provider error naming a model
+     * they have never seen in their settings. That reads as the app sending the wrong thing, and it was
+     * reported as exactly that, at length.
+     *
+     * Deliberately narrow. It is attached only when the provider's own text mentions the very model that
+     * was sent, so an unrelated failure never grows advice about model settings, and only when nothing in
+     * the account chose that model — a model the user picked needs no explanation of where it came from.
+     */
+    private fun defaultModelNote(context: Context, stage: Stage, providerText: String?): String? {
+        if (stage != Stage.REWORDING || providerText.isNullOrBlank()) return null
+        val account = rewordingAccount()
+        val preset = presetFor(account)
+        if (!chatModelIsPresetDefault(account, preset)) return null
+        val model = chatModelFor(account, preset)
+        if (model.isBlank() || !providerText.contains(model)) return null
+        return context.getString(
+            R.string.dictate__error_rewording_default_model, model, preset.displayName,
+        )
+    }
+
     private fun apiError(
         e: DictateApiException,
         context: Context,
@@ -923,7 +951,10 @@ object DictateController {
         // goes into the detail popup, where there is room and where the raw provider text for a network
         // failure ("timeout") is next to useless on its own.
         val hint = suggestOnDevice && !outOfCredit
-        val detail = e.message?.takeIf { it.isNotBlank() }
+        val detail = listOfNotNull(
+            e.message?.takeIf { it.isNotBlank() },
+            defaultModelNote(context, stage, e.message),
+        ).joinToString("\n\n").takeIf { it.isNotBlank() }
         return UiState.Error(
             message = when {
                 outOfCredit -> context.getString(R.string.dictate__error_out_of_credit)
@@ -1550,12 +1581,10 @@ object DictateController {
                     }
                 }
                 // Single-call multimodal (issue #130): one chat/completions+input_audio request transcribes
-                // and formats together (cloud chat models only, never the on-device engine). A dedicated
-                // speech-to-text model cannot do it either — Google's (#292) answers on its own endpoint
-                // and has no chat surface at all, so the switch has to yield to the model choice.
-                val chatAudio = account.transcriptionViaChat &&
-                    preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE &&
-                    !(preset.id == ProviderRegistry.GEMINI.id && ProviderRegistry.isGeminiTranscribeModel(model))
+                // and formats together. The conditions live in [singleCallApplies] because the rewording
+                // path has to ask the same question — that is what tells it whether this model is also the
+                // rewording model (issue #313).
+                val chatAudio = singleCallApplies(account.transcriptionViaChat, preset, model)
                 // Pack it for the wire (issue #281). Recording stays WAV — the raw PCM is what feeds
                 // realtime, the silence gate and Smart Turn — but WAV is 32 kB per second, so a 25 MB
                 // provider limit arrives after 13½ minutes and a 14-minute dictation is simply refused.
@@ -3530,7 +3559,7 @@ object DictateController {
             throw DictateApiException(DictateApiException.Kind.INVALID_API_KEY, "No API key set")
         }
         val preset = presetFor(account)
-        val model = account.chatModel.ifBlank { preset.defaultChatModel ?: "gpt-4o-mini" }
+        val model = chatModelFor(account, preset)
         val client = OpenAiCompatibleClient.from(
             preset, apiKey,
             baseUrlOverride = baseUrlOverrideFor(account),

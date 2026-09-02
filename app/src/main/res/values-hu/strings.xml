@@ -1224,6 +1224,7 @@
     <string name="dictate__error_transcription_failed">Az átírás sikertelen.</string>
     <string name="dictate__error_unknown">Ismeretlen hiba az átírás során.</string>
     <string name="dictate__error_rewording_failed">Az átfogalmazás sikertelen.</string>
+    <string name="dictate__error_rewording_default_model">A(z) %1$s a(z) %2$s beépített alapértelmezett modellje, nem az, amit kiválasztottál. Válassz átfogalmazó modellt az MI-szolgáltatóknál.</string>
     <string name="dictate__notice_rewording_failed">Az átfogalmazás sikertelen – nyers szöveg beszúrva</string>
     <string name="dictate__error_overlay_insert_clipboard">Ez az alkalmazás nem fogadta el a szöveget. A vágólapon van — tartsa nyomva a mezőt és illessze be.</string>
     <string name="dictate__error_invalid_api_key">Ellenőrizze az API-kulcsát</string>
@@ -2051,9 +2052,9 @@
     <string name="prefs__media__sticker_rescan">Mappa újraolvasása</string>
     <string name="prefs__media__sticker_rescan__summary">Fájlok hozzáadása vagy törlése után használd</string>
     <string name="prefs__media__sticker_thumbnail_size">Matricák mérete</string>
-    <string name="prefs__media__sticker_history_enabled">Kedvencek és nemrég használtak</string>
-    <string name="prefs__media__sticker_history_enabled__summary">A kitűzött és nemrég használt matricák megjelenítése minden mappa fölött</string>
     <string name="prefs__media__sticker_history_recent_max_size">Megőrzött nemrég használt matricák száma</string>
+    <string name="prefs__media__sticker_confirm_before_insert">Megerősítés küldés előtt</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">Koppints egyszer a matricára a kiválasztásához, majd újra a küldéshez. A gyors dupla koppintás azonnal elküldi</string>
     <string name="prefs__media__sticker_pinned_reset">Kedvenc matricák törlése</string>
     <string name="prefs__media__sticker_history_reset">Nemrég használt matricák törlése</string>
     <string name="sticker__title">Matricák</string>

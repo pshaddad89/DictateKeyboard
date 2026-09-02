@@ -1181,6 +1181,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__error_transcription_failed">Transkripsi gagal.</string>
     <string name="dictate__error_unknown">Kesalahan tidak diketahui saat transkripsi.</string>
     <string name="dictate__error_rewording_failed">Penyusunan ulang gagal.</string>
+    <string name="dictate__error_rewording_default_model">%1$s adalah model bawaan default %2$s, bukan yang kamu pilih. Pilih model penyusunan ulang di Penyedia AI.</string>
     <string name="dictate__notice_rewording_failed">Penyusunan ulang gagal – teks mentah dimasukkan</string>
     <string name="dictate__error_overlay_insert_clipboard">Aplikasi ini tidak menerima teksnya. Teks ada di papan klip — tekan lama kolomnya lalu tempel.</string>
     <string name="dictate__error_invalid_api_key">Periksa kunci API Anda</string>
@@ -2008,9 +2009,9 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="prefs__media__sticker_rescan">Baca ulang folder</string>
     <string name="prefs__media__sticker_rescan__summary">Gunakan setelah menambah atau menghapus berkas</string>
     <string name="prefs__media__sticker_thumbnail_size">Ukuran stiker</string>
-    <string name="prefs__media__sticker_history_enabled">Favorit dan baru digunakan</string>
-    <string name="prefs__media__sticker_history_enabled__summary">Tampilkan stiker yang disematkan dan baru digunakan di atas setiap folder</string>
     <string name="prefs__media__sticker_history_recent_max_size">Jumlah stiker terbaru yang disimpan</string>
+    <string name="prefs__media__sticker_confirm_before_insert">Konfirmasi sebelum mengirim</string>
+    <string name="prefs__media__sticker_confirm_before_insert__summary">Ketuk stiker sekali untuk memilihnya, ketuk lagi untuk mengirim. Ketuk dua kali dengan cepat untuk langsung mengirim</string>
     <string name="prefs__media__sticker_pinned_reset">Hapus stiker favorit</string>
     <string name="prefs__media__sticker_history_reset">Hapus stiker yang baru digunakan</string>
     <string name="sticker__title">Stiker</string>
