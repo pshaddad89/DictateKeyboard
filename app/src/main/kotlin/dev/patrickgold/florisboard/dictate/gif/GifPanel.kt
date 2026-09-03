@@ -86,6 +86,7 @@ import org.florisboard.lib.snygg.ui.SnyggColumn
 import org.florisboard.lib.snygg.ui.SnyggIconButton
 import org.florisboard.lib.snygg.ui.SnyggRow
 import org.florisboard.lib.snygg.ui.SnyggText
+import org.florisboard.lib.snygg.ui.rememberSnyggThemeQuery
 
 /**
  * The GIF panel, its own [ImeUiMode.GIF] next to the typing keyboard (opened via the GIF QuickAction).
@@ -189,16 +190,18 @@ fun GifPanel(
             // Taller than a normal keyboard so more (and larger) GIFs are visible at once.
             .height(FlorisImeSizing.imeUiHeight() + FlorisImeSizing.keyboardRowBaseHeight * 2),
     ) {
-        // Header: back, tappable search field, settings.
+        // Header: back, tappable search field, settings. Styled as the clipboard's header rather than
+        // as the emoji panel's bottom row, whose 16 dp of vertical padding would leave these icons
+        // about 8 dp in a row this height (#317).
         SnyggRow(
-            elementName = FlorisImeUi.MediaBottomRow.elementName,
+            elementName = FlorisImeUi.ClipboardHeader.elementName,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(FlorisImeSizing.smartbarHeight),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             SnyggIconButton(
-                elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                 onClick = {
                     if (inResults) {
                         keyboardManager.gifSearchSubmit.value = null // back to the home view
@@ -211,7 +214,7 @@ fun GifPanel(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                 )
             }
             Box(
@@ -233,24 +236,29 @@ fun GifPanel(
                             .size(20.dp)
                             .padding(end = 8.dp),
                     )
-                    SnyggText(
-                        elementName = FlorisImeUi.SmartbarCandidateWordText.elementName,
+                    // This box stands in for a search field, so it has to be lettered like one. The
+                    // real bar (KeyboardSearchBar) draws its query with a plain Text at the default
+                    // size; a SnyggText here would inherit the header's 16sp and read a size larger
+                    // than the thing it imitates (#317).
+                    val headerStyle = rememberSnyggThemeQuery(FlorisImeUi.ClipboardHeader.elementName)
+                    Text(
                         text = submittedQuery?.takeIf { it.isNotBlank() }
                             ?: stringRes(R.string.gif__search_placeholder),
+                        color = headerStyle.foreground(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
             SnyggIconButton(
-                elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                 onClick = { FlorisImeService.launchSettings("settings/media") },
                 modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                 )
             }
         }

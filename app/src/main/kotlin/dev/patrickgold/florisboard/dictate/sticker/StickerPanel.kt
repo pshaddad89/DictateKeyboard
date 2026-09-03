@@ -270,8 +270,12 @@ fun StickerPanel(
             // Taller than a normal keyboard, like the GIF panel, so a row of stickers stays readable.
             .height(FlorisImeSizing.imeUiHeight() + FlorisImeSizing.keyboardRowBaseHeight * 2),
     ) {
+        // The clipboard's header, not the emoji panel's bottom row: `media-bottom-row-button` carries
+        // 16 dp of vertical padding in every bundled theme, which is right for a row a whole key tall
+        // and leaves about 8 dp for an icon in a row this height. That is why these buttons looked
+        // shrunken next to the clipboard's, which has always used the header element (#317).
         SnyggRow(
-            elementName = FlorisImeUi.MediaBottomRow.elementName,
+            elementName = FlorisImeUi.ClipboardHeader.elementName,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(FlorisImeSizing.smartbarHeight),
@@ -283,93 +287,92 @@ fun StickerPanel(
                 // itself would have to sit somewhere, and every place it could sit is a place the
                 // finger already means something else.
                 SnyggIconButton(
-                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                     onClick = { scope.launch { StickerHistoryHelper.movePinned(prefs, movingDocId, -1) } },
                     modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = stringRes(R.string.sticker__reorder_earlier),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                     )
                 }
                 SnyggText(
-                    elementName = FlorisImeUi.SmartbarCandidateWordText.elementName,
+                    elementName = FlorisImeUi.ClipboardHeaderText.elementName,
                     text = stringRes(R.string.sticker__reorder_hint),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp),
+                    modifier = Modifier.weight(1f),
                 )
                 SnyggIconButton(
-                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                     onClick = { scope.launch { StickerHistoryHelper.movePinned(prefs, movingDocId, 1) } },
                     modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = stringRes(R.string.sticker__reorder_later),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                     )
                 }
                 SnyggIconButton(
-                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                     onClick = { reorderDocId = null },
                     modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = stringRes(R.string.action__done),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                     )
                 }
             } else {
                 SnyggIconButton(
-                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                     onClick = { keyboardManager.activeState.imeUiMode = ImeUiMode.TEXT },
                     modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                     )
                 }
                 SnyggText(
-                    elementName = FlorisImeUi.SmartbarCandidateWordText.elementName,
+                    // The clipboard's title element, and no padding of its own: the 8 dp that used
+                    // to be here is exactly why the gap after the back arrow was wider here than
+                    // there (#317).
+                    elementName = FlorisImeUi.ClipboardHeaderText.elementName,
                     text = stringRes(R.string.sticker__title),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp),
+                    modifier = Modifier.weight(1f),
                 )
                 if (index?.isEmpty == false) {
                     // Typing a name means the keyboard, and the keyboard is what this panel replaced —
                     // so the search hands the screen back to it and shows its results in the strip
                     // above (#317), the same way the emoji search does.
                     SnyggIconButton(
-                        elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                        elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                         onClick = { keyboardManager.activateStickerSearch() },
                         modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
                     ) {
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = stringRes(R.string.sticker__search),
-                            modifier = Modifier.size(30.dp),
+                            modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                         )
                     }
                 }
                 SnyggIconButton(
-                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    elementName = FlorisImeUi.ClipboardHeaderButton.elementName,
                     onClick = { FlorisImeService.launchSettings("settings/media") },
                     modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = null,
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(FlorisImeSizing.mediaHeaderIconSize),
                     )
                 }
             }
@@ -422,7 +425,9 @@ fun StickerPanel(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(FlorisImeSizing.smartbarHeight),
-                            contentPadding = PaddingValues(horizontal = 4.dp),
+                            // The same margin the emoji categories keep, so the two tab rows start and
+                            // end at the same place rather than each at its own.
+                            contentPadding = PaddingValues(horizontal = 8.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             itemsIndexed(categories, key = { _, category -> category.id }) { position, category ->
