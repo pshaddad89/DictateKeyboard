@@ -1583,7 +1583,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Modelo de transcripción y reformulación</string>
     <string name="dictate__providers_single_call_title">Llamada única multimodal</string>
     <string name="dictate__providers_single_call_summary">Un solo modelo con audio transcribe y da formato en una única solicitud.</string>
-    <string name="dictate__providers_single_call_pick_audio">Elige un modelo con capacidad de audio (marcado con 🎤 en la lista de modelos).</string>
     <string name="dictate__providers_rewording_single_call_note">Ahora mismo no se usa: tu proveedor de transcripción hace la reformulación en su llamada única.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opciones para dictar desde un reloj vinculado</string>
@@ -2047,6 +2046,13 @@
     <string name="sticker__section_rest">Todos los adhesivos</string>
     <string name="sticker__pin">Añadir a favoritos</string>
     <string name="sticker__unpin">Quitar de favoritos</string>
+    <string name="sticker__reorder">Cambiar la posición</string>
+    <string name="sticker__reorder_hint">Mover con las flechas</string>
+    <string name="sticker__reorder_earlier">Mover hacia el principio</string>
+    <string name="sticker__reorder_later">Mover hacia el final</string>
+    <string name="sticker__search">Buscar adhesivos</string>
+    <string name="sticker__search_placeholder">Buscar por nombre de archivo</string>
+    <string name="sticker__search_no_results">Ningún adhesivo con ese nombre</string>
     <string name="sticker__setup_needed">Elige una carpeta para usar tus propios adhesivos</string>
     <string name="sticker__setup_needed_action">Abrir ajustes</string>
     <string name="sticker__folder_empty">No hay imágenes en esta carpeta</string>
@@ -2096,6 +2102,10 @@
     <string name="sticker__pack_new">Crear paquete</string>
     <string name="sticker__pack_name">Nombre del paquete</string>
     <string name="sticker__pack_rename">Renombrar</string>
+    <string name="sticker__pack_move_up">Subir</string>
+    <string name="sticker__pack_move_down">Bajar</string>
+    <string name="sticker__pack_icon_set">Usar como icono del paquete</string>
+    <string name="sticker__pack_icon_clear">Quitar icono del paquete</string>
     <string name="sticker__pack_delete">Borrar paquete</string>
     <string name="sticker__pack_delete_confirm">¿Borrar el paquete \"{name}\" y los {n} adhesivos que contiene?</string>
     <string name="sticker__pack_failed">No funcionó: puede que la carpeta esté protegida contra escritura</string>

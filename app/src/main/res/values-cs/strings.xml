@@ -1616,7 +1616,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Model pro přepis a přeformulování</string>
     <string name="dictate__providers_single_call_title">Jeden multimodální požadavek</string>
     <string name="dictate__providers_single_call_summary">Jeden model s podporou zvuku přepíše a zformátuje text v jediném požadavku.</string>
-    <string name="dictate__providers_single_call_pick_audio">Vyberte model s podporou zvuku (označený 🎤 v seznamu modelů).</string>
     <string name="dictate__providers_rewording_single_call_note">Momentálně se nepoužívá — váš poskytovatel přepisu provádí přeformulování ve svém jediném požadavku.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Možnosti diktování ze spárovaných hodinek</string>
@@ -2080,6 +2079,13 @@
     <string name="sticker__section_rest">Všechny samolepky</string>
     <string name="sticker__pin">Přidat k oblíbeným</string>
     <string name="sticker__unpin">Odebrat z oblíbených</string>
+    <string name="sticker__reorder">Změnit pozici</string>
+    <string name="sticker__reorder_hint">Přesouvejte šipkami</string>
+    <string name="sticker__reorder_earlier">Přesunout na začátek</string>
+    <string name="sticker__reorder_later">Přesunout na konec</string>
+    <string name="sticker__search">Hledat samolepky</string>
+    <string name="sticker__search_placeholder">Hledat podle názvu souboru</string>
+    <string name="sticker__search_no_results">Žádná samolepka s tímto názvem</string>
     <string name="sticker__setup_needed">Vyberte složku, abyste mohli používat vlastní samolepky</string>
     <string name="sticker__setup_needed_action">Otevřít nastavení</string>
     <string name="sticker__folder_empty">V této složce nejsou žádné obrázky</string>
@@ -2129,6 +2135,10 @@
     <string name="sticker__pack_new">Vytvořit balíček</string>
     <string name="sticker__pack_name">Název balíčku</string>
     <string name="sticker__pack_rename">Přejmenovat</string>
+    <string name="sticker__pack_move_up">Nahoru</string>
+    <string name="sticker__pack_move_down">Dolů</string>
+    <string name="sticker__pack_icon_set">Použít jako ikonu balíčku</string>
+    <string name="sticker__pack_icon_clear">Odebrat ikonu balíčku</string>
     <string name="sticker__pack_delete">Smazat balíček</string>
     <string name="sticker__pack_delete_confirm">Smazat balíček \"{name}\" a {n} samolepek v něm?</string>
     <string name="sticker__pack_failed">Nepovedlo se — složka může být chráněná proti zápisu</string>

@@ -1410,7 +1410,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Modelo de transcrição e reformulação</string>
     <string name="dictate__providers_single_call_title">Chamada única multimodal</string>
     <string name="dictate__providers_single_call_summary">Um único modelo com áudio transcreve e formata em uma única requisição.</string>
-    <string name="dictate__providers_single_call_pick_audio">Escolha um modelo com suporte a áudio (marcado com 🎤 na lista de modelos).</string>
     <string name="dictate__providers_rewording_single_call_note">Não está sendo usado no momento — seu provedor de transcrição faz a reformulação na chamada única dele.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opções para ditar de um relógio pareado</string>
@@ -1874,6 +1873,13 @@
     <string name="sticker__section_rest">Todas as figurinhas</string>
     <string name="sticker__pin">Adicionar aos favoritos</string>
     <string name="sticker__unpin">Remover dos favoritos</string>
+    <string name="sticker__reorder">Alterar a posição</string>
+    <string name="sticker__reorder_hint">Mover com as setas</string>
+    <string name="sticker__reorder_earlier">Mover para o início</string>
+    <string name="sticker__reorder_later">Mover para o fim</string>
+    <string name="sticker__search">Pesquisar figurinhas</string>
+    <string name="sticker__search_placeholder">Pesquisar pelo nome do arquivo</string>
+    <string name="sticker__search_no_results">Nenhuma figurinha com esse nome</string>
     <string name="sticker__setup_needed">Escolha uma pasta para usar suas próprias figurinhas</string>
     <string name="sticker__setup_needed_action">Abrir configurações</string>
     <string name="sticker__folder_empty">Nenhuma imagem nesta pasta</string>
@@ -1923,6 +1929,10 @@
     <string name="sticker__pack_new">Criar pacote</string>
     <string name="sticker__pack_name">Nome do pacote</string>
     <string name="sticker__pack_rename">Renomear</string>
+    <string name="sticker__pack_move_up">Mover para cima</string>
+    <string name="sticker__pack_move_down">Mover para baixo</string>
+    <string name="sticker__pack_icon_set">Usar como ícone do pacote</string>
+    <string name="sticker__pack_icon_clear">Remover ícone do pacote</string>
     <string name="sticker__pack_delete">Excluir pacote</string>
     <string name="sticker__pack_delete_confirm">Excluir o pacote \"{name}\" e as {n} figurinhas dentro dele?</string>
     <string name="sticker__pack_failed">Não deu certo — a pasta pode estar protegida contra gravação</string>

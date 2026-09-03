@@ -1477,7 +1477,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Modèle de transcription et de reformulation</string>
     <string name="dictate__providers_single_call_title">Appel unique multimodal</string>
     <string name="dictate__providers_single_call_summary">Un seul modèle compatible audio transcrit et met en forme en une seule requête.</string>
-    <string name="dictate__providers_single_call_pick_audio">Choisissez un modèle compatible audio (marqué 🎤 dans la liste des modèles).</string>
     <string name="dictate__providers_rewording_single_call_note">Non utilisé actuellement — votre fournisseur de transcription effectue la reformulation dans son appel unique.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Options pour dicter depuis une montre associée</string>
@@ -1941,6 +1940,13 @@
     <string name="sticker__section_rest">Tous les autocollants</string>
     <string name="sticker__pin">Ajouter aux favoris</string>
     <string name="sticker__unpin">Retirer des favoris</string>
+    <string name="sticker__reorder">Changer la position</string>
+    <string name="sticker__reorder_hint">Déplacer avec les flèches</string>
+    <string name="sticker__reorder_earlier">Déplacer vers le début</string>
+    <string name="sticker__reorder_later">Déplacer vers la fin</string>
+    <string name="sticker__search">Rechercher des autocollants</string>
+    <string name="sticker__search_placeholder">Rechercher par nom de fichier</string>
+    <string name="sticker__search_no_results">Aucun autocollant de ce nom</string>
     <string name="sticker__setup_needed">Choisissez un dossier pour utiliser vos propres autocollants</string>
     <string name="sticker__setup_needed_action">Ouvrir les paramètres</string>
     <string name="sticker__folder_empty">Aucune image dans ce dossier</string>
@@ -1990,6 +1996,10 @@
     <string name="sticker__pack_new">Créer un pack</string>
     <string name="sticker__pack_name">Nom du pack</string>
     <string name="sticker__pack_rename">Renommer</string>
+    <string name="sticker__pack_move_up">Monter</string>
+    <string name="sticker__pack_move_down">Descendre</string>
+    <string name="sticker__pack_icon_set">Utiliser comme icône du pack</string>
+    <string name="sticker__pack_icon_clear">Retirer l\'icône du pack</string>
     <string name="sticker__pack_delete">Supprimer le pack</string>
     <string name="sticker__pack_delete_confirm">Supprimer le pack \"{name}\" et les {n} autocollants qu\'il contient ?</string>
     <string name="sticker__pack_failed">Cela n\'a pas fonctionné — le dossier est peut-être en lecture seule</string>

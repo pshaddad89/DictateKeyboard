@@ -1600,7 +1600,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Átírási és újrafogalmazási modell</string>
     <string name="dictate__providers_single_call_title">Egyetlen multimodális hívás</string>
     <string name="dictate__providers_single_call_summary">Egyetlen hangkezelő modell egyetlen kérésben átír és formáz.</string>
-    <string name="dictate__providers_single_call_pick_audio">Válassz hangbemenetet támogató modellt (a modellek listájában 🎤 jelöli).</string>
     <string name="dictate__providers_rewording_single_call_note">Jelenleg nincs használatban — az átírási szolgáltató az újrafogalmazást az egyetlen hívásában végzi.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Diktálási beállítások párosított órához</string>
@@ -2064,6 +2063,13 @@
     <string name="sticker__section_rest">Minden matrica</string>
     <string name="sticker__pin">Hozzáadás a kedvencekhez</string>
     <string name="sticker__unpin">Eltávolítás a kedvencekből</string>
+    <string name="sticker__reorder">Pozíció módosítása</string>
+    <string name="sticker__reorder_hint">Mozgatás a nyilakkal</string>
+    <string name="sticker__reorder_earlier">Mozgatás előre</string>
+    <string name="sticker__reorder_later">Mozgatás hátra</string>
+    <string name="sticker__search">Matricák keresése</string>
+    <string name="sticker__search_placeholder">Keresés fájlnév szerint</string>
+    <string name="sticker__search_no_results">Nincs ilyen nevű matrica</string>
     <string name="sticker__setup_needed">Válassz egy mappát a saját matricáid használatához</string>
     <string name="sticker__setup_needed_action">Beállítások megnyitása</string>
     <string name="sticker__folder_empty">Nincs kép ebben a mappában</string>
@@ -2113,6 +2119,10 @@
     <string name="sticker__pack_new">Csomag létrehozása</string>
     <string name="sticker__pack_name">Csomag neve</string>
     <string name="sticker__pack_rename">Átnevezés</string>
+    <string name="sticker__pack_move_up">Fel</string>
+    <string name="sticker__pack_move_down">Le</string>
+    <string name="sticker__pack_icon_set">Csomagikonként használ</string>
+    <string name="sticker__pack_icon_clear">Csomagikon eltávolítása</string>
     <string name="sticker__pack_delete">Csomag törlése</string>
     <string name="sticker__pack_delete_confirm">Törlöd a(z) \"{name}\" csomagot és a benne lévő {n} matricát?</string>
     <string name="sticker__pack_failed">Nem sikerült — a mappa lehet, hogy írásvédett</string>

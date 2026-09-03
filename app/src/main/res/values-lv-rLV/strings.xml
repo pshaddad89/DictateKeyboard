@@ -1545,7 +1545,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Transkripcijas un pārformulēšanas modelis</string>
     <string name="dictate__providers_single_call_title">Viens multimodāls pieprasījums</string>
     <string name="dictate__providers_single_call_summary">Viens audio modelis transkribē un formatē vienā pieprasījumā.</string>
-    <string name="dictate__providers_single_call_pick_audio">Izvēlieties audio ievadi atbalstošu modeli (modeļu sarakstā atzīmēts ar 🎤).</string>
     <string name="dictate__providers_rewording_single_call_note">Pašlaik netiek izmantots — jūsu transkripcijas pakalpojums veic pārformulēšanu savā vienreizējā pieprasījumā.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Diktēšanas opcijas no savienota pulksteņa</string>
@@ -2009,6 +2008,13 @@
     <string name="sticker__section_rest">Visas uzlīmes</string>
     <string name="sticker__pin">Pievienot izlasei</string>
     <string name="sticker__unpin">Noņemt no izlases</string>
+    <string name="sticker__reorder">Mainīt pozīciju</string>
+    <string name="sticker__reorder_hint">Pārvietot ar bultiņām</string>
+    <string name="sticker__reorder_earlier">Pārvietot uz sākumu</string>
+    <string name="sticker__reorder_later">Pārvietot uz beigām</string>
+    <string name="sticker__search">Meklēt uzlīmes</string>
+    <string name="sticker__search_placeholder">Meklēt pēc faila nosaukuma</string>
+    <string name="sticker__search_no_results">Nav uzlīmes ar šādu nosaukumu</string>
     <string name="sticker__setup_needed">Izvēlieties mapi, lai lietotu savas uzlīmes</string>
     <string name="sticker__setup_needed_action">Atvērt iestatījumus</string>
     <string name="sticker__folder_empty">Šajā mapē nav attēlu</string>
@@ -2058,6 +2064,10 @@
     <string name="sticker__pack_new">Izveidot paku</string>
     <string name="sticker__pack_name">Pakas nosaukums</string>
     <string name="sticker__pack_rename">Pārdēvēt</string>
+    <string name="sticker__pack_move_up">Pārvietot augšup</string>
+    <string name="sticker__pack_move_down">Pārvietot lejup</string>
+    <string name="sticker__pack_icon_set">Izmantot kā pakas ikonu</string>
+    <string name="sticker__pack_icon_clear">Noņemt pakas ikonu</string>
     <string name="sticker__pack_delete">Dzēst paku</string>
     <string name="sticker__pack_delete_confirm">Vai dzēst paku \"{name}\" un tajā esošās {n} uzlīmes?</string>
     <string name="sticker__pack_failed">Neizdevās — mape var būt aizsargāta pret rakstīšanu</string>

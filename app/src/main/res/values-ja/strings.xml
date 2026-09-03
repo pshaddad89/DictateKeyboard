@@ -1534,7 +1534,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">文字起こしと書き換えのモデル</string>
     <string name="dictate__providers_single_call_title">シングルコール（マルチモーダル）</string>
     <string name="dictate__providers_single_call_summary">音声対応の 1 つのモデルが、1 回のリクエストで文字起こしと整形を行います。</string>
-    <string name="dictate__providers_single_call_pick_audio">音声入力に対応したモデルを選択してください（モデル一覧で 🎤 が付いたもの）。</string>
     <string name="dictate__providers_rewording_single_call_note">現在は使用されていません。文字起こしプロバイダーがシングルコール内で書き換えを行います。</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">ペアリングした時計から音声入力するためのオプション</string>
@@ -1998,6 +1997,13 @@
     <string name="sticker__section_rest">すべてのステッカー</string>
     <string name="sticker__pin">お気に入りに追加</string>
     <string name="sticker__unpin">お気に入りから削除</string>
+    <string name="sticker__reorder">位置を変更</string>
+    <string name="sticker__reorder_hint">矢印で移動</string>
+    <string name="sticker__reorder_earlier">前へ移動</string>
+    <string name="sticker__reorder_later">後ろへ移動</string>
+    <string name="sticker__search">ステッカーを検索</string>
+    <string name="sticker__search_placeholder">ファイル名で検索</string>
+    <string name="sticker__search_no_results">その名前のステッカーはありません</string>
     <string name="sticker__setup_needed">自分のステッカーを使うにはフォルダを選択してください</string>
     <string name="sticker__setup_needed_action">設定を開く</string>
     <string name="sticker__folder_empty">このフォルダに画像がありません</string>
@@ -2047,6 +2053,10 @@
     <string name="sticker__pack_new">パックを作成</string>
     <string name="sticker__pack_name">パック名</string>
     <string name="sticker__pack_rename">名前を変更</string>
+    <string name="sticker__pack_move_up">上へ</string>
+    <string name="sticker__pack_move_down">下へ</string>
+    <string name="sticker__pack_icon_set">パックのアイコンにする</string>
+    <string name="sticker__pack_icon_clear">パックのアイコンを削除</string>
     <string name="sticker__pack_delete">パックを削除</string>
     <string name="sticker__pack_delete_confirm">パック「{name}」と、その中の {n} 件のステッカーを削除しますか？</string>
     <string name="sticker__pack_failed">うまくいきませんでした — フォルダが書き込み禁止かもしれません</string>

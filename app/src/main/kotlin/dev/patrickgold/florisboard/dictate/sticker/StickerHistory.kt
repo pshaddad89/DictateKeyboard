@@ -133,6 +133,16 @@ object StickerHistoryHelper {
     }
 
     /**
+     * Reorders the favourites (issue #317).
+     *
+     * Re-pinning already moves a sticker to the front, so the gap this fills is the finer one: putting
+     * a favourite *somewhere in particular* without taking the whole row apart and rebuilding it in
+     * order, which is what the requester was doing.
+     */
+    suspend fun movePinned(prefs: FlorisPreferenceModel, docId: String, delta: Int) =
+        edit(prefs) { pinned, _ -> moveWithin(pinned, docId, delta) }
+
+    /**
      * Records a use. Pinned stickers stay where they are — a favourite is not demoted to a recent by
      * being used.
      */

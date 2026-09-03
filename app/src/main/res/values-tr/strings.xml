@@ -1580,7 +1580,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Yazıya dökme ve yeniden ifade modeli</string>
     <string name="dictate__providers_single_call_title">Tek çağrılı çok kipli</string>
     <string name="dictate__providers_single_call_summary">Sesi destekleyen tek bir model, tek bir istekte yazıya döker ve biçimlendirir.</string>
-    <string name="dictate__providers_single_call_pick_audio">Ses girişini destekleyen bir model seçin (model listesinde 🎤 ile işaretli).</string>
     <string name="dictate__providers_rewording_single_call_note">Şu anda kullanılmıyor — yazıya dökme sağlayıcınız yeniden ifadeyi tek çağrısında yapıyor.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Eşleştirilmiş saatten dikte seçenekleri</string>
@@ -2044,6 +2043,13 @@
     <string name="sticker__section_rest">Tüm çıkartmalar</string>
     <string name="sticker__pin">Favorilere ekle</string>
     <string name="sticker__unpin">Favorilerden çıkar</string>
+    <string name="sticker__reorder">Konumu değiştir</string>
+    <string name="sticker__reorder_hint">Oklarla taşı</string>
+    <string name="sticker__reorder_earlier">Başa doğru taşı</string>
+    <string name="sticker__reorder_later">Sona doğru taşı</string>
+    <string name="sticker__search">Çıkartma ara</string>
+    <string name="sticker__search_placeholder">Dosya adına göre ara</string>
+    <string name="sticker__search_no_results">Bu adda çıkartma yok</string>
     <string name="sticker__setup_needed">Kendi çıkartmalarınızı kullanmak için bir klasör seçin</string>
     <string name="sticker__setup_needed_action">Ayarları aç</string>
     <string name="sticker__folder_empty">Bu klasörde görsel yok</string>
@@ -2093,6 +2099,10 @@
     <string name="sticker__pack_new">Paket oluştur</string>
     <string name="sticker__pack_name">Paket adı</string>
     <string name="sticker__pack_rename">Yeniden adlandır</string>
+    <string name="sticker__pack_move_up">Yukarı taşı</string>
+    <string name="sticker__pack_move_down">Aşağı taşı</string>
+    <string name="sticker__pack_icon_set">Paket simgesi yap</string>
+    <string name="sticker__pack_icon_clear">Paket simgesini kaldır</string>
     <string name="sticker__pack_delete">Paketi sil</string>
     <string name="sticker__pack_delete_confirm">\"{name}\" paketi ve içindeki {n} çıkartma silinsin mi?</string>
     <string name="sticker__pack_failed">Olmadı — klasör yazmaya karşı korumalı olabilir</string>

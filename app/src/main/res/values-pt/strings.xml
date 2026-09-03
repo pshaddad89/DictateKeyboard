@@ -1581,7 +1581,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Modelo de transcrição e reformulação</string>
     <string name="dictate__providers_single_call_title">Chamada única multimodal</string>
     <string name="dictate__providers_single_call_summary">Um único modelo com áudio transcreve e formata num único pedido.</string>
-    <string name="dictate__providers_single_call_pick_audio">Escolhe um modelo com suporte a áudio (marcado com 🎤 na lista de modelos).</string>
     <string name="dictate__providers_rewording_single_call_note">Não está a ser usado neste momento — o teu fornecedor de transcrição faz a reformulação na sua chamada única.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opções para ditar a partir de um relógio emparelhado</string>
@@ -2045,6 +2044,13 @@
     <string name="sticker__section_rest">Todos os autocolantes</string>
     <string name="sticker__pin">Adicionar aos favoritos</string>
     <string name="sticker__unpin">Remover dos favoritos</string>
+    <string name="sticker__reorder">Alterar a posição</string>
+    <string name="sticker__reorder_hint">Mover com as setas</string>
+    <string name="sticker__reorder_earlier">Mover para o início</string>
+    <string name="sticker__reorder_later">Mover para o fim</string>
+    <string name="sticker__search">Procurar autocolantes</string>
+    <string name="sticker__search_placeholder">Procurar pelo nome do ficheiro</string>
+    <string name="sticker__search_no_results">Nenhum autocolante com esse nome</string>
     <string name="sticker__setup_needed">Escolha uma pasta para usar os seus autocolantes</string>
     <string name="sticker__setup_needed_action">Abrir definições</string>
     <string name="sticker__folder_empty">Não há imagens nesta pasta</string>
@@ -2094,6 +2100,10 @@
     <string name="sticker__pack_new">Criar pacote</string>
     <string name="sticker__pack_name">Nome do pacote</string>
     <string name="sticker__pack_rename">Mudar o nome</string>
+    <string name="sticker__pack_move_up">Mover para cima</string>
+    <string name="sticker__pack_move_down">Mover para baixo</string>
+    <string name="sticker__pack_icon_set">Usar como ícone do pacote</string>
+    <string name="sticker__pack_icon_clear">Remover ícone do pacote</string>
     <string name="sticker__pack_delete">Apagar pacote</string>
     <string name="sticker__pack_delete_confirm">Apagar o pacote \"{name}\" e os {n} autocolantes que contém?</string>
     <string name="sticker__pack_failed">Não resultou — a pasta pode estar protegida contra escrita</string>

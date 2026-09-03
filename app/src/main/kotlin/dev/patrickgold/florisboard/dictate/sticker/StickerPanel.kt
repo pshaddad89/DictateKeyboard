@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,14 +41,20 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.HistoryToggleOff
 import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Gif
+import androidx.compose.material.icons.outlined.Label
 import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.CircularProgressIndicator
@@ -125,6 +132,7 @@ fun StickerPanel(
     val folderUri by prefs.sticker.folderUri.collectPrefAsState()
     val thumbnailSize by prefs.sticker.thumbnailSize.collectPrefAsState()
     val history by prefs.sticker.historyData.collectPrefAsState()
+    val packSettings by prefs.sticker.packSettings.collectPrefAsState()
     val scope = rememberCoroutineScope()
 
     var index by remember { mutableStateOf<StickerIndex?>(null) }
@@ -147,6 +155,14 @@ fun StickerPanel(
     var deleteArmed by remember { mutableStateOf(false) }
     // The sheet's second face: which pack to move into. A submenu would need somewhere to hang.
     var packPickerOpen by remember { mutableStateOf(false) }
+    // The favourite being moved along the row right now (issue #317). While this is set the header
+    // turns into a pair of arrows and taps stop inserting, which is what makes the mode safe: nothing
+    // can be sent by accident while the grid is being rearranged.
+    //
+    // Arrows rather than dragging, and not for want of trying: Compose loses the pointer stream
+    // mid-press inside the keyboard window (#235), so a drag has to be driven from the root view's
+    // own touch dispatch. That is a lot of machinery for moving a sticker one place to the left.
+    var reorderDocId by remember { mutableStateOf<String?>(null) }
 
     fun closeMenu() {
         menuItem = null
@@ -261,42 +277,116 @@ fun StickerPanel(
                 .height(FlorisImeSizing.smartbarHeight),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            SnyggIconButton(
-                elementName = FlorisImeUi.MediaBottomRowButton.elementName,
-                onClick = { keyboardManager.activeState.imeUiMode = ImeUiMode.TEXT },
-                modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null,
-                    modifier = Modifier.size(30.dp),
+            val movingDocId = reorderDocId
+            if (movingDocId != null) {
+                // The header carries the arrows rather than the grid: a button drawn on the cell
+                // itself would have to sit somewhere, and every place it could sit is a place the
+                // finger already means something else.
+                SnyggIconButton(
+                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    onClick = { scope.launch { StickerHistoryHelper.movePinned(prefs, movingDocId, -1) } },
+                    modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = stringRes(R.string.sticker__reorder_earlier),
+                        modifier = Modifier.size(30.dp),
+                    )
+                }
+                SnyggText(
+                    elementName = FlorisImeUi.SmartbarCandidateWordText.elementName,
+                    text = stringRes(R.string.sticker__reorder_hint),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 8.dp),
                 )
-            }
-            SnyggText(
-                elementName = FlorisImeUi.SmartbarCandidateWordText.elementName,
-                text = stringRes(R.string.sticker__title),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 8.dp),
-            )
-            SnyggIconButton(
-                elementName = FlorisImeUi.MediaBottomRowButton.elementName,
-                onClick = { FlorisImeService.launchSettings("settings/media") },
-                modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = null,
-                    modifier = Modifier.size(30.dp),
+                SnyggIconButton(
+                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    onClick = { scope.launch { StickerHistoryHelper.movePinned(prefs, movingDocId, 1) } },
+                    modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = stringRes(R.string.sticker__reorder_later),
+                        modifier = Modifier.size(30.dp),
+                    )
+                }
+                SnyggIconButton(
+                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    onClick = { reorderDocId = null },
+                    modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = stringRes(R.string.action__done),
+                        modifier = Modifier.size(30.dp),
+                    )
+                }
+            } else {
+                SnyggIconButton(
+                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    onClick = { keyboardManager.activeState.imeUiMode = ImeUiMode.TEXT },
+                    modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp),
+                    )
+                }
+                SnyggText(
+                    elementName = FlorisImeUi.SmartbarCandidateWordText.elementName,
+                    text = stringRes(R.string.sticker__title),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 8.dp),
                 )
+                if (index?.isEmpty == false) {
+                    // Typing a name means the keyboard, and the keyboard is what this panel replaced —
+                    // so the search hands the screen back to it and shows its results in the strip
+                    // above (#317), the same way the emoji search does.
+                    SnyggIconButton(
+                        elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                        onClick = { keyboardManager.activateStickerSearch() },
+                        modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = stringRes(R.string.sticker__search),
+                            modifier = Modifier.size(30.dp),
+                        )
+                    }
+                }
+                SnyggIconButton(
+                    elementName = FlorisImeUi.MediaBottomRowButton.elementName,
+                    onClick = { FlorisImeService.launchSettings("settings/media") },
+                    modifier = Modifier.size(FlorisImeSizing.smartbarHeight),
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp),
+                    )
+                }
             }
         }
 
         val currentIndex = index
-        val categories = remember(currentIndex) {
-            currentIndex?.categories.orEmpty().filter { it.items.isNotEmpty() }
+        val categories = remember(currentIndex, packSettings) {
+            StickerPackSettings.ordered(
+                categories = currentIndex?.categories.orEmpty().filter { it.items.isNotEmpty() },
+                order = packSettings.order,
+            )
+        }
+        // A pack icon whose file has since been deleted or moved is dropped here rather than left to
+        // draw a hole in the tab: the same courtesy the favourites row does for an id it cannot resolve.
+        val packIcons = remember(currentIndex, packSettings) {
+            val known = currentIndex?.allItems?.mapTo(HashSet()) { it.docId }.orEmpty()
+            packSettings.icons.filterValues { it in known }
         }
         val openSettings: () -> Unit = { FlorisImeService.launchSettings("settings/media") }
         // Dimmed rather than covered, so the sticker being acted on stays visible behind the sheet.
@@ -337,24 +427,53 @@ fun StickerPanel(
                         ) {
                             itemsIndexed(categories, key = { _, category -> category.id }) { position, category ->
                                 val selected = pagerState.currentPage == position
-                                SnyggText(
-                                    elementName = if (selected) {
-                                        FlorisImeUi.SmartbarCandidateWordText.elementName
-                                    } else {
-                                        FlorisImeUi.SmartbarCandidateWordSecondaryText.elementName
-                                    },
-                                    text = category.name.ifBlank { rootLabel },
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
+                                val iconDocId = packIcons[category.name]
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier
                                         .padding(horizontal = 3.dp)
                                         .clip(RoundedCornerShape(50))
-                                        .background(if (selected) Color(0x33808080) else Color(0x18808080))
+                                        // The accent marks what the user picked, everywhere else in
+                                        // this panel already — the scrollbar and the ring around a
+                                        // sticker waiting for its second tap. The tab pill was the
+                                        // one thing left painting that same meaning in grey (#317).
+                                        .background(
+                                            if (selected) accent.copy(alpha = 0.28f) else Color(0x18808080)
+                                        )
                                         .clickable {
                                             scope.launch { pagerState.animateScrollToPage(position) }
                                         }
                                         .padding(horizontal = 12.dp, vertical = 6.dp),
-                                )
+                                ) {
+                                    if (iconDocId != null) {
+                                        AsyncImage(
+                                            model = StickerScanner.documentUri(treeUri, iconDocId),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Fit,
+                                            // Stopped the moment it arrives: an animated tab icon is a
+                                            // decoder running for as long as the panel is open, for an
+                                            // 18 dp picture nobody is watching. Frame rate was the
+                                            // whole of #308's third point.
+                                            onSuccess = { state ->
+                                                ((state.result.image as? DrawableImage)?.drawable
+                                                    as? Animatable)?.stop()
+                                            },
+                                            modifier = Modifier
+                                                .padding(end = 6.dp)
+                                                .size(18.dp),
+                                        )
+                                    }
+                                    SnyggText(
+                                        elementName = if (selected) {
+                                            FlorisImeUi.SmartbarCandidateWordText.elementName
+                                        } else {
+                                            FlorisImeUi.SmartbarCandidateWordSecondaryText.elementName
+                                        },
+                                        text = category.name.ifBlank { rootLabel },
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                }
                             }
                         }
                     }
@@ -386,7 +505,11 @@ fun StickerPanel(
                             treeUri = treeUri,
                             restLabel = restLabel,
                             accent = accent,
+                            reorderDocId = reorderDocId,
                             onInsert = { item -> insert(item) },
+                            // Tapping another favourite hands the arrows over to it, so a row can be
+                            // put in order without leaving the mode once per sticker.
+                            onReorderPick = { item -> reorderDocId = item.docId },
                             onLongPress = { item, section ->
                                 menuItem = item
                                 menuSection = section
@@ -464,11 +587,47 @@ fun StickerPanel(
                         }
                         closeMenu()
                     }
+                    if (isPinned) {
+                        // Re-pinning already moves a sticker to the front, so this is here for the
+                        // finer case: a favourite that belongs third, not first.
+                        MediaAction(
+                            icon = Icons.Default.SwapHoriz,
+                            text = stringRes(R.string.sticker__reorder),
+                        ) {
+                            reorderDocId = sheetItem.docId
+                            closeMenu()
+                        }
+                    }
                     if (packs.isNotEmpty()) {
                         MediaAction(
                             icon = Icons.Outlined.DriveFileMove,
                             text = stringRes(R.string.sticker__move_to_pack),
                         ) { packPickerOpen = true }
+                    }
+                    // A pack can be told apart at a glance by one of the stickers in it, which is a
+                    // better label than its name once there are more tabs than fit on screen. Offered
+                    // on the sticker rather than on the tab: this is the moment you are looking at the
+                    // picture and can tell whether it stands for the rest.
+                    val currentPackName = currentIndex?.categories
+                        ?.firstOrNull { it.id == currentPack }?.name.orEmpty()
+                    if (currentPackName.isNotEmpty()) {
+                        val isPackIcon = packSettings.icons[currentPackName] == sheetItem.docId
+                        MediaAction(
+                            icon = Icons.Outlined.Label,
+                            text = stringRes(
+                                if (isPackIcon) R.string.sticker__pack_icon_clear
+                                else R.string.sticker__pack_icon_set
+                            ),
+                        ) {
+                            scope.launch {
+                                StickerPackSettingsHelper.setIcon(
+                                    prefs = prefs,
+                                    pack = currentPackName,
+                                    docId = if (isPackIcon) null else sheetItem.docId,
+                                )
+                            }
+                            closeMenu()
+                        }
                     }
                     if (menuSection == "recent") {
                         MediaAction(
@@ -530,7 +689,9 @@ private fun StickerCategoryPage(
     treeUri: Uri,
     restLabel: String,
     accent: Color,
+    reorderDocId: String?,
     onInsert: (StickerItem) -> Unit,
+    onReorderPick: (StickerItem) -> Unit,
     onLongPress: (StickerItem, String) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
@@ -566,49 +727,40 @@ private fun StickerCategoryPage(
     @Composable
     fun Cell(item: StickerItem, section: String) {
         val cellKey = "$section/${item.docId}"
-        val isArmed = armedKey == cellKey
-        Box {
-            StickerThumb(
-                item = item,
-                treeUri = treeUri,
-                armed = isArmed,
-                accent = accent,
-                scrolling = { gridState.isScrollInProgress },
-                onClick = {
-                    inputFeedbackController.keyPress(TextKeyData.UNSPECIFIED)
+        // The same ring marks both states, because both mean the same thing: this is the sticker the
+        // next button press acts on.
+        val isMoving = section == "pinned" && reorderDocId == item.docId
+        val isArmed = armedKey == cellKey || isMoving
+        StickerCell(
+            item = item,
+            treeUri = treeUri,
+            armed = isArmed,
+            preparing = preparingDocId == item.docId,
+            accent = accent,
+            scrolling = { gridState.isScrollInProgress },
+            onClick = {
+                inputFeedbackController.keyPress(TextKeyData.UNSPECIFIED)
+                when {
+                    // Nothing is sent while the arrows are up. A favourite hands them over; any
+                    // other sticker is not a thing the arrows could move, so the tap does nothing
+                    // rather than quietly doing the one thing the mode exists to prevent.
+                    reorderDocId != null -> if (section == "pinned") onReorderPick(item)
                     // With confirmation on, the first tap arms and the second sends. A quick
                     // double-tap therefore sends in one motion without a shortcut of its own, and
                     // tapping a different sticker moves the armed state rather than sending it.
-                    if (!confirmBeforeInsert || isArmed) {
+                    !confirmBeforeInsert || isArmed -> {
                         armedKey = null
                         onInsert(item)
-                    } else {
-                        armedKey = cellKey
                     }
-                },
-                onLongClick = {
-                    inputFeedbackController.keyLongPress(TextKeyData.UNSPECIFIED)
-                    armedKey = null
-                    onLongPress(item, section)
-                },
-            )
-            if (preparingDocId == item.docId) {
-                // Sized to the cell so it reads as "this one is busy" rather than "the panel is busy".
-                Box(
-                    modifier = Modifier.matchParentSize().background(Color(0x66000000)),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    // Accent, not the default: with no MaterialTheme in the IME, an untinted
-                    // indicator comes out in Compose's built-in purple — the same reason the shared
-                    // scrollbar was invisible here.
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        strokeWidth = 2.dp,
-                        color = accent,
-                    )
+                    else -> armedKey = cellKey
                 }
-            }
-        }
+            },
+            onLongClick = {
+                inputFeedbackController.keyLongPress(TextKeyData.UNSPECIFIED)
+                armedKey = null
+                onLongPress(item, section)
+            },
+        )
     }
 
     LazyVerticalGrid(
@@ -642,6 +794,53 @@ private fun StickerCategoryPage(
                 }
             }
             items(shown, key = { "all-${it.docId}" }) { item -> Cell(item, "all") }
+        }
+    }
+}
+
+/**
+ * One sticker as it appears in any grid — the panel's own, and the search results above the keyboard.
+ *
+ * Shared because the busy ring is the part that would otherwise be forgotten in the second place:
+ * converting a sticker on the way out takes about a second, and a second of nothing after a tap reads
+ * as a broken button rather than as work.
+ */
+@Composable
+internal fun StickerCell(
+    item: StickerItem,
+    treeUri: Uri,
+    armed: Boolean,
+    preparing: Boolean,
+    accent: Color,
+    scrolling: () -> Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
+    Box {
+        StickerThumb(
+            item = item,
+            treeUri = treeUri,
+            armed = armed,
+            accent = accent,
+            scrolling = scrolling,
+            onClick = onClick,
+            onLongClick = onLongClick,
+        )
+        if (preparing) {
+            // Sized to the cell so it reads as "this one is busy" rather than "the panel is busy".
+            Box(
+                modifier = Modifier.matchParentSize().background(Color(0x66000000)),
+                contentAlignment = Alignment.Center,
+            ) {
+                // Accent, not the default: with no MaterialTheme in the IME, an untinted indicator
+                // comes out in Compose's built-in purple — the same reason the shared scrollbar was
+                // invisible here.
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.dp,
+                    color = accent,
+                )
+            }
         }
     }
 }

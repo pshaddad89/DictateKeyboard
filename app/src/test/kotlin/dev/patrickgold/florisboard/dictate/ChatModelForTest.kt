@@ -13,8 +13,11 @@ package dev.patrickgold.florisboard.dictate
 import dev.patrickgold.florisboard.dictate.provider.ProviderAccount
 import dev.patrickgold.florisboard.dictate.provider.ProviderRegistry
 import dev.patrickgold.florisboard.dictate.provider.chatModelFor
+import dev.patrickgold.florisboard.dictate.provider.chatModelIsPresetDefault
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 /**
  * Which model a rewording actually goes out with (issue #313).
@@ -53,9 +56,12 @@ class ChatModelForTest {
     }
 
     @Test
-    fun `an explicit choice wins over the shared field`() {
+    fun `the merged field wins over a rewording model the fold has hidden`() {
+        // Turning single-call on folds the rewording field away, so whatever it still holds is a value the
+        // user can no longer see or edit. What is on screen has to be what runs, or the dialog is lying
+        // again — which is what #313 was.
         val a = account(chat = "gemini-3.5-flash", transcription = "gemini-3.6-flash", singleCall = true)
-        assertEquals("gemini-3.5-flash", chatModelFor(a, gemini))
+        assertEquals("gemini-3.6-flash", chatModelFor(a, gemini))
     }
 
     @Test
@@ -66,11 +72,43 @@ class ChatModelForTest {
     }
 
     @Test
-    fun `a dedicated speech-to-text model cannot reword`() {
-        // Gemini's transcribe models answer on their own endpoint and have no chat surface, so single-call
-        // does not run for them either — the same condition the dictation path applies.
+    fun `what the user typed is used, even where the app would have known better`() {
+        // A speech-to-text model in the merged field cannot reword, and it is used anyway: the app has no
+        // reliable way to tell those apart, and the version that tried refused to fold the settings fields
+        // together and explained nothing. The failure then names the model that was chosen, which is the
+        // outcome both #313 and its reporter asked for.
         val a = account(transcription = "gemini-3.5-transcribe", singleCall = true)
+        assertEquals("gemini-3.5-transcribe", chatModelFor(a, gemini))
+    }
+
+    @Test
+    fun `an empty merged field is not a choice, so each side keeps its own default`() {
+        // The ordinary state since the dialog stopped filling its fields in. Sharing the *transcription*
+        // default here would mean a fresh Gemini account rewording with gemini-3.5-transcribe and failing
+        // until the user typed something.
+        assertEquals(gemini.defaultChatModel, chatModelFor(account(singleCall = true), gemini))
+        assertEquals(groq.defaultChatModel, chatModelFor(account(singleCall = true), groq))
+    }
+
+    @Test
+    fun `the hint about a built-in default fires exactly when nobody chose the model`() {
+        // Nothing chosen: whatever runs came from the preset.
+        assertTrue(chatModelIsPresetDefault(account(), gemini))
+        assertTrue(chatModelIsPresetDefault(account(singleCall = true), gemini))
+        // A rewording model the user picked needs no explanation of where it came from.
+        assertFalse(chatModelIsPresetDefault(account(chat = "gemini-3.6-flash"), gemini))
+        // Nor does one handed over by the merged field.
+        assertFalse(
+            chatModelIsPresetDefault(account(transcription = "gemini-3.6-flash", singleCall = true), gemini),
+        )
+    }
+
+    @Test
+    fun `the transcription model stays out of it while the fields are separate`() {
+        // Switch off means two fields, and the one the user is not looking at has no say.
+        val a = account(transcription = "gemini-3.6-flash", singleCall = false)
         assertEquals(gemini.defaultChatModel, chatModelFor(a, gemini))
+        assertTrue(chatModelIsPresetDefault(a, gemini))
     }
 
     @Test

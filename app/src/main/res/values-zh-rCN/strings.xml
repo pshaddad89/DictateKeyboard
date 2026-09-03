@@ -1596,7 +1596,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">转录和改写模型</string>
     <string name="dictate__providers_single_call_title">单次多模态调用</string>
     <string name="dictate__providers_single_call_summary">一个支持音频的模型在一次请求中完成转录和格式化。</string>
-    <string name="dictate__providers_single_call_pick_audio">选择一个支持音频输入的模型（在模型列表中以 🎤 标记）。</string>
     <string name="dictate__providers_rewording_single_call_note">当前未使用 — 你的转录服务商在其单次调用中完成改写。</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">从已配对手表听写的选项</string>
@@ -2060,6 +2059,13 @@
     <string name="sticker__section_rest">所有贴纸</string>
     <string name="sticker__pin">添加到收藏</string>
     <string name="sticker__unpin">从收藏中移除</string>
+    <string name="sticker__reorder">调整位置</string>
+    <string name="sticker__reorder_hint">用箭头移动</string>
+    <string name="sticker__reorder_earlier">向前移动</string>
+    <string name="sticker__reorder_later">向后移动</string>
+    <string name="sticker__search">搜索贴纸</string>
+    <string name="sticker__search_placeholder">按文件名搜索</string>
+    <string name="sticker__search_no_results">没有同名贴纸</string>
     <string name="sticker__setup_needed">选择一个文件夹以使用你自己的贴纸</string>
     <string name="sticker__setup_needed_action">打开设置</string>
     <string name="sticker__folder_empty">此文件夹中没有图片</string>
@@ -2109,6 +2115,10 @@
     <string name="sticker__pack_new">新建贴纸包</string>
     <string name="sticker__pack_name">贴纸包名称</string>
     <string name="sticker__pack_rename">重命名</string>
+    <string name="sticker__pack_move_up">上移</string>
+    <string name="sticker__pack_move_down">下移</string>
+    <string name="sticker__pack_icon_set">设为贴纸包图标</string>
+    <string name="sticker__pack_icon_clear">移除贴纸包图标</string>
     <string name="sticker__pack_delete">删除贴纸包</string>
     <string name="sticker__pack_delete_confirm">要删除贴纸包“{name}”及其中的 {n} 个贴纸吗？</string>
     <string name="sticker__pack_failed">没有成功 — 该文件夹可能是只读的</string>

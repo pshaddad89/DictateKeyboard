@@ -1557,7 +1557,6 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__providers_field_transcription_rewording_model">Model transkripsi &amp; penyusunan ulang</string>
     <string name="dictate__providers_single_call_title">Panggilan tunggal multimodal</string>
     <string name="dictate__providers_single_call_summary">Satu model berkemampuan audio mentranskripsi dan memformat dalam satu permintaan.</string>
-    <string name="dictate__providers_single_call_pick_audio">Pilih model yang mendukung audio (ditandai 🎤 di daftar model).</string>
     <string name="dictate__providers_rewording_single_call_note">Sedang tidak digunakan — penyedia transkripsi Anda melakukan penyusunan ulang dalam panggilan tunggalnya.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Opsi untuk mendikte dari jam tangan yang dipasangkan</string>
@@ -2021,6 +2020,13 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="sticker__section_rest">Semua stiker</string>
     <string name="sticker__pin">Tambahkan ke favorit</string>
     <string name="sticker__unpin">Hapus dari favorit</string>
+    <string name="sticker__reorder">Ubah posisi</string>
+    <string name="sticker__reorder_hint">Pindahkan dengan panah</string>
+    <string name="sticker__reorder_earlier">Pindahkan ke awal</string>
+    <string name="sticker__reorder_later">Pindahkan ke akhir</string>
+    <string name="sticker__search">Cari stiker</string>
+    <string name="sticker__search_placeholder">Cari berdasarkan nama file</string>
+    <string name="sticker__search_no_results">Tidak ada stiker dengan nama itu</string>
     <string name="sticker__setup_needed">Pilih folder untuk memakai stiker milikmu sendiri</string>
     <string name="sticker__setup_needed_action">Buka pengaturan</string>
     <string name="sticker__folder_empty">Tidak ada gambar di folder ini</string>
@@ -2070,6 +2076,10 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="sticker__pack_new">Buat paket</string>
     <string name="sticker__pack_name">Nama paket</string>
     <string name="sticker__pack_rename">Ganti nama</string>
+    <string name="sticker__pack_move_up">Naikkan</string>
+    <string name="sticker__pack_move_down">Turunkan</string>
+    <string name="sticker__pack_icon_set">Gunakan sebagai ikon paket</string>
+    <string name="sticker__pack_icon_clear">Hapus ikon paket</string>
     <string name="sticker__pack_delete">Hapus paket</string>
     <string name="sticker__pack_delete_confirm">Hapus paket \"{name}\" beserta {n} stiker di dalamnya?</string>
     <string name="sticker__pack_failed">Tidak berhasil — folder mungkin dilindungi dari penulisan</string>

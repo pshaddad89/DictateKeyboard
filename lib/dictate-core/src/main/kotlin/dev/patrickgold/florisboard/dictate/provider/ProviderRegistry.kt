@@ -546,6 +546,13 @@ object ProviderRegistry {
     fun isGeminiTranscribeModel(model: String): Boolean =
         model.removePrefix("models/").lowercase().contains("transcribe")
 
+    // A general "is this a speech-to-text model" check briefly lived here, so the single-call switch and
+    // the rewording model could be decided from it. It is gone on purpose: guessing a model's abilities
+    // from its name held for the ids we knew and misfired on the rest, and the wrong answer cost more
+    // than the right one gave — it refused to fold the settings fields together and explained nothing
+    // (#313). Which model can do what is now the user's call. The Gemini check above stays because it
+    // answers a different question: which *endpoint* a request travels.
+
     /** Builds a preset for a user-defined OpenAI-compatible endpoint. */
     /**
      * [realtime] marks a server the user has told us speaks the OpenAI realtime protocol under

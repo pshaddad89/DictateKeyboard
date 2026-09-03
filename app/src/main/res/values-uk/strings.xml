@@ -1449,7 +1449,6 @@
     <string name="dictate__providers_field_transcription_rewording_model">Модель транскрипції та переформулювання</string>
     <string name="dictate__providers_single_call_title">Один мультимодальний запит</string>
     <string name="dictate__providers_single_call_summary">Одна модель із підтримкою аудіо транскрибує та форматує за один запит.</string>
-    <string name="dictate__providers_single_call_pick_audio">Виберіть модель із підтримкою аудіо (позначена 🎤 у списку моделей).</string>
     <string name="dictate__providers_rewording_single_call_note">Зараз не використовується — ваш постачальник транскрипції виконує переформулювання у своєму єдиному запиті.</string>
     <string name="dictate__wear_title">Wear OS</string>
     <string name="dictate__wear_summary">Параметри диктування з парного годинника</string>
@@ -1913,6 +1912,13 @@
     <string name="sticker__section_rest">Усі стікери</string>
     <string name="sticker__pin">До обраного</string>
     <string name="sticker__unpin">Прибрати з обраного</string>
+    <string name="sticker__reorder">Змінити позицію</string>
+    <string name="sticker__reorder_hint">Переміщуйте стрілками</string>
+    <string name="sticker__reorder_earlier">Перемістити до початку</string>
+    <string name="sticker__reorder_later">Перемістити до кінця</string>
+    <string name="sticker__search">Пошук стікерів</string>
+    <string name="sticker__search_placeholder">Пошук за іменем файлу</string>
+    <string name="sticker__search_no_results">Немає стікера з такою назвою</string>
     <string name="sticker__setup_needed">Виберіть теку, щоб використовувати власні стікери</string>
     <string name="sticker__setup_needed_action">Відкрити налаштування</string>
     <string name="sticker__folder_empty">У цій теці немає зображень</string>
@@ -1962,6 +1968,10 @@
     <string name="sticker__pack_new">Створити набір</string>
     <string name="sticker__pack_name">Назва набору</string>
     <string name="sticker__pack_rename">Перейменувати</string>
+    <string name="sticker__pack_move_up">Вгору</string>
+    <string name="sticker__pack_move_down">Вниз</string>
+    <string name="sticker__pack_icon_set">Зробити значком набору</string>
+    <string name="sticker__pack_icon_clear">Прибрати значок набору</string>
     <string name="sticker__pack_delete">Видалити набір</string>
     <string name="sticker__pack_delete_confirm">Видалити набір «{name}» і {n} стікерів у ньому?</string>
     <string name="sticker__pack_failed">Не вийшло — можливо, тека захищена від запису</string>
