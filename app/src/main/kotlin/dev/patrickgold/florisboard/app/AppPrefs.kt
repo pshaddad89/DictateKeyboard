@@ -35,6 +35,7 @@ import dev.patrickgold.florisboard.dictate.DictateReasoningEffort
 import dev.patrickgold.florisboard.dictate.data.mappings.DictateMappings
 import dev.patrickgold.florisboard.dictate.gif.GifContentFilter
 import dev.patrickgold.florisboard.dictate.gif.GifHistory
+import dev.patrickgold.florisboard.dictate.overlay.BubbleAnchors
 import dev.patrickgold.florisboard.dictate.provider.DictateProxyType
 import dev.patrickgold.florisboard.dictate.provider.ProviderAccounts
 import dev.patrickgold.florisboard.dictate.sticker.StickerHistory
@@ -490,6 +491,16 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         val floatingButtonRememberPosition = boolean(
             key = "dictate__floating_button_remember_position",
             default = true,
+        )
+        // The remembered positions themselves (issue #323). Each is an anchor — a side of the screen plus
+        // a share of the travel — not a pixel pair, so a position keeps its meaning when the screen it was
+        // made on changes shape: a rotation, a foldable opening, a move into split screen. Persisted
+        // because the map used to live in the accessibility service and nowhere else, which made
+        // "remember" true only until that service was next restarted.
+        val floatingButtonPositions = custom(
+            key = "dictate__floating_button_positions",
+            default = BubbleAnchors.Empty,
+            serializer = BubbleAnchors.Serializer,
         )
         // Vibrate briefly when the button is tapped.
         val floatingButtonHaptic = boolean(
@@ -1154,9 +1165,13 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "input_feedback__haptic_feat_key_press",
             default = true,
         )
+        // On since issue #325. Both were off upstream, which was defensible while gesture swipes fed
+        // nothing and a long press was only ever an accent popup. Now that the swipe channel reaches the
+        // keyboard, and because both also carry the push-to-talk hold — start, lock, and *discard a
+        // recording* — leaving them off shipped a destructive gesture you cannot feel.
         val hapticFeatKeyLongPress = boolean(
             key = "input_feedback__haptic_feat_key_long_press",
-            default = false,
+            default = true,
         )
         val hapticFeatKeyRepeatedAction = boolean(
             key = "input_feedback__haptic_feat_key_repeated_action",
@@ -1164,7 +1179,7 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         )
         val hapticFeatGestureSwipe = boolean(
             key = "input_feedback__haptic_feat_gesture_swipe",
-            default = false,
+            default = true,
         )
         val hapticFeatGestureMovingSwipe = boolean(
             key = "input_feedback__haptic_feat_gesture_moving_swipe",
@@ -1333,6 +1348,13 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         val subtypes = string(
             key = "localization__subtypes",
             default = "[]",
+        )
+        // One-time guard: existing Hindi subtypes were saved with the old character layout and the
+        // Devanagari digit row, neither of which the preset asks for any more (issue #315). See
+        // DictateLegacyMigrator.migrateHindiDefaultsIfNeeded.
+        val hindiDefaultsMigrated = boolean(
+            key = "localization__hindi_defaults_migrated",
+            default = false,
         )
     }
 

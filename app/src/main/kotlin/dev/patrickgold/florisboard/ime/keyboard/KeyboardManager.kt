@@ -55,6 +55,7 @@ import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.key.KeyType
 import dev.patrickgold.florisboard.ime.text.key.KeyVariation
 import dev.patrickgold.florisboard.ime.text.key.UtilityKeyAction
+import dev.patrickgold.florisboard.ime.text.keyboard.DevanagariBase
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardCache
 import dev.patrickgold.florisboard.lib.devtools.LogTopic
@@ -140,6 +141,14 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
     val gifSearchSubmit = MutableStateFlow<String?>(null)
 
     /**
+     * The Devanagari consonant sitting directly in front of the cursor, or [DevanagariBase.NONE] (#315).
+     *
+     * A [MutableStateFlow] drops equal values, and [DevanagariBase.of] is a single character test, so for
+     * every non-Indic language this never changes and costs no extra key recomputation per keystroke.
+     */
+    private val pendingDevanagariBase = MutableStateFlow(DevanagariBase.NONE)
+
+    /**
      * The live query of the sticker search (issue #317), or `null` when no search is running.
      *
      * Shaped like the emoji search rather than the GIF one, because the difference between them is
@@ -211,6 +220,10 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
             }
             editorInstance.activeContentFlow.collectIn(scope) { content ->
                 resetSuggestions(content)
+                pendingDevanagariBase.value = DevanagariBase.of(content.textBeforeSelection)
+            }
+            pendingDevanagariBase.collectLatestIn(scope) {
+                updateActiveEvaluators()
             }
             prefs.devtools.enabled.asFlow().collectLatestIn(scope) {
                 reevaluateDebugFlags()
@@ -325,6 +338,15 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
             else -> null
         }
         if (keyData != null) {
+            // The one place a completed swipe becomes an input event, and therefore the one place its
+            // feedback belongs (issue #325). Seven call sites detect swipes; none of them used to ask for
+            // a tick, so "Gesture swipe sounds/vibration" was wired to nothing on the keyboard while its
+            // summary string said as much. Sitting inside this branch is what keeps the rule honest: the
+            // actions that map to no key data — NO_ACTION, and the "precisely" ones handled during the
+            // move, where gestureMovingSwipe already ticks per step — stay silent by construction rather
+            // than by a second list that could drift. Passing keyData buys the right sound for free:
+            // DELETE_WORD gets the delete effect, INSERT_SPACE the spacebar one.
+            FlorisImeService.inputFeedbackController()?.gestureSwipe(keyData)
             inputEventDispatcher.sendDownUp(keyData)
         }
     }
@@ -1451,6 +1473,9 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
 
         override val isGifSearchActive: Boolean
             get() = gifSearchQuery.value != null
+
+        override val devanagariBase: Int
+            get() = pendingDevanagariBase.value
 
         override fun context(): Context = appContext
 

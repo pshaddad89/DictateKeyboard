@@ -166,6 +166,12 @@ object ProviderRegistry {
         // MAI-Transcribe, …). Its endpoint currently accepts OpenAI-compatible multipart; streaming the
         // file avoids the extra base64 copy and oversized JSON body. The client retains documented JSON
         // as a compatibility fallback if OpenRouter explicitly rejects multipart.
+        //
+        // Two documented ceilings apply and neither is ours to widen (#321): a multipart upload may not
+        // exceed 25 MB (see [maxUploadBytes]), and a request gets ~60 seconds of *processing* time — not
+        // a cap on audio length, so it cannot honestly be turned into a duration: how much speech fits
+        // depends on the chosen model's speed. `prompt` is accepted by the endpoint and then discarded
+        // (only Groq reads one, through `provider.options`), so a vocabulary hint does nothing here.
         capabilities = CHAT_AND_STT,
         transcriptionApi = TranscriptionApi.OPENROUTER_MULTIPART,
         supportsDynamicModels = true,
@@ -173,13 +179,34 @@ object ProviderRegistry {
         // OpenRouter exposes hundreds of models (incl. Claude, Gemini, Llama …); users pick from the
         // live catalog. This is just a safe default to start with and is fully user-overridable.
         defaultChatModel = "openai/gpt-4o-mini",
-        defaultTranscriptionModel = "openai/whisper-large-v3",
-        // Dedicated STT models (MAI-Transcribe, Whisper, Parakeet, …) are discovered live now: the picker
+        // gpt-transcribe is the same model the OpenAI preset defaults to, which is the point: one model
+        // behaving one way across providers, already exercised by this app. It is also the only entry
+        // below that OpenRouter does not route — OpenAI is its sole upstream, so nobody's dictation
+        // quality depends on which backend won the draw that minute. It costs $0.0045/min against the
+        // ~$0.0005/min the outgoing Whisper default reached via DeepInfra; the cheap route stays one tap
+        // away in the picker. Everyone who never chose a model stores an empty string and resolves
+        // through here on every call, so existing installs move too; an explicit choice is untouched.
+        defaultTranscriptionModel = "openai/gpt-transcribe",
+        // Dedicated STT models (MAI-Transcribe, Whisper, Parakeet, …) are discovered live: the picker
         // queries /models?output_modalities=all and classifies audio→transcription entries (issue #157).
-        // This short curated list is just an offline baseline shown before a catalog fetch / without a key.
+        // That parameter is not optional trivia — the bare /models defaults to `output_modalities=text`
+        // and hides EVERY speech-to-text model, which is how #321 came to report a catalog that had lost
+        // them all. `tools/check-openrouter-models.py` re-checks the ids below against the right URL.
+        //
+        // Verified 2026-09-04, each with a live endpoint. Prices are read off the model pages, never off
+        // `pricing.prompt`: OpenRouter does not normalize that field, so the same key means per minute
+        // for gpt-transcribe, per hour for Groq's Whisper and per second for DeepInfra's.
+        //   openai/gpt-transcribe          $0.0045/min   OpenAI
+        //   microsoft/mai-transcribe-2     $0.10/h       Azure — 60 languages, code-switching
+        //   mistralai/voxtral-mini-transcribe $0.003/min Mistral (also an EU region)
+        //   deepgram/nova-3                $0.0043/min   Deepgram
+        //   openai/whisper-large-v3-turbo  cheapest      DeepInfra, Groq
+        //   openai/whisper-large-v3        from $0.00048/min via DeepInfra (also Together, Groq) — kept
+        //                                  because it was the default until now, so a choice stays visible.
         curatedTranscriptionModels = listOf(
-            "microsoft/mai-transcribe-1.5",
-            "openai/gpt-4o-transcribe", "openai/whisper-large-v3",
+            "openai/gpt-transcribe", "microsoft/mai-transcribe-2",
+            "mistralai/voxtral-mini-transcribe", "deepgram/nova-3",
+            "openai/whisper-large-v3-turbo", "openai/whisper-large-v3",
         ),
         // Attribution headers recommended by OpenRouter: both are used for app ranking and some routes
         // reject requests without an HTTP-Referer. The value is a stable identifier, not a real URL.
@@ -518,11 +545,16 @@ object ProviderRegistry {
      *  - ElevenLabs 3 GB, Deepgram 2 GB, AssemblyAI 2.2 GB through the upload endpoint. Far beyond
      *    anything a keyboard produces; recorded so the number is not looked up twice.
      *  - SiliconFlow 50 MB (and one hour), from its transcription API reference.
+     *  - OpenRouter 25 MB for a multipart upload, added 2026-09-04 while checking #321 — it was simply
+     *    missing, which meant the file-import path never split anything for it and a shared recording
+     *    went out whole to be refused. Its harder limit is not a size at all: a request gets about 60
+     *    seconds of *processing* time, and that does not convert into an audio length honestly, because
+     *    how much speech fits depends on the chosen model's speed rather than on anything we control.
      *  - Mistral and Soniox document a *duration* (3 hours, 300 minutes) but no size, so they stay 0.
      *    Do not translate a duration into bytes here: the encoding is not theirs to assume.
      */
     fun maxUploadBytes(providerId: String): Long = when (providerId) {
-        "openai", "cloud", "groq" -> 25L * 1024 * 1024
+        "openai", "cloud", "groq", "openrouter" -> 25L * 1024 * 1024
         "gemini" -> 15L * 1024 * 1024
         "siliconflow" -> 50L * 1024 * 1024
         "elevenlabs" -> 3L * 1024 * 1024 * 1024

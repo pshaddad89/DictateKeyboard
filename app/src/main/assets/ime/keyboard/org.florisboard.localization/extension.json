@@ -786,8 +786,17 @@
       "currencySet": "org.florisboard.currencysets:indian_rupee",
       "popupMapping": "org.florisboard.localization:hi-IN",
       "preferred": {
-        "characters": "org.florisboard.layouts:hindi_in",
-        "numericRow": "org.florisboard.layouts:devanagari"
+        "characters": "org.florisboard.layouts:hindi_varnamala"
+      },
+      "numberRow": false
+    },
+    {
+      "languageTag": "hi-IN",
+      "composer": "org.florisboard.composers:appender",
+      "currencySet": "org.florisboard.currencysets:indian_rupee",
+      "popupMapping": "org.florisboard.localization:hi-IN",
+      "preferred": {
+        "characters": "org.florisboard.layouts:hindi_in"
       }
     },
     {
