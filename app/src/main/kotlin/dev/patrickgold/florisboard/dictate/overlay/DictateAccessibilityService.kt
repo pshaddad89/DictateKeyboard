@@ -16,6 +16,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.ClipData
+import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -27,13 +28,17 @@ import android.os.PowerManager
 import android.os.SystemClock
 import android.os.Handler
 import android.os.Looper
+import android.os.PersistableBundle
 import android.provider.Settings
 import android.os.Bundle
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityWindowInfo
 import android.view.inputmethod.EditorInfo
+import dev.patrickgold.florisboard.BuildConfig
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.dictate.DictateController
 import dev.patrickgold.florisboard.lib.devtools.flogDebug
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,6 +63,8 @@ import org.florisboard.lib.android.systemService
  * foreground service while a bubble-driven dictation records, so background mic capture is allowed.
  */
 class DictateAccessibilityService : AccessibilityService() {
+
+    private val prefs by FlorisPreferenceStore
 
     private var bubble: DictateBubbleController? = null
     private var isForeground = false
@@ -142,8 +149,40 @@ class DictateAccessibilityService : AccessibilityService() {
             // This is the only subscribed event which can arrive for every keystroke. Keep it coalesced
             // so caret moves and text selection do not cause a focused-node IPC round trip per character.
             AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED -> scheduleFocusUpdate()
+            // The one witness that says what the *user* sees. Deliberately nothing but three field
+            // writes — no node fetch, which is what made a per-keystroke event expensive (#222).
+            AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> noteTextAdded(event)
         }
     }
+
+    // --- "Did the text arrive?", asked of the system instead of the field ---------------------------
+    // A read-back asks the field to describe itself, and both ways of asking have now been measured
+    // lying: the accessibility node of a Compose text field still reported an empty field 300 ms after
+    // a write that had visibly landed (it caught up seconds later), and the input connection reports
+    // back what it wrote even into an editor the app had thrown away (#310). This is the third witness
+    // and the only independent one: the platform announcing that a field's text grew.
+
+    @Volatile
+    private var textAddedAt = 0L
+
+    @Volatile
+    private var textAddedWindowId = -1
+
+    /**
+     * Records that some field gained text. [AccessibilityEvent.getAddedCount] is what makes this usable
+     * as evidence: an app clearing its own composer after a send also fires a text-changed event, and
+     * that is precisely the moment ([#132], [#161]) where mistaking someone else's change for our own
+     * would resurrect "green check, no text".
+     */
+    private fun noteTextAdded(event: AccessibilityEvent) {
+        if (event.addedCount <= 0) return
+        textAddedAt = SystemClock.uptimeMillis()
+        textAddedWindowId = event.windowId
+    }
+
+    /** Whether a field in [windowId] gained text since [since]; any window when [windowId] is unknown. */
+    private fun textAddedSince(since: Long, windowId: Int): Boolean =
+        textAddedAt >= since && (windowId == -1 || textAddedWindowId == windowId)
 
     /**
      * The currently input-focused node if it is an editable text field, else null. Asks whether there is
@@ -294,6 +333,21 @@ class DictateAccessibilityService : AccessibilityService() {
     }
 
     /**
+     * The field's content and caret as far as they could be **proven**, and where that proof came from
+     * ([source], for the log line only).
+     *
+     * There is deliberately no "unknown" value: unknown is `null`, and keeping that apart from an empty
+     * field is the whole of issue #314. A placeholder read as content prepends a word the user never
+     * said; content read as empty *deletes* what they wrote.
+     */
+    internal data class FieldContent(
+        val text: String,
+        val start: Int,
+        val end: Int,
+        val source: String,
+    )
+
+    /**
      * Inserts [text] into the focused editable field at the cursor, replacing the active selection
      * (matching the IME `commitText` semantics) and placing the cursor right after the inserted text.
      * Falls back to appending at the end when the field reports no usable selection. Returns true when
@@ -301,6 +355,18 @@ class DictateAccessibilityService : AccessibilityService() {
      */
     private fun commitTextIntoFocused(text: String, verify: Boolean = true): Boolean {
         if (text.isEmpty()) return true // silence: nothing to insert — a no-op is a success, not a failure.
+
+        // The ceiling on everything this call may wait for. commitOutput runs on the main thread, so it
+        // exists to bound how long the UI is blocked — but it is only a *ceiling*: each verification
+        // gets its own [VERIFY_WAIT_MS] measured from its own write. Sharing one deadline from here was
+        // wrong and cost nothing less than the verdict itself: resolving the field, focusing it and the
+        // write ate the budget, so the first read-back found the deadline already passed and never
+        // waited at all — which is how a Compose field that simply had not published its new text yet
+        // read as "swallowed".
+        val commitDeadline = SystemClock.uptimeMillis() + COMMIT_BUDGET_MS
+        // Only for the failure log line: a commit that lost tells us much more when it also says what it
+        // was able to work out about the field.
+        var lastSource = "-"
 
         // Insert exactly like a normal keyboard: through the accessibility input connection's commitText,
         // straight into the field at the cursor — no clipboard, no toast, and it never prepends a shown
@@ -329,14 +395,22 @@ class DictateAccessibilityService : AccessibilityService() {
             // that path would write into the host app instead. Go through the node for it (#310).
             val viaNodeOnly = target != null && isInsideImeWindow(target)
 
+            // Read the field through the input connection BEFORE writing through it. Afterwards it would
+            // hand our own text back even when the app has already thrown that editor away (#310) — and
+            // this reading is what decides below whether the field may be rebuilt at all (#314).
+            val icContent = if (viaNodeOnly) null else readWholeFieldFromConnection()
+
             // 1. The keyboard-style path: commit through the input connection (no clipboard, no toast).
             //    Its API returns void, so "it did not throw" is all the call itself tells us — hence the
             //    read-back below (issue #277).
             val beforeText = if (verify) readNodeText(target) else null
             val before = if (verify && !viaNodeOnly) readBeforeCursor(text.length) else null
+            val icWriteAt = SystemClock.uptimeMillis()
             if (!viaNodeOnly && commitViaInputConnection(text)) {
-                if (!verify || landedInField(target, beforeText, before, text.length)) {
-                    flogDebug { "commit via inputConnection len=${text.length}" }
+                if (!verify ||
+                    landedInField(target, beforeText, before, text.length, icWriteAt, commitDeadline)
+                ) {
+                    logCommit("ic", icContent?.source ?: "-", text.length)
                     return true
                 }
                 if (beforeText == null) {
@@ -346,6 +420,7 @@ class DictateAccessibilityService : AccessibilityService() {
                     // twice, which is worse than a wrong error message. The caller puts it on the
                     // clipboard instead.
                     flogDebug { "commit swallowed, no node to recover through len=${text.length}" }
+                    logCommit("none", "-", text.length)
                     return false
                 }
                 // The *field* — the thing the user is looking at — demonstrably did not change, so the
@@ -355,31 +430,83 @@ class DictateAccessibilityService : AccessibilityService() {
                 // just put into an editor the app had already discarded.
                 flogDebug { "commit swallowed by the field, recovering via the node len=${text.length}" }
             }
-            // 2. Fallback: write straight into the visible node (older OS without the a11y input method, or
-            //    fields that expose no editor connection). Placeholder-safe via editableText().
-            if (target != null && setTextOnFocused(target, text)) {
+
+            // What is in the field and where the caret is, as far as it can be **proven**. Null means
+            // *unknown*, never "empty" — keeping those two apart is the whole of issue #314.
+            val content = resolveFieldContent(target, icContent)
+            lastSource = content?.source ?: "unknown"
+
+            // 2. Rebuild the field through the node — but only around content we can prove. This is the
+            //    one mechanism that can invent text: it sends back the whole field, so anything it
+            //    misread (WhatsApp's "Message" placeholder) is written in as if the user had said it.
+            val setTextWriteAt = SystemClock.uptimeMillis()
+            if (target != null && content != null && setTextOnFocused(target, text, content)) {
                 // ACTION_SET_TEXT returning true means the action was accepted, not that the text stuck —
                 // the same void-return problem one level down, and the reason this path used to report
                 // success unconditionally.
                 // [beforeText] is still the right baseline: either path 1 never ran, or it ran and the
                 // node proved it changed nothing.
-                if (!verify || landedInField(target, beforeText, null, text.length)) {
-                    flogDebug { "commit via setText len=${text.length}" }
+                if (!verify ||
+                    landedInField(target, beforeText, null, text.length, setTextWriteAt, commitDeadline)
+                ) {
+                    logCommit("setText", content.source, text.length)
                     return true
                 }
                 flogDebug { "setText accepted but changed nothing len=${text.length}" }
             }
-            // 3. Last resort only: clipboard paste (WebView/custom inputs that ignore both). The paste
-            //    toast is therefore the rare exception, never the normal case.
+            // 3. Paste. It inserts at the field's own caret and never reads what is already there, so it
+            //    is structurally incapable of prepending a placeholder — which is why it now runs ahead
+            //    of an unproven rebuild instead of last. It costs a system clipboard notice, and that is
+            //    the right trade: a notice beats a word the user never said.
+            val pasteWriteAt = SystemClock.uptimeMillis()
             if (target != null && pasteIntoFocused(target, text)) {
-                flogDebug { "commit via paste len=${text.length}" }
-                return true
+                if (!verify ||
+                    landedInField(target, beforeText, null, text.length, pasteWriteAt, commitDeadline)
+                ) {
+                    logCommit("paste", content?.source ?: "unknown", text.length)
+                    clearOwnClipboardAfterPaste(text)
+                    return true
+                }
+                flogDebug { "paste accepted but changed nothing len=${text.length}" }
+            }
+            // 4. Last resort: rebuild around what the node merely claims. Only reached when the field
+            //    refuses everything else, and there a possible prepend still beats no insert at all.
+            val lastResortWriteAt = SystemClock.uptimeMillis()
+            if (target != null && content == null && setTextOnFocused(target, text, guessedContent(target))) {
+                if (!verify ||
+                    landedInField(target, beforeText, null, text.length, lastResortWriteAt, commitDeadline)
+                ) {
+                    logCommit("setText", "unproven", text.length)
+                    return true
+                }
             }
             if (attempt < COMMIT_ATTEMPTS - 1) SystemClock.sleep(COMMIT_RETRY_DELAY_MS)
         }
         flogDebug { "commit FAILED after $COMMIT_ATTEMPTS attempts len=${text.length}" }
+        logCommit("none", lastSource, text.length)
         return false
     }
+
+    /**
+     * One line per commit that survives a release build, unlike [flogDebug]. Names the mechanism that
+     * won and where its knowledge of the field came from — **never the text itself**, only its length.
+     */
+    private fun logCommit(path: String, content: String, length: Int) {
+        val legacy = if (legacyInsertionForced()) " legacy=forced" else ""
+        Log.i(
+            LOG_TAG,
+            "commit path=$path content=$content started=${isInputStarted()}$legacy len=$length",
+        )
+    }
+
+    /**
+     * Whether the accessibility input method currently has a started editing session. Asking this is the
+     * difference between "the connection refused the write" and "there was never a connection" — the
+     * first question to answer when a floating-button insert goes the wrong way.
+     */
+    private fun isInputStarted(): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            runCatching { inputMethod?.currentInputStarted == true }.getOrDefault(false)
 
     /**
      * The field a dictation may be written into: **the one holding input focus, and nothing else.**
@@ -432,6 +559,121 @@ class DictateAccessibilityService : AccessibilityService() {
     }.getOrDefault(false)
 
     /**
+     * Whether the accessibility input connection may be used at all.
+     *
+     * The version check is the real condition: the API arrived with Android 13, and below it the
+     * floating button has nothing but the node and the clipboard — which is where issue #314 lives.
+     *
+     * The devtools switch is what makes that half reachable on a modern phone. Without it every commit
+     * here wins on route 1 and the placeholder handling, the caret probe and the paste route are never
+     * executed at all. An emulator is no substitute: the apps whose fields misreport their placeholder
+     * are precisely the ones that are not installed on one.
+     */
+    private fun inputConnectionUsable(): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !legacyInsertionForced()
+
+    /** Debug builds only, so a release can never be talked out of its best insertion route. */
+    private fun legacyInsertionForced(): Boolean =
+        BuildConfig.DEBUG && runCatching { prefs.devtools.forceLegacyInsertion.get() }.getOrDefault(false)
+
+    /**
+     * The field's whole text and caret, read from the accessibility input connection (API 33+), or null
+     * when that is unavailable or would only give a slice.
+     *
+     * This is the good source and the node is the bad one: the editor itself has no notion of a
+     * placeholder, so it reports an empty field as empty where the node hands out "Message" as if it
+     * were content (issue #314), and its selection is the real caret rather than the node's frequent -1.
+     *
+     * It must be read **before** anything is written through the same connection — afterwards it
+     * faithfully reports our own text back, even out of an editor the app has already discarded (#310).
+     */
+    private fun readWholeFieldFromConnection(): FieldContent? {
+        if (!inputConnectionUsable()) return null
+        val connection = inputMethod?.currentInputConnection ?: return null
+        return runCatching {
+            val window = connection.getSurroundingText(FIELD_READ_WINDOW, FIELD_READ_WINDOW, 0)
+                ?: return null
+            val text = window.text?.toString() ?: return null
+            // Only usable when it is the *whole* field: rebuilding a field out of a slice would delete
+            // the rest of it. We asked for [FIELD_READ_WINDOW] characters on each side, so anything
+            // shorter than one window cannot have been cut off on either side — which settles it without
+            // consulting `offset`. That matters: the default `InputConnection.getSurroundingText` reports
+            // offset -1 (unknown), so requiring offset == 0 threw away every app that does not implement
+            // the call itself — most of them.
+            if (text.length >= FIELD_READ_WINDOW) return null
+            FieldContent(text, window.selectionStart, window.selectionEnd, "ic")
+        }.getOrNull()
+    }
+
+    /**
+     * Whether the node's claim to be holding [text] survives being tested — [claimProbeIndex] explains
+     * what the test is and why a field's answer to it cannot be faked.
+     *
+     * A refusal is only ever "unknown", never "empty": a view with its own accessibility node provider
+     * (WebView, Compose) may refuse for its own reasons, and concluding "empty" there would rebuild the
+     * field without the user's text — deleting real content, which is far worse than a stray prepend.
+     *
+     * The caret is put back where it was afterwards, so someone who placed it mid-sentence still gets
+     * the dictation there and not at the end.
+     */
+    private fun confirmClaimedText(
+        node: AccessibilityNodeInfo,
+        text: String,
+        start: Int,
+        end: Int,
+    ): Boolean {
+        val probe = claimProbeIndex(text.length, start, end) ?: return true
+        val confirmed = runCatching { setSelection(node, probe, probe) }.getOrDefault(false)
+        if (confirmed && start >= 0 && end >= 0) {
+            runCatching { setSelection(node, start, end) }
+        }
+        return confirmed
+    }
+
+    private fun setSelection(node: AccessibilityNodeInfo, start: Int, end: Int): Boolean {
+        val args = Bundle().apply {
+            putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_START_INT, start)
+            putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_END_INT, end)
+        }
+        return node.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, args)
+    }
+
+    /** [fieldContentFrom] over a real node, with [icContent] (read earlier) as the preferred source. */
+    private fun resolveFieldContent(
+        node: AccessibilityNodeInfo?,
+        icContent: FieldContent?,
+    ): FieldContent? {
+        if (icContent == null && node == null) return null
+        val nodeText = node?.let {
+            runCatching {
+                it.refresh()
+                it.editableText()
+            }.getOrDefault("")
+        } ?: ""
+        return fieldContentFrom(
+            icContent = icContent,
+            nodeText = nodeText,
+            nodeStart = node?.textSelectionStart ?: -1,
+            nodeEnd = node?.textSelectionEnd ?: -1,
+            confirmClaimedText = {
+                node != null &&
+                    confirmClaimedText(node, nodeText, node.textSelectionStart, node.textSelectionEnd)
+            },
+        )
+    }
+
+    /**
+     * What the node alone claims, with the caret coerced the way it always was. Unproven by definition —
+     * only for the last resort in [commitTextIntoFocused], where the alternative is inserting nothing.
+     */
+    private fun guessedContent(node: AccessibilityNodeInfo): FieldContent {
+        val text = node.editableText()
+        val from = node.textSelectionStart.coerceForText(text)
+        val to = node.textSelectionEnd.coerceForText(text)
+        return FieldContent(text, minOf(from, to), maxOf(from, to), "unproven")
+    }
+
+    /**
      * The text immediately before the cursor, read back through the *same* input connection the write
      * goes through, or null when it cannot be read.
      *
@@ -442,7 +684,7 @@ class DictateAccessibilityService : AccessibilityService() {
      * is the same floor the write path already has.
      */
     private fun readBeforeCursor(sentLength: Int): String? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return null
+        if (!inputConnectionUsable()) return null
         val connection = inputMethod?.currentInputConnection ?: return null
         return runCatching {
             val window = connection.getSurroundingText(sentLength + VERIFY_WINDOW_PAD, 0, 0) ?: return null
@@ -450,17 +692,6 @@ class DictateAccessibilityService : AccessibilityService() {
             val end = window.selectionStart.coerceIn(0, text.length)
             text.subSequence(0, end).toString()
         }.getOrNull()
-    }
-
-    /**
-     * Whether the write reached the field. Reads back once, and — only if nothing changed — once more
-     * after a short settle, because an app applies a commit on its own UI thread and may not have got
-     * to it yet.
-     */
-    private fun insertLanded(before: String?, sentLength: Int): Boolean {
-        if (insertLandedFrom(before, readBeforeCursor(sentLength))) return true
-        SystemClock.sleep(VERIFY_SETTLE_MS)
-        return insertLandedFrom(before, readBeforeCursor(sentLength))
     }
 
     /**
@@ -484,23 +715,78 @@ class DictateAccessibilityService : AccessibilityService() {
     }
 
     /**
-     * Whether the write reached the field, asking the node when there is one and the input connection
-     * only when there is not.
+     * Whether the write reached the field. Three witnesses, in descending order of trust.
+     *
+     * First the **system's own announcement** ([textAddedSince]): a field somewhere gained characters
+     * after our write. It is the only witness that is not the field describing itself, and it is here
+     * because both of the others were measured lying. It costs nothing to check.
+     *
+     * Then a read-back — the node when there is one, the input connection only when there is not.
+     * **That precedence is not a preference, it is the fix for #310** and must not be relaxed into
+     * "either will do": the connection reads back through the very channel the write went out on, so a
+     * commit into an editor the app has already discarded is reported as having arrived. The node at
+     * least describes something on screen — though not always in time, which is why it is no longer the
+     * only voice: a Compose text field was measured still reporting an empty field 300 ms after a write
+     * that had visibly landed, catching up only seconds later.
      *
      * Both verdicts follow [insertLandedFrom]'s lopsided rule — only a demonstrably unchanged field is a
-     * failure — so an unreadable node falls back to the connection rather than inventing a failure. The
-     * settle covers an app that applies the write on its own UI thread a moment later.
+     * failure — so an unreadable witness never invents one. What did change is the *waiting*: instead of
+     * one 50 ms settle, this polls for [VERIFY_WAIT_MS] **measured from this write**, capped by
+     * [commitDeadline] so the whole commit stays bounded on the main thread.
+     *
+     * The distinction is the entire point. A field does not publish its new text to the accessibility
+     * layer the instant it accepts it — a Compose text field takes a composition pass to get there — so
+     * reading back immediately finds the old text and calls a perfectly good write "swallowed". And a
+     * false swallowed verdict is not harmless: it is what sends the commit on to the next mechanism,
+     * which writes the text a second time and can invent a placeholder along the way (#314).
      */
     private fun landedInField(
         node: AccessibilityNodeInfo?,
         beforeText: String?,
         beforeCursor: String?,
         sentLength: Int,
+        writtenAt: Long,
+        commitDeadline: Long,
     ): Boolean {
-        if (beforeText == null) return insertLanded(beforeCursor, sentLength)
-        if (insertLandedFrom(beforeText, readNodeText(node))) return true
-        SystemClock.sleep(VERIFY_SETTLE_MS)
-        return insertLandedFrom(beforeText, readNodeText(node))
+        val windowId = runCatching { node?.windowId ?: -1 }.getOrDefault(-1)
+        if (textAddedSince(writtenAt, windowId)) return true
+        if (beforeText == null && beforeCursor == null) return true
+        val startedAt = SystemClock.uptimeMillis()
+        val deadline = minOf(startedAt + VERIFY_WAIT_MS, commitDeadline)
+        while (true) {
+            // The system's own announcement first: it costs nothing, it describes the field the user is
+            // looking at, and it is the only witness here that is not the field describing itself.
+            if (textAddedSince(writtenAt, windowId)) return true
+            val landed = if (beforeText != null) {
+                insertLandedFrom(beforeText, readNodeText(node))
+            } else {
+                insertLandedFrom(beforeCursor, readBeforeCursor(sentLength))
+            }
+            if (landed) return true
+            if (SystemClock.uptimeMillis() >= deadline) break
+            SystemClock.sleep(VERIFY_POLL_MS)
+        }
+        flogDebug {
+            "verify: still unchanged after ${SystemClock.uptimeMillis() - startedAt}ms — " +
+                describeForVerify(node, beforeText)
+        }
+        return false
+    }
+
+    /**
+     * The shape of the field a verification just gave up on: class, flags and lengths, **never text**.
+     * Debug builds only, and the first thing to look at when a write that visibly worked is reported as
+     * refused — it says whether the node was unreadable, still showing its hint, or simply behind.
+     */
+    private fun describeForVerify(node: AccessibilityNodeInfo?, beforeText: String?): String {
+        val before = "beforeLen=${beforeText?.length ?: -1}"
+        val target = node ?: return "node=none $before"
+        return runCatching {
+            "cls=${target.className} refresh=${target.refresh()} " +
+                "textLen=${target.text?.length ?: -1} hintLen=${target.hintText?.length ?: -1} " +
+                "showHint=${target.isShowingHintText} " +
+                "sel=${target.textSelectionStart}..${target.textSelectionEnd} $before"
+        }.getOrDefault("node=unreadable $before")
     }
 
     /**
@@ -509,7 +795,7 @@ class DictateAccessibilityService : AccessibilityService() {
      * (older OS, or no editor currently bound), so the caller falls back to the node-based methods.
      */
     private fun commitViaInputConnection(text: String): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return false
+        if (!inputConnectionUsable()) return false
         val connection = inputMethod?.currentInputConnection ?: return false
         return runCatching {
             connection.commitText(text, 1, null)
@@ -518,16 +804,23 @@ class DictateAccessibilityService : AccessibilityService() {
     }
 
     /**
-     * Inserts [text] via [AccessibilityNodeInfo.ACTION_SET_TEXT], reconstructing the field content around the
-     * cursor/selection. A shown placeholder is treated as empty (see [editableText]) so it is not prepended.
+     * Inserts [text] via [AccessibilityNodeInfo.ACTION_SET_TEXT] by sending back the field's whole
+     * content with [text] spliced in at [content]'s caret or selection.
+     *
+     * Because it rewrites everything, it is only ever as correct as [content] is — which is why it no
+     * longer reads the field itself. The caller passes content it could **prove** (issue #314); the one
+     * exception is [guessedContent] in the last-resort branch.
+     *
      * Returns false when the field does not accept the action, so the caller can fall back to pasting.
      */
-    private fun setTextOnFocused(node: AccessibilityNodeInfo, text: String): Boolean {
-        val existing = node.editableText()
-        val from = node.textSelectionStart.coerceForText(existing)
-        val to = node.textSelectionEnd.coerceForText(existing)
-        val start = minOf(from, to)
-        val end = maxOf(from, to)
+    private fun setTextOnFocused(
+        node: AccessibilityNodeInfo,
+        text: String,
+        content: FieldContent,
+    ): Boolean {
+        val existing = content.text
+        val start = content.start.coerceIn(0, existing.length)
+        val end = content.end.coerceIn(start, existing.length)
         val newText = existing.substring(0, start) + text + existing.substring(end)
         val setArgs = Bundle().apply {
             putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, newText)
@@ -545,31 +838,77 @@ class DictateAccessibilityService : AccessibilityService() {
     }
 
     /**
-     * Inserts [text] by putting it on the clipboard and performing [AccessibilityNodeInfo.ACTION_PASTE] on
-     * the focused field, then restoring the user's previous clipboard shortly after. Returns false when the
-     * field does not advertise the paste action, so the caller can fall back to ACTION_SET_TEXT.
+     * Inserts [text] by putting it on the clipboard and performing [AccessibilityNodeInfo.ACTION_PASTE]
+     * on the focused field. Returns false when the field refuses the action.
      *
-     * Pasting inserts into the field's real content (so a shown placeholder is never prepended) and works in
-     * WebView/browser inputs that ignore ACTION_SET_TEXT. We cannot verify the write by reading the clipboard
-     * back (a background app's clipboard read is blocked on Android 10+ and returns null), so we trust the
-     * write; if it were blocked the field simply would not receive our text and the user would re-try.
+     * Pasting inserts at the field's own caret without ever reading what is in it, so it cannot prepend
+     * a placeholder (#314), and it works in WebView/custom inputs that ignore ACTION_SET_TEXT.
+     *
+     * **It costs a system clipboard notice, so every avoidable clipboard write is avoided here:**
+     *
+     *  * We used to write twice — our text, then the "previous" clipboard 400 ms later — and *each*
+     *    write raises that notice. Worse, the second write never restored anything: reading the
+     *    clipboard from a background app has been blocked since Android 10, so `primaryClip` was always
+     *    null and the "restore" *cleared* the user's clipboard. The text now simply stays, which also
+     *    leaves it as the recovery route if the paste turns out not to have landed.
+     *  * Nothing is written at all when the same text is already the primary clip — which is the normal
+     *    case with the #214 always-copy setting, since that copies it moments earlier.
+     *  * The clip is marked sensitive on API 33+, so the system's clipboard preview does not put the
+     *    dictation on screen.
+     *
+     * The action is attempted rather than looked up in `actionList` first: `performAction` reports a
+     * refusal by itself, and a field that takes a paste without advertising it is one we used to lose.
      */
     private fun pasteIntoFocused(node: AccessibilityNodeInfo, text: String): Boolean {
-        if (!node.actionList.contains(AccessibilityNodeInfo.AccessibilityAction.ACTION_PASTE)) return false
         val clipboard = getSystemService(ClipboardManager::class.java) ?: return false
-        val previous = runCatching { clipboard.primaryClip }.getOrNull()
-        runCatching { clipboard.setPrimaryClip(ClipData.newPlainText("dictate", text)) }
-        val ok = node.performAction(AccessibilityNodeInfo.ACTION_PASTE)
-        if (ok) {
-            // Restore the previous clipboard once the target app has consumed the paste, so we do not
-            // clobber whatever the user had copied.
-            mainHandler.postDelayed({
-                runCatching {
-                    clipboard.setPrimaryClip(previous ?: ClipData.newPlainText("", ""))
+        if (lastClipText != text) {
+            val clip = ClipData.newPlainText("dictate", text)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                clip.description.extras = PersistableBundle().apply {
+                    putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true)
                 }
-            }, CLIPBOARD_RESTORE_DELAY_MS)
+            }
+            if (runCatching { clipboard.setPrimaryClip(clip) }.isFailure) return false
+            lastClipText = text
         }
-        return ok
+        return runCatching {
+            node.performAction(AccessibilityNodeInfo.ACTION_PASTE)
+        }.getOrDefault(false)
+    }
+
+    /**
+     * Takes the dictation back off the clipboard once its paste has been **confirmed** — not when the
+     * action was merely accepted, because until then the clipboard is the recovery route.
+     *
+     * [ClipboardManager.clearPrimaryClip] rather than an empty clip, and that is the whole trick: the
+     * system's clipboard confirmation bails out when there is no clip at all, while an empty clip is
+     * still a clip and still raises it. So this leaves nothing behind and stays quiet doing it.
+     *
+     * Skipped when the user asked for every dictation to be copied (#214) — there it belongs there.
+     */
+    private fun clearOwnClipboardAfterPaste(text: String) {
+        if (lastClipText != text) {
+            flogDebug { "clipboard: not ours to clear" }
+            return
+        }
+        if (prefs.dictate.floatingButtonCopyToClipboard.get()) {
+            flogDebug { "clipboard: kept, the always-copy setting wants it there" }
+            return
+        }
+        val clipboard = getSystemService(ClipboardManager::class.java) ?: return
+        mainHandler.postDelayed({
+            val cleared = runCatching {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    clipboard.clearPrimaryClip()
+                } else {
+                    clipboard.setPrimaryClip(ClipData.newPlainText("", ""))
+                }
+                lastClipText = null
+            }.isSuccess
+            // Says whether the call went through, not whether the phone forgot: an OEM clipboard
+            // history is a second store, and no app can delete another app's entries from it.
+            flogDebug { "clipboard: clear attempted, ok=$cleared" }
+        }, CLIPBOARD_CLEAR_DELAY_MS)
     }
 
     /**
@@ -584,8 +923,12 @@ class DictateAccessibilityService : AccessibilityService() {
         // lets us verify the match first, so the user's own edits are never eaten).
         val node = dictationTarget() ?: return false
         node.refresh()
-        val existing = node.editableText()
-        val cursor = node.textSelectionEnd.coerceForText(existing)
+        // Prefer content we could prove (the editor's own, on API 33+) over what the node claims — same
+        // reason as in [setTextOnFocused]. Falling back to the node stays safe here because the match
+        // below is its own guard: a placeholder never contains the text we are trying to remove.
+        val proven = resolveFieldContent(node, readWholeFieldFromConnection())
+        val existing = proven?.text ?: node.editableText()
+        val cursor = proven?.end ?: node.textSelectionEnd.coerceForText(existing)
         val start = when {
             cursor >= text.length && existing.regionMatches(cursor - text.length, text, 0, text.length) ->
                 cursor - text.length
@@ -625,8 +968,22 @@ class DictateAccessibilityService : AccessibilityService() {
         return commitTextIntoFocused(new.substring(cp), verify = false)
     }
 
+    /**
+     * Whether live streaming into the focused field is safe at all: only over the input connection.
+     *
+     * Without it, every preview update would rebuild the *entire* field through ACTION_SET_TEXT — once
+     * per word, each time around content that could only be guessed, and each retracted ending going the
+     * same way through [deleteLastTextFromFocused]. That is the machinery of issue #314 running dozens
+     * of times per dictation. The recording is unaffected: the bubble still shows the live text, and the
+     * field gets one insert at the end, which is the path that is actually verified.
+     */
+    private fun canStreamIntoField(): Boolean =
+        inputConnectionUsable() &&
+            runCatching { inputMethod?.currentInputConnection != null }.getOrDefault(false)
+
     private fun setPreviewThrottled(full: String) {
         if (full == previewShown) return
+        if (!canStreamIntoField()) return
         val now = SystemClock.uptimeMillis()
         if (now - lastPreviewMs < PREVIEW_THROTTLE_MS) return   // skip; a later update catches up via the diff
         // Only move the diff base when the write landed (issue #277). Advancing it regardless left the
@@ -653,31 +1010,35 @@ class DictateAccessibilityService : AccessibilityService() {
     private fun selectedTextOfFocused(): String {
         val node = dictationTarget() ?: return ""
         node.refresh()
-        val text = node.editableText()
-        if (text.isEmpty()) return ""
-        val from = node.textSelectionStart
-        val to = node.textSelectionEnd
-        if (from < 0 || to < 0 || from == to) return ""
-        val start = minOf(from, to).coerceIn(0, text.length)
-        val end = maxOf(from, to).coerceIn(0, text.length)
-        return text.substring(start, end)
+        val content = resolveFieldContent(node, readWholeFieldFromConnection()) ?: return ""
+        if (content.text.isEmpty() || content.start == content.end) return ""
+        return content.text.substring(content.start, content.end)
     }
 
-    /** The full text of the focused editable field, or empty when there is none. */
+    /**
+     * The full text of the focused editable field, or empty when there is none **or when we cannot
+     * prove what is in it**.
+     *
+     * The second half matters: this is what a prompt operates on. With the node as the source, tapping a
+     * prompt in an empty Telegram field handed the model the word "Message" — the placeholder — and it
+     * dutifully reworded it. Refusing beats inventing an input (issue #314).
+     */
     private fun fullTextOfFocused(): String {
         val node = dictationTarget() ?: return ""
         node.refresh()
-        return node.editableText()
+        return resolveFieldContent(node, readWholeFieldFromConnection())?.text ?: ""
     }
 
     /** Selects the whole field so a subsequent inject replaces it. Returns true on success. */
     private fun selectAllInFocused(): Boolean {
         val node = dictationTarget() ?: return false
         node.refresh()
-        val len = node.editableText().length
+        // Same rule as [fullTextOfFocused]: selecting "everything" out of a length we only guessed would
+        // hand a placeholder to the replacement that follows.
+        val content = resolveFieldContent(node, readWholeFieldFromConnection()) ?: return false
         val args = Bundle().apply {
             putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_START_INT, 0)
-            putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_END_INT, len)
+            putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_END_INT, content.text.length)
         }
         return node.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, args)
     }
@@ -821,18 +1182,99 @@ class DictateAccessibilityService : AccessibilityService() {
     companion object {
         private const val NOTIF_ID = 0xD1C7
         private const val NOTIF_CHANNEL = "dictate_overlay_recording"
-        private const val CLIPBOARD_RESTORE_DELAY_MS = 400L
+        private const val CLIPBOARD_CLEAR_DELAY_MS = 400L
         private const val MAX_EDITABLE_SEARCH_DEPTH = 6
+        /** Tag for the one commit line that survives a release build, unlike [flogDebug]. */
+        private const val LOG_TAG = "DictateOverlay"
         // Floating-button commit reliability (#161): resolve + focus the field the user sees so the input
         // connection binds to it, retry briefly while the host app rebuilds its field right after a send.
         private const val COMMIT_ATTEMPTS = 2
         private const val COMMIT_RETRY_DELAY_MS = 60L
         private const val FOCUS_SETTLE_MS = 40L
         // Read-back verification of the input-connection write (#277). The window is a little wider than
-        // what was sent so a field that reformats around it still reads as changed; the settle covers an
-        // app that applies the commit on its own UI thread a moment later.
+        // what was sent so a field that reformats around it still reads as changed.
         private const val VERIFY_WINDOW_PAD = 16
-        private const val VERIFY_SETTLE_MS = 50L
+        // How long one read-back may wait for the field to show the write, measured from that write —
+        // long enough for a Compose field to get the change through a composition pass. Too short and a
+        // perfectly good write reads as "swallowed", which is what sends the commit into the rebuilding
+        // path and writes the text a second time.
+        private const val VERIFY_WAIT_MS = 250L
+        private const val VERIFY_POLL_MS = 40L
+        // The ceiling on all of a commit's waiting together. This runs on the main thread, so the
+        // per-write waits above must not simply multiply with the paths tried and the retry.
+        private const val COMMIT_BUDGET_MS = 900L
+        // How much of the field to ask the input connection for. Anything longer than this is treated as
+        // unreadable rather than truncated — see [readWholeFieldFromConnection].
+        private const val FIELD_READ_WINDOW = 8192
+
+        /**
+         * What may be assumed about the field, given the editor's own answer ([icContent]) and the
+         * node's claims — or null when neither proves anything.
+         *
+         * In order of trust:
+         *  1. **The input connection.** The editor has no notion of a placeholder and knows its real
+         *     caret. Available from API 33, and always right when it is.
+         *  2. **An empty node.** Nothing to preserve, so nothing can be got wrong.
+         *  3. **A node whose claim survives [confirmClaimedText].** Everything else the node says is a
+         *     claim, including its caret.
+         *
+         * Whether the node reports a caret decides only *where* the dictation goes, never whether its
+         * text may be believed. That distinction is the second half of issue #314 and cost a round of
+         * its own: WhatsApp's search field reports the placeholder `Ask Meta AI or Search` as its text
+         * **and** a caret at position 1, so reading "it knows its cursor" as proof of real content
+         * spliced the dictation into the middle of the placeholder — `A`, the dictation, then
+         * `sk Meta AI or Search`, exactly as it was reported.
+         */
+        internal fun fieldContentFrom(
+            icContent: FieldContent?,
+            nodeText: String,
+            nodeStart: Int,
+            nodeEnd: Int,
+            confirmClaimedText: () -> Boolean,
+        ): FieldContent? {
+            if (icContent != null) {
+                val text = icContent.text
+                val start = if (icContent.start in 0..text.length) icContent.start else text.length
+                val end = if (icContent.end in 0..text.length) icContent.end else text.length
+                return FieldContent(text, minOf(start, end), maxOf(start, end), icContent.source)
+            }
+            if (nodeText.isEmpty()) return FieldContent("", 0, 0, "empty")
+            if (!confirmClaimedText()) return null
+            val hasCaret = nodeStart >= 0 && nodeEnd >= 0
+            val length = nodeText.length
+            val start = if (hasCaret) minOf(nodeStart, nodeEnd).coerceAtMost(length) else length
+            val end = if (hasCaret) maxOf(nodeStart, nodeEnd).coerceAtMost(length) else length
+            return FieldContent(nodeText, start, end, if (hasCaret) "node" else "probe")
+        }
+
+        /**
+         * Where to ask the field to put its caret in order to test a claim of [claimedLength]
+         * characters, or null when the claim cannot be tested at all.
+         *
+         * `TextView` validates a requested selection against the text it really holds — for a field
+         * drawing its hint, the empty string — so a field that claims 21 characters and then refuses
+         * position 21 has just admitted that those 21 characters are not content.
+         *
+         * The wrinkle is that the same code returns false when the requested selection is the one
+         * already set, which would make every field whose caret sits at the end look unprovable. Those
+         * are probed one character earlier instead. A claim of a single character cannot be told from an
+         * empty field this way and is not worth the round trip: at worst one stray character, against a
+         * system clipboard notice on every dictation into such a field.
+         */
+        internal fun claimProbeIndex(claimedLength: Int, start: Int, end: Int): Int? {
+            if (claimedLength <= 0) return null
+            val caretAtEnd = start == claimedLength && end == claimedLength
+            val index = if (caretAtEnd) claimedLength - 1 else claimedLength
+            return index.takeIf { it > 0 }
+        }
+
+        /**
+         * The text we ourselves last put on the clipboard, so a second identical write — and the second
+         * system clipboard notice it would raise — can be skipped. Best-effort by design: a background
+         * app may not read the clipboard back (Android 10+), so remembering is the only way to know.
+         */
+        @Volatile
+        internal var lastClipText: String? = null
 
         /**
          * Whether a write is judged to have reached the field, given the text before the cursor as it was
@@ -886,9 +1328,10 @@ class DictateAccessibilityService : AccessibilityService() {
         // Debounce window for focus re-checks so a typing burst triggers at most one focused-node fetch.
         private const val FOCUS_UPDATE_DEBOUNCE_MS = 150L
         // Real-time overlay preview (#128): min gap between accessibility writes while streaming, so live
-        // typing into another app doesn't flood the accessibility channel. 0 = apply every update (tested
-        // to work smoothly in practice; raise if a target app can't keep up).
-        private const val PREVIEW_THROTTLE_MS = 0L
+        // typing into another app doesn't flood the accessibility channel. It used to be 0 — every single
+        // update written through — which is a lot of writes into a foreign app for no visible gain over a
+        // gap this short.
+        private const val PREVIEW_THROTTLE_MS = 120L
 
         @Volatile
         private var instance: DictateAccessibilityService? = null
