@@ -53,6 +53,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -72,6 +73,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
@@ -120,7 +122,16 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
     /** The transcript before a prompt rewrote it — both stay visible, as in the history (#240). */
     var original by remember { mutableStateOf("") }
     var busy by remember { mutableStateOf(true) }
+    /** The one-line note for a rewording running over a transcript that is already on screen. */
     var status by remember { mutableStateOf("") }
+    /** Which step the import is on, shown as one line over the progress bar (issue #337). */
+    var progress by remember { mutableStateOf(ImportProgress(ImportStage.COPY)) }
+    /** Only picks the wording of the preparing step: unpacking a video, or getting audio ready. */
+    var fromVideo by remember { mutableStateOf(false) }
+    /** Who will be doing the transcribing, read fresh whenever a run starts — the user may have gone to
+     *  the provider settings and changed it in between. */
+    var providerLabel by remember { mutableStateOf("") }
+    var onDeviceProvider by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     var job by remember { mutableStateOf<Job?>(null) }
     val prompts = remember { mutableStateOf<List<PromptModel>>(emptyList()) }
@@ -159,6 +170,24 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
         ).show()
     }
 
+    /**
+     * Moves a progress report onto the main thread before it touches state.
+     *
+     * Every one of them arrives from somewhere else: the copy runs on an IO thread and the upload count
+     * comes off OkHttp's own writer. [scope] belongs to the composition, so launching on it is the hop.
+     */
+    fun report(update: ImportProgress) {
+        scope.launch { progress = update }
+    }
+
+    /** Reads the configured transcription provider into the two things the step list shows about it. */
+    fun refreshProvider() {
+        val account = ImportTranscriber.accountFor(prefs)
+        val preset = ImportTranscriber.presetFor(account)
+        providerLabel = account.displayName.ifBlank { preset.displayName }
+        onDeviceProvider = preset.transcriptionApi == TranscriptionApi.LOCAL_ONDEVICE
+    }
+
     fun run() {
         val file = audio ?: return
         job?.cancel()
@@ -166,6 +195,7 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
         needsKey = false
         val account = ImportTranscriber.accountFor(prefs)
         val preset = ImportTranscriber.presetFor(account)
+        refreshProvider()
         if (account.apiKey.isBlank() && preset.transcriptionApi != TranscriptionApi.LOCAL_ONDEVICE) {
             // Checked before the file is touched: failing at the upload would say the same thing three
             // seconds later and with a worse message.
@@ -175,37 +205,46 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
             return
         }
         busy = true
-        status = context.getString(R.string.dictate__import_status_preparing)
+        // Retry arrives here too, with the copy long finished, so the line starts at the first step
+        // that still has work in it. The transcriber overwrites this on its own within a moment.
+        progress = ImportProgress(
+            if (ImportTranscriber.preparesFor(file, account.providerId, onDeviceProvider)) {
+                ImportStage.PREPARE
+            } else if (onDeviceProvider) {
+                ImportStage.TRANSCRIBE
+            } else {
+                ImportStage.UPLOAD
+            }
+        )
         job = scope.launch {
             try {
-                val result = ImportTranscriber.transcribe(context, prefs, file) { done, total ->
-                    status = if (total > 1) {
-                        context.getString(R.string.dictate__import_status_part, done + 1, total)
-                    } else {
-                        context.getString(R.string.dictate__import_status_transcribing)
+                val result = ImportTranscriber.transcribe(context, prefs, file) { report(it) }
+                progress = ImportProgress(ImportStage.FINISH)
+                original = ""
+                // Kept like every other dictation, so closing this screen does not lose the transcript.
+                // Wrapped, because a history write that fails must not take the transcript with it: the
+                // text is the thing the user came for, the log entry is bookkeeping.
+                withContext(Dispatchers.IO) {
+                    runCatching {
+                        val account = ImportTranscriber.accountFor(prefs)
+                        val preset = ImportTranscriber.presetFor(account)
+                        DictateHistoryStore.record(
+                            context = context,
+                            prefs = prefs,
+                            text = result,
+                            providerId = account.providerId,
+                            providerName = account.displayName.ifBlank { preset.displayName },
+                            model = account.transcriptionModel.ifBlank { preset.defaultTranscriptionModel ?: "" },
+                            language = prefs.dictate.activeInputLanguage.get()
+                                .takeIf { it != DictateLanguages.DETECT } ?: "",
+                            durationSecs = info?.durationSecs ?: 0L,
+                            source = DictateHistorySource.IMPORT,
+                            reworded = false,
+                            audioFile = file,
+                        )
                     }
                 }
                 text = result
-                original = ""
-                // Kept like every other dictation, so closing this screen does not lose the transcript.
-                withContext(Dispatchers.IO) {
-                    val account = ImportTranscriber.accountFor(prefs)
-                    val preset = ImportTranscriber.presetFor(account)
-                    DictateHistoryStore.record(
-                        context = context,
-                        prefs = prefs,
-                        text = result,
-                        providerId = account.providerId,
-                        providerName = account.displayName.ifBlank { preset.displayName },
-                        model = account.transcriptionModel.ifBlank { preset.defaultTranscriptionModel ?: "" },
-                        language = prefs.dictate.activeInputLanguage.get()
-                            .takeIf { it != DictateLanguages.DETECT } ?: "",
-                        durationSecs = info?.durationSecs ?: 0L,
-                        source = DictateHistorySource.IMPORT,
-                        reworded = false,
-                        audioFile = file,
-                    )
-                }
             } catch (c: CancellationException) {
                 throw c
             } catch (e: ImportTranscriber.NoSpeechException) {
@@ -227,7 +266,23 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
             error = context.getString(R.string.dictate__import_no_file)
             return@LaunchedEffect
         }
-        val copied = withContext(Dispatchers.IO) { copySharedFile(context, uri) }
+        // Name and size first, without moving a byte: the name is what says whether there is a video
+        // to unpack, and the copy that follows can then report its own progress against the size
+        // (issue #337).
+        val header = withContext(Dispatchers.IO) { readSharedFileHeader(context, uri) }
+        refreshProvider()
+        fromVideo = ImportStages.looksLikeVideo(header.displayName)
+        progress = ImportProgress(ImportStage.COPY, fraction = 0f)
+        val copied = withContext(Dispatchers.IO) {
+            copySharedFile(context, uri, header) { moved, total ->
+                report(
+                    ImportProgress(
+                        stage = ImportStage.COPY,
+                        fraction = if (total > 0L) (moved.toFloat() / total).coerceIn(0f, 1f) else null,
+                    )
+                )
+            }
+        }
         if (copied == null) {
             busy = false
             error = context.getString(R.string.dictate__file_read_error)
@@ -291,7 +346,7 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
         Toast.makeText(context, R.string.dictate__history_audio_missing, Toast.LENGTH_SHORT).show()
     }
 
-    val header = @Composable { Header(info, skipped) }
+    val header = @Composable { Header(info, skipped, providerLabel) }
     val playerRow = @Composable { if (audio != null) AudioPlaybackRow(player) }
     val middle = @Composable { modifier: Modifier ->
         Box(modifier) {
@@ -301,11 +356,29 @@ fun TranscribeShareScreen(uris: List<Uri>, onClose: () -> Unit) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    CircularProgressIndicator()
+                    // One line saying which step is running, over the bar that shows how far it has
+                    // got (issue #337). The percentage only exists where something can be counted;
+                    // everywhere else the bar keeps moving without claiming a number.
+                    Text(
+                        text = importStatusLine(progress, fromVideo, providerLabel, onDeviceProvider),
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                    )
                     Spacer(Modifier.height(16.dp))
-                    Text(status.ifBlank { stringRes(R.string.dictate__import_status_transcribing) })
+                    val fraction = progress.fraction
+                    if (fraction != null) {
+                        LinearProgressIndicator(
+                            progress = { fraction },
+                            modifier = Modifier.fillMaxWidth(PROGRESS_WIDTH),
+                        )
+                    } else {
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth(PROGRESS_WIDTH))
+                    }
                     Spacer(Modifier.height(16.dp))
-                    TextButton(onClick = { job?.cancel(); busy = false; status = "" }) {
+                    // Cancel means cancel: the work stops, the copy is thrown away and the screen goes,
+                    // which puts the user back in the app they shared from. Leaving a blank screen
+                    // behind — with the file still in the cache — was the worst of both.
+                    TextButton(onClick = { job?.cancel(); onClose() }) {
                         Text(stringRes(R.string.action__cancel))
                     }
                 }
@@ -597,13 +670,8 @@ private fun SearchRow(
 }
 
 @Composable
-private fun Header(info: SharedFileInfo?, skipped: Int) {
+private fun Header(info: SharedFileInfo?, skipped: Int, providerName: String) {
     val context = LocalContext.current
-    val prefs by FlorisPreferenceStore
-    val providerName = remember {
-        val account = ImportTranscriber.accountFor(prefs)
-        account.displayName.ifBlank { ImportTranscriber.presetFor(account).displayName }
-    }
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
             Text(
@@ -657,6 +725,7 @@ private suspend fun rewordWith(context: Context, promptBody: String, transcript:
         } else null,
         proxy = prefs.dictate.dictateProxyConfig(),
         trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+        timeoutSeconds = prefs.dictate.requestTimeout.get().toLong(),
     )
     return DictateRewording.apply(
         client = client,
@@ -707,3 +776,6 @@ private fun shareText(context: Context, text: String) {
     }
     context.startActivity(Intent.createChooser(send, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 }
+
+/** How much of the width the progress bar takes: wide enough to read, narrow enough to look placed. */
+private const val PROGRESS_WIDTH = 0.7f

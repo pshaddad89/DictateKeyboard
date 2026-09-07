@@ -18,6 +18,8 @@
     <string name="prefs__media__emoji_history__title" comment="Preference group title">絵文字履歴</string>
     <string name="prefs__media__emoji_history_enabled" comment="Preference title">絵文字履歴を有効化</string>
     <string name="prefs__media__emoji_history_enabled__summary" comment="Preference summary">最近使用した絵文字を保存して素早くアクセスできるようにします</string>
+    <string name="prefs__media__emoji_row_enabled">絵文字の行</string>
+    <string name="prefs__media__emoji_row_enabled__summary">ピン留めした絵文字と最近使った絵文字をキーボードの上に一列で表示します</string>
     <string name="prefs__media__emoji_history_pinned_update_strategy" comment="Preference title">更新方法（ピン留め）</string>
     <string name="prefs__media__emoji_history_recent_update_strategy" comment="Preference title">更新方法（最近使用）</string>
     <string name="prefs__media__emoji_history_max_size">保持できる最大アイテム数</string>
@@ -127,6 +129,9 @@
     <string name="settings__search__keywords__text_expansion" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the typing-shortcut setting, which lets a short trigger expand into a saved block of text. Translate as the words people in your language would actually type when looking for that feature, separated by spaces. Do not translate word for word; add or drop terms as makes sense.">定型文 テキスト展開 短縮 スニペット マクロ 単語登録 snippet text expansion</string>
     <string name="settings__search__keywords__selection_metrics" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which shows how many words and characters are selected. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">文字数 単語数 カウント 統計</string>
     <string name="settings__search__keywords__trim_on_copy" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which removes spaces and line breaks at the ends of copied text. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">トリミング 空白 削除 コピー 切り取り</string>
+    <string name="settings__search__keywords__clear_cache">キャッシュ ストレージ 空き容量 一時ファイル 削除 クリア 掃除</string>
+    <string name="settings__search__keywords__emoji_row">絵文字 行 バー 最近 使った キーボード 上 クイック</string>
+    <string name="settings__search__keywords__request_timeout">タイムアウト 時間切れ 遅い 待機 接続 秒</string>
     <string name="settings__localization__title" comment="Title of languages and Layout screen">言語と入力</string>
     <string name="settings__localization__display_language_names_in__label" comment="Label of Display language names in preference">言語名の表示形式</string>
     <string name="settings__localization__display_keyboard_labels_in_subtype_language" comment="Label of Display keyboard labels in subtype language preference">サブタイプの言語でキーボードラベルを表示</string>
@@ -537,6 +542,10 @@
     <string name="pref__other__settings_accent_color__label" comment="Label of accent color preference in Other"> 設定アクセントカラー </string>
     <string name="pref__other__settings_language__label" comment="Label of Settings language preference in Other">設定言語</string>
     <string name="pref__other__show_app_icon__label" comment="Label of Show app icon preference in Other">ランチャーにアプリアイコンを表示</string>
+    <string name="pref__other__clear_cache__label">キャッシュを削除</string>
+    <string name="pref__other__clear_cache__summary">一時ファイル: {size}</string>
+    <string name="pref__other__clear_cache__confirm">削除</string>
+    <string name="pref__other__clear_cache__message">アプリが作り直せる一時ファイルを削除します。文字起こし中の共有ファイル、ダウンロードした GIF やステッカー、展開した画像などです。音声入力の履歴、録音、設定、辞書はそのまま残ります。実行中の録音や文字起こしは中断されることがあります。</string>
     <string name="pref__other__show_app_icon__summary_atleast_q" comment="Summary of Show app icon preference in Other for Android 10+">システムの制限により、Android 10以降では常に有効です</string>
     <!-- About UI strings -->
     <string name="about__title" comment="Title of About activity">アプリについて</string>
@@ -1254,6 +1263,8 @@
     <string name="dictate__providers_test_success">接続済み · {count}モデル</string>
     <string name="dictate__providers_test_failed">接続に失敗しました</string>
     <string name="dictate__providers_network_group">ネットワーク</string>
+    <string name="dictate__request_timeout_title">リクエストのタイムアウト</string>
+    <string name="dictate__request_timeout_summary">{v} 秒 · 自分のサーバーが遅い場合は長くしてください</string>
     <string name="dictate__proxy_title">プロキシ</string>
     <string name="dictate__proxy_summary_off">オフ · 直接接続</string>
     <string name="dictate__proxy_enabled_title">プロキシを使用</string>
@@ -1465,9 +1476,15 @@
     <string name="dictate__import_title">ファイルを文字起こし</string>
     <string name="dictate__import_menu">ファイルを文字起こし</string>
     <string name="dictate__import_menu_summary">音声または動画ファイルを選んで、内容を読みましょう</string>
-    <string name="dictate__import_status_preparing">準備中…</string>
-    <string name="dictate__import_status_transcribing">文字起こし中…</string>
-    <string name="dictate__import_status_part">%2$d 件中 %1$d 件目…</string>
+    <string name="dictate__import_step_copy">ファイルの受け取り</string>
+    <string name="dictate__import_step_extract">音声の取り出し</string>
+    <string name="dictate__import_step_prepare">音声の準備</string>
+    <string name="dictate__import_step_upload">アップロード</string>
+    <string name="dictate__import_step_transcribe">{provider} で文字起こし</string>
+    <string name="dictate__import_step_transcribe_local">この端末で文字起こし</string>
+    <string name="dictate__import_step_finish">仕上げ</string>
+    <string name="dictate__import_step_percent">{v}%</string>
+    <string name="dictate__import_step_part">{total} 件中 {current} 件目</string>
     <string name="dictate__import_result_label">文字起こし</string>
     <string name="dictate__import_prompt_button">書き直す</string>
     <string name="dictate__import_revert">元に戻す</string>
@@ -1550,6 +1567,7 @@
     <string name="dictate__wear_standalone_summary">API キーを時計に送れば、近くにスマートフォンがなくても音声入力できます。</string>
     <string name="dictate__wear_standalone_title">キーを時計に同期</string>
     <string name="emoji__search__hint">絵文字を検索</string>
+    <string name="emoji__row__open_panel">すべての絵文字を開く</string>
     <string name="emoji__search__no_results">一致する絵文字がありません</string>
     <string name="pref__suggestion__api30_inline_suggestions_enabled__label">システムの自動入力候補</string>
     <string name="pref__suggestion__block_possibly_offensive__summary">入力中に不適切と思われる単語が候補に表示されないようにします</string>

@@ -18,6 +18,8 @@
     <string name="prefs__media__emoji_history__title" comment="Preference group title">Emoji-Historie</string>
     <string name="prefs__media__emoji_history_enabled" comment="Preference title">Aktiviere Emoji-Historie</string>
     <string name="prefs__media__emoji_history_enabled__summary" comment="Preference summary">Behalte kürzlich genutzte Emojis für einen schnellen Zugriff</string>
+    <string name="prefs__media__emoji_row_enabled">Emoji-Reihe</string>
+    <string name="prefs__media__emoji_row_enabled__summary">Zeigt über der Tastatur eine Reihe mit angepinnten und zuletzt benutzten Emojis</string>
     <string name="prefs__media__emoji_history_pinned_update_strategy" comment="Preference title">Update Strategie (gepinnt)</string>
     <string name="prefs__media__emoji_history_recent_update_strategy" comment="Preference title">Update Strategie (kürzlich)</string>
     <string name="prefs__media__emoji_history_max_size">Maximale zu behaltende Emojis</string>
@@ -126,6 +128,9 @@
     <string name="settings__search__keywords__text_expansion" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the typing-shortcut setting, which lets a short trigger expand into a saved block of text. Translate as the words people in your language would actually type when looking for that feature, separated by spaces. Do not translate word for word; add or drop terms as makes sense.">Textbaustein Textbausteine Textersetzung Kürzel Abkürzung Makro Autotext Vorlage snippet text expansion</string>
     <string name="settings__search__keywords__selection_metrics" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which shows how many words and characters are selected. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">Wörter zählen Wortanzahl Zeichenzahl Länge Statistik wie viele Wörter</string>
     <string name="settings__search__keywords__trim_on_copy" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which removes spaces and line breaks at the ends of copied text. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">kürzen Leerzeichen entfernen bereinigen kopieren ausschneiden Umbruch</string>
+    <string name="settings__search__keywords__clear_cache">Cache Zwischenspeicher Speicher Speicherplatz temporäre Dateien freigeben löschen aufräumen</string>
+    <string name="settings__search__keywords__emoji_row">emoji reihe zeile leiste zuletzt benutzt über tastatur schnell smiley</string>
+    <string name="settings__search__keywords__request_timeout">Zeitlimit Timeout Zeitüberschreitung langsam warten Verbindung Sekunden abgebrochen</string>
     <string name="settings__localization__title" comment="Title of languages and Layout screen">Sprachen &amp; Layouts</string>
     <string name="settings__localization__display_language_names_in__label" comment="Label of Display language names in preference">Sprachnamen anzeigen in</string>
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Untertypen</string>
@@ -499,6 +504,10 @@
     <string name="pref__other__settings_accent_color__label" comment="Label of accent color preference in Other">Akzentfarben der Einstellungen    </string>
     <string name="pref__other__settings_language__label" comment="Label of Settings language preference in Other">App-Sprache</string>
     <string name="pref__other__show_app_icon__label" comment="Label of Show app icon preference in Other">Zeige die App in der Übersicht</string>
+    <string name="pref__other__clear_cache__label">Zwischenspeicher leeren</string>
+    <string name="pref__other__clear_cache__summary">Temporäre Dateien: {size}</string>
+    <string name="pref__other__clear_cache__confirm">Leeren</string>
+    <string name="pref__other__clear_cache__message">Löscht temporäre Dateien, die die App neu erzeugen kann: eine gerade transkribierte geteilte Datei, heruntergeladene GIFs und Sticker, entpackte Bilder. Verlauf, Aufnahmen, Einstellungen und Wörterbücher bleiben unangetastet. Eine gerade laufende Aufnahme oder Transkription kann dadurch abbrechen.</string>
     <string name="pref__other__show_app_icon__summary_atleast_q" comment="Summary of Show app icon preference in Other for Android 10+">Immer aktiviert in Android 10+ aufgrund von System-Beschränkungen</string>
     <!-- About UI strings -->
     <string name="about__title" comment="Title of About activity">Über</string>
@@ -1305,6 +1314,8 @@
     <string name="dictate__cloud_other_way_body">Du kannst jederzeit auf deinen eigenen API-Schlüssel wechseln und wieder zurück. Dein Guthaben bleibt, wo es ist.</string>
 
     <string name="dictate__providers_network_group">Netzwerk</string>
+    <string name="dictate__request_timeout_title">Zeitlimit für Anfragen</string>
+    <string name="dictate__request_timeout_summary">{v} s · höher stellen für einen langsamen eigenen Server</string>
     <string name="dictate__proxy_title">Proxy</string>
     <string name="dictate__proxy_summary_off">Aus · direkte Verbindung</string>
     <string name="dictate__proxy_enabled_title">Proxy verwenden</string>
@@ -1496,9 +1507,15 @@
     <string name="dictate__import_title">Datei transkribieren</string>
     <string name="dictate__import_menu">Datei transkribieren</string>
     <string name="dictate__import_menu_summary">Audio- oder Videodatei wählen und nachlesen, was gesagt wird</string>
-    <string name="dictate__import_status_preparing">Wird vorbereitet…</string>
-    <string name="dictate__import_status_transcribing">Wird transkribiert…</string>
-    <string name="dictate__import_status_part">Teil %1$d von %2$d…</string>
+    <string name="dictate__import_step_copy">Datei übernehmen</string>
+    <string name="dictate__import_step_extract">Ton aus dem Video holen</string>
+    <string name="dictate__import_step_prepare">Audio vorbereiten</string>
+    <string name="dictate__import_step_upload">Hochladen</string>
+    <string name="dictate__import_step_transcribe">Mit {provider} transkribieren</string>
+    <string name="dictate__import_step_transcribe_local">Auf dem Gerät transkribieren</string>
+    <string name="dictate__import_step_finish">Abschließen</string>
+    <string name="dictate__import_step_percent">{v} %</string>
+    <string name="dictate__import_step_part">Teil {current} von {total}</string>
     <string name="dictate__import_result_label">Transkript</string>
     <string name="dictate__import_prompt_button">Überarbeiten</string>
     <string name="dictate__import_revert">Zurücksetzen</string>
@@ -1581,6 +1598,7 @@
     <string name="dictate__wear_standalone_summary">Sende deinen API-Key an die Uhr, damit sie auch ohne Handy in der Nähe diktieren kann.</string>
     <string name="dictate__wear_standalone_title">Schlüssel mit Uhr synchronisieren</string>
     <string name="emoji__search__hint">Emoji suchen</string>
+    <string name="emoji__row__open_panel">Alle Emojis öffnen</string>
     <string name="emoji__search__no_results">Keine passenden Emojis</string>
     <string name="pref__suggestion__math_suggestions__label" comment="Preference title">Rechner in der Vorschlagsleiste</string>
     <string name="pref__suggestion__math_suggestions__summary" comment="Preference summary">Rechenaufgabe und = eintippen, das Ergebnis wird vorgeschlagen</string>

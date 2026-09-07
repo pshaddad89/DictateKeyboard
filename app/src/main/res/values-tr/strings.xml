@@ -18,6 +18,8 @@
     <string name="prefs__media__emoji_history__title" comment="Preference group title">Emoji geçmişi</string>
     <string name="prefs__media__emoji_history_enabled" comment="Preference title">Emoji geçmişini etkinleştir</string>
     <string name="prefs__media__emoji_history_enabled__summary" comment="Preference summary">Hızlı erişim için son kullanılan emojileri sakla</string>
+    <string name="prefs__media__emoji_row_enabled">Emoji satırı</string>
+    <string name="prefs__media__emoji_row_enabled__summary">Klavyenin üstünde sabitlenmiş ve son kullanılan emojilerden oluşan bir satır göster</string>
     <string name="prefs__media__emoji_history_pinned_update_strategy" comment="Preference title">Güncelleme stratejisi (Sabitlenmiş)</string>
     <string name="prefs__media__emoji_history_recent_update_strategy" comment="Preference title">Güncelleme stratejisi (Son Kullanılan)</string>
     <string name="prefs__media__emoji_history_max_size">Saklanacak maksimum öge sayısı</string>
@@ -131,6 +133,9 @@
     <string name="settings__search__keywords__text_expansion" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the typing-shortcut setting, which lets a short trigger expand into a saved block of text. Translate as the words people in your language would actually type when looking for that feature, separated by spaces. Do not translate word for word; add or drop terms as makes sense.">metin genişletme kısaltma kısayol parçacık makro otomatik metin şablon snippet text expansion</string>
     <string name="settings__search__keywords__selection_metrics" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which shows how many words and characters are selected. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">kelime sayısı karakter sayısı uzunluk istatistik</string>
     <string name="settings__search__keywords__trim_on_copy" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which removes spaces and line breaks at the ends of copied text. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">kırpma boşluk silme temizleme kopyalama kesme</string>
+    <string name="settings__search__keywords__clear_cache">önbellek depolama alan geçici dosyalar boşaltma silme temizleme</string>
+    <string name="settings__search__keywords__emoji_row">emoji satır şerit son kullanılan klavye üstünde hızlı</string>
+    <string name="settings__search__keywords__request_timeout">zaman aşımı yavaş bekleme bağlantı saniye</string>
     <string name="settings__localization__title" comment="Title of languages and Layout screen">Diller &amp; Düzenler</string>
     <string name="settings__localization__display_language_names_in__label" comment="Label of Display language names in preference">Dil adlarını şu dilde göster</string>
     <string name="settings__localization__display_keyboard_labels_in_subtype_language" comment="Label of Display keyboard labels in subtype language preference">Klavye etiketlerini alt tür dilinde göster</string>
@@ -557,6 +562,10 @@
     </string>
     <string name="pref__other__settings_language__label" comment="Label of Settings language preference in Other">Ayarlar dili</string>
     <string name="pref__other__show_app_icon__label" comment="Label of Show app icon preference in Other">Uygulama simgesini başlatıcıda göster</string>
+    <string name="pref__other__clear_cache__label">Önbelleği temizle</string>
+    <string name="pref__other__clear_cache__summary">Geçici dosyalar: {size}</string>
+    <string name="pref__other__clear_cache__confirm">Temizle</string>
+    <string name="pref__other__clear_cache__message">Uygulamanın yeniden oluşturabileceği geçici dosyaları siler: yazıya dökülmekte olan paylaşılmış bir dosya, indirilen GIF\'ler ve çıkartmalar, çözümlenmiş görseller. Dikte geçmişiniz, kayıtlarınız, ayarlarınız ve sözlükleriniz etkilenmez. Şu anda süren bir kayıt veya yazıya dökme kesilebilir.</string>
     <string name="pref__other__show_app_icon__summary_atleast_q" comment="Summary of Show app icon preference in Other for Android 10+">Sistem kısıtlamaları nedeniyle Android 10+ üzerinde her zaman etkindir</string>
     <!-- About UI strings -->
     <string name="about__title" comment="Title of About activity">Hakkında</string>
@@ -1301,6 +1310,8 @@
     <string name="dictate__providers_test_success">Bağlandı · {count} model</string>
     <string name="dictate__providers_test_failed">Bağlantı başarısız oldu</string>
     <string name="dictate__providers_network_group">Ağ</string>
+    <string name="dictate__request_timeout_title">İstek zaman aşımı</string>
+    <string name="dictate__request_timeout_summary">{v} sn · yavaş kendi sunucunuz için artırın</string>
     <string name="dictate__proxy_title">Proxy</string>
     <string name="dictate__proxy_summary_off">Kapalı · doğrudan bağlantı</string>
     <string name="dictate__proxy_enabled_title">Proxy kullan</string>
@@ -1512,9 +1523,15 @@
     <string name="dictate__import_title">Dosyayı yazıya dök</string>
     <string name="dictate__import_menu">Bir dosyayı yazıya dök</string>
     <string name="dictate__import_menu_summary">Bir ses veya video dosyası seçin ve ne söylendiğini okuyun</string>
-    <string name="dictate__import_status_preparing">Hazırlanıyor…</string>
-    <string name="dictate__import_status_transcribing">Yazıya dökülüyor…</string>
-    <string name="dictate__import_status_part">Bölüm %1$d / %2$d…</string>
+    <string name="dictate__import_step_copy">Dosya alınıyor</string>
+    <string name="dictate__import_step_extract">Ses çıkarılıyor</string>
+    <string name="dictate__import_step_prepare">Ses hazırlanıyor</string>
+    <string name="dictate__import_step_upload">Yükleniyor</string>
+    <string name="dictate__import_step_transcribe">{provider} ile yazıya dökülüyor</string>
+    <string name="dictate__import_step_transcribe_local">Bu cihazda yazıya dökülüyor</string>
+    <string name="dictate__import_step_finish">Tamamlanıyor</string>
+    <string name="dictate__import_step_percent">%{v}</string>
+    <string name="dictate__import_step_part">Bölüm {current} / {total}</string>
     <string name="dictate__import_result_label">Metin</string>
     <string name="dictate__import_prompt_button">Yeniden düzenle</string>
     <string name="dictate__import_revert">Geri al</string>
@@ -1597,6 +1614,7 @@
     <string name="dictate__wear_standalone_summary">API anahtarını saate gönder; telefon yokken de dikte edebilsin.</string>
     <string name="dictate__wear_standalone_title">Anahtarı saatle senkronize et</string>
     <string name="emoji__search__hint">Emoji ara</string>
+    <string name="emoji__row__open_panel">Tüm emojileri aç</string>
     <string name="emoji__search__no_results">Eşleşen emoji yok</string>
     <string name="pref__suggestion__api30_inline_suggestions_enabled__label">Sistem otomatik doldurma önerileri</string>
     <string name="pref__suggestion__block_possibly_offensive__summary">Yazarken muhtemelen rahatsız edici kelimelerin önerilmesini engeller</string>

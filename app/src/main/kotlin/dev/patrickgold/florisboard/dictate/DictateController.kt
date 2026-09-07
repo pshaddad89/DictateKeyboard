@@ -1658,6 +1658,7 @@ object DictateController {
                             // Single-call multimodal (issue #130): route audio through chat/completions.
                             useChatAudio = chatAudio,
                             trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+                            timeoutSeconds = prefs.dictate.requestTimeout.get().toLong(),
                         ).transcribe(
                             request,
                             onRetry = { attempt -> _state.value = UiState.Transcribing(attempt) },
@@ -1674,6 +1675,7 @@ object DictateController {
                                 proxy = prefs.dictate.dictateProxyConfig(),
                                 useChatAudio = chatAudio,
                                 trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+                                timeoutSeconds = prefs.dictate.requestTimeout.get().toLong(),
                             ).transcribe(
                                 request.copy(audioFile = packedFrom!!),
                                 onRetry = { attempt -> _state.value = UiState.Transcribing(attempt) },
@@ -1919,7 +1921,13 @@ object DictateController {
         discardRetainedAudio()
         if (reportSwallowedRewording(appContext)) return
         _state.value = UiState.Idle
-        if (outputTarget != OutputTarget.IME || !showMilestoneNudge(appContext)) {
+        // Both nudges are Smartbar chips: they can only be seen, tapped and dismissed on the keyboard.
+        // Arming one after a dictation that did not come from the keyboard parked the state machine in a
+        // state nothing outside the keyboard can clear — which, for the floating button, meant it read
+        // "a dictation is running" and stayed on screen over every app for good (#339). The nudges are
+        // not lost: the keyboard asks for them again on every open, and a milestone stays pending until
+        // it is actually shown.
+        if (outputTarget == OutputTarget.IME && !showMilestoneNudge(appContext)) {
             maybePromptForReview()
         }
     }
@@ -2457,6 +2465,7 @@ object DictateController {
                         proxy = prefs.dictate.dictateProxyConfig(),
                         useChatAudio = false,
                         trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+                        timeoutSeconds = prefs.dictate.requestTimeout.get().toLong(),
                     ).transcribe(request)
                 } catch (e: DictateApiException) {
                     // A provider that will not take the m4a gets the WAV instead (#281); everything else
@@ -2468,6 +2477,7 @@ object DictateController {
                             proxy = prefs.dictate.dictateProxyConfig(),
                             useChatAudio = false,
                             trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+                            timeoutSeconds = prefs.dictate.requestTimeout.get().toLong(),
                         ).transcribe(request.copy(audioFile = toUpload))
                     } else {
                         val fallback = localFallbackProvider(appContext, preset, e) ?: throw e
@@ -3317,7 +3327,7 @@ object DictateController {
      *  - a `requiresSelection` prompt operates on [selectionOverride] (or the current selection) and
      *    replaces it with the reworded result;
      *  - a free prompt generates from the instruction alone and inserts at the cursor.
-     * No-op unless idle (or recovering from a transient error).
+     * No-op unless nothing is in flight: idle, recovering from a transient error, or holding a nudge.
      */
     fun applyPrompt(
         context: Context,
@@ -3325,7 +3335,14 @@ object DictateController {
         selectionOverride: String? = null,
         target: OutputTarget? = null,
     ) {
-        if (_state.value !is UiState.Idle && _state.value !is UiState.Error) return
+        // A nudge is a notice, not work: it must not swallow an action the user asked for. Left over from
+        // #339, where a rate/donate chip parked the state machine and the floating button's long-press
+        // menu quietly did nothing. Interrupted stays out — an offer of kept audio hangs on it.
+        if (_state.value !is UiState.Idle && _state.value !is UiState.Error &&
+            _state.value !is UiState.Promo
+        ) {
+            return
+        }
         // Tapping a prompt is the other moment a rewording is certain (#189). The head start is only the
         // selection read and the request build, but if the server was asleep it means the retry lands on a
         // machine that is already coming up instead of one that has not been told yet.
@@ -3581,6 +3598,9 @@ object DictateController {
         val baseUrl = baseUrlOverrideFor(account)
         scope.launch(Dispatchers.IO) {
             runCatching {
+                // Deliberately not on the user's request timeout (#337): this request exists to make
+                // noise on the network, and nobody is waiting for its answer. A raised limit would only
+                // keep a pointless call alive for longer.
                 OpenAiCompatibleClient.from(
                     preset, apiKey,
                     baseUrlOverride = baseUrl,
@@ -3638,6 +3658,7 @@ object DictateController {
             baseUrlOverride = baseUrlOverrideFor(account),
             proxy = prefs.dictate.dictateProxyConfig(),
             trustUserCerts = prefs.dictate.trustUserCertificates.get(),
+            timeoutSeconds = prefs.dictate.requestTimeout.get().toLong(),
         )
         // Reasoning effort for reasoning models (issue #141); a per-prompt override wins over the global
         // setting (#155). OFF → null → field omitted. CUSTOM (#186) uses a user-entered wire value —

@@ -360,6 +360,23 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__trust_user_certificates",
             default = false,
         )
+        /**
+         * Seconds a request may go without a byte before it counts as failed (issue #337).
+         *
+         * One number for both halves of the wait — the gap between bytes and the budget for the whole
+         * call — because they are the same question to the person waiting, and telling the two apart
+         * takes knowing how OkHttp works. Two minutes is right for a cloud provider; the reason this is
+         * adjustable at all is the self-hosted end of the range, where a model on a slow machine can
+         * think for longer than that before it answers. Uploads are not capped by this: while bytes are
+         * moving, every one of them starts the clock again.
+         *
+         * The file import ignores anything lower than its own, more generous limits — a screen with a
+         * cancel button on it is not the place to give up early.
+         */
+        val requestTimeout = int(
+            key = "dictate__request_timeout",
+            default = 120,
+        )
 
         // --- DEPRECATED flat credential prefs (migration source only) ----------------------------
         // Kept solely so DictateProviderMigrator can copy them into the keyring once. Do not read these
@@ -979,6 +996,17 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         val historyRecentMaxSize = int(
             key = "emoji__history_recent_max_size",
             default = 90,
+        )
+
+        /**
+         * The row of recently used emojis between the Smartbar and the keyboard (issue #340).
+         *
+         * Off by default on purpose: it makes the keyboard one row taller, and growing everyone's
+         * keyboard unasked on an update is the kind of surprise that gets reported as a bug.
+         */
+        val rowEnabled = boolean(
+            key = "emoji__row_enabled",
+            default = false,
         )
         val suggestionEnabled = boolean(
             key = "emoji__suggestion_enabled",

@@ -18,6 +18,8 @@
     <string name="prefs__media__emoji_history__title" comment="Preference group title">Historial d\'emojis</string>
     <string name="prefs__media__emoji_history_enabled" comment="Preference title">Habilita l\'historial d\'emojis</string>
     <string name="prefs__media__emoji_history_enabled__summary" comment="Preference summary">Recorda els emojis usats fa poc per a un accés ràpid</string>
+    <string name="prefs__media__emoji_row_enabled">Fila d\'emojis</string>
+    <string name="prefs__media__emoji_row_enabled__summary">Mostra sobre el teclat una fila amb els emojis fixats i els utilitzats recentment</string>
     <string name="prefs__media__emoji_history_pinned_update_strategy" comment="Preference title">Estratègia d\'actualització (Fixats)</string>
     <string name="prefs__media__emoji_history_recent_update_strategy" comment="Preference title">Estratègia d\'actualització (Recents)</string>
     <string name="prefs__media__emoji_history_max_size">Nombre màxim d\'elements que es desaran</string>
@@ -127,6 +129,9 @@
     <string name="settings__search__keywords__text_expansion" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the typing-shortcut setting, which lets a short trigger expand into a saved block of text. Translate as the words people in your language would actually type when looking for that feature, separated by spaces. Do not translate word for word; add or drop terms as makes sense.">expansió de text abreviatura drecera fragment macro text automàtic plantilla snippet text expansion</string>
     <string name="settings__search__keywords__selection_metrics" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which shows how many words and characters are selected. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">comptar paraules nombre de paraules caràcters longitud estadístiques</string>
     <string name="settings__search__keywords__trim_on_copy" comment="NOT SHOWN ANYWHERE — extra search terms that lead to the setting which removes spaces and line breaks at the ends of copied text. Translate as the words people in your language would actually type when looking for it, separated by spaces. Do not translate word for word.">retallar espais eliminar netejar copiar tallar</string>
+    <string name="settings__search__keywords__clear_cache">memòria cau espai emmagatzematge fitxers temporals alliberar esborrar netejar</string>
+    <string name="settings__search__keywords__emoji_row">emoji fila barra recents utilitzats sobre teclat ràpid</string>
+    <string name="settings__search__keywords__request_timeout">temps d\'espera timeout lent esperar connexió segons</string>
     <string name="settings__localization__title" comment="Title of languages and Layout screen">Llengües &amp; Disposicions</string>
     <string name="settings__localization__display_language_names_in__label" comment="Label of Display language names in preference">Mostra els noms de les llengües en</string>
     <string name="settings__localization__display_keyboard_labels_in_subtype_language" comment="Label of Display keyboard labels in subtype language preference">Mostra les etiquetes del teclat en l\'idioma del subtipus</string>
@@ -469,6 +474,10 @@
     </string>
     <string name="pref__other__settings_language__label" comment="Label of Settings language preference in Other">Paràmetres d\'idioma</string>
     <string name="pref__other__show_app_icon__label" comment="Label of Show app icon preference in Other">Mostra la icona de l\'aplicació al llançador</string>
+    <string name="pref__other__clear_cache__label">Buida la memòria cau</string>
+    <string name="pref__other__clear_cache__summary">Fitxers temporals: {size}</string>
+    <string name="pref__other__clear_cache__confirm">Buida</string>
+    <string name="pref__other__clear_cache__message">Esborra els fitxers temporals que l\'aplicació pot tornar a crear: un fitxer compartit que s\'està transcrivint, GIF i adhesius baixats, imatges descodificades. L\'historial de dictats, els enregistraments, la configuració i els diccionaris no es toquen. Un enregistrament o una transcripció en curs es pot interrompre.</string>
     <string name="pref__other__show_app_icon__summary_atleast_q" comment="Summary of Show app icon preference in Other for Android 10+">Habilitat sempre a Android 10 i posteriors a conseqüència de les restriccions del sistema</string>
     <!-- About UI strings -->
     <string name="about__title" comment="Title of About activity">Quant a</string>
@@ -1198,6 +1207,8 @@
     <string name="dictate__providers_test_success">Connectat · {count} models</string>
     <string name="dictate__providers_test_failed">Ha fallat la connexió</string>
     <string name="dictate__providers_network_group">Xarxa</string>
+    <string name="dictate__request_timeout_title">Temps d\'espera de la sol·licitud</string>
+    <string name="dictate__request_timeout_summary">{v} s · augmenta\'l si el teu servidor és lent</string>
     <string name="dictate__proxy_title">Proxy</string>
     <string name="dictate__proxy_summary_off">Desactivat · connexió directa</string>
     <string name="dictate__proxy_enabled_title">Usa un proxy</string>
@@ -1409,9 +1420,15 @@
     <string name="dictate__import_title">Transcriu un fitxer</string>
     <string name="dictate__import_menu">Transcriu un fitxer</string>
     <string name="dictate__import_menu_summary">Tria un fitxer d\'àudio o de vídeo i llegeix què s\'hi diu</string>
-    <string name="dictate__import_status_preparing">S\'està preparant…</string>
-    <string name="dictate__import_status_transcribing">S\'està transcrivint…</string>
-    <string name="dictate__import_status_part">Part %1$d de %2$d…</string>
+    <string name="dictate__import_step_copy">Recepció del fitxer</string>
+    <string name="dictate__import_step_extract">Extracció de l\'àudio</string>
+    <string name="dictate__import_step_prepare">Preparació de l\'àudio</string>
+    <string name="dictate__import_step_upload">Pujada</string>
+    <string name="dictate__import_step_transcribe">Transcripció amb {provider}</string>
+    <string name="dictate__import_step_transcribe_local">Transcripció en aquest dispositiu</string>
+    <string name="dictate__import_step_finish">Finalització</string>
+    <string name="dictate__import_step_percent">{v} %</string>
+    <string name="dictate__import_step_part">Part {current} de {total}</string>
     <string name="dictate__import_result_label">Transcripció</string>
     <string name="dictate__import_prompt_button">Reelabora</string>
     <string name="dictate__import_revert">Desfés</string>
@@ -1494,6 +1511,7 @@
     <string name="dictate__wear_standalone_summary">Envia la teva clau API al rellotge perquè pugui dictar sense el telèfon a prop.</string>
     <string name="dictate__wear_standalone_title">Sincronitza la clau amb el rellotge</string>
     <string name="emoji__search__hint">Cerca emojis</string>
+    <string name="emoji__row__open_panel">Obre tots els emojis</string>
     <string name="emoji__search__no_results">No hi ha cap emoji coincident</string>
     <string name="pref__suggestion__api30_inline_suggestions_enabled__label">Suggeriments d\'emplenament automàtic del sistema</string>
     <string name="pref__suggestion__block_possibly_offensive__summary">Evita que es suggereixin paraules possiblement ofensives mentre escrius</string>

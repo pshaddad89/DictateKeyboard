@@ -68,6 +68,15 @@ class TranscribeShareActivity : ComponentActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // Finished with, one way or another: transcript read, cancelled, or backed out of. The copy in
+        // the cache existed for this screen alone — the history keeps its own in filesDir — and a
+        // shared video can be a hundred megabytes, so it goes with the screen rather than lying there
+        // until the next cold start clears the cache.
+        if (isFinishing) ImportTranscriber.clearCache(this)
+    }
+
     companion object {
         /** Extra carrying an already-picked file, used by the in-app "Transcribe a file" entry. */
         const val EXTRA_PICKED_URI = "dictate.pickedUri"
@@ -119,13 +128,20 @@ data class SharedFileInfo(
     val hasAudio: Boolean,
 )
 
+/** 80 ms between copy progress reports — often enough to look live, rarely enough to be free. */
+private const val COPY_REPORT_INTERVAL_NANOS = 80_000_000L
+
 /**
- * Copies [uri] into our own cache and reads what we can about it.
+ * What the sharing app says about [uri] before anything is read from it.
  *
- * Returns null when the content could not be read at all — a share whose grant was already gone, or
- * a provider that hands back nothing. The caller shows that as an error rather than an empty screen.
+ * Asked on its own so the screen knows what it is dealing with *before* the copy starts (issue #337):
+ * whether there is a video to unpack, and what to count the copy's progress against. [sizeBytes] is 0
+ * when the provider does not say — never a reason to guess one.
  */
-fun copySharedFile(context: Context, uri: Uri): Pair<File, SharedFileInfo>? {
+data class SharedFileHeader(val displayName: String, val sizeBytes: Long)
+
+/** Reads [uri]'s name and size. Cheap: one cursor query, no bytes moved. */
+fun readSharedFileHeader(context: Context, uri: Uri): SharedFileHeader {
     var name = "shared_audio"
     var size = 0L
     runCatching {
@@ -140,12 +156,52 @@ fun copySharedFile(context: Context, uri: Uri): Pair<File, SharedFileInfo>? {
     }
     // The extension travels with the file: providers infer the audio format from it, and the decoder
     // uses it to tell a video container from an audio one.
-    val safeName = name.substringAfterLast('/').ifBlank { "shared_audio" }
-    val dir = File(context.cacheDir, "dictate_share").apply { deleteRecursively(); mkdirs() }
+    return SharedFileHeader(name.substringAfterLast('/').ifBlank { "shared_audio" }, size)
+}
+
+/**
+ * Copies [uri] into our own cache and reads what we can about it.
+ *
+ * [header] is what the caller already asked for; left out, it is read here. [onProgress] reports
+ * `(copied, total)` as the bytes move — the file may be coming from a cloud provider rather than the
+ * phone, which is when this step stops being instant. `total` is 0 when the size was never stated.
+ *
+ * Returns null when the content could not be read at all — a share whose grant was already gone, or
+ * a provider that hands back nothing. The caller shows that as an error rather than an empty screen.
+ */
+fun copySharedFile(
+    context: Context,
+    uri: Uri,
+    header: SharedFileHeader? = null,
+    onProgress: (copied: Long, total: Long) -> Unit = { _, _ -> },
+): Pair<File, SharedFileInfo>? {
+    val resolved = header ?: readSharedFileHeader(context, uri)
+    val safeName = resolved.displayName
+    var size = resolved.sizeBytes
+    val dir = File(context.cacheDir, ImportTranscriber.SHARE_DIR).apply { deleteRecursively(); mkdirs() }
     val target = File(dir, safeName)
     val copied = runCatching {
         context.contentResolver.openInputStream(uri)?.use { input ->
-            target.outputStream().use { output -> input.copyTo(output) }
+            target.outputStream().use { output ->
+                val buffer = ByteArray(64 * 1024)
+                var moved = 0L
+                var reportedAtNanos = 0L
+                while (true) {
+                    val read = input.read(buffer)
+                    if (read < 0) break
+                    output.write(buffer, 0, read)
+                    moved += read
+                    // Throttled for the same reason the upload counter is: a 100 MB file is over a
+                    // thousand chunks, and redrawing the screen for each of them would cost more than
+                    // the copy itself.
+                    val now = System.nanoTime()
+                    if (now - reportedAtNanos >= COPY_REPORT_INTERVAL_NANOS) {
+                        reportedAtNanos = now
+                        onProgress(moved, size)
+                    }
+                }
+                onProgress(moved, if (size > 0L) size else moved)
+            }
         } ?: return@runCatching false
         true
     }.getOrDefault(false)

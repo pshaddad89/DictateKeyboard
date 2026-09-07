@@ -33,6 +33,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
@@ -72,6 +73,7 @@ class OpenAiCompatibleClient(
         sharedClientFor(
             HttpClientKey(
                 timeoutSeconds = config.timeoutSeconds,
+                callTimeoutSeconds = config.callTimeoutSeconds,
                 proxy = config.proxy,
                 trustUserCerts = config.trustUserCerts,
             )
@@ -233,6 +235,23 @@ class OpenAiCompatibleClient(
     override suspend fun transcribe(request: TranscriptionRequest): TranscriptionResult =
         transcribe(request, onRetry = {})
 
+    /**
+     * The audio itself as a request body, counting its bytes on the way out when the caller asked for
+     * that ([TranscriptionRequest.onUpload], issue #337).
+     *
+     * Every format that streams the file itself goes through here. The four that inline it as base64
+     * (chat-audio, OpenRouter's JSON fallback, both Gemini routes) wrap their JSON body with
+     * [withUploadProgress] instead — the count is then of the encoded payload, which is what actually
+     * travels. Where nobody is listening it is the plain body it always was.
+     */
+    private fun TranscriptionRequest.audioBody(): RequestBody =
+        audioFile.asRequestBody(guessAudioMediaType(audioFile)).withUploadProgress(onUpload)
+
+    /** [this] reporting its progress to [onUpload], or [this] untouched when there is nobody to tell. */
+    private fun RequestBody.withUploadProgress(
+        onUpload: ((sent: Long, total: Long) -> Unit)?,
+    ): RequestBody = if (onUpload == null) this else ProgressRequestBody(this, onUpload)
+
     /** OpenAI-style `multipart/form-data` upload (OpenAI, Groq, Mistral, most custom servers). */
     private suspend fun transcribeMultipart(
         request: TranscriptionRequest,
@@ -249,7 +268,7 @@ class OpenAiCompatibleClient(
         request: TranscriptionRequest,
         temperature: Double? = null,
     ): Request {
-        val fileBody = request.audioFile.asRequestBody(guessAudioMediaType(request.audioFile))
+        val fileBody = request.audioBody()
         val multipart = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             // The name, not the part's content type, is what these endpoints read — see
@@ -346,7 +365,7 @@ class OpenAiCompatibleClient(
         return Request.Builder()
             .url(config.normalizedBaseUrl + "audio/transcriptions")
             .headers(authHeaders())
-            .post(payload.toRequestBody(JSON_MEDIA_TYPE))
+            .post(payload.toRequestBody(JSON_MEDIA_TYPE).withUploadProgress(request.onUpload))
             .tag(HttpCallDiagnostics::class.java, HttpCallDiagnostics(fallbackLabel))
             .build()
     }
@@ -408,7 +427,7 @@ class OpenAiCompatibleClient(
         val httpRequest = Request.Builder()
             .url(config.normalizedBaseUrl + "chat/completions")
             .headers(authHeaders())
-            .post(payload.toRequestBody(JSON_MEDIA_TYPE))
+            .post(payload.toRequestBody(JSON_MEDIA_TYPE).withUploadProgress(request.onUpload))
             .build()
         val body = executeForBody(httpRequest, onRetry = onRetry)
         val response = decode(ChatCompletionResponseDto.serializer(), body)
@@ -438,7 +457,7 @@ class OpenAiCompatibleClient(
         val base = config.normalizedBaseUrl
 
         // 1. Upload the audio file.
-        val fileBody = request.audioFile.asRequestBody(guessAudioMediaType(request.audioFile))
+        val fileBody = request.audioBody()
         val uploadBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", audioUploadNameOf(request.audioFile), fileBody)
@@ -550,7 +569,7 @@ class OpenAiCompatibleClient(
         request: TranscriptionRequest,
         onRetry: (attempt: Int) -> Unit,
     ): TranscriptionResult {
-        val fileBody = request.audioFile.asRequestBody(guessAudioMediaType(request.audioFile))
+        val fileBody = request.audioBody()
         val multipart = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", audioUploadNameOf(request.audioFile), fileBody)
@@ -584,7 +603,7 @@ class OpenAiCompatibleClient(
             append("&smart_format=true")
             if (lang != null) append("&language=").append(lang) else append("&detect_language=true")
         }
-        val audioBody = request.audioFile.asRequestBody(guessAudioMediaType(request.audioFile))
+        val audioBody = request.audioBody()
         val httpRequest = Request.Builder()
             .url(url)
             .header("Authorization", "Token ${config.apiKey}")
@@ -611,7 +630,7 @@ class OpenAiCompatibleClient(
         val uploadRequest = Request.Builder()
             .url(base + "v2/upload")
             .header("authorization", authHeader)
-            .post(request.audioFile.asRequestBody(guessAudioMediaType(request.audioFile)))
+            .post(request.audioBody())
             .build()
         val uploadUrl = decode(
             AssemblyUploadDto.serializer(),
@@ -711,7 +730,7 @@ class OpenAiCompatibleClient(
         val httpRequest = Request.Builder()
             .url(geminiNativeBaseUrl() + "models/" + model + ":generateContent")
             .headers(geminiNativeHeaders())
-            .post(payload.toRequestBody(JSON_MEDIA_TYPE))
+            .post(payload.toRequestBody(JSON_MEDIA_TYPE).withUploadProgress(request.onUpload))
             .build()
         val body = executeForBody(httpRequest, onRetry = onRetry)
         val response = decode(GeminiGenerateResponseDto.serializer(), body)
@@ -766,7 +785,7 @@ class OpenAiCompatibleClient(
         val httpRequest = Request.Builder()
             .url(geminiNativeBaseUrl() + "interactions")
             .headers(geminiNativeHeaders())
-            .post(payload.toRequestBody(JSON_MEDIA_TYPE))
+            .post(payload.toRequestBody(JSON_MEDIA_TYPE).withUploadProgress(request.onUpload))
             .build()
         val body = executeForBody(httpRequest, onRetry = onRetry)
         return TranscriptionResult(transcriptOf(decode(GeminiInteractionResponseDto.serializer(), body)).trim())
@@ -1103,7 +1122,9 @@ class OpenAiCompatibleClient(
     internal fun buildClient(): OkHttpClient {
         val timeout = Duration.ofSeconds(config.timeoutSeconds)
         val builder = OkHttpClient.Builder()
-            .callTimeout(timeout)
+            // The only budget that covers the whole journey, so the only one a long upload can exhaust
+            // while everything is working perfectly (issue #337). Per-operation limits stay below.
+            .callTimeout(Duration.ofSeconds(config.callTimeoutSeconds ?: config.timeoutSeconds))
             // Connection establishment needs a short budget per route. Uploading a long recording and
             // waiting for the model keep the full configured call/read/write timeout below.
             .connectTimeout(NETWORK_CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
@@ -1520,6 +1541,10 @@ class OpenAiCompatibleClient(
 
         private data class HttpClientKey(
             val timeoutSeconds: Long,
+            // Part of the key, not an afterthought: clients are cached and shared, so leaving it out
+            // would hand the import the two-minute client the keyboard built first — or the other way
+            // round (issue #337).
+            val callTimeoutSeconds: Long?,
             val proxy: ProxyConfig?,
             val trustUserCerts: Boolean,
         )
@@ -1573,12 +1598,18 @@ class OpenAiCompatibleClient(
             proxy: ProxyConfig? = null,
             useChatAudio: Boolean = false,
             trustUserCerts: Boolean = false,
+            /** Per-read/write limit, which also caps how long the model may stay silent — see [ProviderConfig.timeoutSeconds]. */
+            timeoutSeconds: Long = ProviderConfig.DEFAULT_TIMEOUT_SECONDS,
+            /** Whole-call budget where the default two minutes is too short — see [ProviderConfig.callTimeoutSeconds]. */
+            callTimeoutSeconds: Long? = null,
         ): OpenAiCompatibleClient = OpenAiCompatibleClient(
             ProviderConfig(
                 baseUrl = baseUrlOverride ?: preset.baseUrl,
                 apiKey = apiKey,
                 extraHeaders = preset.extraHeaders,
                 proxy = proxy,
+                timeoutSeconds = timeoutSeconds,
+                callTimeoutSeconds = callTimeoutSeconds,
                 transcriptionApi = preset.transcriptionApi,
                 useChatAudio = useChatAudio,
                 trustUserCerts = trustUserCerts,

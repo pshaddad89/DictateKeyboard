@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.CloudDone
 import androidx.compose.material.icons.filled.Dns
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.filled.Lan
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SmartToy
@@ -83,6 +84,7 @@ import dev.patrickgold.florisboard.dictate.provider.TranscriptionApi
 import dev.patrickgold.florisboard.dictate.provider.singleCallApplies
 import dev.patrickgold.florisboard.lib.compose.FlorisScreen
 import dev.patrickgold.jetpref.datastore.model.collectAsState
+import dev.patrickgold.jetpref.datastore.ui.DialogSliderPreference
 import dev.patrickgold.jetpref.datastore.ui.Preference
 import dev.patrickgold.jetpref.datastore.ui.PreferenceGroup
 import dev.patrickgold.jetpref.datastore.ui.SwitchPreference
@@ -135,6 +137,12 @@ fun DictateProvidersScreen() = FlorisScreen {
         // server while being asked how the app should transcribe means to use it, so saving it makes it
         // active instead of leaving them to go and select it by hand.
         var activateOnSave by remember { mutableStateOf(false) }
+        // Set when the wizard sent the user here to pick an on-device model from the full list, which is
+        // the only situation where choosing one also switches the engine (issue #343). During setup that
+        // is the whole question being asked. Later it would move a working configuration underneath
+        // someone who only came to download a second model — quietly, on a screen they may not look at
+        // again.
+        var localFromSetup by remember { mutableStateOf(false) }
 
         fun writeKeyring(updated: ProviderAccounts) {
             scope.launch { prefs.dictate.providerAccounts.set(updated) }
@@ -149,7 +157,10 @@ fun DictateProvidersScreen() = FlorisScreen {
                     activateOnSave = true
                     editingId = ProviderAccount.newCustomId()
                 }
-                else -> editingId = target
+                else -> {
+                    editingId = target
+                    localFromSetup = target == ProviderRegistry.LOCAL.id
+                }
             }
             ProviderSetupHandoff.openEditorFor = null
         }
@@ -264,6 +275,20 @@ fun DictateProvidersScreen() = FlorisScreen {
                 },
                 onClick = { navController.navigate(Routes.Settings.DictateProxy) },
             )
+            // One number for both halves of the wait (issue #337). Two minutes is right for a cloud
+            // provider and this exists for the other end of the range: a model on one's own machine
+            // can think for longer than that before the first byte of the answer arrives.
+            DialogSliderPreference(
+                pref = prefs.dictate.requestTimeout,
+                icon = Icons.Default.Timer,
+                modifier = Modifier.settingsSearchAnchor("dictate__request_timeout_title"),
+                title = stringRes(R.string.dictate__request_timeout_title),
+                summary = { stringRes(R.string.dictate__request_timeout_summary, "v" to it) },
+                valueLabel = { stringRes(R.string.unit__seconds__symbol, "v" to it) },
+                min = 30,
+                max = 600,
+                stepIncrement = 10,
+            )
         }
 
         editingId?.let { id ->
@@ -274,8 +299,9 @@ fun DictateProvidersScreen() = FlorisScreen {
                 onDismiss = {
                     editingId = null
                     activateOnSave = false
+                    localFromSetup = false
                 },
-                onSave = { updated ->
+                onSave = { updated, makeActive ->
                     writeKeyring(accounts.put(updated))
                     // A server of the user's own speaks both halves of the OpenAI API, and someone who
                     // added one during setup meant it to be the way the app works from now on.
@@ -284,15 +310,28 @@ fun DictateProvidersScreen() = FlorisScreen {
                             prefs.dictate.transcriptionProviderId.set(id)
                             prefs.dictate.rewordingProviderId.set(id)
                         }
+                    } else if (makeActive && localFromSetup) {
+                        // Coming out of the setup wizard, picking an on-device model *is* answering "how
+                        // should this app transcribe" — the wizard's own two recommendations already work
+                        // that way, and the full list, one tap further on, used to leave the user with a
+                        // downloaded model and a "no API key" error (issue #343).
+                        //
+                        // Only there. Anywhere else this would switch a working configuration under
+                        // someone who came to try a second model, on a screen they might not look at
+                        // again. Rewording is left alone in any case: the on-device engine has no chat
+                        // side to offer.
+                        scope.launch { prefs.dictate.transcriptionProviderId.set(id) }
                     }
                     editingId = null
                     activateOnSave = false
+                    localFromSetup = false
                 },
                 onDelete = if (preset == null) {
                     {
                         writeKeyring(accounts.remove(id))
                         editingId = null
                         activateOnSave = false
+                        localFromSetup = false
                     }
                 } else {
                     null
@@ -523,7 +562,11 @@ private fun ProviderEditorDialog(
     preset: ProviderPreset?,
     account: ProviderAccount,
     onDismiss: () -> Unit,
-    onSave: (ProviderAccount) -> Unit,
+    /**
+     * [makeActive] means the user chose an on-device model in this dialog (issue #343), which is a
+     * decision about who transcribes and not only about which model — the caller acts on it.
+     */
+    onSave: (account: ProviderAccount, makeActive: Boolean) -> Unit,
     onDelete: (() -> Unit)?,
 ) {
     val prefs by FlorisPreferenceStore
@@ -536,6 +579,10 @@ private fun ProviderEditorDialog(
 
     var displayName by remember { mutableStateOf(account.displayName) }
     var apiKey by remember { mutableStateOf(account.apiKey) }
+    // Whether an on-device model was actually chosen in here, as opposed to merely looked at or deleted
+    // (issue #343). Reported on confirm, because that is when the choice of model is stored too — the
+    // two are one decision and must not be able to land separately.
+    var chosenOnDevice by remember { mutableStateOf(false) }
     var baseUrl by remember {
         mutableStateOf(
             account.customBaseUrl.ifBlank { if (preset?.allowsCustomBaseUrl == true) preset.baseUrl else "" },
@@ -628,7 +675,8 @@ private fun ProviderEditorDialog(
                     } else {
                         account.cachedModelsAt
                     },
-                )
+                ),
+                chosenOnDevice,
             )
         },
         onDismiss = onDismiss,
@@ -644,6 +692,7 @@ private fun ProviderEditorDialog(
                 activeStreamingModelId = realtimeModel,
                 onActiveModelChange = { transcriptionModel = it },
                 onActiveStreamingModelChange = { realtimeModel = it },
+                onModelChosen = { chosenOnDevice = true },
             )
         } else {
         Column {
@@ -947,6 +996,9 @@ private fun ConnectionTestRow(preset: ProviderPreset, apiKey: String) {
                 result = null
                 scope.launch {
                     result = try {
+                        // Left on the default two minutes even when the user raised their own limit
+                        // (#337): the point of a test button is a quick verdict, and one that can sit
+                        // there for ten minutes answers a different question than the one being asked.
                         val count = OpenAiCompatibleClient
                             .from(
                                 preset, apiKey.trim(),
