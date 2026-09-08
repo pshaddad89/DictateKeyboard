@@ -72,8 +72,53 @@ class EmojiSuggestionIndex private constructor(private val byWord: Map<String, L
         /** Below this, a word is too short to mean anything on its own ("ok", "hi"). */
         internal const val MIN_WORD_LENGTH = 3
 
-        /** At most this many emoji per word; the strip only ever shows one of them anyway. */
-        internal const val MAX_PER_WORD = 2
+        /**
+         * The same floor for scripts that pack a word into two characters.
+         *
+         * Three characters is an assumption about alphabets. Han, kana and Hangul write a whole word in
+         * two — 苹果 is "apple", 사랑 is "love" — and measured against the shipped annotations the
+         * alphabetic floor throws away **half** of Chinese (5431 → 2617 words), a quarter of Japanese
+         * and a third of Korean, while costing German 0.5%.
+         */
+        internal const val MIN_WORD_LENGTH_DENSE = 2
+
+        /**
+         * Whether [word] is written in one of those scripts. Asked of the word rather than of the
+         * locale: a Japanese sentence is written in three scripts at once, and it is the word in hand
+         * that decides how many characters make one.
+         */
+        internal fun isDenseScript(word: String): Boolean = word.any { ch ->
+            ch in '\u3040'..'\u30FF' || // hiragana and katakana
+            ch in '\u3400'..'\u4DBF' || // CJK ideographs, extension A
+            ch in '\u4E00'..'\u9FFF' || // CJK unified ideographs
+            ch in '\uAC00'..'\uD7AF' || // hangul syllables
+            ch in '\uF900'..'\uFAFF'    // CJK compatibility ideographs
+        }
+
+        /** How many characters [word] needs, given a [configured] floor meant for alphabets. */
+        internal fun minimumLengthFor(word: String, configured: Int): Int =
+            if (isDenseScript(word)) minOf(configured, MIN_WORD_LENGTH_DENSE) else configured
+
+        /**
+         * At most this many emoji per word. The strip shows as many as the user's "maximum candidate
+         * count" allows, so this only has to be generous enough not to be the binding limit at the
+         * top of that slider's useful range — measured, the quality holds this far: `love` gives
+         * ❤️😍🥰😘🌹, `happy` gives 😂🙂😁😄🤣🥳.
+         */
+        internal const val MAX_PER_WORD = 6
+
+        /**
+         * How much of [PRIORITY] a mere *keyword* may reach. The list is ordered by everyday use, so
+         * this says: a keyword can only summon an emoji people actually send.
+         *
+         * It exists because the two kinds of match are not equally trustworthy. A name is what an
+         * emoji *is* — "unicorn" is 🦄, and no ranking should stand in the way of that. A keyword is a
+         * loose association, and the far end of the list is full of ones that read as absurd out of
+         * context: the trash can lists "can", the koala "down" (as in *down under*), the frying pan
+         * "over" (as in *over easy*). Measured against the 250 most frequent English and German words,
+         * this one line is the difference between 23 of them firing and 14.
+         */
+        internal const val KEYWORD_CORE_SIZE = 221
 
         /**
          * The emoji a suggestion may ever produce, in order of how much people use them.
@@ -91,21 +136,54 @@ class EmojiSuggestionIndex private constructor(private val byWord: Map<String, L
             "❤️", "😂", "😍", "🔥", "👍", "😊", "🎉", "😢", "😭", "😅",
             "🙏", "💀", "🥰", "😘", "😎", "🤔", "😉", "🙂", "😁", "😄",
             "🤣", "😡", "😱", "🥳", "😴", "🤗", "🤝", "👏", "💪", "🙌",
-            "👋", "✌️", "🤞", "👌", "💯", "✨", "⭐", "🌟", "💥", "💫",
-            "☀️", "🌙", "⛅", "🌧️", "❄️", "🌈", "🌻", "🌹", "🌸", "🌵",
-            "🌲", "🍀", "🍎", "🍌", "🍕", "🍔", "🍟", "🌮", "🍣", "🍩",
-            "🍪", "🎂", "🍰", "☕", "🍵", "🍺", "🍷", "🥂", "🍾", "🥤",
-            "🍫", "🍦", "🐶", "🐱", "🐭", "🐰", "🦊", "🐻", "🐼", "🦁",
-            "🐮", "🐷", "🐸", "🐵", "🐔", "🐦", "🦉", "🐝", "🦋", "🐟",
-            "🐬", "🐳", "🐢", "🐍", "🕷️", "🚗", "🚕", "🚌", "🚲", "✈️",
-            "🚀", "🚂", "🚢", "🏠", "🏢", "🏥", "🏫", "⚽", "🏀", "🏈",
-            "🎾", "🏏", "🎯", "🎮", "🎲", "🎸", "🎵", "🎤", "🎧", "📚",
-            "✏️", "📱", "💻", "⌚", "📷", "🔑", "💰", "💸", "💳", "🎁",
-            "🎈", "🎄", "🎃", "💍", "👗", "👕", "👟", "🧢", "🕶️", "⏰",
-            "📅", "✅", "❌", "⚠️", "❓", "❗", "💤", "🚿", "🛏️", "🧹",
-            "🔨", "💡", "🔒", "📞", "✉️", "📦", "🩺", "💊", "🚑", "🚒",
-            "👶", "👵", "👑", "💃", "🕺", "🏃", "🚶", "🧘", "🏊", "🚴",
-            "⛰️", "🏖️", "🌊",
+            "👋", "✌️", "🤞", "💯", "✨", "⭐", "🌟", "💥", "💫", "🌈",
+            "☀️", "🌙", "⛅", "🌧️", "❄️", "☃️", "🌊", "💧", "🌸", "🌹",
+            "🌻", "🌵", "🌲", "🌳", "🍀", "🍁", "🎂", "🍰", "🍕", "🍔",
+            "🍟", "🌮", "🍣", "🍩", "🍪", "🍫", "🍦", "🍎", "🍌", "🍓",
+            "🍞", "🧀", "🥚", "🍳", "☕", "🍵", "🍺", "🍷", "🥂", "🥤",
+            "🍾", "🐶", "🐱", "🐻", "🐰", "🦊", "🐼", "🦁", "🐮", "🐷",
+            "🐸", "🐵", "🐦", "🦄", "🐴", "🐝", "🦋", "🐟", "🐬", "🏠",
+            "🏫", "🏥", "🏢", "🚗", "🚕", "🚌", "🚲", "✈️", "🚀", "🚂",
+            "🚢", "⛰️", "🏖️", "📱", "💻", "📞", "📷", "⌚", "⏰", "📅",
+            "📚", "📖", "📝", "✏️", "✉️", "📦", "🔑", "🔒", "💡", "🎧",
+            "🎤", "💰", "💸", "💳", "🎁", "🎈", "🎄", "🎃", "💍", "👑",
+            "🎵", "🎸", "🎮", "⚽", "🏀", "🏆", "🎯", "✅", "❌", "⚠️",
+            "❓", "❗", "💤", "💭", "💬", "💊", "🩺", "🚑", "👶", "👵",
+            "💃", "🕺", "🏃", "🚶", "🧘", "🏊", "🚴", "👗", "👕", "👟",
+            "🧢", "🕶️", "💕", "💖", "💗", "💓", "💞", "💘", "💝", "💔",
+            "💋", "🫶", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🩷",
+            "🤒", "😷", "🤧", "🤕", "🥺", "😔", "😕", "🥱", "🤫", "🙄",
+            "😏", "😌", "🤯", "😳", "🧳", "🌴", "📺", "🏙️", "🍅", "🥭",
+            "🍿", "🎒", "👓", "🔔", "🧦", "🎬", "😠", "💢", "🍴", "💒",
+            "🌃", "👌", "🐭", "🐔", "🦉", "🐳", "🐢", "🐍", "🕷️", "🏈",
+            "🎾", "🏏", "🎲", "🚿", "🛏️", "🧹", "🔨", "🚒", "😬", "😩",
+            "🤤", "🤭", "😒", "🤠", "🥸", "🤓", "🧐", "😇", "🤡", "👻",
+            "👽", "🤖", "👼", "🧙", "🧚", "🧜", "👦", "👧", "👴", "🤰",
+            "👪", "👀", "👁️", "👂", "👃", "👄", "👅", "🦷", "🧠", "🦴",
+            "🦵", "🦶", "🐎", "🐺", "🐗", "🦌", "🐇", "🐁", "🐹", "🐨",
+            "🐯", "🦒", "🦓", "🐘", "🦏", "🦛", "🐪", "🦙", "🐂", "🐄",
+            "🐖", "🐑", "🐐", "🦔", "🦇", "🦥", "🦦", "🦘", "🐓", "🐧",
+            "🕊️", "🦅", "🦆", "🦢", "🦜", "🦚", "🐊", "🦎", "🐉", "🦕",
+            "🦖", "🦈", "🐙", "🦀", "🦞", "🦐", "🐌", "🐛", "🐜", "🪲",
+            "🦗", "🌱", "🌿", "☘️", "🍂", "🍃", "💐", "🌺", "🌼", "🌷",
+            "🌾", "🍄", "🍇", "🍈", "🍉", "🍊", "🍋", "🍍", "🍐", "🍑",
+            "🍒", "🫐", "🥑", "🍆", "🥔", "🥕", "🥒", "🥦", "🧄", "🧅",
+            "🥜", "🌰", "🥐", "🥨", "🥯", "🥞", "🧇", "🥓", "🥪", "🌯",
+            "🧂", "🍝", "🍡", "🥟", "🍮", "🧁", "🥧", "🍬", "🍭", "🧊",
+            "🍶", "🧉", "🥛", "🏦", "🏨", "🏭", "🏰", "⛪", "🕌", "⛲",
+            "⛺", "🏕️", "🏜️", "🌋", "🏟️", "🧱", "🪨", "🌅", "🌇", "🚆",
+            "🚇", "🚉", "🚜", "🏍️", "🛹", "⚓", "⛵", "🚤", "🚁", "🛰️",
+            "🚧", "⏱️", "🌡️", "☁️", "🌪️", "🌀", "☂️", "☄️", "🎆", "🎇",
+            "🧨", "🎀", "🎫", "🏐", "🏸", "🎿", "🛷", "🪀", "🪁", "🕹️",
+            "🃏", "🧵", "🧶", "👔", "👖", "🧣", "🧤", "🧥", "👘", "👙",
+            "👛", "👜", "💄", "📢", "📻", "🎷", "🎺", "🪗", "🎻", "🥁",
+            "☎️", "🔋", "🖨️", "⌨️", "📀", "🧮", "📼", "🕯️", "🔦", "📓",
+            "📜", "📰", "🔖", "🏷️", "🪙", "🧾", "📧", "📮", "🖊️", "🖌️",
+            "🖍️", "💼", "📋", "📌", "📎", "✂️", "🗑️", "🔓", "🪓", "⛏️",
+            "🗡️", "💣", "🛡️", "🔧", "🪛", "⚙️", "🔗", "⛓️", "🧰", "🧲",
+            "🪜", "⚗️", "🧬", "🔬", "🔭", "💉", "🩻", "🚪", "🪞", "🪟",
+            "🪑", "🚽", "🛁", "🪒", "🧺", "🪣", "🧼", "🪥", "🧽", "🗿",
+            "✖️", "➕", "➖", "➗", "♾️", "🚫",
         )
 
         /**
@@ -116,9 +194,55 @@ class EmojiSuggestionIndex private constructor(private val byWord: Map<String, L
         internal val BLOCKED: Set<String> = setOf(
             // English: all of these arrive as keywords of a perfectly ordinary emoji.
             "you", "where", "open", "body", "face", "hand", "eyes", "mouth", "people", "person",
-            // Hindi: "साथ" (with) is a keyword of the cup with straw.
-            "साथ",
+            "over", "well", "man", "high", "keep", "four", "point",
+            // "two" reaches 💕 through "two hearts", which is not what anyone counting means.
+            "two",
+            // The pleading, flushed and exploding faces are wanted for "bitte" and "krank", but their
+            // English keywords also cover these, where an emoji reads as a non sequitur.
+            "not", "what", "way", "why", "big", "sure",
+            // German. "man" is above and covers both languages; "mal" and "durch" are the arithmetic
+            // keywords of ✖️ and ➗, and "zwei" reaches 🙌 through "two hands".
+            "mal", "zwei", "durch", "schön",
+            // "weiß" is both a colour and "I know", and 🤍 is the wrong answer to the second;
+            // "morgen" reaches a heart through a greeting and reads as nonsense on its own.
+            "weiß", "morgen",
+            // Hindi.
+            "साथ", "बार", "देश", "वाला",
+            // The rest of the twenty maintained languages, each read off the same measurement: the 200
+            // most frequent words of the language against its own index. Every entry here is a word
+            // that fired something a person would not mean by it.
+            "قبل", // ar
+            "малко", "жена", "човек", // bg
+            "que", "cap", "dit", "sobre", "gran", "massa", "dona", // ca
+            "bože", // cs
+            "más", "menos", // es
+            "dans", "plus", "quoi", "son", "comment", "petit", "savoir", "moins", "air", "bonjour",
+            "salut", "femme", // fr
+            "fog", "szép", "rossz", // hu
+            "tak", "satu", "tempat", "cepat", "pasti", "atas", "kali", "wanita", "kecil",
+            "orang", "dua", // id
+            "che", "tutto", "ancora", "forse", "due", // it
+            "wat", "bij", "jou", "alleen", "zien", "vrouw", // nl
+            "dois", // pt
+            "что", "нет", "когда", "знаю", "может", "быть", "почему", "больше", "день", "хотел",
+            "много", // ru
+            "çok", "yani", "tek", "biz", "tam", // tr
+            "хочу", "себе", "ніж", "гей", // uk
         )
+
+        /**
+         * Emoji whose name must not be taken apart into words.
+         *
+         * Two patterns, both found by measuring sixteen languages at once rather than one. 💕 is "two
+         * hearts" in every one of them, so the numeral was answering `two`, `zwei`, `deux`, `dos`,
+         * `due`, `dwa`, `два`, `iki`, `két`, `dua` — a count, not an association. And a name like
+         * "snowman", "old man", "woman dancing" carries a generic person word as its head, which was
+         * answering `homme`, `hombre`, `uomo`, `человек`, `adam`, `orang`, `رجل`. Their **whole** names
+         * still match, so ☃️ still answers "snowman"; only the pieces are withheld.
+         */
+        private val NAME_TOKENS_EXCLUDED: Set<String> = setOf(
+            "💕", "☃️", "👴", "👵", "🕺", "💃", "🧙", "🏃", "🚶", "🧘", "🏊", "🚴",
+        ).mapTo(HashSet()) { it.withoutVariationSelectors() }
 
         /** Everything in [PRIORITY], keyed the way [rankOf] compares. */
         private val priorityRanks: Map<String, Int> =
@@ -153,7 +277,7 @@ class EmojiSuggestionIndex private constructor(private val byWord: Map<String, L
                 }
             }
             if (current.isNotEmpty()) out.add(current.toString())
-            return out.filter { it.length >= MIN_WORD_LENGTH }.map { it.lowercase() }
+            return out.filter { it.length >= minimumLengthFor(it, MIN_WORD_LENGTH) }.map { it.lowercase() }
         }
 
         /**
@@ -178,7 +302,7 @@ class EmojiSuggestionIndex private constructor(private val byWord: Map<String, L
             // word -> (tier, priority rank, emoji); tier 0 = whole name, 1 = name word, 2 = keyword.
             val hits = HashMap<String, MutableList<Triple<Int, Int, Emoji>>>()
             fun add(word: String, tier: Int, rank: Int, emoji: Emoji) {
-                if (word.length < MIN_WORD_LENGTH || word in BLOCKED) return
+                if (word.length < minimumLengthFor(word, MIN_WORD_LENGTH) || word in BLOCKED) return
                 hits.getOrPut(word) { mutableListOf() }.add(Triple(tier, rank, emoji))
             }
 
@@ -187,12 +311,16 @@ class EmojiSuggestionIndex private constructor(private val byWord: Map<String, L
                 val name = emoji.name.trim().lowercase()
                 if (name.isNotEmpty()) add(name, 0, rank, emoji)
                 val nameWords = tokenize(emoji.name)
-                if (nameWords.size <= NAME_TOKEN_LIMIT) {
+                if (nameWords.size <= NAME_TOKEN_LIMIT &&
+                    emoji.value.withoutVariationSelectors() !in NAME_TOKENS_EXCLUDED
+                ) {
                     for (word in nameWords.toSet()) add(word, 1, rank, emoji)
                 }
-                for (keyword in emoji.keywords.mapTo(HashSet()) { it.trim().lowercase() }) {
-                    if ((keywordEmojiCount[keyword] ?: 0) <= KEYWORD_EMOJI_LIMIT) {
-                        add(keyword, 2, rank, emoji)
+                if (rank < KEYWORD_CORE_SIZE) {
+                    for (keyword in emoji.keywords.mapTo(HashSet()) { it.trim().lowercase() }) {
+                        if ((keywordEmojiCount[keyword] ?: 0) <= KEYWORD_EMOJI_LIMIT) {
+                            add(keyword, 2, rank, emoji)
+                        }
                     }
                 }
             }
