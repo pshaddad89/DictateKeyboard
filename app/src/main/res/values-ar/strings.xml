@@ -138,6 +138,8 @@
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">إضافة نوع فرعي</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">أدارة حزم اللغات المثبتة</string>
     <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">إضافات تضيف طريقة إدخال: البينيين الصيني والطرق القائمة على الشكل.</string>
+    <string name="settings__localization__subtype_download_title">بيانات اللغة</string>
+    <string name="settings__localization__subtype_download_message">تؤدي إضافة {language_name} إلى تنزيل {size} من قوائم الكلمات وبيانات السياق. الاقتراحات والتصحيح التلقائي تحتاج إليها. يبدأ التنزيل فورًا وقد يستخدم بيانات الهاتف.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">تعديل النوع الفرعي</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">اللغة الأساسية</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">تخصيص المنبثقة</string>
@@ -244,6 +246,7 @@
     <string name="snygg__rule_element__smartbar_candidates_row">صف المرشحين لشريط الذكي</string>
     <string name="snygg__rule_element__smartbar_candidate_word">مرشح كلمة الشريط الذكي</string>
     <string name="snygg__rule_element__smartbar_candidate_clip">مرشح مقطع الشريط الذكي</string>
+    <string name="snygg__rule_element__smartbar_candidate_clip_dismiss">زر تجاهل مقترح الحافظة في الشريط الذكي</string>
     <string name="snygg__rule_element__smartbar_candidate_spacer">مرشح فاصل الشريط الذكي</string>
     <string name="snygg__rule_selector__pressed">مضغوط</string>
     <string name="snygg__rule_selector__focus">تركيز</string>
@@ -517,6 +520,10 @@
     <string name="backup_and_restore__back_up__destination_share_intent">تطبيق الجهة الخارجية عبر ميزة المشاركة</string>
     <string name="backup_and_restore__back_up__files">حدد ما يتم نسخه احتياطيا</string>
     <string name="backup_and_restore__back_up__files_jetpref_datastore">تفضيلات</string>
+    <string name="backup_and_restore__back_up__files_provider_credentials">مفاتيح API وكلمات المرور</string>
+    <string name="backup_and_restore__back_up__credentials_warning">يحتوي هذا الأرشيف على مفاتيح API وكلمات المرور الخاصة بك بنص واضح، إلى جانب رصيدك في Dictate Cloud — ومن يحصل عليه يمكنه الإملاء على حسابك. لا تُشاركه، وإذا كنت قد شاركته بالفعل فغيِّر المفتاح عند مزوّدك. كل ما هو محدَّد أدناه يرحل معه أيضًا، بما في ذلك سجل النسخ النصي والحافظة.</string>
+    <string name="backup_and_restore__back_up__credentials_excluded_note">لا يحتوي هذا الأرشيف على مفاتيح API أو كلمات مرور أو رصيد Dictate Cloud، فيمكن مشاركته، لكنه لن يستعيد مفاتيحك كذلك. كل ما هو محدَّد أدناه لا يزال فيه، بما في ذلك سجل النسخ النصي والحافظة.</string>
+    <string name="backup_and_restore__back_up__personal_content_note">لا يحتوي هذا الأرشيف على مفاتيح API أو كلمات مرور، لكنه يحتوي على كل ما هو محدَّد أدناه: سجل النسخ النصي مع التسجيلات المحفوظة، والحافظة، ومطالباتك، والكلمات التي تعلّمتها لوحة المفاتيح منك.</string>
     <string name="backup_and_restore__back_up__files_ime_keyboard">ملحقات لوحة المفاتيح</string>
     <string name="backup_and_restore__back_up__files_ime_spelling">ملحقات التهجئة/ القاموس</string>
     <string name="backup_and_restore__back_up__files_ime_theme">ملحقات السمات</string>
@@ -532,6 +539,7 @@
     <string name="backup_and_restore__restore__metadata">اختر أرشيف النسخة الاحتياطية</string>
     <string name="backup_and_restore__restore__metadata_warn_different_version">تم إنشاء أرشيف النسخ الاحتياطي هذا في إصدار آخر غير الإصدار الحالي ، والذي يتم دعمه بشكل عام. كن على علم بأنه قد تحدث مشكلات بسيطة أو قد لا يتم نقل بعض التفضيلات بشكل صحيح بسبب اختلافات في الميزات.</string>
     <string name="backup_and_restore__restore__metadata_warn_different_vendor">تم إنشاء أرشيف النسخ الاحتياطي هذا في تطبيق تابع لجهة خارجية ، وهو غير مدعوم بشكل عام. قد تحدث خسائر في البيانات ، قم باستعادتها على مسؤوليتك الخاصة!</string>
+    <string name="backup_and_restore__restore__metadata_note_no_credentials">لا يحتوي أرشيف النسخ الاحتياطي هذا على مفاتيح API أو كلمات مرور. يُستعاد كل ما عدا ذلك. الدمج يحافظ على المفاتيح الموجودة على هذا الجهاز؛ أما الاستبدال فيحذفها، بما في ذلك رمز استرداد Dictate Cloud الذي لا يمكن إدخاله من جديد.</string>
     <string name="backup_and_restore__restore__metadata_error_invalid_metadata">يحتوي أرشيف النسخ الاحتياطي هذا على بيانات تعريف غير صالحة. إما أنه تالف أو تم تعديله بشكل سيئ. الاستعادة من هذا الأرشيف غير ممكنة ، يرجى تحديد واحد آخر.</string>
     <string name="backup_and_restore__restore__metadata_error_nothing_to_restore">لا يحتوي أرشيف النسخ الاحتياطي هذا على أي ملفات لاستعادتها ، يرجى تحديد ملف آخر.</string>
     <string name="backup_and_restore__restore__mode">وضع الإستعادة</string>

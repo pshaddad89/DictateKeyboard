@@ -139,6 +139,8 @@
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Afegeix un subtipus</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Gestiona els paquets de llengua instal·lats</string>
     <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Extensions que afegeixen un mètode d\'entrada: xinès pinyin i els mètodes basats en formes.</string>
+    <string name="settings__localization__subtype_download_title">Dades d’idioma</string>
+    <string name="settings__localization__subtype_download_message">En afegir {language_name} es baixaran {size} de llistes de paraules i dades de context. Els suggeriments i la correcció automàtica els necessiten. La baixada comença immediatament i pot fer servir dades mòbils.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Edita el subtipus</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Llengua principal</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Mapatge emergent</string>
@@ -535,6 +537,10 @@
     <string name="backup_and_restore__back_up__destination_share_intent">Aplicació de tercers via el menú compartir</string>
     <string name="backup_and_restore__back_up__files">Tria de què fer còpia de seguretat</string>
     <string name="backup_and_restore__back_up__files_jetpref_datastore">Preferències</string>
+    <string name="backup_and_restore__back_up__files_provider_credentials">Claus API i contrasenyes</string>
+    <string name="backup_and_restore__back_up__credentials_warning">Aquest arxiu conté les teves claus API i contrasenyes en text net, juntament amb el teu crèdit de Dictate Cloud: qui el rebi pot dictar a càrrec teu. No el comparteixis i, si ja ho has fet, canvia la clau al teu proveïdor. Tota la resta que estigui marcada a sota hi viatja, inclòs l’historial de transcripcions i el porta-retalls.</string>
+    <string name="backup_and_restore__back_up__credentials_excluded_note">Aquest arxiu no conté claus API, contrasenyes ni crèdit de Dictate Cloud, així que es pot compartir, però tampoc no restaurarà les teves. Tota la resta que estigui marcada a sota hi continua, inclòs l’historial de transcripcions i el porta-retalls.</string>
+    <string name="backup_and_restore__back_up__personal_content_note">Aquest arxiu no conté claus API ni contrasenyes, però sí tot el que estigui marcat a sota: l’historial de transcripcions amb els enregistraments conservats, el porta-retalls, els teus prompts i les paraules que el teclat ha après de tu.</string>
     <string name="backup_and_restore__back_up__files_ime_keyboard">Extensions del teclat</string>
     <string name="backup_and_restore__back_up__files_ime_spelling">Extensions de correcció ortogràfica / diccionaris</string>
     <string name="backup_and_restore__back_up__files_ime_theme">Extensions del tema</string>
@@ -550,6 +556,7 @@
     <string name="backup_and_restore__restore__metadata">Fitxer de còpia de seguretat seleccionat</string>
     <string name="backup_and_restore__restore__metadata_warn_different_version">Aquest fitxer de còpia de seguretat ha estat generat per una versió diferent a l\'actual que, en general, hauria de ser compatible. Tingues present que hi pot haver algunes petites incidències o que algunes preferències poden no ser transferides correctament a conseqüència de diferències en les característiques.</string>
     <string name="backup_and_restore__restore__metadata_warn_different_vendor">Aquest fitxer de còpia de seguretat ha estat generat per una aplicació de tercers que, en general, no és compatible. Hi pot haver una pèrdua de dades, si ho restaures serà sota la teva responsabilitat!</string>
+    <string name="backup_and_restore__restore__metadata_note_no_credentials">Aquesta còpia de seguretat no conté claus API ni contrasenyes. Tota la resta es restaura. La fusió manté les claus que ja hi ha en aquest dispositiu; la sobreescriptura les elimina, inclòs un codi de recuperació de Dictate Cloud, que no es pot tornar a escriure.</string>
     <string name="backup_and_restore__restore__metadata_error_invalid_metadata">Aquest fitxer de còpia de seguretat conté metadades no vàlides. O està corromput o ha estat mal modificat. No es pot fer una restauració des d\'aquest fitxer, tria\'n un altre.</string>
     <string name="backup_and_restore__restore__metadata_error_nothing_to_restore">Aquest fitxer de còpia de seguretat no conté res per restaurar, tria\'n un altre.</string>
     <string name="backup_and_restore__restore__mode">Mode de restauració</string>

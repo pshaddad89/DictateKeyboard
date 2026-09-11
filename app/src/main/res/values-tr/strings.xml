@@ -143,6 +143,8 @@
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Alt tür ekle</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Yüklü dil paketlerini yönet</string>
     <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Bir giriş yöntemi ekleyen uzantılar: Çince pinyin ve şekil tabanlı yöntemler.</string>
+    <string name="settings__localization__subtype_download_title">Dil verileri</string>
+    <string name="settings__localization__subtype_download_message">{language_name} eklemek {size} kelime listesi ve bağlam verisi indirir. Öneriler ve otomatik düzeltme bunlara ihtiyaç duyar. İndirme hemen başlar ve mobil veri kullanabilir.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Alt türü düzenle</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Birincil dil</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Açılır pencere eşlemesi</string>
@@ -315,6 +317,7 @@
     <string name="snygg__rule_element__smartbar_candidate_clip">Akıllı Çubuk aday klip</string>
     <string name="snygg__rule_element__smartbar_candidate_clip_icon">Akıllı Çubuk aday klip simgesi</string>
     <string name="snygg__rule_element__smartbar_candidate_clip_text">Akıllı Çubuk aday klip metni</string>
+    <string name="snygg__rule_element__smartbar_candidate_clip_dismiss">Akıllı çubuk pano önerisini kapatma düğmesi</string>
     <string name="snygg__rule_element__smartbar_candidate_spacer">Akıllı Çubuk aday ayırıcı</string>
     <string name="snygg__rule_element__subtype_panel">Alt tür paneli</string>
     <string name="snygg__rule_element__subtype_panel_header">Alt tür panel başlığı</string>
@@ -625,6 +628,10 @@
     <string name="backup_and_restore__back_up__destination_share_intent">Paylaşım menüsü aracılığıyla üçüncü taraf uygulama</string>
     <string name="backup_and_restore__back_up__files">Nelerin yedekleneceğini seç</string>
     <string name="backup_and_restore__back_up__files_jetpref_datastore">Tercihler</string>
+    <string name="backup_and_restore__back_up__files_provider_credentials">API anahtarları ve şifreler</string>
+    <string name="backup_and_restore__back_up__credentials_warning">Bu arşiv API anahtarlarınızı ve şifrelerinizi düz metin olarak, Dictate Cloud bakiyenizle birlikte içerir — onu alan herkes sizin hesabınıza dikte edebilir. Başkasına vermeyin; verdiyseniz sağlayıcınızdaki anahtarı değiştirin. Aşağıda işaretli olan her şey onunla birlikte gider, dikte geçmişiniz ve panonuz da dahil.</string>
+    <string name="backup_and_restore__back_up__credentials_excluded_note">Bu arşivde API anahtarı, şifre veya Dictate Cloud bakiyesi yok, bu yüzden paylaşılabilir; ama sizinkileri de geri yüklemez. Aşağıda işaretli olan her şey hâlâ içindedir, dikte geçmişiniz ve panonuz da dahil.</string>
+    <string name="backup_and_restore__back_up__personal_content_note">Bu arşivde API anahtarı ve şifre yok, ama aşağıda işaretli olan her şey var: saklanan kayıtlarla birlikte dikte geçmişiniz, panonuz, istemleriniz ve klavyenin sizden öğrendiği kelimeler.</string>
     <string name="backup_and_restore__back_up__files_ime_keyboard">Klavye eklentileri</string>
     <string name="backup_and_restore__back_up__files_ime_spelling">Yazım denetimi eklentileri / sözlükler</string>
     <string name="backup_and_restore__back_up__files_ime_theme">Tema eklentileri</string>
@@ -640,6 +647,7 @@
     <string name="backup_and_restore__restore__metadata">Seçilen yedek arşivi</string>
     <string name="backup_and_restore__restore__metadata_warn_different_version">Bu yedek arşivi mevcut sürümden farklı bir sürümde oluşturulmuştur, bu genellikle desteklenir. Ancak küçük sorunların ortaya çıkabileceğini veya özellik farklılıkları nedeniyle bazı tercihlerin düzgün aktarılamayabileceğini unutmayın.</string>
     <string name="backup_and_restore__restore__metadata_warn_different_vendor">Bu yedek arşivi üçüncü taraf bir uygulamada oluşturulmuştur, bu genellikle desteklenmez. Veri kayıpları meydana gelebilir, riski size ait olmak üzere geri yükleyin!</string>
+    <string name="backup_and_restore__restore__metadata_note_no_credentials">Bu yedek arşivinde API anahtarı ve şifre yok. Diğer her şey geri yüklenir. Birleştirme bu cihazdaki anahtarları korur; üzerine yazma ise onları siler — yeniden yazılamayan Dictate Cloud kurtarma kodu da dahil.</string>
     <string name="backup_and_restore__restore__metadata_error_invalid_metadata">Bu yedek arşivi geçersiz meta veriler içeriyor. Ya bozulmuş ya da kötü bir şekilde değiştirilmiş. Bu arşivden geri yükleme yapmak mümkün değil, lütfen başka bir tane seçin.</string>
     <string name="backup_and_restore__restore__metadata_error_nothing_to_restore">Bu yedek arşivi geri yüklenecek herhangi bir dosya içermiyor, lütfen başka bir tane seçin.</string>
     <string name="backup_and_restore__restore__mode">Geri yükleme modu</string>

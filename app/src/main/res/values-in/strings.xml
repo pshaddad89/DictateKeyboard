@@ -142,6 +142,8 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Tambah subtipe</string>
     <string name="settings__localization__language_pack_title" comment="Title of the language pack manager screen for managing installed and custom language packs">Atur paket bahasa yang terinstal</string>
     <string name="settings__localization__language_pack_summary" comment="Summary of preference item for adding a new language pack">Ekstensi yang menambahkan metode masukan: pinyin Tionghoa dan metode berbasis bentuk.</string>
+    <string name="settings__localization__subtype_download_title">Data bahasa</string>
+    <string name="settings__localization__subtype_download_message">Menambahkan {language_name} akan mengunduh {size} daftar kata dan data konteks. Saran dan koreksi otomatis membutuhkannya. Unduhan dimulai segera dan bisa memakai data seluler.</string>
     <string name="settings__localization__subtype_edit_title" comment="Title of subtype dialog when editing an existing subtype">Edit subtipe</string>
     <string name="settings__localization__subtype_locale" comment="Label for locale dropdown in subtype dialog">Bahasa utama</string>
     <string name="settings__localization__subtype_popup_mapping" comment="Label for popup mapping dropdown in subtype screen">Pemetaan munculan</string>
@@ -310,6 +312,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="snygg__rule_element__smartbar_candidate_clip">Calon klip smartbar</string>
     <string name="snygg__rule_element__smartbar_candidate_clip_icon">Ikon kandidat klip smartbar</string>
     <string name="snygg__rule_element__smartbar_candidate_clip_text">Teks kandidat klip smartbar</string>
+    <string name="snygg__rule_element__smartbar_candidate_clip_dismiss">Tombol tutup kandidat klip smartbar</string>
     <string name="snygg__rule_element__smartbar_candidate_spacer">Calon pembelah smartbar</string>
     <string name="snygg__rule_element__subtype_panel">Panel subtipe</string>
     <string name="snygg__rule_element__subtype_panel_header">Judul panel subtipe</string>
@@ -621,6 +624,10 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="backup_and_restore__back_up__destination_share_intent">Aplikasi pihak ketiga via menu pembagian</string>
     <string name="backup_and_restore__back_up__files">Pilih apa yang akan dicadangkan</string>
     <string name="backup_and_restore__back_up__files_jetpref_datastore">Preferensi</string>
+    <string name="backup_and_restore__back_up__files_provider_credentials">Kunci API dan kata sandi</string>
+    <string name="backup_and_restore__back_up__credentials_warning">Arsip ini memuat kunci API dan kata sandi Anda dalam teks biasa, beserta saldo Dictate Cloud Anda — siapa pun yang menerimanya bisa mendikte atas biaya Anda. Jangan meneruskannya, dan jika sudah, gantilah kuncinya di penyedia Anda. Semua hal lain yang dicentang di bawah ikut terbawa, termasuk riwayat transkripsi dan papan klip Anda.</string>
+    <string name="backup_and_restore__back_up__credentials_excluded_note">Arsip ini tidak memuat kunci API, kata sandi, maupun saldo Dictate Cloud, jadi boleh diteruskan, tetapi juga tidak akan memulihkan milik Anda. Semua hal lain yang dicentang di bawah tetap ada di dalamnya, termasuk riwayat transkripsi dan papan klip Anda.</string>
+    <string name="backup_and_restore__back_up__personal_content_note">Arsip ini tidak memuat kunci API dan kata sandi, tetapi memuat semua yang dicentang di bawah: riwayat transkripsi beserta rekaman yang disimpan, papan klip, prompt Anda, dan kata-kata yang dipelajari papan ketik dari Anda.</string>
     <string name="backup_and_restore__back_up__files_ime_keyboard">Ekstensi papan ketik</string>
     <string name="backup_and_restore__back_up__files_ime_spelling">Ekstensi / kamus ejaan</string>
     <string name="backup_and_restore__back_up__files_ime_theme">Ekstensi tema</string>
@@ -636,6 +643,7 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="backup_and_restore__restore__metadata">Arsip cadangan dipilih</string>
     <string name="backup_and_restore__restore__metadata_warn_different_version">Arsip cadangan ini dibuat di versi lain daripada saat ini, yang biasanya didukung. Dicatat bahwa masalah-masalah minor dapat terjadi atau beberapa preferensi tidak dapat dipindahkan dengan benar karena perbedaan fitur-fitur.</string>
     <string name="backup_and_restore__restore__metadata_warn_different_vendor">Arsip cadangan ini dibuat oleh sebuah aplikasi pihak ketiga, yang biasanya tidak didukung. Kehilangan data mungkin terjadi, hanya pulihkan dengan risiko Anda sendiri!</string>
+    <string name="backup_and_restore__restore__metadata_note_no_credentials">Arsip pencadangan ini tidak memuat kunci API dan kata sandi. Semua yang lain dipulihkan. Penggabungan mempertahankan kunci yang sudah ada di perangkat ini; penimpaan menghapusnya, termasuk kode pemulihan Dictate Cloud, yang tidak dapat dimasukkan kembali.</string>
     <string name="backup_and_restore__restore__metadata_error_invalid_metadata">Arsip cadangan ini terdapat metadata yang tidak valid. Arsip cadangannya mungkin telah terkorupsi atau dimodifikasi dengan tidak benar. Memulihkan dari arsip ini tidak memungkinkan, mohon pilih yang lain.</string>
     <string name="backup_and_restore__restore__metadata_error_nothing_to_restore">Arsip cadangan ini tidak mempunyai file apa pun untuk dipulihkan, mohon pilih yang lain.</string>
     <string name="backup_and_restore__restore__mode">Mode pemulihan</string>

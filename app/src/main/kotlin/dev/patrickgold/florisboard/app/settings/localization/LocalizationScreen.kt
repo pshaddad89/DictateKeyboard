@@ -158,6 +158,7 @@ fun LocalizationScreen() = FlorisScreen {
                     // finds out that the feature is absent for their language rather than broken.
                     val glideLang = LatinLanguageProvider.normalizeLang(subtype.primaryLocale.language)
                     @Suppress("UNUSED_EXPRESSION") glideInstalledVersion // re-read installed state on change
+
                     val glideIcon = when {
                         glideProgress[glideLang] != null -> "⬇${glideProgress[glideLang]}%"
                         glideLang in GlideDictionaryCatalog.BUNDLED ||
