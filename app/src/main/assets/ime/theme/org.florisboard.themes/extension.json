@@ -2,18 +2,51 @@
   "$": "ime.extension.theme",
   "meta": {
     "id": "org.florisboard.themes",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "title": "Dictate Keyboard default themes",
     "description": "Default themes (both day and night) for the keyboard UI",
-    "maintainers": [ "patrickgold <patrick@patrickgold.dev>", "lm41 <lm41@lm41.xyz>" ],
+    "maintainers": [
+      "patrickgold <patrick@patrickgold.dev>",
+      "lm41 <lm41@lm41.xyz>"
+    ],
     "license": "apache-2.0"
   },
   "themes": [
+    {
+      "id": "dictate_glass",
+      "label": "Dictate Glass",
+      "authors": [ "DevEmperor" ],
+      "isNight": true
+    },
+    {
+      "id": "dictate_glass_clear",
+      "label": "Dictate Glass Clear",
+      "authors": [ "DevEmperor" ],
+      "isNight": true
+    },
+    {
+      "id": "dictate_sand",
+      "label": "Dictate Sand (Day)",
+      "authors": [ "DevEmperor" ],
+      "isNight": false
+    },
+    {
+      "id": "dictate_deep",
+      "label": "Dictate Deep (Night)",
+      "authors": [ "DevEmperor" ],
+      "isNight": true
+    },
     {
       "id": "dictate_eink",
       "label": "Dictate E-Ink (High Contrast)",
       "authors": [ "DevEmperor" ],
       "isNight": false
+    },
+    {
+      "id": "dictate_eink_night",
+      "label": "Dictate E-Ink Night (High Contrast)",
+      "authors": [ "DevEmperor" ],
+      "isNight": true
     },
     {
       "id": "floris_day",
