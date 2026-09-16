@@ -187,6 +187,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Silme Onayı</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Bu alt türü silmek istediğinizden emin misiniz?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Tema</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Yüksek kontrast</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Çerçeveli tuşlar, her etiket 7:1 ölçüldü. Gündüz ve geceyi ayarlar.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Tema modu</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Gün doğumu saati</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Gün batımı saati</string>
@@ -1212,6 +1214,17 @@
     <string name="dictate__floating_button_design_pill_summary">Etkinken genişleyerek bir sayaç ve canlı dalga biçimi gösterir.</string>
     <string name="dictate__floating_button_design_ring">Halka</string>
     <string name="dictate__floating_button_design_ring_summary">Kayıt ve yazıya dökme sırasında animasyonlu bir halkaya sahip kompakt daire.</string>
+    <string name="dictate__floating_button_apps_title">Uygulama görünürlüğü</string>
+    <string name="dictate__floating_button_apps_summary_all">Her uygulamada</string>
+    <string name="dictate__floating_button_apps_summary_only">Yalnızca {n} uygulamada</string>
+    <string name="dictate__floating_button_apps_summary_except">{n} uygulama dışında her yerde</string>
+    <string name="dictate__floating_button_apps_scope_all">Her uygulama</string>
+    <string name="dictate__floating_button_apps_scope_only">Yalnızca aşağıdaki uygulamalar</string>
+    <string name="dictate__floating_button_apps_scope_except">Aşağıdakiler dışındaki her uygulama</string>
+    <string name="dictate__floating_button_apps_note">Dışarıda bıraktığınız bir uygulamanın üzerine düğme hiçbir zaman çizilmez ve Dictate orada metin alanlarını okumaz. Erişilebilirlik hizmetlerine ilkesel olarak karşı çıkan bir uygulama, hizmetin açık olduğunu yine de görecektir.</string>
+    <string name="dictate__floating_button_apps_list_title">Uygulamalar</string>
+    <string name="dictate__floating_button_apps_search">Uygulama ara</string>
+    <string name="dictate__floating_button_apps_none">“{search_term}” için uygulama bulunamadı</string>
     <string name="dictate__floating_button_design_title">Düğme stili</string>
     <string name="dictate__floating_button_haptic_summary_off">Dokununca titreşim yok.</string>
     <string name="dictate__floating_button_haptic_summary_on">Düğmeye dokununca kısa bir titreşim.</string>
@@ -1337,8 +1350,27 @@
     <string name="dictate__providers_field_transcription_model">Yazıya dökme modeli</string>
     <string name="dictate__providers_field_chat_model">Yeniden ifade etme modeli</string>
     <string name="dictate__providers_test">Bağlantıyı test et</string>
-    <string name="dictate__providers_test_success">Bağlandı · {count} model</string>
-    <string name="dictate__providers_test_failed">Bağlantı başarısız oldu</string>
+    <string name="dictate__providers_test_transcribe">Yazıya dökmeyi sına</string>
+    <string name="dictate__providers_check_no_key">Önce API anahtarınızı girin.</string>
+    <string name="dictate__providers_check_credentials_ok">Kimlik bilgileri doğrulandı · {count} model</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Kimlik bilgileri doğrulandı</string>
+    <string name="dictate__providers_check_endpoint_ok">Sunucuya ulaşıldı · {count} model</string>
+    <string name="dictate__providers_check_credentials_untested">Yazıya dökme sınanmadı.</string>
+    <string name="dictate__providers_check_transcription_ok">Yazıya dökme doğrulandı</string>
+    <string name="dictate__providers_check_transcription_text">Şöyle döndü: “{text}”</string>
+    <string name="dictate__providers_check_transcription_empty">İstek geçti ama metin dönmedi — bağlantı çalışıyor, bu model örneği anlamadı.</string>
+    <string name="dictate__providers_check_failed_connection">Bağlantı sınaması başarısız</string>
+    <string name="dictate__providers_check_failed_transcription">Yazıya dökme sınaması başarısız</string>
+    <string name="dictate__providers_check_err_auth">Anahtar reddedildi. Anahtarı ve adresin aynı hesaba ait olup olmadığını denetleyin.</string>
+    <string name="dictate__providers_check_err_quota">Anahtar çalışıyor ama hesabın kotası bitmiş ya da bir sınır aşılmış. Sağlayıcıdaki planınızı denetleyin.</string>
+    <string name="dictate__providers_check_err_network">Sunucuya ulaşılamadı. Adresi ve internet bağlantınızı denetleyin.</string>
+    <string name="dictate__providers_check_err_timeout">Zamanında yanıt gelmedi. Sağlayıcı yoğun olabilir — yeniden deneyin.</string>
+    <string name="dictate__providers_check_err_server">Sağlayıcı kendi hatasını bildirdi. Burada değiştirilecek bir şey yok; daha sonra deneyin.</string>
+    <string name="dictate__providers_check_err_format">Sağlayıcı ses örneğini reddetti. Bu biçimi kabul etmiyor olabilir.</string>
+    <string name="dictate__providers_check_err_unknown">İstek başarısız oldu.</string>
+    <string name="dictate__providers_azure_link_signup">Azure hesabı oluştur</string>
+    <string name="dictate__providers_azure_link_portal">Azure portalı</string>
+    <string name="dictate__providers_azure_link_guide">Kurulum kılavuzu</string>
     <string name="dictate__providers_network_group">Ağ</string>
     <string name="dictate__request_timeout_title">İstek zaman aşımı</string>
     <string name="dictate__request_timeout_summary">{v} sn · yavaş kendi sunucunuz için artırın</string>
@@ -1461,9 +1493,7 @@
     <string name="dictate__custom_words_budget_info">Buradaki her kelime her dikteyle birlikte gönderilir ve konuşma modeli bunun yalnızca yaklaşık {budget} jetonluk bağlamını okur. Listen bunun yaklaşık {tokens} kadarını kullanıyor.</string>
     <string name="dictate__custom_words_budget_over">Listen, konuşma modelinin okuduğundan uzun. {count} kelimenin yaklaşık {fits} tanesi modele ulaşıyor; geri kalanı her diktede gönderilip yok sayılıyor. Daha geniş bir sözcük dağarcığı için özel eşleştirmeleri kullan — onlar birebirdir, çevrimdışı çalışır ve hiçbir maliyeti yoktur.</string>
     <string name="dictate__custom_words_import">Kelime listesi içe aktar</string>
-    <string name="dictate__custom_words_import_summary">Bir metin dosyasından kelime ekle, her satırda bir tane</string>
     <string name="dictate__custom_words_export">Kelime listesini dışa aktar</string>
-    <string name="dictate__custom_words_export_summary">Kelimelerini metin dosyası olarak kaydet, her satırda bir tane</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Kelime listesi içe aktar</string>
     <string name="dictate__custom_words_import_fitting">Bu dosyadaki {count} yeni kelime listene sığıyor.</string>

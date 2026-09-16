@@ -334,6 +334,8 @@
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Are you sure you want to delete this subtype?</string>
 
     <string name="settings__theme__title" comment="Title of the Theme screen">Theme</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">High contrast</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Outlined keys, every label measured at 7:1. Sets day and night.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Theme mode</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Sunrise time</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Sunset time</string>
@@ -1753,6 +1755,17 @@
     <string name="dictate__floating_button_show_with_keyboard_title" comment="Toggle: whether to also show the floating button while the Dictate keyboard itself is active">Show with Dictate keyboard</string>
     <string name="dictate__floating_button_show_with_keyboard_summary_on" comment="Summary when the floating button is shown even with the Dictate keyboard active">The button also appears while the Dictate keyboard is active.</string>
     <string name="dictate__floating_button_show_with_keyboard_summary_off" comment="Summary when the floating button is hidden while the Dictate keyboard is active">Hidden while the Dictate keyboard is active, since it already has a mic key.</string>
+    <string name="dictate__floating_button_apps_title" comment="Row that opens the per-app visibility screen for the floating button">App visibility</string>
+    <string name="dictate__floating_button_apps_summary_all" comment="Summary of the app-visibility row when no filter is set">In every app</string>
+    <string name="dictate__floating_button_apps_summary_only" comment="Summary of the app-visibility row in allow-list mode; {n} is the number of chosen apps">Only in {n} apps</string>
+    <string name="dictate__floating_button_apps_summary_except" comment="Summary of the app-visibility row in block-list mode; {n} is the number of chosen apps">Everywhere except {n} apps</string>
+    <string name="dictate__floating_button_apps_scope_all" comment="App-visibility mode: no filter">Every app</string>
+    <string name="dictate__floating_button_apps_scope_only" comment="App-visibility mode: allow-list">Only the apps below</string>
+    <string name="dictate__floating_button_apps_scope_except" comment="App-visibility mode: block-list">Every app except those below</string>
+    <string name="dictate__floating_button_apps_note" comment="Note explaining what the app filter does and does not hide">The button is never drawn over an app you leave out, and Dictate does not read its text fields. An app that objects to accessibility services as such will still notice the service is switched on.</string>
+    <string name="dictate__floating_button_apps_list_title" comment="Header above the app list in the app-visibility screen">Apps</string>
+    <string name="dictate__floating_button_apps_search" comment="Placeholder in the app-visibility search field">Search apps</string>
+    <string name="dictate__floating_button_apps_none" comment="Shown when no installed app matches the search; {search_term} is what was typed">No app found for “{search_term}”</string>
     <string name="dictate__floating_button_design_title" comment="Title of the floating-button visual style picker">Button style</string>
     <string name="dictate__floating_button_design_ring" comment="Floating-button style option: compact ring">Ring</string>
     <string name="dictate__floating_button_design_ring_summary" comment="Description of the ring floating-button style">Compact circle with a ring that animates while recording and transcribing.</string>
@@ -1967,9 +1980,28 @@
     <string name="dictate__providers_single_call_title" comment="Toggle: send audio directly to a multimodal chat model in one call">Single-call multimodal</string>
     <string name="dictate__providers_single_call_summary" comment="Short summary for the single-call multimodal toggle">One audio-capable model transcribes and formats in a single request.</string>
     <string name="dictate__providers_rewording_single_call_note" comment="Info shown at the rewording provider when single-call is active at the transcription provider">Not used right now — your transcription provider does rewording in its single call.</string>
-    <string name="dictate__providers_test" comment="Button that checks the provider's base URL and API key">Test connection</string>
-    <string name="dictate__providers_test_success" comment="Shown after a successful connection test. {count} is the number of available models.">Connected · {count} models</string>
-    <string name="dictate__providers_test_failed" comment="Generic fallback shown when a connection test fails without a specific message">Connection failed</string>
+    <string name="dictate__providers_test" comment="Button that checks whether the provider accepts the entered API key and endpoint">Test connection</string>
+    <string name="dictate__providers_test_transcribe" comment="Button that sends a short bundled speech sample through the selected transcription model">Test transcription</string>
+    <string name="dictate__providers_check_no_key" comment="Shown when a test is started before an API key has been entered">Enter your API key first.</string>
+    <string name="dictate__providers_check_credentials_ok" comment="Successful connection test at a provider with a live model catalog. {count} is the number of models it returned.">Credentials verified · {count} models</string>
+    <string name="dictate__providers_check_credentials_ok_nocount" comment="Successful connection test at a provider whose model list ships with the app, so no model count was learned from the network">Credentials verified</string>
+    <string name="dictate__providers_check_endpoint_ok" comment="Successful connection test at a server that asks for no key at all, such as a local Ollama. {count} is the number of models it returned.">Server reached · {count} models</string>
+    <string name="dictate__providers_check_credentials_untested" comment="Second line after a successful connection test, saying what was not checked">Transcription not tested.</string>
+    <string name="dictate__providers_check_transcription_ok" comment="Successful transcription test: the provider returned a transcript for the sample">Transcription verified</string>
+    <string name="dictate__providers_check_transcription_text" comment="Second line after a successful transcription test, showing what came back. {text} is the transcript.">Came back as: “{text}”</string>
+    <string name="dictate__providers_check_transcription_empty" comment="Second line when the provider accepted the sample but returned no text at all">The request went through, but no text came back — the connection works, this model did not understand the sample.</string>
+    <string name="dictate__providers_check_failed_connection" comment="Headline when the connection test failed">Connection test failed</string>
+    <string name="dictate__providers_check_failed_transcription" comment="Headline when the transcription test failed">Transcription test failed</string>
+    <string name="dictate__providers_check_err_auth" comment="What to do when the provider rejected the key">The key was rejected. Check it, and that the endpoint belongs to the same account.</string>
+    <string name="dictate__providers_check_err_quota" comment="What to do when the key works but the account has nothing left to spend">The key works, but the account is out of quota or over a rate limit. Check your plan with the provider.</string>
+    <string name="dictate__providers_check_err_network" comment="What to do when the server could not be reached at all">The server could not be reached. Check the address and your internet connection.</string>
+    <string name="dictate__providers_check_err_timeout" comment="What to do when the provider did not answer in time">No answer in time. The provider may be busy — try again.</string>
+    <string name="dictate__providers_check_err_server" comment="What to do when the provider itself reported an error">The provider reported an error of its own. Nothing to change here; try again later.</string>
+    <string name="dictate__providers_check_err_format" comment="What to do when the provider refused the sample audio">The provider refused the sample audio. It may not accept this format.</string>
+    <string name="dictate__providers_check_err_unknown" comment="Fallback when a failure fits none of the known categories">The request failed.</string>
+    <string name="dictate__providers_azure_link_signup" comment="Link next to the Azure endpoint field: the page where a new Azure account is created">Create an Azure account</string>
+    <string name="dictate__providers_azure_link_portal" comment="Link next to the Azure endpoint field: the Azure portal, where the key and endpoint are found">Azure portal</string>
+    <string name="dictate__providers_azure_link_guide" comment="Link next to the Azure endpoint field: Microsoft's own setup guide and prerequisites for the MAI-Transcribe model">Setup guide</string>
     <!-- Dictate Cloud: prepaid credit bought in the app, as an alternative to bringing your own API key -->
     <string name="dictate__cloud_title" comment="Title of the Dictate Cloud screen and the row linking to it">Dictate Cloud</string>
     <string name="dictate__cloud_row_summary_none" comment="Summary of the Dictate Cloud row when no credit account exists">Buy dictation credit — no API key needed</string>
@@ -2231,9 +2263,7 @@
     <string name="dictate__custom_words_budget_info" comment="Info card shown once the word list uses most of the prompt budget. Placeholders: the budget and the estimated tokens in use.">Every word here travels with every dictation, and the speech model reads only about {budget} tokens of context. Your list is using about {tokens}.</string>
     <string name="dictate__custom_words_budget_over" comment="Warning card shown when the word list is longer than the speech model can read. Placeholders: how many words still reach the model, and how many there are in total.">Your list is longer than the speech model reads. About {fits} of your {count} words reach it; the rest are sent with every dictation and ignored. For a longer vocabulary use custom mappings — they are exact, work offline and cost nothing.</string>
     <string name="dictate__custom_words_import" comment="Row that opens a file picker to import a word list">Import a word list</string>
-    <string name="dictate__custom_words_import_summary" comment="Summary of the import row">Add words from a text file, one per line</string>
     <string name="dictate__custom_words_export" comment="Row that saves the word list as a text file">Export the word list</string>
-    <string name="dictate__custom_words_export_summary" comment="Summary of the export row">Save your words as a text file, one per line</string>
     <string name="dictate__custom_words_export_filename" comment="Default file name for the word list export">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title" comment="Title of the dialog shown before an imported word list is written">Import a word list</string>
     <string name="dictate__custom_words_import_fitting" comment="Import dialog: how many new words from the file fit into the list. Placeholder inserts the count.">{count} new words from this file fit in your list.</string>

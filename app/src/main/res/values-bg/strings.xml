@@ -190,6 +190,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Потвърждение при премахване</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Желаете ли да премахнете този подвид?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Тема</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Висок контраст</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Очертани клавиши, всеки надпис измерен при 7:1. Задава деня и нощта.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Режим на тема</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Време на изгрев</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Време на залез</string>
@@ -1233,6 +1235,17 @@
     <string name="dictate__floating_button_design_pill_summary">Когато е активна, се разширява, за да покаже таймер и форма на вълната на живо.</string>
     <string name="dictate__floating_button_design_ring">Пръстен</string>
     <string name="dictate__floating_button_design_ring_summary">Компактен кръг с пръстен, анимиран при запис и транскрибиране.</string>
+    <string name="dictate__floating_button_apps_title">Видимост по приложение</string>
+    <string name="dictate__floating_button_apps_summary_all">Във всички приложения</string>
+    <string name="dictate__floating_button_apps_summary_only">Само в {n} приложения</string>
+    <string name="dictate__floating_button_apps_summary_except">Навсякъде освен в {n} приложения</string>
+    <string name="dictate__floating_button_apps_scope_all">Всички приложения</string>
+    <string name="dictate__floating_button_apps_scope_only">Само приложенията по-долу</string>
+    <string name="dictate__floating_button_apps_scope_except">Всички освен приложенията по-долу</string>
+    <string name="dictate__floating_button_apps_note">Върху изключено приложение бутонът никога не се показва и Dictate не чете текстовите му полета. Приложение, което по принцип възразява срещу услугите за достъпност, пак ще види, че услугата е включена.</string>
+    <string name="dictate__floating_button_apps_list_title">Приложения</string>
+    <string name="dictate__floating_button_apps_search">Търсене на приложения</string>
+    <string name="dictate__floating_button_apps_none">Няма намерено приложение за „{search_term}“</string>
     <string name="dictate__floating_button_design_title">Стил на бутона</string>
     <string name="dictate__floating_button_haptic_summary_off">Без вибрация при докосване.</string>
     <string name="dictate__floating_button_haptic_summary_on">Кратка вибрация при докосване на бутона.</string>
@@ -1358,8 +1371,27 @@
     <string name="dictate__providers_field_transcription_model">Модел за транскрибиране</string>
     <string name="dictate__providers_field_chat_model">Модел за преформулиране</string>
     <string name="dictate__providers_test">Тествай връзката</string>
-    <string name="dictate__providers_test_success">Свързано · {count} модела</string>
-    <string name="dictate__providers_test_failed">Връзката е неуспешна</string>
+    <string name="dictate__providers_test_transcribe">Тест на транскрибирането</string>
+    <string name="dictate__providers_check_no_key">Първо въведете своя API ключ.</string>
+    <string name="dictate__providers_check_credentials_ok">Данните за достъп са проверени · {count} модела</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Данните за достъп са проверени</string>
+    <string name="dictate__providers_check_endpoint_ok">Сървърът е достигнат · {count} модела</string>
+    <string name="dictate__providers_check_credentials_untested">Транскрибирането не е тествано.</string>
+    <string name="dictate__providers_check_transcription_ok">Транскрибирането е проверено</string>
+    <string name="dictate__providers_check_transcription_text">Върна се като: „{text}“</string>
+    <string name="dictate__providers_check_transcription_empty">Заявката премина, но не се върна текст — връзката работи, този модел не разбра пробата.</string>
+    <string name="dictate__providers_check_failed_connection">Тестът на връзката е неуспешен</string>
+    <string name="dictate__providers_check_failed_transcription">Тестът на транскрибирането е неуспешен</string>
+    <string name="dictate__providers_check_err_auth">Ключът беше отхвърлен. Проверете него и дали адресът принадлежи на същия акаунт.</string>
+    <string name="dictate__providers_check_err_quota">Ключът работи, но акаунтът е изчерпал квотата си или е над лимита. Проверете плана си при доставчика.</string>
+    <string name="dictate__providers_check_err_network">Сървърът не можа да бъде достигнат. Проверете адреса и интернет връзката си.</string>
+    <string name="dictate__providers_check_err_timeout">Няма отговор навреме. Доставчикът може да е зает — опитайте отново.</string>
+    <string name="dictate__providers_check_err_server">Доставчикът съобщи собствена грешка. Тук няма какво да се промени; опитайте по-късно.</string>
+    <string name="dictate__providers_check_err_format">Доставчикът отказа звуковата проба. Може да не приема този формат.</string>
+    <string name="dictate__providers_check_err_unknown">Заявката беше неуспешна.</string>
+    <string name="dictate__providers_azure_link_signup">Създаване на акаунт в Azure</string>
+    <string name="dictate__providers_azure_link_portal">Портал на Azure</string>
+    <string name="dictate__providers_azure_link_guide">Ръководство за настройка</string>
     <string name="dictate__providers_network_group">Мрежа</string>
     <string name="dictate__request_timeout_title">Време за изчакване на заявка</string>
     <string name="dictate__request_timeout_summary">{v} с · увеличете при бавен собствен сървър</string>
@@ -1482,9 +1514,7 @@
     <string name="dictate__custom_words_budget_info">Всяка дума оттук пътува с всяка диктовка, а речевият модел прочита само около {budget} токена контекст. Твоят списък заема около {tokens} от тях.</string>
     <string name="dictate__custom_words_budget_over">Списъкът ти е по-дълъг от това, което речевият модел прочита. До него стигат около {fits} от твоите {count} думи; останалите се изпращат при всяка диктовка и се пренебрегват. За по-голям речник използвай собствените замени — те са точни, работят офлайн и не струват нищо.</string>
     <string name="dictate__custom_words_import">Импортиране на списък с думи</string>
-    <string name="dictate__custom_words_import_summary">Добавяне на думи от текстов файл, по една на ред</string>
     <string name="dictate__custom_words_export">Експортиране на списъка с думи</string>
-    <string name="dictate__custom_words_export_summary">Запазване на думите ти като текстов файл, по една на ред</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Импортиране на списък с думи</string>
     <string name="dictate__custom_words_import_fitting">{count} нови думи от този файл се побират в списъка ти.</string>

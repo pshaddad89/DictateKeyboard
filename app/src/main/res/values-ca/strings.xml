@@ -183,6 +183,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Confirmació de la supressió</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Segur que vols suprimir aquest subtipus?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Tema</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Contrast alt</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Tecles perfilades, cada text mesurat a 7:1. Defineix dia i nit.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Mode del tema</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Hora de trenc d\'alba</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Hora de posta de sol</string>
@@ -1103,6 +1105,17 @@
     <string name="dictate__floating_button_design_pill_summary">S’amplia quan està actiu per mostrar un temporitzador i una forma d’ona en directe.</string>
     <string name="dictate__floating_button_design_ring">Anella</string>
     <string name="dictate__floating_button_design_ring_summary">Cercle compacte amb una anella animada mentre es grava i es transcriu.</string>
+    <string name="dictate__floating_button_apps_title">Visibilitat per aplicació</string>
+    <string name="dictate__floating_button_apps_summary_all">A totes les aplicacions</string>
+    <string name="dictate__floating_button_apps_summary_only">Només a {n} aplicacions</string>
+    <string name="dictate__floating_button_apps_summary_except">A tot arreu excepte a {n} aplicacions</string>
+    <string name="dictate__floating_button_apps_scope_all">Totes les aplicacions</string>
+    <string name="dictate__floating_button_apps_scope_only">Només les aplicacions de sota</string>
+    <string name="dictate__floating_button_apps_scope_except">Totes excepte les aplicacions de sota</string>
+    <string name="dictate__floating_button_apps_note">El botó no es dibuixa mai sobre una aplicació que deixis fora, i Dictate no en llegeix els camps de text. Una aplicació que rebutja els serveis d\'accessibilitat en general continuarà veient que el servei està activat.</string>
+    <string name="dictate__floating_button_apps_list_title">Aplicacions</string>
+    <string name="dictate__floating_button_apps_search">Cerca aplicacions</string>
+    <string name="dictate__floating_button_apps_none">No s\'ha trobat cap aplicació per a «{search_term}»</string>
     <string name="dictate__floating_button_design_title">Estil del botó</string>
     <string name="dictate__floating_button_haptic_summary_off">Sense vibració en tocar.</string>
     <string name="dictate__floating_button_haptic_summary_on">Una vibració breu en tocar el botó.</string>
@@ -1228,8 +1241,27 @@
     <string name="dictate__providers_field_transcription_model">Model de transcripció</string>
     <string name="dictate__providers_field_chat_model">Model de reformulació</string>
     <string name="dictate__providers_test">Prova la connexió</string>
-    <string name="dictate__providers_test_success">Connectat · {count} models</string>
-    <string name="dictate__providers_test_failed">Ha fallat la connexió</string>
+    <string name="dictate__providers_test_transcribe">Prova la transcripció</string>
+    <string name="dictate__providers_check_no_key">Introduïu primer la clau API.</string>
+    <string name="dictate__providers_check_credentials_ok">Credencials verificades · {count} models</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Credencials verificades</string>
+    <string name="dictate__providers_check_endpoint_ok">S’ha arribat al servidor · {count} models</string>
+    <string name="dictate__providers_check_credentials_untested">La transcripció no s’ha provat.</string>
+    <string name="dictate__providers_check_transcription_ok">Transcripció verificada</string>
+    <string name="dictate__providers_check_transcription_text">Ha tornat com a: «{text}»</string>
+    <string name="dictate__providers_check_transcription_empty">La petició ha passat, però no ha tornat cap text: la connexió funciona, però aquest model no ha entès la mostra.</string>
+    <string name="dictate__providers_check_failed_connection">La prova de connexió ha fallat</string>
+    <string name="dictate__providers_check_failed_transcription">La prova de transcripció ha fallat</string>
+    <string name="dictate__providers_check_err_auth">La clau s’ha rebutjat. Comproveu-la i que l’adreça pertanyi al mateix compte.</string>
+    <string name="dictate__providers_check_err_quota">La clau funciona, però el compte no té quota o ha superat un límit. Reviseu el vostre pla amb el proveïdor.</string>
+    <string name="dictate__providers_check_err_network">No s’ha pogut arribar al servidor. Comproveu l’adreça i la connexió a internet.</string>
+    <string name="dictate__providers_check_err_timeout">Sense resposta a temps. El proveïdor pot estar ocupat: torneu-ho a provar.</string>
+    <string name="dictate__providers_check_err_server">El proveïdor ha informat d’un error propi. Aquí no hi ha res a canviar; torneu-ho a provar més tard.</string>
+    <string name="dictate__providers_check_err_format">El proveïdor ha rebutjat la mostra d’àudio. Potser no accepta aquest format.</string>
+    <string name="dictate__providers_check_err_unknown">La petició ha fallat.</string>
+    <string name="dictate__providers_azure_link_signup">Crea un compte d’Azure</string>
+    <string name="dictate__providers_azure_link_portal">Portal d’Azure</string>
+    <string name="dictate__providers_azure_link_guide">Guia de configuració</string>
     <string name="dictate__providers_network_group">Xarxa</string>
     <string name="dictate__request_timeout_title">Temps d\'espera de la sol·licitud</string>
     <string name="dictate__request_timeout_summary">{v} s · augmenta\'l si el teu servidor és lent</string>
@@ -1352,9 +1384,7 @@
     <string name="dictate__custom_words_budget_info">Cada paraula d\'aquí viatja amb cada dictat, i el model de veu només en llegeix uns {budget} tokens de context. La teva llista n\'ocupa uns {tokens}.</string>
     <string name="dictate__custom_words_budget_over">La teva llista és més llarga del que el model de veu llegeix. Unes {fits} de les teves {count} paraules hi arriben; la resta s\'envia a cada dictat i s\'ignora. Per a un vocabulari més ampli fes servir les correspondències personalitzades: són exactes, funcionen sense connexió i no costen res.</string>
     <string name="dictate__custom_words_import">Importa una llista de paraules</string>
-    <string name="dictate__custom_words_import_summary">Afegeix paraules des d\'un fitxer de text, una per línia</string>
     <string name="dictate__custom_words_export">Exporta la llista de paraules</string>
-    <string name="dictate__custom_words_export_summary">Desa les teves paraules com a fitxer de text, una per línia</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Importa una llista de paraules</string>
     <string name="dictate__custom_words_import_fitting">{count} paraules noves d\'aquest fitxer caben a la teva llista.</string>

@@ -183,6 +183,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Bevestiging verwijderen</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Weet je zeker dat je deze indeling wilt verwijderen?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Thema</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Hoog contrast</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Omlijnde toetsen, elk label gemeten op 7:1. Stelt dag en nacht in.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">thema modus</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Zonsopgang</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Zonsondergang</string>
@@ -1133,6 +1135,17 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__floating_button_design_pill_summary">Klapt uit wanneer actief om een timer en een live golfvorm te tonen.</string>
     <string name="dictate__floating_button_design_ring">Ring</string>
     <string name="dictate__floating_button_design_ring_summary">Compacte cirkel met een ring die animeert tijdens opnemen en transcriberen.</string>
+    <string name="dictate__floating_button_apps_title">Zichtbaarheid per app</string>
+    <string name="dictate__floating_button_apps_summary_all">In elke app</string>
+    <string name="dictate__floating_button_apps_summary_only">Alleen in {n} apps</string>
+    <string name="dictate__floating_button_apps_summary_except">Overal behalve in {n} apps</string>
+    <string name="dictate__floating_button_apps_scope_all">Elke app</string>
+    <string name="dictate__floating_button_apps_scope_only">Alleen de apps hieronder</string>
+    <string name="dictate__floating_button_apps_scope_except">Elke app behalve die hieronder</string>
+    <string name="dictate__floating_button_apps_note">De knop wordt nooit over een app getekend die je weglaat, en Dictate leest daar geen tekstvelden. Een app die toegankelijkheidsdiensten sowieso weigert, ziet nog steeds dat de dienst aanstaat.</string>
+    <string name="dictate__floating_button_apps_list_title">Apps</string>
+    <string name="dictate__floating_button_apps_search">Apps zoeken</string>
+    <string name="dictate__floating_button_apps_none">Geen app gevonden voor ‘{search_term}’</string>
     <string name="dictate__floating_button_design_title">Knopstijl</string>
     <string name="dictate__floating_button_haptic_summary_off">Geen trilling bij tikken.</string>
     <string name="dictate__floating_button_haptic_summary_on">Een korte tril wanneer je op de knop tikt.</string>
@@ -1258,8 +1271,27 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__providers_field_transcription_model">Transcriptiemodel</string>
     <string name="dictate__providers_field_chat_model">Herformuleringsmodel</string>
     <string name="dictate__providers_test">Verbinding testen</string>
-    <string name="dictate__providers_test_success">Verbonden · {count} modellen</string>
-    <string name="dictate__providers_test_failed">Verbinding mislukt</string>
+    <string name="dictate__providers_test_transcribe">Transcriptie testen</string>
+    <string name="dictate__providers_check_no_key">Voer eerst je API-sleutel in.</string>
+    <string name="dictate__providers_check_credentials_ok">Inloggegevens geverifieerd · {count} modellen</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Inloggegevens geverifieerd</string>
+    <string name="dictate__providers_check_endpoint_ok">Server bereikt · {count} modellen</string>
+    <string name="dictate__providers_check_credentials_untested">Transcriptie niet getest.</string>
+    <string name="dictate__providers_check_transcription_ok">Transcriptie geverifieerd</string>
+    <string name="dictate__providers_check_transcription_text">Kwam terug als: “{text}”</string>
+    <string name="dictate__providers_check_transcription_empty">Het verzoek kwam door, maar er kwam geen tekst terug — de verbinding werkt, dit model begreep het fragment niet.</string>
+    <string name="dictate__providers_check_failed_connection">Verbindingstest mislukt</string>
+    <string name="dictate__providers_check_failed_transcription">Transcriptietest mislukt</string>
+    <string name="dictate__providers_check_err_auth">De sleutel is geweigerd. Controleer hem, en of het adres bij hetzelfde account hoort.</string>
+    <string name="dictate__providers_check_err_quota">De sleutel werkt, maar het account heeft geen tegoed meer of zit boven een limiet. Controleer je abonnement bij de aanbieder.</string>
+    <string name="dictate__providers_check_err_network">De server was niet bereikbaar. Controleer het adres en je internetverbinding.</string>
+    <string name="dictate__providers_check_err_timeout">Geen antwoord op tijd. De aanbieder is misschien druk — probeer het opnieuw.</string>
+    <string name="dictate__providers_check_err_server">De aanbieder meldt een eigen fout. Hier valt niets te veranderen; probeer het later opnieuw.</string>
+    <string name="dictate__providers_check_err_format">De aanbieder weigerde het geluidsfragment. Mogelijk accepteert hij dit formaat niet.</string>
+    <string name="dictate__providers_check_err_unknown">Het verzoek is mislukt.</string>
+    <string name="dictate__providers_azure_link_signup">Azure-account aanmaken</string>
+    <string name="dictate__providers_azure_link_portal">Azure-portaal</string>
+    <string name="dictate__providers_azure_link_guide">Installatiegids</string>
     <string name="dictate__providers_network_group">Netwerk</string>
     <string name="dictate__request_timeout_title">Time-out voor aanvragen</string>
     <string name="dictate__request_timeout_summary">{v} s · verhoog dit voor een trage eigen server</string>
@@ -1382,9 +1414,7 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__custom_words_budget_info">Elk woord hier gaat met elk dictaat mee, en het spraakmodel leest daarvan maar zo\'n {budget} tokens context. Je lijst gebruikt er ongeveer {tokens}.</string>
     <string name="dictate__custom_words_budget_over">Je lijst is langer dan het spraakmodel leest. Ongeveer {fits} van je {count} woorden komen aan; de rest gaat bij elk dictaat mee en wordt genegeerd. Gebruik voor een grotere woordenschat eigen vervangingen — die zijn exact, werken offline en kosten niets.</string>
     <string name="dictate__custom_words_import">Woordenlijst importeren</string>
-    <string name="dictate__custom_words_import_summary">Woorden uit een tekstbestand toevoegen, één per regel</string>
     <string name="dictate__custom_words_export">Woordenlijst exporteren</string>
-    <string name="dictate__custom_words_export_summary">Je woorden als tekstbestand opslaan, één per regel</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Woordenlijst importeren</string>
     <string name="dictate__custom_words_import_fitting">{count} nieuwe woorden uit dit bestand passen in je lijst.</string>

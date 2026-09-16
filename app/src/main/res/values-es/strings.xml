@@ -186,6 +186,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Confirmación de eliminación</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">¿Está seguro de que desea eliminar este subtipo?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Tema</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Alto contraste</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Teclas delineadas, cada texto medido a 7:1. Define día y noche.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Tema</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Amanecer</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Hora de puesta de sol</string>
@@ -1215,6 +1217,17 @@
     <string name="dictate__floating_button_design_pill_summary">Se expande cuando está activo para mostrar un temporizador y una onda en vivo.</string>
     <string name="dictate__floating_button_design_ring">Anillo</string>
     <string name="dictate__floating_button_design_ring_summary">Círculo compacto con un anillo que se anima al grabar y transcribir.</string>
+    <string name="dictate__floating_button_apps_title">Visibilidad por aplicación</string>
+    <string name="dictate__floating_button_apps_summary_all">En todas las aplicaciones</string>
+    <string name="dictate__floating_button_apps_summary_only">Solo en {n} aplicaciones</string>
+    <string name="dictate__floating_button_apps_summary_except">En todas menos en {n} aplicaciones</string>
+    <string name="dictate__floating_button_apps_scope_all">Todas las aplicaciones</string>
+    <string name="dictate__floating_button_apps_scope_only">Solo las aplicaciones de abajo</string>
+    <string name="dictate__floating_button_apps_scope_except">Todas menos las aplicaciones de abajo</string>
+    <string name="dictate__floating_button_apps_note">El botón nunca se dibuja sobre una aplicación que dejes fuera, y Dictate no lee sus campos de texto. Una aplicación que rechaza los servicios de accesibilidad en general seguirá viendo que el servicio está activado.</string>
+    <string name="dictate__floating_button_apps_list_title">Aplicaciones</string>
+    <string name="dictate__floating_button_apps_search">Buscar aplicaciones</string>
+    <string name="dictate__floating_button_apps_none">No se encontró ninguna aplicación para «{search_term}»</string>
     <string name="dictate__floating_button_design_title">Estilo del botón</string>
     <string name="dictate__floating_button_haptic_summary_off">Sin vibración al tocar.</string>
     <string name="dictate__floating_button_haptic_summary_on">Una breve vibración al tocar el botón.</string>
@@ -1340,8 +1353,27 @@
     <string name="dictate__providers_field_transcription_model">Modelo de transcripción</string>
     <string name="dictate__providers_field_chat_model">Modelo de reformulación</string>
     <string name="dictate__providers_test">Probar conexión</string>
-    <string name="dictate__providers_test_success">Conectado · {count} modelos</string>
-    <string name="dictate__providers_test_failed">Error de conexión</string>
+    <string name="dictate__providers_test_transcribe">Probar la transcripción</string>
+    <string name="dictate__providers_check_no_key">Introduce primero tu clave de API.</string>
+    <string name="dictate__providers_check_credentials_ok">Credenciales verificadas · {count} modelos</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Credenciales verificadas</string>
+    <string name="dictate__providers_check_endpoint_ok">Servidor alcanzado · {count} modelos</string>
+    <string name="dictate__providers_check_credentials_untested">La transcripción no se ha probado.</string>
+    <string name="dictate__providers_check_transcription_ok">Transcripción verificada</string>
+    <string name="dictate__providers_check_transcription_text">Ha vuelto como: «{text}»</string>
+    <string name="dictate__providers_check_transcription_empty">La petición pasó, pero no volvió ningún texto: la conexión funciona, pero este modelo no entendió la muestra.</string>
+    <string name="dictate__providers_check_failed_connection">La prueba de conexión ha fallado</string>
+    <string name="dictate__providers_check_failed_transcription">La prueba de transcripción ha fallado</string>
+    <string name="dictate__providers_check_err_auth">La clave fue rechazada. Compruébala y que la dirección pertenezca a la misma cuenta.</string>
+    <string name="dictate__providers_check_err_quota">La clave funciona, pero la cuenta no tiene cuota o ha superado un límite. Revisa tu plan con el proveedor.</string>
+    <string name="dictate__providers_check_err_network">No se pudo llegar al servidor. Comprueba la dirección y tu conexión a internet.</string>
+    <string name="dictate__providers_check_err_timeout">Sin respuesta a tiempo. El proveedor puede estar ocupado: inténtalo de nuevo.</string>
+    <string name="dictate__providers_check_err_server">El proveedor informa de un error propio. Aquí no hay nada que cambiar; inténtalo más tarde.</string>
+    <string name="dictate__providers_check_err_format">El proveedor rechazó la muestra de audio. Puede que no acepte este formato.</string>
+    <string name="dictate__providers_check_err_unknown">La petición ha fallado.</string>
+    <string name="dictate__providers_azure_link_signup">Crear una cuenta de Azure</string>
+    <string name="dictate__providers_azure_link_portal">Portal de Azure</string>
+    <string name="dictate__providers_azure_link_guide">Guía de configuración</string>
     <string name="dictate__providers_network_group">Red</string>
     <string name="dictate__request_timeout_title">Tiempo de espera de la solicitud</string>
     <string name="dictate__request_timeout_summary">{v} s · auméntalo si tu propio servidor es lento</string>
@@ -1464,9 +1496,7 @@
     <string name="dictate__custom_words_budget_info">Cada palabra de aquí viaja con cada dictado, y el modelo de voz solo lee unos {budget} tokens de contexto. Tu lista ocupa unos {tokens}.</string>
     <string name="dictate__custom_words_budget_over">Tu lista es más larga de lo que el modelo de voz lee. Unas {fits} de tus {count} palabras le llegan; el resto se envía en cada dictado y se ignora. Para un vocabulario más amplio usa las asignaciones personalizadas: son exactas, funcionan sin conexión y no cuestan nada.</string>
     <string name="dictate__custom_words_import">Importar una lista de palabras</string>
-    <string name="dictate__custom_words_import_summary">Añadir palabras desde un archivo de texto, una por línea</string>
     <string name="dictate__custom_words_export">Exportar la lista de palabras</string>
-    <string name="dictate__custom_words_export_summary">Guardar tus palabras como archivo de texto, una por línea</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Importar una lista de palabras</string>
     <string name="dictate__custom_words_import_fitting">{count} palabras nuevas de este archivo caben en tu lista.</string>

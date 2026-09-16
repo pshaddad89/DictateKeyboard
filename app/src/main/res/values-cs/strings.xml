@@ -189,6 +189,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Potvrzení odstranění</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Opravdu chcete odstranit tento podtyp?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Motiv</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Vysoký kontrast</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Orámované klávesy, každý popisek změřen na 7:1. Nastaví den i noc.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Režim motivu</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Čas východu slunce</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Čas západu slunce</string>
@@ -1249,6 +1251,17 @@
     <string name="dictate__floating_button_design_pill_summary">Při aktivitě se rozšíří a zobrazí časovač a živý průběh zvuku.</string>
     <string name="dictate__floating_button_design_ring">Prstenec</string>
     <string name="dictate__floating_button_design_ring_summary">Kompaktní kruh s prstencem animovaným při nahrávání a přepisu.</string>
+    <string name="dictate__floating_button_apps_title">Viditelnost v aplikacích</string>
+    <string name="dictate__floating_button_apps_summary_all">Ve všech aplikacích</string>
+    <string name="dictate__floating_button_apps_summary_only">Jen v {n} aplikacích</string>
+    <string name="dictate__floating_button_apps_summary_except">Všude kromě {n} aplikací</string>
+    <string name="dictate__floating_button_apps_scope_all">Všechny aplikace</string>
+    <string name="dictate__floating_button_apps_scope_only">Jen aplikace níže</string>
+    <string name="dictate__floating_button_apps_scope_except">Všechny kromě aplikací níže</string>
+    <string name="dictate__floating_button_apps_note">Nad aplikací, kterou vynecháte, se tlačítko nikdy nevykreslí a Dictate v ní nečte textová pole. Aplikace, které vadí služby přístupnosti jako takové, stejně pozná, že je služba zapnutá.</string>
+    <string name="dictate__floating_button_apps_list_title">Aplikace</string>
+    <string name="dictate__floating_button_apps_search">Hledat aplikace</string>
+    <string name="dictate__floating_button_apps_none">Pro „{search_term}“ nebyla nalezena žádná aplikace</string>
     <string name="dictate__floating_button_design_title">Styl tlačítka</string>
     <string name="dictate__floating_button_haptic_summary_off">Bez vibrace při klepnutí.</string>
     <string name="dictate__floating_button_haptic_summary_on">Krátké zavibrování při klepnutí na tlačítko.</string>
@@ -1374,8 +1387,27 @@
     <string name="dictate__providers_field_transcription_model">Model přepisu</string>
     <string name="dictate__providers_field_chat_model">Model přeformulování</string>
     <string name="dictate__providers_test">Otestovat připojení</string>
-    <string name="dictate__providers_test_success">Připojeno · {count} modelů</string>
-    <string name="dictate__providers_test_failed">Připojení selhalo</string>
+    <string name="dictate__providers_test_transcribe">Otestovat přepis</string>
+    <string name="dictate__providers_check_no_key">Nejprve zadejte svůj API klíč.</string>
+    <string name="dictate__providers_check_credentials_ok">Přihlašovací údaje ověřeny · {count} modelů</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Přihlašovací údaje ověřeny</string>
+    <string name="dictate__providers_check_endpoint_ok">Server byl dosažen · {count} modelů</string>
+    <string name="dictate__providers_check_credentials_untested">Přepis nebyl otestován.</string>
+    <string name="dictate__providers_check_transcription_ok">Přepis ověřen</string>
+    <string name="dictate__providers_check_transcription_text">Vrátilo se jako: „{text}“</string>
+    <string name="dictate__providers_check_transcription_empty">Požadavek prošel, ale nevrátil se žádný text – spojení funguje, tento model ukázce nerozuměl.</string>
+    <string name="dictate__providers_check_failed_connection">Test spojení selhal</string>
+    <string name="dictate__providers_check_failed_transcription">Test přepisu selhal</string>
+    <string name="dictate__providers_check_err_auth">Klíč byl odmítnut. Zkontrolujte jej i to, zda adresa patří ke stejnému účtu.</string>
+    <string name="dictate__providers_check_err_quota">Klíč funguje, ale účet nemá kvótu nebo překročil limit. Zkontrolujte svůj tarif u poskytovatele.</string>
+    <string name="dictate__providers_check_err_network">Server nebylo možné kontaktovat. Zkontrolujte adresu a připojení k internetu.</string>
+    <string name="dictate__providers_check_err_timeout">Žádná odpověď včas. Poskytovatel může být vytížený – zkuste to znovu.</string>
+    <string name="dictate__providers_check_err_server">Poskytovatel hlásí vlastní chybu. Tady není co měnit; zkuste to později.</string>
+    <string name="dictate__providers_check_err_format">Poskytovatel odmítl zvukovou ukázku. Možná tento formát nepřijímá.</string>
+    <string name="dictate__providers_check_err_unknown">Požadavek selhal.</string>
+    <string name="dictate__providers_azure_link_signup">Vytvořit účet Azure</string>
+    <string name="dictate__providers_azure_link_portal">Portál Azure</string>
+    <string name="dictate__providers_azure_link_guide">Průvodce nastavením</string>
     <string name="dictate__providers_network_group">Síť</string>
     <string name="dictate__request_timeout_title">Časový limit požadavku</string>
     <string name="dictate__request_timeout_summary">{v} s · zvyšte u pomalého vlastního serveru</string>
@@ -1498,9 +1530,7 @@
     <string name="dictate__custom_words_budget_info">Každé slovo odsud jede s každým diktováním a řečový model z toho přečte jen asi {budget} tokenů kontextu. Tvůj seznam z nich zabírá asi {tokens}.</string>
     <string name="dictate__custom_words_budget_over">Tvůj seznam je delší, než kolik řečový model přečte. K modelu se dostane asi {fits} z tvých {count} slov; zbytek se posílá při každém diktování a ignoruje se. Na větší slovní zásobu použij vlastní nahrazení — jsou přesná, fungují offline a nic nestojí.</string>
     <string name="dictate__custom_words_import">Importovat seznam slov</string>
-    <string name="dictate__custom_words_import_summary">Přidat slova z textového souboru, jedno na řádek</string>
     <string name="dictate__custom_words_export">Exportovat seznam slov</string>
-    <string name="dictate__custom_words_export_summary">Uložit tvá slova jako textový soubor, jedno na řádek</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Importovat seznam slov</string>
     <string name="dictate__custom_words_import_fitting">{count} nových slov z tohoto souboru se do tvého seznamu vejde.</string>

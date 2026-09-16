@@ -183,6 +183,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">削除の確認</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">このサブタイプを削除してもよろしいですか？</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">テーマ</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">ハイコントラスト</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">枠線付きのキー、すべての文字を 7:1 で測定。昼と夜のテーマを設定します。</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">テーマモード</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">日の出時刻</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">日の入り時刻</string>
@@ -1165,6 +1167,17 @@
     <string name="dictate__floating_button_design_pill_summary">アクティブ時に展開し、タイマーとライブ波形を表示します。</string>
     <string name="dictate__floating_button_design_ring">リング</string>
     <string name="dictate__floating_button_design_ring_summary">録音・文字起こし中にアニメーションするリング付きのコンパクトな円。</string>
+    <string name="dictate__floating_button_apps_title">アプリごとの表示</string>
+    <string name="dictate__floating_button_apps_summary_all">すべてのアプリで表示</string>
+    <string name="dictate__floating_button_apps_summary_only">{n} 個のアプリでのみ表示</string>
+    <string name="dictate__floating_button_apps_summary_except">{n} 個のアプリ以外で表示</string>
+    <string name="dictate__floating_button_apps_scope_all">すべてのアプリ</string>
+    <string name="dictate__floating_button_apps_scope_only">下で選んだアプリのみ</string>
+    <string name="dictate__floating_button_apps_scope_except">下で選んだアプリ以外すべて</string>
+    <string name="dictate__floating_button_apps_note">選ばなかったアプリの上にボタンが描画されることはなく、Dictate がそのアプリのテキスト欄を読むこともありません。ユーザー補助サービス自体を拒むアプリには、サービスが有効であること自体は引き続き分かります。</string>
+    <string name="dictate__floating_button_apps_list_title">アプリ</string>
+    <string name="dictate__floating_button_apps_search">アプリを検索</string>
+    <string name="dictate__floating_button_apps_none">「{search_term}」に一致するアプリはありません</string>
     <string name="dictate__floating_button_design_title">ボタンのスタイル</string>
     <string name="dictate__floating_button_haptic_summary_off">タップ時に振動しません。</string>
     <string name="dictate__floating_button_haptic_summary_on">ボタンをタップすると短く振動します。</string>
@@ -1290,8 +1303,27 @@
     <string name="dictate__providers_field_transcription_model">文字起こしモデル</string>
     <string name="dictate__providers_field_chat_model">言い換えモデル</string>
     <string name="dictate__providers_test">接続をテスト</string>
-    <string name="dictate__providers_test_success">接続済み · {count}モデル</string>
-    <string name="dictate__providers_test_failed">接続に失敗しました</string>
+    <string name="dictate__providers_test_transcribe">文字起こしをテスト</string>
+    <string name="dictate__providers_check_no_key">先にAPIキーを入力してください。</string>
+    <string name="dictate__providers_check_credentials_ok">認証情報を確認 · {count} 個のモデル</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">認証情報を確認</string>
+    <string name="dictate__providers_check_endpoint_ok">サーバーに到達 · {count} 個のモデル</string>
+    <string name="dictate__providers_check_credentials_untested">文字起こしは未テストです。</string>
+    <string name="dictate__providers_check_transcription_ok">文字起こしを確認</string>
+    <string name="dictate__providers_check_transcription_text">返ってきた内容：「{text}」</string>
+    <string name="dictate__providers_check_transcription_empty">リクエストは通りましたが、テキストが返りませんでした。接続はできていますが、このモデルはサンプルを理解できませんでした。</string>
+    <string name="dictate__providers_check_failed_connection">接続テストに失敗しました</string>
+    <string name="dictate__providers_check_failed_transcription">文字起こしテストに失敗しました</string>
+    <string name="dictate__providers_check_err_auth">キーが拒否されました。キーと、アドレスが同じアカウントのものかを確認してください。</string>
+    <string name="dictate__providers_check_err_quota">キーは有効ですが、アカウントの残量がないか上限を超えています。プロバイダーでプランを確認してください。</string>
+    <string name="dictate__providers_check_err_network">サーバーに接続できませんでした。アドレスとインターネット接続を確認してください。</string>
+    <string name="dictate__providers_check_err_timeout">時間内に応答がありませんでした。プロバイダーが混雑している可能性があります。もう一度お試しください。</string>
+    <string name="dictate__providers_check_err_server">プロバイダー側のエラーです。ここで変更できることはありません。しばらくしてからお試しください。</string>
+    <string name="dictate__providers_check_err_format">プロバイダーがサンプル音声を拒否しました。この形式に対応していない可能性があります。</string>
+    <string name="dictate__providers_check_err_unknown">リクエストが失敗しました。</string>
+    <string name="dictate__providers_azure_link_signup">Azureアカウントを作成</string>
+    <string name="dictate__providers_azure_link_portal">Azureポータル</string>
+    <string name="dictate__providers_azure_link_guide">セットアップガイド</string>
     <string name="dictate__providers_network_group">ネットワーク</string>
     <string name="dictate__request_timeout_title">リクエストのタイムアウト</string>
     <string name="dictate__request_timeout_summary">{v} 秒 · 自分のサーバーが遅い場合は長くしてください</string>
@@ -1414,9 +1446,7 @@
     <string name="dictate__custom_words_budget_info">ここの単語は口述のたびに毎回送られますが、音声モデルが読むのは約 {budget} トークン分の文脈だけです。このリストはそのうち約 {tokens} を使っています。</string>
     <string name="dictate__custom_words_budget_over">リストが音声モデルの読み取れる長さを超えています。{count} 語のうち約 {fits} 語だけが届き、残りは毎回送られたうえで無視されます。語彙が多い場合はカスタム置換をお使いください。正確で、オフラインでも動き、費用もかかりません。</string>
     <string name="dictate__custom_words_import">単語リストを読み込む</string>
-    <string name="dictate__custom_words_import_summary">テキストファイルから単語を追加（1行に1語）</string>
     <string name="dictate__custom_words_export">単語リストを書き出す</string>
-    <string name="dictate__custom_words_export_summary">単語をテキストファイルとして保存（1行に1語）</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">単語リストを読み込む</string>
     <string name="dictate__custom_words_import_fitting">このファイルの新しい単語 {count} 語がリストに収まります。</string>

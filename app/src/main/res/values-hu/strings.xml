@@ -190,6 +190,8 @@
     <string name="settings__localization__subtype_delete_confirmation_title" comment="Title of the subtype delete confirmation dialog">Törlés megerősítése</string>
     <string name="settings__localization__subtype_delete_confirmation_warning" comment="Warning message in the confirmation dialog to confirm the user's intent to delete">Biztosan törli ezt az altípust?</string>
     <string name="settings__theme__title" comment="Title of the Theme screen">Téma</string>
+    <string name="pref__theme__high_contrast__label" comment="Label of the switch that turns on the measured high-contrast theme pair">Magas kontraszt</string>
+    <string name="pref__theme__high_contrast__summary" comment="Summary of the high-contrast switch. 7:1 is the WCAG AAA contrast ratio for body text; keep the ratio as digits.">Körvonalazott gombok, minden felirat 7:1-re mérve. Nappal és éjszaka.</string>
     <string name="pref__theme__mode__label" comment="Label of the theme mode preference">Témamód</string>
     <string name="pref__theme__sunrise_time__label" comment="Label of the sunrise time preference">Napkelte ideje</string>
     <string name="pref__theme__sunset_time__label" comment="Label of the sunset time preference">Napnyugta ideje</string>
@@ -1232,6 +1234,17 @@
     <string name="dictate__floating_button_design_pill_summary">Aktív állapotban kibővül, és időzítőt meg élő hullámformát mutat.</string>
     <string name="dictate__floating_button_design_ring">Gyűrű</string>
     <string name="dictate__floating_button_design_ring_summary">Kompakt kör gyűrűvel, amely felvétel és átírás közben animálódik.</string>
+    <string name="dictate__floating_button_apps_title">Láthatóság alkalmazásonként</string>
+    <string name="dictate__floating_button_apps_summary_all">Minden alkalmazásban</string>
+    <string name="dictate__floating_button_apps_summary_only">Csak {n} alkalmazásban</string>
+    <string name="dictate__floating_button_apps_summary_except">Mindenhol, kivéve {n} alkalmazásban</string>
+    <string name="dictate__floating_button_apps_scope_all">Minden alkalmazás</string>
+    <string name="dictate__floating_button_apps_scope_only">Csak az alábbi alkalmazások</string>
+    <string name="dictate__floating_button_apps_scope_except">Minden, kivéve az alábbi alkalmazásokat</string>
+    <string name="dictate__floating_button_apps_note">A kihagyott alkalmazások fölé a gomb soha nem kerül ki, és a Dictate nem olvassa ott a szövegmezőket. Az az alkalmazás, amelyik eleve tiltakozik a kisegítő szolgáltatások ellen, továbbra is látni fogja, hogy a szolgáltatás be van kapcsolva.</string>
+    <string name="dictate__floating_button_apps_list_title">Alkalmazások</string>
+    <string name="dictate__floating_button_apps_search">Alkalmazások keresése</string>
+    <string name="dictate__floating_button_apps_none">Nincs találat erre: „{search_term}”</string>
     <string name="dictate__floating_button_design_title">Gomb stílusa</string>
     <string name="dictate__floating_button_haptic_summary_off">Nincs rezgés koppintáskor.</string>
     <string name="dictate__floating_button_haptic_summary_on">Rövid rezgés, amikor megérinti a gombot.</string>
@@ -1357,8 +1370,27 @@
     <string name="dictate__providers_field_transcription_model">Átírási modell</string>
     <string name="dictate__providers_field_chat_model">Átfogalmazási modell</string>
     <string name="dictate__providers_test">Kapcsolat tesztelése</string>
-    <string name="dictate__providers_test_success">Csatlakozva · {count} modell</string>
-    <string name="dictate__providers_test_failed">A kapcsolat sikertelen</string>
+    <string name="dictate__providers_test_transcribe">Átírás tesztelése</string>
+    <string name="dictate__providers_check_no_key">Először add meg az API-kulcsodat.</string>
+    <string name="dictate__providers_check_credentials_ok">Hitelesítő adatok ellenőrizve · {count} modell</string>
+    <string name="dictate__providers_check_credentials_ok_nocount">Hitelesítő adatok ellenőrizve</string>
+    <string name="dictate__providers_check_endpoint_ok">Kiszolgáló elérve · {count} modell</string>
+    <string name="dictate__providers_check_credentials_untested">Az átírás nincs tesztelve.</string>
+    <string name="dictate__providers_check_transcription_ok">Átírás ellenőrizve</string>
+    <string name="dictate__providers_check_transcription_text">Ez jött vissza: „{text}”</string>
+    <string name="dictate__providers_check_transcription_empty">A kérés átment, de nem érkezett szöveg – a kapcsolat működik, ez a modell nem értette meg a mintát.</string>
+    <string name="dictate__providers_check_failed_connection">A kapcsolat tesztje sikertelen</string>
+    <string name="dictate__providers_check_failed_transcription">Az átírás tesztje sikertelen</string>
+    <string name="dictate__providers_check_err_auth">A kulcsot elutasították. Ellenőrizd a kulcsot, és hogy a cím ugyanahhoz a fiókhoz tartozik-e.</string>
+    <string name="dictate__providers_check_err_quota">A kulcs működik, de a fiók kerete elfogyott, vagy túllépted a korlátot. Nézd meg a csomagodat a szolgáltatónál.</string>
+    <string name="dictate__providers_check_err_network">A kiszolgáló nem érhető el. Ellenőrizd a címet és az internetkapcsolatot.</string>
+    <string name="dictate__providers_check_err_timeout">Nem érkezett válasz időben. A szolgáltató lehet, hogy leterhelt – próbáld újra.</string>
+    <string name="dictate__providers_check_err_server">A szolgáltató saját hibát jelez. Itt nincs mit változtatni; próbáld később.</string>
+    <string name="dictate__providers_check_err_format">A szolgáltató elutasította a hangmintát. Lehet, hogy nem fogadja el ezt a formátumot.</string>
+    <string name="dictate__providers_check_err_unknown">A kérés sikertelen.</string>
+    <string name="dictate__providers_azure_link_signup">Azure-fiók létrehozása</string>
+    <string name="dictate__providers_azure_link_portal">Azure Portal</string>
+    <string name="dictate__providers_azure_link_guide">Beállítási útmutató</string>
     <string name="dictate__providers_network_group">Hálózat</string>
     <string name="dictate__request_timeout_title">Kérés időkorlátja</string>
     <string name="dictate__request_timeout_summary">{v} s · saját lassú kiszolgálóhoz növeld</string>
@@ -1481,9 +1513,7 @@
     <string name="dictate__custom_words_budget_info">Az itteni szavak mindegyike minden diktálással együtt megy el, és a beszédmodell ebből csak körülbelül {budget} token kontextust olvas. A listád ebből nagyjából {tokens} tokent foglal.</string>
     <string name="dictate__custom_words_budget_over">A listád hosszabb annál, mint amennyit a beszédmodell elolvas. A {count} szavadból nagyjából {fits} jut el hozzá; a többi minden diktáláskor elmegy, és figyelmen kívül marad. Nagyobb szókincshez használd az egyéni cseréket — azok pontosak, offline is működnek, és semmibe sem kerülnek.</string>
     <string name="dictate__custom_words_import">Szólista importálása</string>
-    <string name="dictate__custom_words_import_summary">Szavak hozzáadása szövegfájlból, soronként egy</string>
     <string name="dictate__custom_words_export">Szólista exportálása</string>
-    <string name="dictate__custom_words_export_summary">A szavaid mentése szövegfájlba, soronként egy</string>
     <string name="dictate__custom_words_export_filename">dictate_words.txt</string>
     <string name="dictate__custom_words_import_title">Szólista importálása</string>
     <string name="dictate__custom_words_import_fitting">Ebből a fájlból {count} új szó fér bele a listádba.</string>
