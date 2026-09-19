@@ -481,6 +481,11 @@
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__label" comment="Preference title">Автоматично разтваряне/сгъване</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__summary" comment="Preference summary">Автоматично се разтваря/сгъва споделения ред с действия, на базата на състоянието</string>
     <string name="pref__smartbar__extended_actions_placement__label" comment="Preference title">Място на реда с действия</string>
+    <string name="settings__smartbar__second_actions__title" comment="Title of the Smartbar second actions screen">Втори действия</string>
+    <string name="settings__smartbar__second_actions__summary" comment="Preference summary">Задръжте бутон от Smartbar, за да изпълните второ действие</string>
+    <string name="settings__smartbar__second_actions__note" comment="Header of the screen while nothing is being paired: says what to do">Докоснете бутон, след което действието, което той трябва да изпълнява при задържане. И двата запазват собствения си бутон — скрийте единия в редактора на действия на клавиатурата, за да освободите място.</string>
+    <string name="settings__smartbar__second_actions__hint_pick_second" comment="Header while a button is selected; {action} is that button's name">Какво да изпълнява {action} при задържане?</string>
+    <string name="settings__smartbar__second_actions__section_child_only" comment="Heading above the buttons that cannot carry a second action">Само като второ действие — тези бутони се повтарят при задържане или вече имат собствена функция при задържане</string>
     <!-- Typing strings -->
     <string name="settings__typing__title" comment="Title of Typing screen">Въвеждане</string>
     <string name="pref__suggestion__title" comment="Preference group title">Предложения</string>
@@ -1368,6 +1373,12 @@
     <string name="dictate__providers_add_custom_summary">Собствен хостинг или всяка крайна точка, съвместима с OpenAI — за разпознаване на реч и преформулиране</string>
     <string name="dictate__providers_azure_endpoint">Endpoint стои до ключа на страницата „Keys and Endpoint“ в портала. MAI-Transcribe работи само в East US, West US, West US 2, North Europe, Southeast Asia и Central India.</string>
     <string name="dictate__providers_ollama_no_stt">Ollama няма крайна точка за разпознаване на реч, затова може само да преформулира. За диктовка през собствен сървър пуснете сървър за реч (например Speaches, faster-whisper-server или whisper.cpp) и го добавете от „Добавяне на собствен сървър“ — или използвайте разпознаването на устройството, за което изобщо не е нужен сървър.</string>
+    <string name="dictate__providers_region_title">Регион</string>
+    <string name="dictate__providers_region_us">Съединени щати</string>
+    <string name="dictate__providers_region_eu">Европейски съюз</string>
+    <string name="dictate__providers_region_jp">Япония</string>
+    <string name="dictate__providers_region_in">Индия</string>
+    <string name="dictate__providers_region_global">Целият свят</string>
     <string name="dictate__providers_custom_title">Персонализиран сървър</string>
     <string name="dictate__providers_field_name">Име</string>
     <string name="dictate__providers_field_transcription_model">Модел за транскрибиране</string>

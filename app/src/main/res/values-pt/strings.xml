@@ -470,6 +470,11 @@
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__label" comment="Preference title">Recolher/expandir automaticamente</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__summary" comment="Preference summary">Recolhe ou expande automaticamente a linha de ação tendo por base o estado atual</string>
     <string name="pref__smartbar__extended_actions_placement__label" comment="Preference title">Posicionamento da linha de ação</string>
+    <string name="settings__smartbar__second_actions__title" comment="Title of the Smartbar second actions screen">Ações secundárias</string>
+    <string name="settings__smartbar__second_actions__summary" comment="Preference summary">Mantenha premido um botão da Smartbar para executar uma ação secundária</string>
+    <string name="settings__smartbar__second_actions__note" comment="Header of the screen while nothing is being paired: says what to do">Toque num botão e depois na ação que ele deve executar quando for mantido premido. Ambos mantêm o seu próprio botão — oculte um deles no editor de ações do teclado para libertar o espaço.</string>
+    <string name="settings__smartbar__second_actions__hint_pick_second" comment="Header while a button is selected; {action} is that button's name">O que deve {action} executar quando for mantido premido?</string>
+    <string name="settings__smartbar__second_actions__section_child_only" comment="Heading above the buttons that cannot carry a second action">Apenas como ação secundária — estes botões repetem-se quando mantidos premidos ou já têm a sua própria função de manter</string>
     <!-- Typing strings -->
     <string name="settings__typing__title" comment="Title of Typing screen">Digitação</string>
     <string name="pref__suggestion__title" comment="Preference group title">Sugestões</string>
@@ -1348,6 +1353,12 @@
     <string name="dictate__providers_add_custom_summary">Alojado por ti ou qualquer endpoint compatível com OpenAI — para reconhecimento de voz e reformulação</string>
     <string name="dictate__providers_azure_endpoint">O endpoint fica ao lado da chave na página «Keys and Endpoint» do portal. O MAI-Transcribe só funciona em East US, West US, West US 2, North Europe, Southeast Asia e Central India.</string>
     <string name="dictate__providers_ollama_no_stt">O Ollama não tem endpoint de reconhecimento de voz, por isso só consegue reformular. Para ditar através de um servidor teu, põe a correr um servidor de voz (por exemplo Speaches, faster-whisper-server ou whisper.cpp) e adiciona-o em «Adicionar o teu próprio servidor» — ou usa o motor no dispositivo, que não precisa de servidor nenhum.</string>
+    <string name="dictate__providers_region_title">Região</string>
+    <string name="dictate__providers_region_us">Estados Unidos</string>
+    <string name="dictate__providers_region_eu">União Europeia</string>
+    <string name="dictate__providers_region_jp">Japão</string>
+    <string name="dictate__providers_region_in">Índia</string>
+    <string name="dictate__providers_region_global">Todo o mundo</string>
     <string name="dictate__providers_custom_title">Servidor personalizado</string>
     <string name="dictate__providers_field_name">Nome</string>
     <string name="dictate__providers_field_transcription_model">Modelo de transcrição</string>

@@ -433,6 +433,11 @@
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__label" comment="Preference title">Pašizpildoša izvēršanās/sakļaušanās</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__summary" comment="Preference summary">Pašizpildoši izvērš/sakļauj kopīgo darbību rindu atbilstoši pašreizējam stāvoklim</string>
     <string name="pref__smartbar__extended_actions_placement__label" comment="Preference title">Darbību rindas novietojums</string>
+    <string name="settings__smartbar__second_actions__title" comment="Title of the Smartbar second actions screen">Otrās darbības</string>
+    <string name="settings__smartbar__second_actions__summary" comment="Preference summary">Turiet Smartbar pogu, lai izpildītu otro darbību</string>
+    <string name="settings__smartbar__second_actions__note" comment="Header of the screen while nothing is being paired: says what to do">Pieskarieties pogai un pēc tam darbībai, kas tai jāizpilda, turot to nospiestu. Abas saglabā savu pogu — vienu no tām paslēpiet tastatūras darbību redaktorā, lai atbrīvotu vietu.</string>
+    <string name="settings__smartbar__second_actions__hint_pick_second" comment="Header while a button is selected; {action} is that button's name">Ko {action} izpildīt, turot nospiestu?</string>
+    <string name="settings__smartbar__second_actions__section_child_only" comment="Heading above the buttons that cannot carry a second action">Tikai kā otrā darbība — šīs pogas turot atkārtojas vai tām jau ir sava turēšanas funkcija</string>
     <!-- Typing strings -->
     <string name="settings__typing__title" comment="Title of Typing screen">Rakstīšana</string>
     <string name="pref__suggestion__title" comment="Preference group title">Ieteikumi</string>
@@ -1313,6 +1318,12 @@
     <string name="dictate__providers_add_custom_summary">Pašmitināts vai jebkurš ar OpenAI saderīgs galapunkts — runas atpazīšanai un pārfrāzēšanai</string>
     <string name="dictate__providers_azure_endpoint">Galapunkts ir blakus atslēgai portāla lapā “Keys and Endpoint”. MAI-Transcribe darbojas tikai reģionos East US, West US, West US 2, North Europe, Southeast Asia un Central India.</string>
     <string name="dictate__providers_ollama_no_stt">Ollama nav runas atpazīšanas galapunkta, tāpēc tas var tikai pārfrāzēt. Lai diktētu caur savu serveri, palaidiet runas serveri (piemēram, Speaches, faster-whisper-server vai whisper.cpp) un pievienojiet to sadaļā “Pievienot savu serveri” — vai izmantojiet atpazīšanu ierīcē, kurai serveris nav vajadzīgs vispār.</string>
+    <string name="dictate__providers_region_title">Reģions</string>
+    <string name="dictate__providers_region_us">Amerikas Savienotās Valstis</string>
+    <string name="dictate__providers_region_eu">Eiropas Savienība</string>
+    <string name="dictate__providers_region_jp">Japāna</string>
+    <string name="dictate__providers_region_in">Indija</string>
+    <string name="dictate__providers_region_global">Visā pasaulē</string>
     <string name="dictate__providers_custom_title">Pielāgots serveris</string>
     <string name="dictate__providers_field_name">Nosaukums</string>
     <string name="dictate__providers_field_transcription_model">Transkribēšanas modelis</string>

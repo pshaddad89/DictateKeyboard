@@ -467,6 +467,11 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__label" comment="Preference title">Otomatis buka/tutup</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__summary" comment="Preference summary">Membuka/menutup baris tindakan utama secara otomatis berdasarkan keadaan saat ini</string>
     <string name="pref__smartbar__extended_actions_placement__label" comment="Preference title">Penempatan baris tindakan</string>
+    <string name="settings__smartbar__second_actions__title" comment="Title of the Smartbar second actions screen">Tindakan kedua</string>
+    <string name="settings__smartbar__second_actions__summary" comment="Preference summary">Tahan tombol Smartbar untuk menjalankan tindakan kedua</string>
+    <string name="settings__smartbar__second_actions__note" comment="Header of the screen while nothing is being paired: says what to do">Ketuk sebuah tombol, lalu tindakan yang harus dijalankan saat tombol itu ditahan. Keduanya tetap memiliki tombolnya sendiri — sembunyikan salah satunya di editor tindakan papan ketik untuk mengosongkan slot.</string>
+    <string name="settings__smartbar__second_actions__hint_pick_second" comment="Header while a button is selected; {action} is that button's name">Apa yang harus dijalankan {action} saat ditahan?</string>
+    <string name="settings__smartbar__second_actions__section_child_only" comment="Heading above the buttons that cannot carry a second action">Hanya sebagai tindakan kedua — tombol ini berulang saat ditahan atau sudah punya fungsi tahan sendiri</string>
     <!-- Typing strings -->
     <string name="settings__typing__title" comment="Title of Typing screen">Mengetik</string>
     <string name="pref__suggestion__title" comment="Preference group title">Saran</string>
@@ -1323,6 +1328,12 @@ Klik di sini untuk menyelesaikan masalah ini.</string>
     <string name="dictate__providers_add_custom_summary">Dihosting sendiri atau endpoint apa pun yang kompatibel dengan OpenAI — untuk pengenalan suara dan penulisan ulang</string>
     <string name="dictate__providers_azure_endpoint">Endpoint ada di sebelah kunci pada halaman “Keys and Endpoint” di portal. MAI-Transcribe hanya berjalan di East US, West US, West US 2, North Europe, Southeast Asia, dan Central India.</string>
     <string name="dictate__providers_ollama_no_stt">Ollama tidak punya endpoint pengenalan suara, jadi hanya bisa menulis ulang. Untuk mendikte lewat server sendiri, jalankan server suara (misalnya Speaches, faster-whisper-server, atau whisper.cpp) dan tambahkan lewat “Tambah server milikmu sendiri” — atau pakai mesin di perangkat, yang sama sekali tidak butuh server.</string>
+    <string name="dictate__providers_region_title">Wilayah</string>
+    <string name="dictate__providers_region_us">Amerika Serikat</string>
+    <string name="dictate__providers_region_eu">Uni Eropa</string>
+    <string name="dictate__providers_region_jp">Jepang</string>
+    <string name="dictate__providers_region_in">India</string>
+    <string name="dictate__providers_region_global">Seluruh dunia</string>
     <string name="dictate__providers_custom_title">Server kustom</string>
     <string name="dictate__providers_field_name">Nama</string>
     <string name="dictate__providers_field_transcription_model">Model transkripsi</string>

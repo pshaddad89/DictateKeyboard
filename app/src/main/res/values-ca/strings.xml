@@ -378,6 +378,11 @@
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__label" comment="Preference title">Desplega / Replega automàticament</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__summary" comment="Preference summary">Desplega / Replega automàticament la fila d\'accions en relació amb l\'estat actual</string>
     <string name="pref__smartbar__extended_actions_placement__label" comment="Preference title">Ubicació de la fila d\'accions</string>
+    <string name="settings__smartbar__second_actions__title" comment="Title of the Smartbar second actions screen">Accions secundàries</string>
+    <string name="settings__smartbar__second_actions__summary" comment="Preference summary">Mantén premut un botó de la Smartbar per executar una acció secundària</string>
+    <string name="settings__smartbar__second_actions__note" comment="Header of the screen while nothing is being paired: says what to do">Toca un botó i després l\'acció que ha d\'executar quan el mantinguis premut. Tots dos conserven el seu propi botó — amaga\'n un a l\'editor d\'accions del teclat per alliberar l\'espai.</string>
+    <string name="settings__smartbar__second_actions__hint_pick_second" comment="Header while a button is selected; {action} is that button's name">Què ha d\'executar {action} quan es manté premut?</string>
+    <string name="settings__smartbar__second_actions__section_child_only" comment="Heading above the buttons that cannot carry a second action">Només com a acció secundària — aquests botons es repeteixen en mantenir-los o ja tenen la seva pròpia funció de manteniment</string>
     <!-- Typing strings -->
     <string name="settings__typing__title" comment="Title of Typing screen">Escriptura</string>
     <string name="pref__suggestion__title" comment="Preference group title">Suggeriments</string>
@@ -1238,6 +1243,12 @@
     <string name="dictate__providers_add_custom_summary">Autoallotjat o qualsevol endpoint compatible amb OpenAI: per a reconeixement de veu i reformulació</string>
     <string name="dictate__providers_azure_endpoint">L\'endpoint és al costat de la clau a la pàgina «Keys and Endpoint» del portal. MAI-Transcribe només funciona a East US, West US, West US 2, North Europe, Southeast Asia i Central India.</string>
     <string name="dictate__providers_ollama_no_stt">L\'Ollama no té cap endpoint de reconeixement de veu, així que només pot reformular. Per dictar a través d\'un servidor teu, engega un servidor de veu (com ara Speaches, faster-whisper-server o whisper.cpp) i afegeix-lo a «Afegeix el teu propi servidor» — o fes servir el motor al dispositiu, que no necessita cap servidor.</string>
+    <string name="dictate__providers_region_title">Regió</string>
+    <string name="dictate__providers_region_us">Estats Units</string>
+    <string name="dictate__providers_region_eu">Unió Europea</string>
+    <string name="dictate__providers_region_jp">Japó</string>
+    <string name="dictate__providers_region_in">Índia</string>
+    <string name="dictate__providers_region_global">Tot el món</string>
     <string name="dictate__providers_custom_title">Servidor personalitzat</string>
     <string name="dictate__providers_field_name">Nom</string>
     <string name="dictate__providers_field_transcription_model">Model de transcripció</string>

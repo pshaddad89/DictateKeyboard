@@ -403,6 +403,11 @@
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__label" comment="Preference title">Automatisch uitvouwen/samenvouwen</string>
     <string name="pref__smartbar__shared_actions_auto_expand_collapse__summary" comment="Preference summary">De gedeelde actierij wordt automatisch uitgevouwen/samengevouwen op basis van de huidige status</string>
     <string name="pref__smartbar__extended_actions_placement__label" comment="Preference title">Plaatsing van actierij</string>
+    <string name="settings__smartbar__second_actions__title" comment="Title of the Smartbar second actions screen">Tweede acties</string>
+    <string name="settings__smartbar__second_actions__summary" comment="Preference summary">Houd een Smartbar-knop ingedrukt om een tweede actie uit te voeren</string>
+    <string name="settings__smartbar__second_actions__note" comment="Header of the screen while nothing is being paired: says what to do">Tik op een knop en daarna op de actie die hij moet uitvoeren als je hem ingedrukt houdt. Beide houden hun eigen knop — verberg er een in de actie-editor van het toetsenbord om de plek vrij te maken.</string>
+    <string name="settings__smartbar__second_actions__hint_pick_second" comment="Header while a button is selected; {action} is that button's name">Wat moet {action} doen als je de knop ingedrukt houdt?</string>
+    <string name="settings__smartbar__second_actions__section_child_only" comment="Heading above the buttons that cannot carry a second action">Alleen als tweede actie — deze knoppen herhalen bij ingedrukt houden of hebben daar al een eigen functie voor</string>
     <!-- Typing strings -->
     <string name="settings__typing__title" comment="Title of Typing screen">Typen</string>
     <string name="pref__suggestion__title" comment="Preference group title">Suggesties</string>
@@ -1268,6 +1273,12 @@ Deze toestemming kan op elk moment worden gewijzigd in de systeeminstellingen.  
     <string name="dictate__providers_add_custom_summary">Zelf gehost of elk OpenAI-compatibel endpoint — voor spraakherkenning en herformuleren</string>
     <string name="dictate__providers_azure_endpoint">Het endpoint staat naast de sleutel op de pagina ‘Keys and Endpoint’ in de portal. MAI-Transcribe draait alleen in East US, West US, West US 2, North Europe, Southeast Asia en Central India.</string>
     <string name="dictate__providers_ollama_no_stt">Ollama heeft geen endpoint voor spraakherkenning en kan dus alleen herformuleren. Wil je dicteren via een eigen server, draai dan een spraakserver (zoals Speaches, faster-whisper-server of whisper.cpp) en voeg die toe via “Je eigen server toevoegen” — of gebruik de herkenning op het toestel, waarvoor helemaal geen server nodig is.</string>
+    <string name="dictate__providers_region_title">Regio</string>
+    <string name="dictate__providers_region_us">Verenigde Staten</string>
+    <string name="dictate__providers_region_eu">Europese Unie</string>
+    <string name="dictate__providers_region_jp">Japan</string>
+    <string name="dictate__providers_region_in">India</string>
+    <string name="dictate__providers_region_global">Wereldwijd</string>
     <string name="dictate__providers_custom_title">Aangepaste server</string>
     <string name="dictate__providers_field_name">Naam</string>
     <string name="dictate__providers_field_transcription_model">Transcriptiemodel</string>
