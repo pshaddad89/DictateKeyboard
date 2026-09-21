@@ -1312,6 +1312,7 @@
     <string name="dictate__providers_region_in">インド</string>
     <string name="dictate__providers_region_global">全世界</string>
     <string name="dictate__providers_custom_title">カスタムサーバー</string>
+    <string name="dictate__providers_get_key">APIキーを取得</string>
     <string name="dictate__providers_field_name">名前</string>
     <string name="dictate__providers_field_transcription_model">文字起こしモデル</string>
     <string name="dictate__providers_field_chat_model">言い換えモデル</string>
@@ -1635,6 +1636,8 @@
     <string name="dictate__local_model_none_selected">まだモデルがダウンロードされていません</string>
     <string name="dictate__local_model_delete_confirm">「{model}」を削除しますか？後でもう一度ダウンロードできます。</string>
     <string name="dictate__local_model_not_installed_error">端末内モデルがありません</string>
+    <string name="dictate__local_model_family_installed">{total} 件中 {count} 件インストール済み</string>
+    <string name="dictate__local_model_family_open">バリエーションを表示</string>
     <plurals name="dictate__local_model_languages">
         <item quantity="other">{count}言語</item>
     </plurals>

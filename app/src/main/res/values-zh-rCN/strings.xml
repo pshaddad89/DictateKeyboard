@@ -1375,6 +1375,7 @@
     <string name="dictate__providers_region_in">印度</string>
     <string name="dictate__providers_region_global">全球</string>
     <string name="dictate__providers_custom_title">自定义服务器</string>
+    <string name="dictate__providers_get_key">获取 API 密钥</string>
     <string name="dictate__providers_field_name">名称</string>
     <string name="dictate__providers_field_transcription_model">转录模型</string>
     <string name="dictate__providers_field_chat_model">改写模型</string>
@@ -1698,6 +1699,8 @@
     <string name="dictate__local_model_none_selected">尚未下载模型</string>
     <string name="dictate__local_model_delete_confirm">删除“{model}”？以后可以重新下载。</string>
     <string name="dictate__local_model_not_installed_error">未下载本地模型</string>
+    <string name="dictate__local_model_family_installed">已安装 {count}/{total}</string>
+    <string name="dictate__local_model_family_open">显示变体</string>
     <plurals name="dictate__local_model_languages">
         <item quantity="other">{count} 种语言</item>
     </plurals>

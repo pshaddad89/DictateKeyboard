@@ -1386,6 +1386,7 @@
     <string name="dictate__providers_region_in">Индия</string>
     <string name="dictate__providers_region_global">Весь мир</string>
     <string name="dictate__providers_custom_title">Пользовательский сервер</string>
+    <string name="dictate__providers_get_key">Получить API-ключ</string>
     <string name="dictate__providers_field_name">Имя</string>
     <string name="dictate__providers_field_transcription_model">Модель транскрибирования</string>
     <string name="dictate__providers_field_chat_model">Модель переформулирования</string>
@@ -1709,6 +1710,8 @@
     <string name="dictate__local_model_none_selected">Модель ещё не скачана</string>
     <string name="dictate__local_model_delete_confirm">Удалить «{model}»? Позже можно скачать снова.</string>
     <string name="dictate__local_model_not_installed_error">Локальная модель не скачана</string>
+    <string name="dictate__local_model_family_installed">Установлено {count} из {total}</string>
+    <string name="dictate__local_model_family_open">Показать варианты</string>
     <plurals name="dictate__local_model_languages">
         <item quantity="one">{count} язык</item>
         <item quantity="few">{count} языка</item>

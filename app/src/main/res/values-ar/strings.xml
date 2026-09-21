@@ -1238,6 +1238,7 @@
     <string name="dictate__providers_region_in">الهند</string>
     <string name="dictate__providers_region_global">عالميًا</string>
     <string name="dictate__providers_custom_title">خادم مخصّص</string>
+    <string name="dictate__providers_get_key">الحصول على مفتاح API</string>
     <string name="dictate__providers_field_name">الاسم</string>
     <string name="dictate__providers_field_transcription_model">نموذج التفريغ النصي</string>
     <string name="dictate__providers_field_chat_model">نموذج إعادة الصياغة</string>
@@ -1561,6 +1562,8 @@
     <string name="dictate__local_model_none_selected">لم يتم تنزيل أي نموذج بعد</string>
     <string name="dictate__local_model_delete_confirm">حذف ”{model}“؟ يمكنك تنزيله مرة أخرى لاحقًا.</string>
     <string name="dictate__local_model_not_installed_error">لا يوجد نموذج محلي مُنزَّل</string>
+    <string name="dictate__local_model_family_installed">{count} من {total} مثبت</string>
+    <string name="dictate__local_model_family_open">عرض الإصدارات</string>
     <plurals name="dictate__local_model_languages">
         <item quantity="zero">{count} لغة</item>
         <item quantity="one">{count} لغة</item>

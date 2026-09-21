@@ -1225,6 +1225,7 @@
     <string name="dictate__providers_region_in">Індія</string>
     <string name="dictate__providers_region_global">Увесь світ</string>
     <string name="dictate__providers_custom_title">Власний сервер</string>
+    <string name="dictate__providers_get_key">Отримати API-ключ</string>
     <string name="dictate__providers_field_name">Назва</string>
     <string name="dictate__providers_field_transcription_model">Модель транскрибування</string>
     <string name="dictate__providers_field_chat_model">Модель переформулювання</string>
@@ -1548,6 +1549,8 @@
     <string name="dictate__local_model_none_selected">Модель ще не завантажено</string>
     <string name="dictate__local_model_delete_confirm">Видалити «{model}»? Пізніше можна завантажити знову.</string>
     <string name="dictate__local_model_not_installed_error">Локальну модель не завантажено</string>
+    <string name="dictate__local_model_family_installed">Встановлено {count} з {total}</string>
+    <string name="dictate__local_model_family_open">Показати варіанти</string>
     <plurals name="dictate__local_model_languages">
         <item quantity="one">{count} мова</item>
         <item quantity="few">{count} мови</item>

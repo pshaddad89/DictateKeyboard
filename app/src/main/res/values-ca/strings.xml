@@ -1250,6 +1250,7 @@
     <string name="dictate__providers_region_in">Índia</string>
     <string name="dictate__providers_region_global">Tot el món</string>
     <string name="dictate__providers_custom_title">Servidor personalitzat</string>
+    <string name="dictate__providers_get_key">Obtén una clau API</string>
     <string name="dictate__providers_field_name">Nom</string>
     <string name="dictate__providers_field_transcription_model">Model de transcripció</string>
     <string name="dictate__providers_field_chat_model">Model de reformulació</string>
@@ -1573,6 +1574,8 @@
     <string name="dictate__local_model_none_selected">Encara no s’ha baixat cap model</string>
     <string name="dictate__local_model_delete_confirm">Vols eliminar «{model}»? El pots tornar a baixar més tard.</string>
     <string name="dictate__local_model_not_installed_error">Cap model local baixat</string>
+    <string name="dictate__local_model_family_installed">{count} de {total} instal·lats</string>
+    <string name="dictate__local_model_family_open">Mostra les variants</string>
     <plurals name="dictate__local_model_languages">
         <item quantity="one">{count} idioma</item>
         <item quantity="other">{count} idiomes</item>

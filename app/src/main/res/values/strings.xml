@@ -2004,6 +2004,7 @@
     <string name="dictate__providers_region_in" comment="Name of the India data-residency region">India</string>
     <string name="dictate__providers_region_global" comment="Name of the worldwide (non-regional) endpoint">Worldwide</string>
     <string name="dictate__providers_custom_title" comment="Dialog title when editing a custom endpoint">Custom server</string>
+    <string name="dictate__providers_get_key" comment="Accessibility label for the key icon beside the provider dialog title; it opens the provider's own page for creating an API key">Get an API key</string>
     <string name="dictate__providers_field_name" comment="Label for the custom endpoint display name field">Name</string>
     <string name="dictate__providers_field_transcription_model" comment="Label for the transcription model field in the provider editor">Transcription model</string>
     <string name="dictate__providers_field_transcription_rewording_model" comment="Label for the model field when single-call is on, where one model does transcription and rewording">Transcription &amp; rewording model</string>
@@ -2166,6 +2167,8 @@
         <item quantity="one">{count} language</item>
         <item quantity="other">{count} languages</item>
     </plurals>
+    <string name="dictate__local_model_family_installed" comment="Shown under a model family (Whisper, Kroko) in the on-device picker when some of its variants are downloaded. Both {count} and {total} are numbers.">{count} of {total} installed</string>
+    <string name="dictate__local_model_family_open" comment="Spoken action label for the row that opens a model family (Whisper, Kroko) and shows the variants inside it">Show variants</string>
     <string name="dictate__local_fallback_title" comment="Title of the toggle that enables on-device transcription as an offline fallback">Offline fallback</string>
     <string name="dictate__local_fallback_summary" comment="Explains the offline fallback toggle">When offline, transcribe on-device with the downloaded model after the provider fails</string>
 
