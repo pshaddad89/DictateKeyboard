@@ -127,7 +127,7 @@ Dictate nothing and are not going anywhere.
 - **Classic keyboard-free dictation layout** — bring back the pure, voice-first screen from Dictate 3: lock it in, or keep it just a swipe away from the full keyboard — now with a fully customizable action row (drag & drop), an Enter-key symbol popup and long-form controls.
 - **Wear OS keyboard** — dictate straight from your watch, tethered through your phone or fully standalone.
 - **Floating dictation button** — dictate straight into **any** app, even when another keyboard is active. Pick from six styles (Pill, Ring, Orb, the audio-reactive Cloud and the new Aurora and Lattice orbs), watch a live waveform while you speak, drag it anywhere with edge-snapping, set its color and size, and long-press for rewording — or for a **freeform voice command**: just say what you want and the AI does it, using any selected text as context.
-- **AI rewording & rewriting** — turn a selection into something more formal, casual, translated, summarised, or anything you define with custom prompts, with adjustable reasoning effort.
+- **AI rewording & rewriting** — turn a selection into something more formal, casual, translated, summarised, or anything you define with custom prompts, with adjustable reasoning effort. Give it a command word and you stop reaching for a button at all: a dictation that opens with it — “Jarvis, make this more formal” — is the instruction, not the text.
 - **Community prompt library** — browse rewording prompts shared by others and install them in a tap, or publish your own.
 - **Dictation statistics** — track how much you've dictated and typed, with milestones and a home-screen overview.
 - **Cleaner transcripts, cheaper uploads** — long silences are trimmed out of a recording before it is sent, and it can be sped up without your voice going higher: providers bill by audio length, so a recording a third shorter costs a third less. Long dictations are packed rather than refused, and can be split into paragraphs automatically at sentence boundaries.
@@ -274,14 +274,16 @@ Dictate Keyboard is released under the terms of the
 - On-device transcription uses [OpenAI Whisper](https://openai.com/index/whisper/) (MIT),
   NVIDIA's [Parakeet](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3),
   [Canary](https://huggingface.co/nvidia/canary-180m-flash) and
-  [FastConformer](https://huggingface.co/nvidia/stt_de_fastconformer_hybrid_large_pc) models and the
+  [FastConformer](https://huggingface.co/nvidia/stt_de_fastconformer_hybrid_large_pc) models,
+  moondream's [Parakeet Ultra](https://huggingface.co/moondream/parakeet-ultra) post-train and the
   primeline German fine-tune (CC-BY-4.0),
   [GigaAM](https://github.com/salute-developers/GigaAM) for Russian (MIT),
   [Dolphin](https://github.com/DataoceanAI/Dolphin) by DataoceanAI and Tsinghua University for 40
   Eastern languages (Apache-2.0),
   and — for live transcription — the [Kroko ASR](https://huggingface.co/Banafo/Kroko-ASR)
-  community models by Banafo (CC-BY-SA). All of them are exported to ONNX by
-  [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx).
+  community models by Banafo (CC-BY-SA). They are exported to ONNX by
+  [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) — except Parakeet Ultra, whose weights are
+  substituted into sherpa-onnx's own Parakeet graph, since upstream publishes no ONNX build.
 - The Lattice button design is ported from
   [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) by Jakub Antalik (MIT).
 - GIF search is powered by [KLIPY](https://klipy.com); GIFs are served by KLIPY under their terms.
@@ -303,5 +305,6 @@ or [donating via PayPal](https://paypal.me/DevEmperor). Every bit helps — than
   <a href="https://github.com/cnfatman"><img src="https://github.com/cnfatman.png" width="72" alt="Codename: Fatman" title="Codename: Fatman — Dictate's first sponsor 💖"></a>
   <a href="https://github.com/george1612"><img src="https://github.com/george1612.png" width="72" alt="george1612" title="george1612"></a>
   <a href="https://github.com/nichu42"><img src="https://github.com/nichu42.png" width="72" alt="nichu42" title="nichu42"></a>
+  <a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="72" alt="4kaimar" title="4kaimar"></a>
 </p>
 <!-- SPONSORS:END -->
