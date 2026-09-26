@@ -707,6 +707,7 @@
     <string name="clipboard__group_pinned">Fixado</string>
     <string name="clipboard__group_recent">Recente</string>
     <string name="clipboard__group_other">Outro</string>
+    <string name="pref__clipboard__history_pinned_on_top__label">Itens fixados no topo</string>
     <string name="clipboard__item_description_email">Email</string>
     <string name="clipboard__item_description_url">URL</string>
     <string name="clipboard__item_description_phone">Telefone</string>
@@ -1353,6 +1354,10 @@
     <string name="dictate__providers_cap_chat">Reformulação</string>
     <string name="dictate__providers_add_custom">Adicionar o teu próprio servidor</string>
     <string name="dictate__providers_add_custom_summary">Alojado por ti ou qualquer endpoint compatível com OpenAI — para reconhecimento de voz e reformulação</string>
+    <string name="dictate__providers_add">Adicionar fornecedor</string>
+    <string name="dictate__providers_search">Pesquisar fornecedores</string>
+    <string name="dictate__providers_filter_eu">UE</string>
+    <string name="dictate__providers_add_none">Nenhum fornecedor corresponde</string>
     <string name="dictate__providers_azure_endpoint">O endpoint fica ao lado da chave na página «Keys and Endpoint» do portal. O MAI-Transcribe só funciona em East US, West US, West US 2, North Europe, Southeast Asia e Central India.</string>
     <string name="dictate__providers_ollama_no_stt">O Ollama não tem endpoint de reconhecimento de voz, por isso só consegue reformular. Para ditar através de um servidor teu, põe a correr um servidor de voz (por exemplo Speaches, faster-whisper-server ou whisper.cpp) e adiciona-o em «Adicionar o teu próprio servidor» — ou usa o motor no dispositivo, que não precisa de servidor nenhum.</string>
     <string name="dictate__providers_region_title">Região</string>

@@ -154,6 +154,12 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
                 historyNumGridColumnsLandscape
             }
         }
+        // Off by default since issue #395: pins only ever grow, so on top they pushed what was just
+        // copied further down with every one added. The header tabs keep them one tap away below.
+        val historyPinnedOnTop = boolean(
+            key = "clipboard__history_pinned_on_top",
+            default = false,
+        )
         val historyAutoCleanOldEnabled = boolean(
             key = "clipboard__history_auto_clean_old_enabled",
             default = false,
@@ -1241,13 +1247,17 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "gestures__swipe_down",
             default = SwipeAction.HIDE_KEYBOARD,
         )
+        // Off by default (issue #418), where FlorisBoard switched the language. That default was harmless
+        // while a swipe hardly ever fired; since the swipe commits under the finger (#327) it fires every
+        // time, so a thumb sliding sideways over the letters changed the language by accident. Anyone with
+        // two or more languages has the globe on the utility key anyway.
         val swipeLeft = enum(
             key = "gestures__swipe_left",
-            default = SwipeAction.SWITCH_TO_NEXT_SUBTYPE,
+            default = SwipeAction.NO_ACTION,
         )
         val swipeRight = enum(
             key = "gestures__swipe_right",
-            default = SwipeAction.SWITCH_TO_PREV_SUBTYPE,
+            default = SwipeAction.NO_ACTION,
         )
         // Up and down default to a cursor move, where up used to do nothing at all (issue #364): the
         // vertical glide they switch on is the other half of the one left/right have had all along, and a
