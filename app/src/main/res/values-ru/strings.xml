@@ -130,6 +130,10 @@
     <string name="settings__home__title" comment="Title of the Home screen">Приветствуем в {app_name}</string>
     <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Dictate Keyboard is not enabled in the system">{app_name} не включена в системе и поэтому не будет доступна в качестве метода ввода. Нажмите здесь, чтобы исправить эту проблему.</string>
     <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Dictate Keyboard is not selected as the default keyboard">{app_name} не выбрана в качестве метода ввода по умолчанию. Нажмите здесь, чтобы исправить эту проблему.</string>
+    <string name="dictate__settings_unreadable_card">Не удалось прочитать ваши настройки, поэтому Dictate запустился со значениями по умолчанию. Нажмите здесь, чтобы вернуть их.</string>
+    <string name="dictate__settings_unreadable_title">Восстановить?</string>
+    <string name="dictate__settings_unreadable_message">При запуске Dictate не смог прочитать свой файл настроек. Он сохранил файл нетронутым и запустился со значениями по умолчанию. «Восстановление» вернёт ваших поставщиков, ключи, промпты и настройки в прежнем виде. «Удалить» сотрёт старый файл.</string>
+    <string name="dictate__settings_restore_failed">Старые настройки по-прежнему не удаётся прочитать.</string>
     <string name="settings__search__title" comment="Title of the settings search screen">Поиск по настройкам</string>
     <string name="settings__search__placeholder" comment="Placeholder in the settings search field">Поиск по настройкам…</string>
     <string name="settings__search__recent" comment="Header above recently used search terms">Недавние запросы</string>
@@ -443,6 +447,28 @@
     <string name="pref__keyboard__number_row__summary" comment="Preference summary">Показывать цифровой над символьной раскладкой</string>
     <string name="pref__keyboard__hinted_number_row_mode__label" comment="Preference title">Подсказка в цифровом ряду</string>
     <string name="pref__keyboard__hinted_symbols_mode__label" comment="Preference title">Подсказки символов</string>
+    <string name="settings__custom_symbols__title">Свои символы</string>
+    <string name="pref__keyboard__custom_symbols__label">Использовать свои символы</string>
+    <string name="custom_symbols__edit_key">Изменить клавишу</string>
+    <string name="custom_symbols__key">Символ</string>
+    <string name="custom_symbols__currency">Валюта языка</string>
+    <string name="custom_symbols__long_press">При удержании</string>
+    <string name="custom_symbols__add_placeholder">Добавить, напр. ✔ ☑ ✅</string>
+    <string name="custom_symbols__insert_as">Вставить как</string>
+    <string name="custom_symbols__target_key">Клавиша</string>
+    <string name="custom_symbols__target_long_press">Удержание</string>
+    <string name="custom_symbols__palette_math">Математика</string>
+    <string name="custom_symbols__palette_arrows">Стрелки</string>
+    <string name="custom_symbols__palette_currencies">Валюты</string>
+    <string name="custom_symbols__palette_punctuation">Пунктуация</string>
+    <string name="custom_symbols__palette_shapes">Фигуры</string>
+    <string name="custom_symbols__palette_greek">Греческий</string>
+    <string name="custom_symbols__palette_scripts">Верхний и нижний индекс</string>
+    <string name="custom_symbols__reset_all">Сбросить все клавиши</string>
+    <string name="custom_symbols__reset_all_confirm">Вернуть все клавиши к значениям по умолчанию?</string>
+    <string name="custom_symbols__import_confirm">Заменить ваши символы символами из этого файла?</string>
+    <string name="custom_symbols__import_done">Символы импортированы</string>
+    <string name="custom_symbols__import_invalid">Это не файл символов</string>
     <string name="pref__keyboard__utility_key_enabled__label" comment="Preference title">Показать служебную клавишу</string>
     <string name="pref__keyboard__utility_key_enabled__summary" comment="Preference summary">Показывает настраиваемую служебную клавишу рядом с пробелом</string>
     <string name="pref__keyboard__utility_key_action__label" comment="Preference title">Действие служебной клавиши</string>
@@ -1287,6 +1313,8 @@
     <string name="dictate__floating_button_snap_summary_on">После перетаскивания кнопка прилипает к ближайшему краю.</string>
     <string name="dictate__floating_button_snap_title">Прилипать к краю</string>
     <string name="dictate__interrupted_recording">Прервано ({time})</string>
+    <string name="dictate__transcription_stopped">Остановлено, запись сохранена</string>
+    <string name="dictate__transcription_stopped_in_history">Остановлено, запись в Истории</string>
     <string name="dictate__providers_summary_both">Расшифровка: {transcription} · Переформулирование: {rewording}</string>
     <string name="dictate__remember_last_dictation_summary">Сохраняет последнюю диктовку, чтобы плавающая кнопка могла её отменить, а классическая раскладка — вставить снова.</string>
     <string name="dictate__remember_last_dictation_title">Запоминать последнюю диктовку</string>
@@ -1373,6 +1401,7 @@
     <string name="dictate__model_default_summary">По умолчанию поставщика</string>
     <string name="dictate__custom_server_title">Пользовательский сервер</string>
     <string name="dictate__base_url_title">Базовый URL</string>
+    <string name="dictate__base_url_cleartext_warning">Без шифрования: ключ API и ваши записи передаются открытым текстом. В вашей собственной сети это нормально, но в любой другой сети Wi-Fi их может прочитать кто-то ещё.</string>
     <string name="dictate__base_url_placeholder">https://ваш-сервер/v1/</string>
     <string name="dictate__base_url_required">Обязательно для пользовательского поставщика</string>
     <string name="dictate__value_not_set">Не задано</string>
@@ -1821,7 +1850,6 @@
     <string name="dictate__audio_source_voice_recognition_summary">Настроен для речи с меньшей обработкой — попробуйте, если транскрипция неточная</string>
     <string name="dictate__audio_source_unprocessed">Без обработки (сырой)</string>
     <string name="dictate__audio_source_unprocessed_summary">Совсем без обработки; возвращается к Распознаванию речи, если телефон не поддерживает</string>
-    <string name="dictate__security_group">Безопасность</string>
     <string name="dictate__trust_user_certs_title">Доверять сертификатам пользователя</string>
     <string name="dictate__trust_user_certs_summary">Доверять установленным вами сертификатам ЦС для своих эндпоинтов за частным ЦС.</string>
     <string name="dictate__stats_title">Статистика</string>
@@ -2233,6 +2261,11 @@
     <string name="prefs__media__gif_setup__step3">Скопируйте ключ и вставьте его в поле ниже.</string>
     <string name="prefs__media__gif_setup__open_klipy">Открыть Партнёрскую панель KLIPY</string>
     <string name="prefs__media__gif_setup__key_label">Ключ API KLIPY</string>
+    <string name="prefs__media__gif_content_filter">Безопасный поиск</string>
+    <string name="prefs__media__gif_content_filter__high">Строгий</string>
+    <string name="prefs__media__gif_content_filter__medium">Умеренный</string>
+    <string name="prefs__media__gif_content_filter__low">Мягкий</string>
+    <string name="prefs__media__gif_content_filter__off">Выкл.</string>
     <string name="prefs__media__gif_setup__privacy_note">Ваши поисковые запросы отправляются в KLIPY только когда открыта панель GIF — никогда во время диктовки.</string>
     <string name="gif__search_placeholder">Поиск в KLIPY</string>
     <string name="gif__powered_by">На базе KLIPY</string>

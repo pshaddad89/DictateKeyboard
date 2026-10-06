@@ -127,6 +127,10 @@
     <string name="settings__home__title" comment="Title of the Home screen">Bem-vindo a {app_name}</string>
     <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Dictate Keyboard is not enabled in the system">{app_name} não está ativo no sistema, logo não pode ser utilizado como método de introdução no seletor. Toque aqui para resolver esta situação.</string>
     <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Dictate Keyboard is not selected as the default keyboard">{app_name} não está selecionado como método de introdução padrão. Toque aqui para resolver esta situação.</string>
+    <string name="dictate__settings_unreadable_card">Não foi possível ler as suas definições, por isso o Dictate iniciou com os valores predefinidos. Toque aqui para as recuperar.</string>
+    <string name="dictate__settings_unreadable_title">Restaurar?</string>
+    <string name="dictate__settings_unreadable_message">Ao iniciar, o Dictate não conseguiu ler o seu ficheiro de definições. Guardou-o intacto e iniciou com os valores predefinidos. «Restaurar» recupera os seus fornecedores, chaves, prompts e definições tal como estavam. «Eliminar» apaga o ficheiro antigo.</string>
+    <string name="dictate__settings_restore_failed">As definições antigas continuam sem poder ser lidas.</string>
     <string name="settings__search__title" comment="Title of the settings search screen">Pesquisar nas definições</string>
     <string name="settings__search__placeholder" comment="Placeholder in the settings search field">Pesquisar nas definições…</string>
     <string name="settings__search__recent" comment="Header above recently used search terms">Pesquisas recentes</string>
@@ -438,6 +442,28 @@
     <string name="pref__keyboard__number_row__summary" comment="Preference summary">Mostrar linha de números na parte superior do teclado</string>
     <string name="pref__keyboard__hinted_number_row_mode__label" comment="Preference title">Indicador de números</string>
     <string name="pref__keyboard__hinted_symbols_mode__label" comment="Preference title">Indicador de símbolos</string>
+    <string name="settings__custom_symbols__title">Símbolos personalizados</string>
+    <string name="pref__keyboard__custom_symbols__label">Usar símbolos personalizados</string>
+    <string name="custom_symbols__edit_key">Editar tecla</string>
+    <string name="custom_symbols__key">Símbolo</string>
+    <string name="custom_symbols__currency">Moeda do idioma</string>
+    <string name="custom_symbols__long_press">Ao manter premido</string>
+    <string name="custom_symbols__add_placeholder">Adicionar, p. ex. ✔ ☑ ✅</string>
+    <string name="custom_symbols__insert_as">Inserir como</string>
+    <string name="custom_symbols__target_key">Tecla</string>
+    <string name="custom_symbols__target_long_press">Manter premido</string>
+    <string name="custom_symbols__palette_math">Matemática</string>
+    <string name="custom_symbols__palette_arrows">Setas</string>
+    <string name="custom_symbols__palette_currencies">Moedas</string>
+    <string name="custom_symbols__palette_punctuation">Pontuação</string>
+    <string name="custom_symbols__palette_shapes">Formas</string>
+    <string name="custom_symbols__palette_greek">Grego</string>
+    <string name="custom_symbols__palette_scripts">Expoente e índice</string>
+    <string name="custom_symbols__reset_all">Repor todas as teclas</string>
+    <string name="custom_symbols__reset_all_confirm">Repor todas as teclas para o padrão?</string>
+    <string name="custom_symbols__import_confirm">Substituir os seus símbolos pelos deste ficheiro?</string>
+    <string name="custom_symbols__import_done">Símbolos importados</string>
+    <string name="custom_symbols__import_invalid">Isto não é um ficheiro de símbolos</string>
     <string name="pref__keyboard__utility_key_enabled__label" comment="Preference title">Mostrar tecla utilitária</string>
     <string name="pref__keyboard__utility_key_enabled__summary" comment="Preference summary">Mostra uma tecla utilitária ao lado da barra de espaço</string>
     <string name="pref__keyboard__utility_key_action__label" comment="Preference title">Ação da tecla utilitária</string>
@@ -1261,6 +1287,8 @@
     <string name="dictate__floating_button_snap_summary_on">O botão encaixa no lado mais próximo depois de o arrastar.</string>
     <string name="dictate__floating_button_snap_title">Encaixar na margem</string>
     <string name="dictate__interrupted_recording">Interrompido ({time})</string>
+    <string name="dictate__transcription_stopped">Parado, gravação guardada</string>
+    <string name="dictate__transcription_stopped_in_history">Parado, gravação no Histórico</string>
     <string name="dictate__providers_summary_both">Transcrição: {transcription} · Reformulação: {rewording}</string>
     <string name="dictate__remember_last_dictation_summary">Mantém o seu último ditado para que o botão flutuante o possa anular e o esquema clássico o possa reinserir.</string>
     <string name="dictate__remember_last_dictation_title">Memorizar último ditado</string>
@@ -1347,6 +1375,7 @@
     <string name="dictate__model_default_summary">Predefinição do fornecedor</string>
     <string name="dictate__custom_server_title">Servidor personalizado</string>
     <string name="dictate__base_url_title">URL base</string>
+    <string name="dictate__base_url_cleartext_warning">Sem encriptação: a chave de API e as suas gravações circulam como texto simples. Na sua própria rede não há problema, mas em qualquer outra rede Wi-Fi outra pessoa pode lê-las.</string>
     <string name="dictate__base_url_placeholder">https://o-seu-servidor/v1/</string>
     <string name="dictate__base_url_required">Obrigatório para o fornecedor personalizado</string>
     <string name="dictate__value_not_set">Não configurado</string>
@@ -1793,7 +1822,6 @@
     <string name="dictate__audio_source_voice_recognition_summary">Otimizado para fala com menos processamento — experimenta se a transcrição for imprecisa</string>
     <string name="dictate__audio_source_unprocessed">Sem processamento (bruto)</string>
     <string name="dictate__audio_source_unprocessed_summary">Sem qualquer processamento; recorre ao Reconhecimento de voz se o telemóvel não o suportar</string>
-    <string name="dictate__security_group">Segurança</string>
     <string name="dictate__trust_user_certs_title">Confiar em certificados do utilizador</string>
     <string name="dictate__trust_user_certs_summary">Confia em certificados de AC que instalou, para endpoints auto-hospedados atrás de uma AC privada.</string>
     <string name="dictate__stats_title">Estatísticas</string>
@@ -2205,6 +2233,11 @@
     <string name="prefs__media__gif_setup__step3">Copie a sua chave e cole-a no campo abaixo.</string>
     <string name="prefs__media__gif_setup__open_klipy">Abrir Painel de Parceiro KLIPY</string>
     <string name="prefs__media__gif_setup__key_label">Chave de API KLIPY</string>
+    <string name="prefs__media__gif_content_filter">Pesquisa segura</string>
+    <string name="prefs__media__gif_content_filter__high">Rigorosa</string>
+    <string name="prefs__media__gif_content_filter__medium">Moderada</string>
+    <string name="prefs__media__gif_content_filter__low">Ligeira</string>
+    <string name="prefs__media__gif_content_filter__off">Desativada</string>
     <string name="prefs__media__gif_setup__privacy_note">Os seus termos de pesquisa só são enviados para a KLIPY enquanto o painel de GIFs está aberto — nunca durante o ditado.</string>
     <string name="gif__search_placeholder">Pesquisar KLIPY</string>
     <string name="gif__powered_by">Com tecnologia KLIPY</string>

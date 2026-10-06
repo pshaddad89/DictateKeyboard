@@ -124,6 +124,10 @@
     <string name="settings__home__title" comment="Title of the Home screen">Willkommen bei {app_name}</string>
     <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Dictate Keyboard is not enabled in the system">{app_name} ist in deinem System nicht aktiviert und kann daher nicht als Eingabemethode ausgewählt werden. Hier klicken, um dieses Problem zu lösen.</string>
     <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Dictate Keyboard is not selected as the default keyboard">{app_name} ist nicht als Standard-Eingabemethode ausgewählt. Hier klicken, um dieses Problem zu lösen.</string>
+    <string name="dictate__settings_unreadable_card">Deine Einstellungen ließen sich nicht lesen, deshalb ist Dictate mit den Standardwerten gestartet. Tippe hier, um sie zurückzuholen.</string>
+    <string name="dictate__settings_unreadable_title">Wiederherstellen?</string>
+    <string name="dictate__settings_unreadable_message">Beim Start konnte Dictate seine Einstellungsdatei nicht lesen. Es hat sie unverändert aufbewahrt und mit den Standardwerten begonnen. „Wiederherstellen“ holt deine Anbieter, Schlüssel, Prompts und Einstellungen so zurück, wie sie waren. „Entfernen“ löscht die alte Datei.</string>
+    <string name="dictate__settings_restore_failed">Die alten Einstellungen lassen sich immer noch nicht lesen.</string>
     <string name="settings__search__title" comment="Title of the settings search screen">Einstellungen durchsuchen</string>
     <string name="settings__search__placeholder" comment="Placeholder in the settings search field">Einstellungen durchsuchen…</string>
     <string name="settings__search__recent" comment="Header above recently used search terms">Letzte Suchen</string>
@@ -362,6 +366,28 @@
     <string name="pref__keyboard__number_row__summary" comment="Preference summary">Eine Zahlenreihe über dem Tastaturlayout anzeigen</string>
     <string name="pref__keyboard__hinted_number_row_mode__label" comment="Preference title">Angedeutete Zahlenreihe</string>
     <string name="pref__keyboard__hinted_symbols_mode__label" comment="Preference title">Angedeutete Symbole</string>
+    <string name="settings__custom_symbols__title">Eigene Symbole</string>
+    <string name="pref__keyboard__custom_symbols__label">Eigene Symbole verwenden</string>
+    <string name="custom_symbols__edit_key">Taste bearbeiten</string>
+    <string name="custom_symbols__key">Zeichen</string>
+    <string name="custom_symbols__currency">Währung der Sprache</string>
+    <string name="custom_symbols__long_press">Beim Gedrückthalten</string>
+    <string name="custom_symbols__add_placeholder">Hinzufügen, z. B. ✔ ☑ ✅</string>
+    <string name="custom_symbols__insert_as">Einfügen als</string>
+    <string name="custom_symbols__target_key">Taste</string>
+    <string name="custom_symbols__target_long_press">Gedrückthalten</string>
+    <string name="custom_symbols__palette_math">Mathe</string>
+    <string name="custom_symbols__palette_arrows">Pfeile</string>
+    <string name="custom_symbols__palette_currencies">Währungen</string>
+    <string name="custom_symbols__palette_punctuation">Satzzeichen</string>
+    <string name="custom_symbols__palette_shapes">Formen</string>
+    <string name="custom_symbols__palette_greek">Griechisch</string>
+    <string name="custom_symbols__palette_scripts">Hoch &amp; tief</string>
+    <string name="custom_symbols__reset_all">Alle Tasten zurücksetzen</string>
+    <string name="custom_symbols__reset_all_confirm">Alle Tasten auf ihren Standard zurücksetzen?</string>
+    <string name="custom_symbols__import_confirm">Deine Symbole durch die aus dieser Datei ersetzen?</string>
+    <string name="custom_symbols__import_done">Symbole importiert</string>
+    <string name="custom_symbols__import_invalid">Das ist keine Symbol-Datei</string>
     <string name="pref__keyboard__utility_key_enabled__label" comment="Preference title">Utility-Taste anzeigen</string>
     <string name="pref__keyboard__utility_key_enabled__summary" comment="Preference summary">Zeigt eine konfigurierbare Utility-Taste neben der Leertaste an</string>
     <string name="pref__keyboard__utility_key_action__label" comment="Preference title">Utility-Taste Aktion</string>
@@ -1265,6 +1291,8 @@
     <string name="dictate__action_resend">Erneut versuchen</string>
     <string name="dictate__action_dismiss">Verwerfen</string>
     <string name="dictate__interrupted_recording">Unterbrochen ({time})</string>
+    <string name="dictate__transcription_stopped">Gestoppt, Aufnahme behalten</string>
+    <string name="dictate__transcription_stopped_in_history">Gestoppt, Aufnahme im Verlauf</string>
     <string name="dictate__action_continue_recording">Weiter aufnehmen</string>
     <string name="dictate__a11y_mic_hold_local">Auf dem Gerät transkribieren</string>
     <string name="smartbar__a11y_show_actions">Aktionen anzeigen</string>
@@ -1294,6 +1322,7 @@
     <string name="dictate__model_default_summary">Anbieter-Standard</string>
     <string name="dictate__custom_server_title">Benutzerdefinierter Server</string>
     <string name="dictate__base_url_title">Basis-URL</string>
+    <string name="dictate__base_url_cleartext_warning">Unverschlüsselt: API-Schlüssel und Aufnahmen gehen als Klartext über das Netz. Im eigenen Netz ist das in Ordnung, in jedem anderen WLAN könnte sie jemand mitlesen.</string>
     <string name="dictate__base_url_placeholder">https://dein-server/v1/</string>
     <string name="dictate__base_url_required">Erforderlich für den benutzerdefinierten Anbieter</string>
     <string name="dictate__value_not_set">Nicht gesetzt</string>
@@ -1784,7 +1813,6 @@
     <string name="dictate__audio_source_voice_recognition_summary">Für Sprache optimiert, weniger Verarbeitung – probier das, wenn die Transkription ungenau ist</string>
     <string name="dictate__audio_source_unprocessed">Unverarbeitet (roh)</string>
     <string name="dictate__audio_source_unprocessed_summary">Gar keine Verarbeitung; fällt auf Spracherkennung zurück, falls dein Handy es nicht unterstützt</string>
-    <string name="dictate__security_group">Sicherheit</string>
     <string name="dictate__trust_user_certs_title">Nutzer-Zertifikaten vertrauen</string>
     <string name="dictate__trust_user_certs_summary">Vertraut CA-Zertifikaten, die du installiert hast — für selbst gehostete Endpunkte hinter einer privaten CA.</string>
     <string name="dictate__stats_title">Statistik</string>
@@ -2196,6 +2224,11 @@
     <string name="prefs__media__gif_setup__step3">Kopiere deinen Schlüssel und füge ihn in das Feld unten ein.</string>
     <string name="prefs__media__gif_setup__open_klipy">KLIPY Partner Panel öffnen</string>
     <string name="prefs__media__gif_setup__key_label">KLIPY-API-Schlüssel</string>
+    <string name="prefs__media__gif_content_filter">Sichere Suche</string>
+    <string name="prefs__media__gif_content_filter__high">Streng</string>
+    <string name="prefs__media__gif_content_filter__medium">Mittel</string>
+    <string name="prefs__media__gif_content_filter__low">Leicht</string>
+    <string name="prefs__media__gif_content_filter__off">Aus</string>
     <string name="prefs__media__gif_setup__privacy_note">Deine Suchbegriffe werden nur an KLIPY gesendet, solange das GIF-Panel geöffnet ist — niemals während des Diktierens.</string>
     <string name="gif__search_placeholder">KLIPY durchsuchen</string>
     <string name="gif__powered_by">Ermöglicht durch KLIPY</string>

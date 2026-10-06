@@ -132,6 +132,10 @@
     <string name="settings__home__title" comment="Title of the Home screen">Добре дошли във {app_name}</string>
     <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Dictate Keyboard is not enabled in the system">Клавиатурата {app_name} не е активна в системата и не е достъпна като метод за въвеждане. Докоснете тук, за да промените.</string>
     <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Dictate Keyboard is not selected as the default keyboard">Клавиатурата {app_name} не е избрана като подразбиран метод за въвеждане. Докоснете, за да направите промяната.</string>
+    <string name="dictate__settings_unreadable_card">Настройките ви не можаха да бъдат прочетени, затова Dictate стартира със стандартните. Докоснете тук, за да ги върнете.</string>
+    <string name="dictate__settings_unreadable_title">Възстановяване?</string>
+    <string name="dictate__settings_unreadable_message">При стартиране Dictate не успя да прочете файла с настройките си. Запази го непокътнат и стартира със стандартните настройки. „Възстановяване“ връща доставчиците, ключовете, подканите и настройките ви такива, каквито бяха. „Изтриване“ премахва стария файл.</string>
+    <string name="dictate__settings_restore_failed">Старите настройки все още не могат да бъдат прочетени.</string>
     <string name="settings__search__title" comment="Title of the settings search screen">Търсене в настройките</string>
     <string name="settings__search__placeholder" comment="Placeholder in the settings search field">Търсене в настройките…</string>
     <string name="settings__search__recent" comment="Header above recently used search terms">Скорошни търсения</string>
@@ -449,6 +453,28 @@
     <string name="pref__keyboard__number_row__summary" comment="Preference summary">Показва се ред с цифрите над първия ред</string>
     <string name="pref__keyboard__hinted_number_row_mode__label" comment="Preference title">Ред с цифрите в подсказка</string>
     <string name="pref__keyboard__hinted_symbols_mode__label" comment="Preference title">Символи в подсказка</string>
+    <string name="settings__custom_symbols__title">Собствени символи</string>
+    <string name="pref__keyboard__custom_symbols__label">Използване на собствени символи</string>
+    <string name="custom_symbols__edit_key">Редактиране на клавиш</string>
+    <string name="custom_symbols__key">Символ</string>
+    <string name="custom_symbols__currency">Валута на езика</string>
+    <string name="custom_symbols__long_press">При задържане</string>
+    <string name="custom_symbols__add_placeholder">Добавяне, напр. ✔ ☑ ✅</string>
+    <string name="custom_symbols__insert_as">Вмъкване като</string>
+    <string name="custom_symbols__target_key">Клавиш</string>
+    <string name="custom_symbols__target_long_press">Задържане</string>
+    <string name="custom_symbols__palette_math">Математика</string>
+    <string name="custom_symbols__palette_arrows">Стрелки</string>
+    <string name="custom_symbols__palette_currencies">Валути</string>
+    <string name="custom_symbols__palette_punctuation">Пунктуация</string>
+    <string name="custom_symbols__palette_shapes">Фигури</string>
+    <string name="custom_symbols__palette_greek">Гръцки</string>
+    <string name="custom_symbols__palette_scripts">Горен и долен индекс</string>
+    <string name="custom_symbols__reset_all">Нулиране на всички клавиши</string>
+    <string name="custom_symbols__reset_all_confirm">Връщане на всички клавиши по подразбиране?</string>
+    <string name="custom_symbols__import_confirm">Да се заменят ли символите ви с тези от файла?</string>
+    <string name="custom_symbols__import_done">Символите са импортирани</string>
+    <string name="custom_symbols__import_invalid">Това не е файл със символи</string>
     <string name="pref__keyboard__utility_key_enabled__label" comment="Preference title">Помощен клавиш</string>
     <string name="pref__keyboard__utility_key_enabled__summary" comment="Preference summary">Показва се помощен бутон до клавиша за интервал</string>
     <string name="pref__keyboard__utility_key_action__label" comment="Preference title">Действие на помощния клавиш</string>
@@ -1281,6 +1307,8 @@
     <string name="dictate__floating_button_snap_summary_on">След плъзгане бутонът прилепва към най-близката страна.</string>
     <string name="dictate__floating_button_snap_title">Прилепване към ръба</string>
     <string name="dictate__interrupted_recording">Прекъснато ({time})</string>
+    <string name="dictate__transcription_stopped">Спряно, записът е запазен</string>
+    <string name="dictate__transcription_stopped_in_history">Спряно, записът е в История</string>
     <string name="dictate__providers_summary_both">Транскрипция: {transcription} · Преформулиране: {rewording}</string>
     <string name="dictate__remember_last_dictation_summary">Запазва последната диктовка, за да може плаващият бутон да я отмени, а класическата подредба да я вмъкне отново.</string>
     <string name="dictate__remember_last_dictation_title">Запомни последното диктуване</string>
@@ -1367,6 +1395,7 @@
     <string name="dictate__model_default_summary">По подразбиране на доставчика</string>
     <string name="dictate__custom_server_title">Персонализиран сървър</string>
     <string name="dictate__base_url_title">Базов URL</string>
+    <string name="dictate__base_url_cleartext_warning">Без криптиране: API ключът и записите ви се предават като обикновен текст. В собствената ви мрежа това е наред, но в чужда Wi-Fi мрежа някой друг може да ги прочете.</string>
     <string name="dictate__base_url_placeholder">https://your-server/v1/</string>
     <string name="dictate__base_url_required">Задължителен за персонализирания доставчик</string>
     <string name="dictate__value_not_set">Не е зададено</string>
@@ -1813,7 +1842,6 @@
     <string name="dictate__audio_source_voice_recognition_summary">Настроен за реч с по-малко обработка — опитайте, ако транскрипцията е неточна</string>
     <string name="dictate__audio_source_unprocessed">Необработен (суров)</string>
     <string name="dictate__audio_source_unprocessed_summary">Без никаква обработка; връща се към Гласово разпознаване, ако телефонът ви не го поддържа</string>
-    <string name="dictate__security_group">Сигурност</string>
     <string name="dictate__trust_user_certs_title">Доверяване на потребителски сертификати</string>
     <string name="dictate__trust_user_certs_summary">Доверие към CA сертификати, които сте инсталирали сами – за самостоятелно хоствани адреси зад частен CA.</string>
     <string name="dictate__stats_title">Статистика</string>
@@ -2225,6 +2253,11 @@
     <string name="prefs__media__gif_setup__step3">Копирайте ключа си и го поставете в полето по-долу.</string>
     <string name="prefs__media__gif_setup__open_klipy">Отворете KLIPY Partner Panel</string>
     <string name="prefs__media__gif_setup__key_label">Ключ за KLIPY API</string>
+    <string name="prefs__media__gif_content_filter">Безопасно търсене</string>
+    <string name="prefs__media__gif_content_filter__high">Строго</string>
+    <string name="prefs__media__gif_content_filter__medium">Умерено</string>
+    <string name="prefs__media__gif_content_filter__low">Леко</string>
+    <string name="prefs__media__gif_content_filter__off">Изключено</string>
     <string name="prefs__media__gif_setup__privacy_note">Търсените думи се изпращат до KLIPY само докато панелът с GIF е отворен — никога по време на диктовка.</string>
     <string name="gif__search_placeholder">Търсене в KLIPY</string>
     <string name="gif__powered_by">Задвижвано от KLIPY</string>

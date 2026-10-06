@@ -125,6 +125,10 @@
     <string name="settings__home__title" comment="Title of the Home screen">Us donem la benvinguda a {app_name}</string>
     <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Dictate Keyboard is not enabled in the system">{app_name} no està habilitat en el sistema i, per tant, no estarà disponible com a mètode d\'entrada en el selector d\'entrada. Feu clic aquí per a resoldre aquest problema.</string>
     <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Dictate Keyboard is not selected as the default keyboard">{app_name} no està seleccionat com a mètode d\'entrada per defecte. Feu clic aquí per a resoldre aquest problema.</string>
+    <string name="dictate__settings_unreadable_card">No s’ha pogut llegir la teva configuració, així que el Dictate ha començat amb els valors per defecte. Toca aquí per recuperar-la.</string>
+    <string name="dictate__settings_unreadable_title">Restaurar ajustos?</string>
+    <string name="dictate__settings_unreadable_message">En iniciar-se, el Dictate no ha pogut llegir el seu fitxer de configuració. L’ha conservat intacte i ha començat amb els valors per defecte. «Restaura» recupera els teus proveïdors, claus, prompts i ajustos tal com eren. «Suprimeix» elimina el fitxer antic.</string>
+    <string name="dictate__settings_restore_failed">La configuració antiga encara no es pot llegir.</string>
     <string name="settings__search__title" comment="Title of the settings search screen">Cerca la configuració</string>
     <string name="settings__search__placeholder" comment="Placeholder in the settings search field">Cerca la configuració…</string>
     <string name="settings__search__recent" comment="Header above recently used search terms">Cerques recents</string>
@@ -346,6 +350,28 @@
     <string name="pref__keyboard__number_row__summary" comment="Preference summary">Mostra una fila amb els números a la part superior del teclat</string>
     <string name="pref__keyboard__hinted_number_row_mode__label" comment="Preference title">Números suggerits a les tecles</string>
     <string name="pref__keyboard__hinted_symbols_mode__label" comment="Preference title">Símbols suggerits a les tecles</string>
+    <string name="settings__custom_symbols__title">Símbols personalitzats</string>
+    <string name="pref__keyboard__custom_symbols__label">Fes servir símbols personalitzats</string>
+    <string name="custom_symbols__edit_key">Edita la tecla</string>
+    <string name="custom_symbols__key">Símbol</string>
+    <string name="custom_symbols__currency">Moneda de l’idioma</string>
+    <string name="custom_symbols__long_press">En mantenir premut</string>
+    <string name="custom_symbols__add_placeholder">Afegeix, p. ex. ✔ ☑ ✅</string>
+    <string name="custom_symbols__insert_as">Insereix com a</string>
+    <string name="custom_symbols__target_key">Tecla</string>
+    <string name="custom_symbols__target_long_press">Mantenir premut</string>
+    <string name="custom_symbols__palette_math">Matemàtiques</string>
+    <string name="custom_symbols__palette_arrows">Fletxes</string>
+    <string name="custom_symbols__palette_currencies">Monedes</string>
+    <string name="custom_symbols__palette_punctuation">Puntuació</string>
+    <string name="custom_symbols__palette_shapes">Formes</string>
+    <string name="custom_symbols__palette_greek">Grec</string>
+    <string name="custom_symbols__palette_scripts">Superíndex i subíndex</string>
+    <string name="custom_symbols__reset_all">Restableix totes les tecles</string>
+    <string name="custom_symbols__reset_all_confirm">Vols restablir totes les tecles al valor per defecte?</string>
+    <string name="custom_symbols__import_confirm">Vols substituir els teus símbols pels d’aquest fitxer?</string>
+    <string name="custom_symbols__import_done">Símbols importats</string>
+    <string name="custom_symbols__import_invalid">Això no és un fitxer de símbols</string>
     <string name="pref__keyboard__utility_key_enabled__label" comment="Preference title">Mostra la tecla d\'utilitat</string>
     <string name="pref__keyboard__utility_key_enabled__summary" comment="Preference summary">Mostra una tecla d\'utilitat configurable al costat de la barra d\'espai</string>
     <string name="pref__keyboard__utility_key_action__label" comment="Preference title">Acció de la tecla d\'utilitat</string>
@@ -1151,6 +1177,8 @@
     <string name="dictate__floating_button_snap_summary_on">El botó s’ajusta al costat més proper després d’arrossegar-lo.</string>
     <string name="dictate__floating_button_snap_title">Ajusta a la vora</string>
     <string name="dictate__interrupted_recording">Interromput ({time})</string>
+    <string name="dictate__transcription_stopped">Aturat, enregistrament conservat</string>
+    <string name="dictate__transcription_stopped_in_history">Aturat, enregistrament a l’Historial</string>
     <string name="dictate__providers_summary_both">Transcripció: {transcription} · Reformulació: {rewording}</string>
     <string name="dictate__remember_last_dictation_summary">Conserva l\'últim dictat perquè el botó flotant el pugui desfer i la disposició clàssica el pugui tornar a inserir.</string>
     <string name="dictate__remember_last_dictation_title">Recorda l’últim dictat</string>
@@ -1237,6 +1265,7 @@
     <string name="dictate__model_default_summary">Per defecte del proveïdor</string>
     <string name="dictate__custom_server_title">Servidor personalitzat</string>
     <string name="dictate__base_url_title">URL base</string>
+    <string name="dictate__base_url_cleartext_warning">Sense xifrar: la clau d’API i les teves gravacions viatgen com a text pla. A la teva pròpia xarxa no passa res, però en qualsevol altra wifi algú altre les podria llegir.</string>
     <string name="dictate__base_url_placeholder">https://el-teu-servidor/v1/</string>
     <string name="dictate__base_url_required">Necessari per al proveïdor personalitzat</string>
     <string name="dictate__value_not_set">Sense configurar</string>
@@ -1683,7 +1712,6 @@
     <string name="dictate__audio_source_voice_recognition_summary">Optimitzat per a la veu amb menys processament — prova-ho si la transcripció és inexacta</string>
     <string name="dictate__audio_source_unprocessed">Sense processar (cru)</string>
     <string name="dictate__audio_source_unprocessed_summary">Sense cap processament; recorre al reconeixement de veu si el teu telèfon no ho admet</string>
-    <string name="dictate__security_group">Seguretat</string>
     <string name="dictate__trust_user_certs_title">Confia en els certificats d\'usuari</string>
     <string name="dictate__trust_user_certs_summary">Confia en certificats de CA que has instal·lat tu mateix, per a punts auto-allotjats darrere d\'una CA privada.</string>
     <string name="dictate__stats_title">Estadístiques</string>
@@ -2095,6 +2123,11 @@
     <string name="prefs__media__gif_setup__step3">Copia la teva clau i enganxa-la al camp de sota.</string>
     <string name="prefs__media__gif_setup__open_klipy">Obre el KLIPY Partner Panel</string>
     <string name="prefs__media__gif_setup__key_label">Clau de l\'API de KLIPY</string>
+    <string name="prefs__media__gif_content_filter">Cerca segura</string>
+    <string name="prefs__media__gif_content_filter__high">Estricta</string>
+    <string name="prefs__media__gif_content_filter__medium">Moderada</string>
+    <string name="prefs__media__gif_content_filter__low">Lleugera</string>
+    <string name="prefs__media__gif_content_filter__off">Desactivada</string>
     <string name="prefs__media__gif_setup__privacy_note">Els teus termes de cerca només s\'envien a KLIPY mentre el tauler de GIFs està obert — mai durant el dictat.</string>
     <string name="gif__search_placeholder">Cerca a KLIPY</string>
     <string name="gif__powered_by">Amb la tecnologia de KLIPY</string>

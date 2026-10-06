@@ -125,6 +125,10 @@
     <string name="settings__home__title" comment="Title of the Home screen">مرحبا بكم في {app_name}</string>
     <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Dictate Keyboard is not enabled in the system">لم يتم تمكين {app_name} في النظام وبالتالي لن يكون متاحًا كطريقة إدخال في منتقي الإدخال. انقر هنا لحل هذه المشكلة.</string>
     <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Dictate Keyboard is not selected as the default keyboard">لم يتم تعيين {app_name} كطريقة الإدخال الافتراضية. انقر هنا لحل هذه المشكلة.</string>
+    <string name="dictate__settings_unreadable_card">تعذّرت قراءة إعداداتك، لذا بدأ Dictate بالإعدادات الافتراضية. اضغط هنا لاستعادتها.</string>
+    <string name="dictate__settings_unreadable_title">استعادة الإعدادات؟</string>
+    <string name="dictate__settings_unreadable_message">عند بدء التشغيل لم يتمكن Dictate من قراءة ملف إعداداته، فاحتفظ به دون تغيير وبدأ بالإعدادات الافتراضية. يعيد «إستعادة» مزوّديك ومفاتيحك ومطالباتك وإعداداتك كما كانت. ويزيل «حذف» الملف القديم.</string>
+    <string name="dictate__settings_restore_failed">لا تزال الإعدادات القديمة غير قابلة للقراءة.</string>
     <string name="settings__search__title" comment="Title of the settings search screen">البحث في الإعدادات</string>
     <string name="settings__search__placeholder" comment="Placeholder in the settings search field">البحث في الإعدادات…</string>
     <string name="settings__search__recent" comment="Header above recently used search terms">عمليات البحث الأخيرة</string>
@@ -331,6 +335,28 @@
     <string name="pref__keyboard__number_row__summary" comment="Preference summary">إظهار صف الأعداد فوق تخطيط الحروف</string>
     <string name="pref__keyboard__hinted_number_row_mode__label" comment="Preference title">تلميحات صف الأعداد</string>
     <string name="pref__keyboard__hinted_symbols_mode__label" comment="Preference title">تلميحات للرموز</string>
+    <string name="settings__custom_symbols__title">رموز مخصصة</string>
+    <string name="pref__keyboard__custom_symbols__label">استخدام رموز مخصصة</string>
+    <string name="custom_symbols__edit_key">تعديل المفتاح</string>
+    <string name="custom_symbols__key">الرمز</string>
+    <string name="custom_symbols__currency">عملة اللغة</string>
+    <string name="custom_symbols__long_press">عند الضغط المطوّل</string>
+    <string name="custom_symbols__add_placeholder">إضافة، مثل ✔ ☑ ✅</string>
+    <string name="custom_symbols__insert_as">إدراج كـ</string>
+    <string name="custom_symbols__target_key">مفتاح</string>
+    <string name="custom_symbols__target_long_press">ضغط مطوّل</string>
+    <string name="custom_symbols__palette_math">رياضيات</string>
+    <string name="custom_symbols__palette_arrows">أسهم</string>
+    <string name="custom_symbols__palette_currencies">عملات</string>
+    <string name="custom_symbols__palette_punctuation">علامات الترقيم</string>
+    <string name="custom_symbols__palette_shapes">أشكال</string>
+    <string name="custom_symbols__palette_greek">يونانية</string>
+    <string name="custom_symbols__palette_scripts">مرتفع ومنخفض</string>
+    <string name="custom_symbols__reset_all">إعادة تعيين كل المفاتيح</string>
+    <string name="custom_symbols__reset_all_confirm">إعادة كل المفاتيح إلى الوضع الافتراضي؟</string>
+    <string name="custom_symbols__import_confirm">استبدال رموزك بالرموز الموجودة في هذا الملف؟</string>
+    <string name="custom_symbols__import_done">تم استيراد الرموز</string>
+    <string name="custom_symbols__import_invalid">هذا ليس ملف رموز</string>
     <string name="pref__keyboard__utility_key_enabled__label" comment="Preference title">عرض مفتاح الادوات</string>
     <string name="pref__keyboard__utility_key_enabled__summary" comment="Preference summary">عرض مفتاح الأدوات القابل لتخصيص بجوار شريط المسافة</string>
     <string name="pref__keyboard__utility_key_action__label" comment="Preference title">وظيفة مفتاح الادوات</string>
@@ -1139,6 +1165,8 @@
     <string name="dictate__floating_button_snap_summary_on">يلتصق الزر بأقرب جانب بعد سحبه.</string>
     <string name="dictate__floating_button_snap_title">الالتصاق بالحافة</string>
     <string name="dictate__interrupted_recording">تمت المقاطعة ({time})</string>
+    <string name="dictate__transcription_stopped">تم الإيقاف، التسجيل محفوظ</string>
+    <string name="dictate__transcription_stopped_in_history">تم الإيقاف، التسجيل في السجل</string>
     <string name="dictate__providers_summary_both">النسخ: {transcription} · إعادة الصياغة: {rewording}</string>
     <string name="dictate__remember_last_dictation_summary">يحتفظ بآخر إملاء لك حتى يتمكن الزر العائم من التراجع عنه والتخطيط الكلاسيكي من إدراجه مجددًا.</string>
     <string name="dictate__remember_last_dictation_title">تذكّر آخر إملاء</string>
@@ -1225,6 +1253,7 @@
     <string name="dictate__model_default_summary">الافتراضي للمزوّد</string>
     <string name="dictate__custom_server_title">خادم مخصّص</string>
     <string name="dictate__base_url_title">عنوان URL الأساسي</string>
+    <string name="dictate__base_url_cleartext_warning">غير مشفّر: يُرسَل مفتاح API وتسجيلاتك كنص عادي. لا بأس بذلك على شبكتك الخاصة، لكن على أي شبكة Wi-Fi أخرى قد يقرؤها شخص آخر.</string>
     <string name="dictate__base_url_placeholder">https://your-server/v1/</string>
     <string name="dictate__base_url_required">مطلوب للمزوّد المخصّص</string>
     <string name="dictate__value_not_set">غير مضبوط</string>
@@ -1675,7 +1704,6 @@
     <string name="dictate__audio_source_voice_recognition_summary">مُحسَّن للكلام بمعالجة أقل — جرّبه إذا كان النسخ غير دقيق</string>
     <string name="dictate__audio_source_unprocessed">غير معالَج (خام)</string>
     <string name="dictate__audio_source_unprocessed_summary">بدون أي معالجة؛ يعود إلى التعرف على الكلام إذا كان هاتفك لا يدعمه</string>
-    <string name="dictate__security_group">الأمان</string>
     <string name="dictate__trust_user_certs_title">الوثوق بشهادات المستخدم</string>
     <string name="dictate__trust_user_certs_summary">الوثوق بشهادات CA التي ثبَّتها بنفسك، للنقاط المستضافة ذاتيًا خلف هيئة شهادات خاصة.</string>
     <string name="dictate__stats_title">الإحصاءات</string>
@@ -2087,6 +2115,11 @@
     <string name="prefs__media__gif_setup__step3">انسخ مفتاحك والصقه في الحقل أدناه.</string>
     <string name="prefs__media__gif_setup__open_klipy">افتح KLIPY Partner Panel</string>
     <string name="prefs__media__gif_setup__key_label">مفتاح KLIPY API</string>
+    <string name="prefs__media__gif_content_filter">البحث الآمن</string>
+    <string name="prefs__media__gif_content_filter__high">صارم</string>
+    <string name="prefs__media__gif_content_filter__medium">متوسط</string>
+    <string name="prefs__media__gif_content_filter__low">خفيف</string>
+    <string name="prefs__media__gif_content_filter__off">إيقاف</string>
     <string name="prefs__media__gif_setup__privacy_note">تُرسَل عبارات البحث إلى KLIPY فقط أثناء فتح لوحة GIF — ولا تُرسَل أبدًا أثناء الإملاء.</string>
     <string name="gif__search_placeholder">ابحث في KLIPY</string>
     <string name="gif__powered_by">مدعوم من KLIPY</string>
