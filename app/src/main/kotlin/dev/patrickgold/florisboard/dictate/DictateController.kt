@@ -79,6 +79,7 @@ import dev.patrickgold.florisboard.dictate.provider.TranscriptionApi
 import dev.patrickgold.florisboard.dictate.provider.TranscriptionRequest
 import dev.patrickgold.florisboard.dictate.overlay.AccessibilitySink
 import dev.patrickgold.florisboard.dictate.overlay.DictateAccessibilityService
+import dev.patrickgold.florisboard.dictate.overlay.floatingButtonTapBuzzes
 import dev.patrickgold.florisboard.dictate.provider.chatModelFor
 import dev.patrickgold.florisboard.dictate.provider.chatModelIsPresetDefault
 import dev.patrickgold.florisboard.dictate.provider.singleCallApplies
@@ -317,6 +318,15 @@ object DictateController {
      */
     val interimText: StateFlow<String> = _interimText.asStateFlow()
 
+    /**
+     * Whether the floating button may caption the running stream next to itself (discussion #453): only a
+     * dictation the button started, never a live prompt — its words are an instruction, the same reason
+     * they stay out of the field — and not for someone who keeps the stream out of sight until stop
+     * (`prefs.dictate.realtimeHidePreview`, #345). The field never sees the words before stop, whatever this says.
+     */
+    fun overlayPreviewWanted(): Boolean =
+        outputTarget == OutputTarget.OVERLAY && !livePromptArmed && !prefs.dictate.realtimeHidePreview.get()
+
     private var realtimeSession: RealtimeSession? = null
     private val realtimeFinal = StringBuilder()      // accumulated finalized segments
     @Volatile private var realtimeFailed = false     // stream errored → fall back to batch on stop
@@ -512,11 +522,11 @@ object DictateController {
 
     /**
      * Whether the tap that drove this transition has already produced a buzz of its own — the floating
-     * button's own haptic, or the keyboard's ordinary key feedback. Read at the moment of the
-     * transition, so a user who turns either off starts getting the dictation buzz instead.
+     * button's, which follows the keyboard's key feedback, or the keyboard's ordinary key feedback. Read at
+     * the moment of the transition, so a user who turns it off starts getting the dictation buzz instead.
      */
-    private fun pressAlreadyBuzzed(): Boolean = when (outputTarget) {
-        OutputTarget.OVERLAY -> prefs.dictate.floatingButtonHaptic.get()
+    private fun pressAlreadyBuzzed(context: Context): Boolean = when (outputTarget) {
+        OutputTarget.OVERLAY -> floatingButtonTapBuzzes(context, prefs)
         OutputTarget.IME -> prefs.inputFeedback.hapticEnabled.get()
         OutputTarget.RECOGNITION_SERVICE -> false
     }
@@ -549,7 +559,7 @@ object DictateController {
                     // its user this buzz is the only sign the recording really started (#159).
                     (new is UiState.Recording && prev !is UiState.Recording) ||
                         (prev is UiState.Recording && new is UiState.Transcribing) -> {
-                        if (DictateAccessibility.isScreenReaderOn(appContext) || !pressAlreadyBuzzed()) {
+                        if (DictateAccessibility.isScreenReaderOn(appContext) || !pressAlreadyBuzzed(appContext)) {
                             DictateHaptics.short(appContext)
                         }
                     }
@@ -2360,7 +2370,20 @@ object DictateController {
         // so it never opened with the trigger, whatever the rest of it happens to start with.
         val spokenCommand = commandTrigger().takeIf { it.isNotEmpty() }
             ?.let { CommandTrigger.instructionFor(rawText, it) }
-        val isLive = live || spokenCommand != null
+        // A live prompt that cannot be sent — its provider wants a key and has none — becomes a plain
+        // dictation, and the notice below says why the text was not reworded. It used to fail after the
+        // whole recording, with "Check your API key" right behind "Transcribing…": read by someone on the
+        // on-device engine who had taken the unlabelled chip for the dictation button, that said
+        // transcription needed a key (e-mail, 2026-10-19). Turning the chip away before the recording was
+        // the alternative; it saves the user nothing they wanted, while the transcript is exactly that.
+        val wantsLive = live || spokenCommand != null
+        val isLive = wantsLive && rewordingHasCredential()
+        if (wantsLive && !isLive) {
+            swallowedRewording = DictateApiException(
+                DictateApiException.Kind.INVALID_API_KEY,
+                appContext.getString(R.string.dictate__error_no_api_key),
+            )
+        }
         val text = TranscriptHandover.continuation(handedOver, rawText)
         val finalText = if (isLive) {
             // The spoken transcript is an instruction; send it to GPT (optionally operating on the current
@@ -4765,6 +4788,10 @@ object DictateController {
     /** Effective rewording key: the rewording account's, falling back to the transcription account's. */
     private fun rewordingApiKey(): String =
         rewordingAccount().apiKey.ifBlank { transcriptionAccount().apiKey }
+
+    /** Whether a rewording can be sent at all: the condition [requestRewordRaw] refuses on, asked first. */
+    private fun rewordingHasCredential(): Boolean =
+        rewordingApiKey().isNotBlank() || !requiresKey(rewordingAccount())
 
     private fun promptsDb(context: Context) = PromptsDatabaseHelper.getInstance(context)
 
