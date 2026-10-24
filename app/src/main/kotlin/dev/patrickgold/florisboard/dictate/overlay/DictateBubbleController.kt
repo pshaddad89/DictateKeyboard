@@ -40,6 +40,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -144,6 +145,7 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
 
     /** The live caption above (or below) the bubble while a streaming dictation runs (discussion #453). */
     private var previewView: TextView? = null
+    private var previewHost: FrameLayout? = null
     private var previewParams: WindowManager.LayoutParams? = null
     private var previewAdded = false
 
@@ -267,6 +269,14 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
             // itself is up is asked inside, since a hidden bubble has nothing to caption.
             combine(DictateController.interimText, DictateController.state) { text, state -> text to state }
                 .collect { (text, state) -> managePreview(text, state) }
+        }
+        scope.launch {
+            // A long-form dictation (#460) is known to be one only just after it reached Recording, and
+            // stops being one just before it leaves it, so the pause slot also follows this flag.
+            DictateController.segmentedRecording.collect { managePause(DictateController.state.value, added) }
+        }
+        scope.launch {
+            DictateController.segmentFlushCount.collect { count -> if (count > 0) pulseNext() }
         }
         scope.launch {
             DictateAccessibilityService.foregroundPackage.collect { pkg -> onForegroundPackageChanged(pkg) }
@@ -487,7 +497,9 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
             contentDescription = context.getString(R.string.dictate__action_cancel)
             setOnClickListener {
                 if (floatingButtonTapBuzzes(context, prefs)) vibrateTap()
-                DictateController.cancelRecording()
+                // In long-form this keeps what has been transcribed and drops only the part being recorded,
+                // like the keyboard's bin (#183, #460); otherwise it throws the recording away.
+                DictateController.cancelOrDiscardSegment(context)
             }
         }
     }
@@ -503,16 +515,21 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         ).apply { gravity = Gravity.TOP or Gravity.START }
     }
 
-    // --- Pause button (shown while recording, if wanted) -------------------------------------------
+    // --- Pause button (shown while recording, if wanted), or Next in long-form ---------------------
 
     /**
      * The pause/resume button (e-mail, 2026-10-20): the keyboard's recording bar always had one, the bubble
      * only paused by itself when another app took the audio focus. It appears with the cancel button, a
      * slot further out, and swaps its glyph with the state — the bubble already shows a paused recording,
      * and its timer already leaves the pauses out.
+     *
+     * In a long-form dictation the same slot holds the Next button instead (#460), as on the keyboard, where
+     * Next replaces pause. It needs no tick in "Extra buttons": choosing long-form is the request for it, and
+     * without it the "Next button" mode would have no way to cut at all.
      */
     private fun managePause(state: DictateController.UiState, shown: Boolean) {
-        if (shown && state is DictateController.UiState.Recording && prefs.dictate.floatingButtonPauseEnabled.get()) {
+        val wanted = DictateController.segmentedRecording.value || prefs.dictate.floatingButtonPauseEnabled.get()
+        if (shown && state is DictateController.UiState.Recording && wanted) {
             if (pauseAdded) {
                 updatePauseIcon(state.paused)
                 return
@@ -560,27 +577,60 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         return sideButtonHost(icon, pauseSize).apply {
             setOnClickListener {
                 if (floatingButtonTapBuzzes(context, prefs)) vibrateTap()
-                DictateController.togglePause()
+                // Asked at the tap, not remembered from the glyph: both are read from the same flow.
+                if (DictateController.segmentedRecording.value) {
+                    DictateController.flushSegment(context)
+                } else {
+                    DictateController.togglePause()
+                }
             }
         }
     }
 
-    /** Pause while it records, resume while it is paused; the description says the same to TalkBack. */
+    /**
+     * Next in a long-form dictation; otherwise pause while it records and resume while it is paused. The
+     * description says the same to TalkBack.
+     */
     private fun updatePauseIcon(paused: Boolean) {
+        val next = DictateController.segmentedRecording.value
         pauseIcon?.setImageResource(
-            if (paused) R.drawable.ic_dictate_overlay_resume else R.drawable.ic_dictate_overlay_pause,
+            when {
+                next -> R.drawable.ic_dictate_overlay_next
+                paused -> R.drawable.ic_dictate_overlay_resume
+                else -> R.drawable.ic_dictate_overlay_pause
+            },
         )
         pauseView?.contentDescription = context.getString(
-            if (paused) R.string.dictate__action_resume else R.string.dictate__action_pause,
+            when {
+                next -> R.string.dictate__action_next_segment
+                paused -> R.string.dictate__action_resume
+                else -> R.string.dictate__action_pause
+            },
         )
+    }
+
+    /**
+     * A short press-like pulse of the Next button on every cut, the bubble's version of the flash the
+     * keyboard's Next button gives (#170): a cut by Smart auto-split happens without a tap, and this is how
+     * it shows. It shrinks rather than grows, so it never reaches past the button's own window.
+     */
+    private fun pulseNext() {
+        val v = pauseView ?: return
+        if (!pauseAdded || !DictateController.segmentedRecording.value) return
+        v.animate().cancel()
+        v.alpha = 1f // a cut during the fade-in would otherwise leave it half see-through
+        v.scaleX = 0.7f
+        v.scaleY = 0.7f
+        v.animate().scaleX(1f).scaleY(1f).setDuration(320).setInterpolator(OvershootInterpolator()).start()
     }
 
     // --- Live caption (shown while a streaming dictation runs, discussion #453) --------------------
 
     /**
      * Shows the end of the running transcript in a small card by the bubble, while the field still gets
-     * nothing until stop (#357). It needs a stream: with batch transcription there is no text before the
-     * stop, so the card never appears. Not touchable — it must never catch a tap meant for the app under it
+     * nothing until stop (#357). It needs a stream or a long-form dictation, whose segments come back while
+     * it records (#460): with plain batch transcription there is no text before the stop, so the card never
+     * appears. Not touchable — it must never catch a tap meant for the app under it
      * — and hidden from accessibility services, so TalkBack does not speak into the microphone.
      */
     private fun managePreview(text: String, state: DictateController.UiState) {
@@ -590,38 +640,93 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
             hidePreview()
             return
         }
-        val v = previewView ?: createPreviewView().also { previewView = it }
-        v.text = BubbleLivePreview.tail(text)
+        val card = previewView ?: createPreviewView().also { previewView = it }
+        val host = previewHost ?: createPreviewHost(card).also { previewHost = it }
+        val lp = previewParams ?: createPreviewParams().also { previewParams = it }
+        fitPreviewText(card, text)
+        // New words only redraw the card inside its window; the window itself moves when the bubble does.
         if (!previewAdded) {
-            val lp = previewParams ?: createPreviewParams().also { previewParams = it }
+            // Placed before it is added, so its first frame is already where it belongs.
+            positionPreview()
             runCatching {
                 service.noteOwnWindowChange()
-                windowManager.addView(v, lp)
+                windowManager.addView(host, lp)
                 previewAdded = true
             }
         }
-        positionPreview()
     }
 
     private fun hidePreview() {
-        val v = previewView
-        if (previewAdded && v != null) {
+        val host = previewHost
+        if (previewAdded && host != null) {
             service.noteOwnWindowChange()
-            runCatching { windowManager.removeView(v) }
+            runCatching { windowManager.removeView(host) }
         }
         previewAdded = false
     }
 
+    /**
+     * Puts the end of [text] into the card, as much of it as fits in [PREVIEW_MAX_LINES] at the card's widest:
+     * a character budget first, then a word at a time off the front until the lines fit. The lines decide
+     * rather than the characters because a larger system font or a narrower screen needs fewer of them, and
+     * a TextView that runs out of lines cuts its *end* — the newest words, the only ones still changing.
+     */
+    private fun fitPreviewText(v: TextView, text: String) {
+        v.maxWidth = previewMaxWidth()
+        var shown = BubbleLivePreview.tail(text)
+        v.text = shown
+        measurePreview(v)
+        while (v.lineCount > PREVIEW_MAX_LINES) {
+            shown = BubbleLivePreview.dropFirstWord(shown) ?: break
+            v.text = shown
+            measurePreview(v)
+        }
+    }
+
+    private fun previewMaxWidth(): Int = (screenWidth() * PREVIEW_MAX_WIDTH).toInt()
+
+    /** The card at its tallest, [PREVIEW_MAX_LINES] lines and its padding, with a pixel or two to spare. */
+    private fun previewMaxHeight(card: TextView): Int =
+        card.lineHeight * PREVIEW_MAX_LINES + card.paddingTop + card.paddingBottom + dp(2)
+
+    private fun measurePreview(v: TextView) = v.measure(
+        View.MeasureSpec.makeMeasureSpec(previewMaxWidth(), View.MeasureSpec.AT_MOST),
+        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+    )
+
     private fun createPreviewView(): TextView = TextView(context).apply {
         setTextColor(color(R.color.dictate_overlay_icon))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-        maxLines = 3
         val hz = dp(14)
         val vt = dp(10)
         setPadding(hz, vt, hz, vt)
         background = roundedRect(color(R.color.dictate_overlay_menu_surface), dpf(14f))
         elevation = dpf(6f)
         importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+    }
+
+    /**
+     * The window the card sits in, as large as the card can ever get, with the card pinned to the corner that
+     * faces the bubble. A window sized to the card itself had to change size *and* position with every new
+     * word piece, and the two do not land in the same frame: for a frame the new card was drawn at the old
+     * spot, so against the right wall it kept jumping up to 40 px past the pill, to the screen edge. Measured
+     * frame by frame on 2026-10-20. Now a word only redraws the card; the window moves with the bubble alone.
+     * It is untouchable, so its empty part never takes a tap from the app below.
+     */
+    private fun createPreviewHost(card: TextView): FrameLayout = FrameLayout(context).apply {
+        clipChildren = false
+        clipToPadding = false
+        // Gives the window surface room for the card's shadow, as [sideButtonHost] explains.
+        elevation = dpf(6f)
+        importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+        addView(
+            card,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM or Gravity.RIGHT,
+            ),
+        )
     }
 
     private fun createPreviewParams(): WindowManager.LayoutParams = WindowManager.LayoutParams(
@@ -640,16 +745,16 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
      */
     private fun positionPreview() {
         val plp = previewParams ?: return
-        val preview = previewView ?: return
+        val host = previewHost ?: return
+        val card = previewView ?: return
         val blp = params ?: return
         val bubble = rootView ?: return
-        val maxWidth = (screenWidth() * PREVIEW_MAX_WIDTH).toInt()
-        preview.measure(
-            View.MeasureSpec.makeMeasureSpec(maxWidth, View.MeasureSpec.AT_MOST),
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-        )
-        val w = preview.measuredWidth
-        val h = preview.measuredHeight
+        // Always the card's largest size, never WRAP_CONTENT: that let the window manager measure the card
+        // against the whole screen, wider than the position was worked out for (reported 2026-10-20).
+        val w = previewMaxWidth()
+        val h = previewMaxHeight(card)
+        plp.width = w
+        plp.height = h
         val gap = sdp(8)
         val inset = skin?.visualInset ?: 0
         val bubbleHeight = bubble.height.takeIf { it > 0 } ?: skin?.shapeHeight ?: 0
@@ -657,9 +762,19 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         plp.x = if (sideIsRight) left + bubble.width - inset - w else left + inset
         plp.x = plp.x.coerceIn(0, (screenWidth() - w).coerceAtLeast(0))
         val above = blp.y - gap - h
-        plp.y = if (above >= 0) above else blp.y + bubbleHeight + gap
+        val isAbove = above >= 0
+        plp.y = if (isAbove) above else blp.y + bubbleHeight + gap
         plp.y = plp.y.coerceIn(0, (screenHeight() - h).coerceAtLeast(0))
-        if (previewAdded) runCatching { windowManager.updateViewLayout(preview, plp) }
+        // The card hugs the corner nearest the bubble: its wall, and the edge towards it. Absolute LEFT/RIGHT,
+        // not START/END: the wall is a side of the screen, whatever the language reads in.
+        val gravity = (if (isAbove) Gravity.BOTTOM else Gravity.TOP) or
+            (if (sideIsRight) Gravity.RIGHT else Gravity.LEFT)
+        val clp = card.layoutParams as? FrameLayout.LayoutParams
+        if (clp != null && clp.gravity != gravity) {
+            clp.gravity = gravity
+            card.layoutParams = clp
+        }
+        if (previewAdded) runCatching { windowManager.updateViewLayout(host, plp) }
     }
 
     // --- Undo button (shown beside the bubble right after a dictation, issue #133) ----------------
@@ -1153,6 +1268,7 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         pauseIcon = null
         pauseParams = null
         previewView = null
+        previewHost = null
         previewParams = null
         undoView = null
         undoParams = null
@@ -2980,8 +3096,9 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         /** How long the cancel button waits before its window is added; see [manageCancel]. */
         private const val CANCEL_SHOW_DELAY_MS = 40L
 
-        /** The live caption's widest, as a share of the screen (#453); three lines of it hold the tail. */
+        /** The live caption's widest, as a share of the screen (#453), and how many lines of the tail it shows. */
         private const val PREVIEW_MAX_WIDTH = 0.72f
+        private const val PREVIEW_MAX_LINES = 3
 
         /** Aurora orb (#253): three blobs, started apart and orbiting at rates that never quite repeat. */
         private const val FULL_TURN = 6.2831855f
