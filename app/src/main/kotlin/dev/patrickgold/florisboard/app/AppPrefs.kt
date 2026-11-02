@@ -910,6 +910,14 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__active_input_language",
             default = "detect",
         )
+        // The language a shared file is transcribed in, once one has been picked on the share screen
+        // (issue #461). Blank until then, which means the active dictation language, as before. Its own
+        // value because a shared voice message is somebody else speaking: the keyboard's language says
+        // what the user dictates in, not what they are sent.
+        val importLanguage = string(
+            key = "dictate__import_language",
+            default = "",
+        )
         // Switching the keyboard's language also switches the dictation language, when that language is
         // one of inputLanguages (issue #431). Off by default: #347 settled that a layout says nothing
         // about the spoken language for most people, so this is for the ones for whom it does. Acts on
@@ -1180,9 +1188,13 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
 
     val gif = Gif()
     inner class Gif {
+        // "gif__enabled" (default off) was read by nothing but the settings summary, so GIF search ran
+        // with it off. Made to work, it would have switched GIFs off for everyone who had added a key
+        // without touching it; a new key that starts on keeps them working, and off now means off. The
+        // old key is dropped in migrate().
         val enabled = boolean(
-            key = "gif__enabled",
-            default = false,
+            key = "gif__search_enabled",
+            default = true,
         )
         // Bring-your-own KLIPY API key (see KlipyGifProvider). Empty = GIF search disabled.
         val klipyApiKey = string(
@@ -1890,6 +1902,9 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
 
     override fun migrate(entry: PreferenceMigrationEntry): PreferenceMigrationEntry {
         return when (entry.key) {
+
+            // The GIF switch that never switched anything; see Gif.enabled.
+            "gif__enabled" -> entry.reset()
 
             // Migrate media prefs to emoji prefs
             // Keep migration rule until: 0.6 dev cycle
