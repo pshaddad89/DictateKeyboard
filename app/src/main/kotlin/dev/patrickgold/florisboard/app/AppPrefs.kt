@@ -694,6 +694,11 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__floating_button_menu_settings",
             default = false,
         )
+        // FORK ADDITION: the Screenshot entry (BubbleScreenshot).
+        val floatingButtonMenuScreenshot = boolean(
+            key = "dictate__floating_button_menu_screenshot",
+            default = false,
+        )
         // --- Output behavior (roadmap section 10) ------------------------------------------------
         // Press Enter / trigger the editor action automatically after committing a transcription.
         val autoEnter = boolean(

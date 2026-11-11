@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FORK ADDITION (pshaddad89/DictateKeyboard): strings for the floating button's Screenshot entry.
+  Kept out of strings.xml so upstream merges never collide with them, and marked untranslatable so the
+  missing translations in the other locales are not a lint error; they fall back to English.
+-->
+<resources>
+    <string name="dictate__floating_button_menu_screenshot_title" translatable="false">Screenshot</string>
+    <string name="dictate__screenshot_saved" translatable="false">Screenshot saved to %1$s and copied to the clipboard</string>
+    <string name="dictate__screenshot_save_failed" translatable="false">Screenshot taken, but it could not be saved</string>
+    <string name="dictate__screenshot_no_access" translatable="false">To allow screenshots, turn Dictate off and on again in Settings → Accessibility</string>
+    <string name="dictate__screenshot_too_fast" translatable="false">Wait a second before the next screenshot</string>
+    <string name="dictate__screenshot_failed" translatable="false">Could not take a screenshot (error %1$d)</string>
+    <string name="dictate__screenshot_unsupported" translatable="false">Screenshots need Android 9 or newer</string>
+</resources>

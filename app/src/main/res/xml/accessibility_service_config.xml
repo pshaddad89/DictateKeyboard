@@ -20,6 +20,7 @@
     android:accessibilityFeedbackType="feedbackGeneric"
     android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagReportViewIds|flagInputMethodEditor"
     android:canRetrieveWindowContent="true"
+    android:canTakeScreenshot="true"
     android:notificationTimeout="0"
     android:description="@string/dictate__accessibility_service_description"
     android:summary="@string/dictate__accessibility_service_summary" />

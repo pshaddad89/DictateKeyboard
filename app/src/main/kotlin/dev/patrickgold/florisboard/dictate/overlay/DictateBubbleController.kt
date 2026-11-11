@@ -1124,9 +1124,42 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
     /** Runs one of the menu's actions (#408). The menu is already closed by the time this is called. */
     private fun runMenuAction(action: BubbleMenuAction) = when (action) {
         BubbleMenuAction.LANGUAGE -> Unit // its rows set the language themselves; see addPromptMenu
+        BubbleMenuAction.SCREENSHOT -> takeScreenshot()
         BubbleMenuAction.TRANSCRIBE_FILE -> launchFromBubble(TranscribeShareActivity.pickIntent(context))
         BubbleMenuAction.HISTORY -> openSettingsScreen("settings/dictate/history")
         BubbleMenuAction.SETTINGS -> openSettingsScreen("settings/dictate")
+    }
+
+    /** FORK ADDITION: true while a screenshot is being taken, so a second tap cannot start another. */
+    private var screenshotRunning = false
+
+    /**
+     * FORK ADDITION: the menu's Screenshot entry. The bubble and the buttons beside it are made invisible
+     * for the capture and put back as they were right after it; see [BubbleScreenshot].
+     */
+    private fun takeScreenshot() {
+        if (screenshotRunning) return
+        screenshotRunning = true
+        val hidden = mutableMapOf<View, Int>()
+        scope.launch {
+            try {
+                BubbleScreenshot.capture(
+                    service,
+                    hideOverlay = {
+                        listOfNotNull(skin?.root, rootView, cancelView, undoView, pauseView, previewHost).forEach {
+                            hidden[it] = it.visibility
+                            it.visibility = View.INVISIBLE
+                        }
+                    },
+                    restoreOverlay = {
+                        hidden.forEach { (view, visibility) -> view.visibility = visibility }
+                        hidden.clear()
+                    },
+                )
+            } finally {
+                screenshotRunning = false
+            }
+        }
     }
 
     /**
