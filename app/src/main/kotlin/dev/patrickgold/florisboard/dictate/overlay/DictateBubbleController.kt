@@ -77,6 +77,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -260,6 +261,7 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         val recognitionActive: Boolean,
         val screenOn: Boolean,
         val allowedInApp: Boolean,
+        val summoned: Boolean, // FORK ADDITION: BubbleSummon
     )
 
     /** Starts observing the feature toggle + focus + design + dictation state to drive the bubble. */
@@ -281,6 +283,11 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
         scope.launch {
             DictateAccessibilityService.foregroundPackage.collect { pkg -> onForegroundPackageChanged(pkg) }
         }
+        // FORK ADDITION: a summon from the Quick Settings tile closes the shade, so the button is in view.
+        scope.launch {
+            BubbleSummon.summoned.drop(1).collect { on -> if (on) BubbleSummon.closeShade(service) }
+        }
+        BubbleSummon.refreshTile(context) // FORK: the tile shows "Accessibility off" until now
         scope.launch {
             val base = combine(
                 prefs.dictate.floatingButtonEnabled.asFlow(),
@@ -315,9 +322,10 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
                 RecognitionBridge.active,
                 DictateAccessibilityService.screenOn,
                 allowedInApp,
-            ) { emission, recogActive, screenOn, appAllowed ->
-                Surroundings(emission, recogActive, screenOn, appAllowed)
-            }.collect { (emission, recogActive, screenOn, appAllowed) ->
+                BubbleSummon.summoned,
+            ) { emission, recogActive, screenOn, appAllowed, summoned ->
+                Surroundings(emission, recogActive, screenOn, appAllowed, summoned)
+            }.collect { (emission, recogActive, screenOn, appAllowed, summoned) ->
                 val (inputs, design, size, imeVisible, accent) = emission
                 val (enabled, showWhen, focused, dictateKeyboard, state) = inputs
                 if (design != currentDesign || size.scale != sizeScale || accent != accentColor) {
@@ -346,7 +354,8 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
                     recognitionActive = recogActive,
                     screenOn = screenOn,
                     allowedInApp = appAllowed,
-                )
+                ) || BubbleSummon.shows(summoned, screenOn, recogActive) // FORK ADDITION: the QS tile
+                if (summoned && !screenOn) BubbleSummon.set(context, false) // FORK: screen off ends a summon
                 // Read before this emission shows or hides the button: a failure ends what pinned it, so
                 // the button may be leaving with this very state (see [reportTerminalState]).
                 val wasShown = added
@@ -356,7 +365,7 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
                 // change, about focus, not about the screen. The app filter is the exception, and for the
                 // same reason it beats everything else: "nothing over this app" has to mean every window
                 // we own, and a menu left standing would be the one that stayed (#392).
-                if (!screenOn || !appAllowed) hidePromptMenu()
+                if (!screenOn || (!appAllowed && !summoned)) hidePromptMenu()
                 recordingState = state as? DictateController.UiState.Recording
                 applyState(state)
                 manageForeground(state)
@@ -391,6 +400,8 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
     /** Tears everything down: stops observing, removes the window and drops the foreground state. */
     fun destroy() {
         scope.cancel()
+        BubbleSummon.set(context, false) // FORK ADDITION: no summon outlives the service,
+        BubbleSummon.refreshTile(context) // and the tile goes back to "Accessibility off"
         stopTicker()
         cancelDim()
         snapAnim?.cancel()

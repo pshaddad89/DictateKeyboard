@@ -104,6 +104,21 @@
                 android:resource="@xml/accessibility_service_config"/>
         </service>
 
+        <!-- FORK ADDITION: Quick Settings tile that shows or hides the floating button anywhere. -->
+        <service
+            android:name="dev.patrickgold.florisboard.dictate.overlay.DictateBubbleTileService"
+            android:label="@string/dictate__tile_label"
+            android:icon="@drawable/ic_dictate_tile"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true"/>
+        </service>
+
         <!-- Spellchecker service -->
         <service
             android:name="dev.patrickgold.florisboard.FlorisSpellCheckerService"

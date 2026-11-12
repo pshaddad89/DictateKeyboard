@@ -12,4 +12,10 @@
     <string name="dictate__screenshot_too_fast" translatable="false">Wait a second before the next screenshot</string>
     <string name="dictate__screenshot_failed" translatable="false">Could not take a screenshot (error %1$d)</string>
     <string name="dictate__screenshot_unsupported" translatable="false">Screenshots need Android 9 or newer</string>
+
+    <!-- Quick Settings tile (DictateBubbleTileService) -->
+    <string name="dictate__tile_label" translatable="false">Dictate button</string>
+    <string name="dictate__tile_subtitle_shown" translatable="false">Shown</string>
+    <string name="dictate__tile_subtitle_hidden" translatable="false">Hidden</string>
+    <string name="dictate__tile_subtitle_service_off" translatable="false">Accessibility off</string>
 </resources>
