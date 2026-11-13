@@ -699,6 +699,20 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "dictate__floating_button_menu_screenshot",
             default = false,
         )
+        // FORK ADDITION: the Ask AI entry and its card (askai/). The model is "providerId|model"; the
+        // prompts a JSON list, empty meaning the built-in defaults (AskAiPrompts).
+        val floatingButtonMenuAskAi = boolean(
+            key = "dictate__floating_button_menu_ask_ai",
+            default = false,
+        )
+        val floatingButtonAskAiModel = string(
+            key = "dictate__floating_button_ask_ai_model",
+            default = "",
+        )
+        val floatingButtonAskAiPrompts = string(
+            key = "dictate__floating_button_ask_ai_prompts",
+            default = "",
+        )
         // --- Output behavior (roadmap section 10) ------------------------------------------------
         // Press Enter / trigger the editor action automatically after committing a transcription.
         val autoEnter = boolean(

@@ -104,6 +104,18 @@
                 android:resource="@xml/accessibility_service_config"/>
         </service>
 
+        <!-- FORK ADDITION: the floating button's "Ask AI" card, a translucent screen over the current app.
+             Its own empty task affinity keeps it from bringing Dictate's settings to the front. -->
+        <activity
+            android:name="dev.patrickgold.florisboard.dictate.askai.AskAiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden"/>
+
         <!-- FORK ADDITION: Quick Settings tile that shows or hides the floating button anywhere. -->
         <service
             android:name="dev.patrickgold.florisboard.dictate.overlay.DictateBubbleTileService"

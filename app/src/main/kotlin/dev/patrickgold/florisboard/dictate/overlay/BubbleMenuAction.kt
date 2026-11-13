@@ -39,6 +39,8 @@ enum class BubbleMenuAction(
     LANGUAGE(R.string.dictate__languages_active_title, R.drawable.ic_dictate_language),
     /** FORK ADDITION: captures the screen; see [BubbleScreenshot]. */
     SCREENSHOT(R.string.dictate__floating_button_menu_screenshot_title, R.drawable.ic_dictate_screenshot),
+    /** FORK ADDITION: screenshot + question to an AI; see [dev.patrickgold.florisboard.dictate.askai.AskAiActivity]. */
+    ASK_AI(R.string.dictate__floating_button_menu_ask_ai_title, R.drawable.ic_dictate_ask_ai),
     TRANSCRIBE_FILE(R.string.dictate__import_menu, R.drawable.ic_dictate_audio_file),
     HISTORY(R.string.dictate__history_title, R.drawable.ic_dictate_history),
     SETTINGS(R.string.dictate__floating_button_menu_settings_title, R.drawable.ic_dictate_tune);
@@ -47,6 +49,7 @@ enum class BubbleMenuAction(
     fun pref(prefs: FlorisPreferenceModel): PreferenceData<Boolean> = when (this) {
         LANGUAGE -> prefs.dictate.floatingButtonMenuLanguage
         SCREENSHOT -> prefs.dictate.floatingButtonMenuScreenshot
+        ASK_AI -> prefs.dictate.floatingButtonMenuAskAi
         TRANSCRIBE_FILE -> prefs.dictate.floatingButtonMenuTranscribeFile
         HISTORY -> prefs.dictate.floatingButtonMenuHistory
         SETTINGS -> prefs.dictate.floatingButtonMenuSettings

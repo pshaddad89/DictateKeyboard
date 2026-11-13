@@ -90,6 +90,52 @@ internal object BubbleScreenshot {
         }
     }
 
+    /**
+     * For "Ask AI" ([dev.patrickgold.florisboard.dictate.askai.AskAiActivity]): takes the screenshot the
+     * same way but writes it to [out] — private app storage, never the gallery — instead of saving and
+     * copying it. Returns null on success, or the message to show the user.
+     */
+    suspend fun captureToFile(
+        service: AccessibilityService,
+        hideOverlay: () -> Unit,
+        restoreOverlay: () -> Unit,
+        out: java.io.File,
+    ): String? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            return service.getString(R.string.dictate__ask_ai_unsupported)
+        }
+        return captureToFileR(service, hideOverlay, restoreOverlay, out)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    private suspend fun captureToFileR(
+        service: AccessibilityService,
+        hideOverlay: () -> Unit,
+        restoreOverlay: () -> Unit,
+        out: java.io.File,
+    ): String? {
+        hideOverlay()
+        val result = try {
+            delay(SETTLE_MS)
+            grab(service)
+        } finally {
+            restoreOverlay()
+        }
+        val bitmap = result.getOrNull()
+            ?: return failureMessage(service, (result.exceptionOrNull() as? CaptureError)?.code ?: -1)
+        val written = withContext(Dispatchers.IO) {
+            try {
+                out.parentFile?.mkdirs()
+                out.outputStream().use { bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it) }
+            } catch (e: Exception) {
+                false
+            } finally {
+                bitmap.recycle()
+            }
+        }
+        return if (written) null else service.getString(R.string.dictate__screenshot_save_failed)
+    }
+
     /** Android 9/10: the same screenshot as Power + Volume down, saved by the system. */
     private suspend fun captureWithSystem(
         service: AccessibilityService,

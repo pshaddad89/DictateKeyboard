@@ -18,4 +18,33 @@
     <string name="dictate__tile_subtitle_shown" translatable="false">Shown</string>
     <string name="dictate__tile_subtitle_hidden" translatable="false">Hidden</string>
     <string name="dictate__tile_subtitle_service_off" translatable="false">Accessibility off</string>
+
+    <!-- Ask AI card (askai/AskAiActivity) -->
+    <string name="dictate__floating_button_menu_ask_ai_title" translatable="false">Ask AI</string>
+    <string name="dictate__ask_ai_title" translatable="false">Ask AI</string>
+    <string name="dictate__ask_ai_unsupported" translatable="false">Ask AI needs Android 11 or newer</string>
+    <string name="dictate__ask_ai_no_model" translatable="false">No model</string>
+    <string name="dictate__ask_ai_no_keys" translatable="false">Ask AI uses your own AI providers. Add an API key for OpenAI, Anthropic, Google Gemini, Groq or OpenRouter in Dictate\'s provider settings first.</string>
+    <string name="dictate__ask_ai_hint" translatable="false">Ask about this screen…</string>
+    <string name="dictate__ask_ai_follow_up_hint" translatable="false">Ask a follow-up…</string>
+    <string name="dictate__ask_ai_listening" translatable="false">Listening… just ask</string>
+    <string name="dictate__ask_ai_transcribing" translatable="false">Transcribing…</string>
+    <string name="dictate__ask_ai_thinking" translatable="false">Asking %1$s…</string>
+    <string name="dictate__ask_ai_failed" translatable="false">Could not get an answer: %1$s</string>
+    <string name="dictate__ask_ai_voice_failed" translatable="false">Could not transcribe that. Try again, type, or tap a button.</string>
+    <string name="dictate__ask_ai_copy" translatable="false">Copy</string>
+    <string name="dictate__ask_ai_copied" translatable="false">Copied</string>
+    <string name="dictate__ask_ai_insert" translatable="false">Insert</string>
+    <string name="dictate__ask_ai_insert_failed" translatable="false">Could not type into the field, so the answer is on the clipboard</string>
+    <string name="dictate__ask_ai_send" translatable="false">Send</string>
+    <string name="dictate__ask_ai_speak" translatable="false">Speak</string>
+    <string name="dictate__ask_ai_stop" translatable="false">Stop and send</string>
+    <string name="dictate__ask_ai_close" translatable="false">Close</string>
+    <string name="dictate__ask_ai_add_prompt" translatable="false">Add a button</string>
+    <string name="dictate__ask_ai_edit_prompt" translatable="false">Edit button</string>
+    <string name="dictate__ask_ai_prompt_label" translatable="false">Button name</string>
+    <string name="dictate__ask_ai_prompt_text" translatable="false">What to ask the AI</string>
+    <string name="dictate__ask_ai_save" translatable="false">Save</string>
+    <string name="dictate__ask_ai_delete" translatable="false">Delete</string>
+    <string name="dictate__ask_ai_cancel" translatable="false">Cancel</string>
 </resources>

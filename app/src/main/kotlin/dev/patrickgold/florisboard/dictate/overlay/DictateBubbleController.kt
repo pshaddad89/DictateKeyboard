@@ -344,7 +344,7 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
                 // The rule itself lives in [BubbleVisibility], where it can be asked without a phone. Note
                 // that a bubble is *removed* rather than faded: alpha or GONE is a request to a compositor
                 // we do not control, and that compositor is exactly the part behaving unexpectedly here.
-                val show = BubbleVisibility.shouldShow(
+                val show = (BubbleVisibility.shouldShow(
                     enabled = enabled,
                     focused = focused,
                     keyboardRequired = showWhen.keyboardRequired,
@@ -354,7 +354,8 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
                     recognitionActive = recogActive,
                     screenOn = screenOn,
                     allowedInApp = appAllowed,
-                ) || BubbleSummon.shows(summoned, screenOn, recogActive) // FORK ADDITION: the QS tile
+                ) || BubbleSummon.shows(summoned, screenOn, recogActive)) && // FORK ADDITION: the QS tile,
+                    !dev.patrickgold.florisboard.dictate.askai.AskAiActivity.isOpen // and none over the Ask AI card
                 if (summoned && !screenOn) BubbleSummon.set(context, false) // FORK: screen off ends a summon
                 // Read before this emission shows or hides the button: a failure ends what pinned it, so
                 // the button may be leaving with this very state (see [reportTerminalState]).
@@ -1136,6 +1137,7 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
     private fun runMenuAction(action: BubbleMenuAction) = when (action) {
         BubbleMenuAction.LANGUAGE -> Unit // its rows set the language themselves; see addPromptMenu
         BubbleMenuAction.SCREENSHOT -> takeScreenshot()
+        BubbleMenuAction.ASK_AI -> askAi()
         BubbleMenuAction.TRANSCRIBE_FILE -> launchFromBubble(TranscribeShareActivity.pickIntent(context))
         BubbleMenuAction.HISTORY -> openSettingsScreen("settings/dictate/history")
         BubbleMenuAction.SETTINGS -> openSettingsScreen("settings/dictate")
@@ -1145,28 +1147,62 @@ class DictateBubbleController(private val service: DictateAccessibilityService) 
     private var screenshotRunning = false
 
     /**
-     * FORK ADDITION: the menu's Screenshot entry. The bubble and the buttons beside it are made invisible
-     * for the capture and put back as they were right after it; see [BubbleScreenshot].
+     * FORK ADDITION: hides the bubble and the buttons beside it for a capture, and puts them back exactly
+     * as they were. Returns the hide and restore steps [BubbleScreenshot] calls around the capture.
      */
+    private fun overlayHider(): Pair<() -> Unit, () -> Unit> {
+        val hidden = mutableMapOf<View, Int>()
+        val hideAll = {
+            listOfNotNull(skin?.root, rootView, cancelView, undoView, pauseView, previewHost).forEach {
+                hidden[it] = it.visibility
+                it.visibility = View.INVISIBLE
+            }
+        }
+        val restoreAll = {
+            hidden.forEach { (view, visibility) -> view.visibility = visibility }
+            hidden.clear()
+        }
+        return hideAll to restoreAll
+    }
+
+    /** FORK ADDITION: the menu's Screenshot entry; see [BubbleScreenshot]. */
     private fun takeScreenshot() {
         if (screenshotRunning) return
         screenshotRunning = true
-        val hidden = mutableMapOf<View, Int>()
+        val (hideAll, restoreAll) = overlayHider()
         scope.launch {
             try {
-                BubbleScreenshot.capture(
-                    service,
-                    hideOverlay = {
-                        listOfNotNull(skin?.root, rootView, cancelView, undoView, pauseView, previewHost).forEach {
-                            hidden[it] = it.visibility
-                            it.visibility = View.INVISIBLE
-                        }
-                    },
-                    restoreOverlay = {
-                        hidden.forEach { (view, visibility) -> view.visibility = visibility }
-                        hidden.clear()
-                    },
-                )
+                BubbleScreenshot.capture(service, hideOverlay = hideAll, restoreOverlay = restoreAll)
+            } finally {
+                screenshotRunning = false
+            }
+        }
+    }
+
+    /**
+     * FORK ADDITION: the menu's Ask AI entry. Takes a screenshot into private storage and opens the card
+     * ([dev.patrickgold.florisboard.dictate.askai.AskAiActivity]) with it. Whether a text field had focus
+     * is noted now, because the card itself takes the focus away; it decides whether "Insert" is offered.
+     */
+    private fun askAi() {
+        if (screenshotRunning) return
+        screenshotRunning = true
+        val fieldFocused = DictateAccessibilityService.editableFocused.value
+        val dir = java.io.File(context.cacheDir, "askai")
+        // A card closes by deleting its own picture; this only clears what a crash may have left.
+        dir.listFiles()?.forEach { it.delete() }
+        val shot = java.io.File(dir, "screen_${System.currentTimeMillis()}.jpg")
+        val (hideAll, restoreAll) = overlayHider()
+        scope.launch {
+            try {
+                val problem = BubbleScreenshot.captureToFile(service, hideAll, restoreAll, shot)
+                if (problem != null) {
+                    Toast.makeText(context, problem, Toast.LENGTH_LONG).show()
+                } else {
+                    launchFromBubble(
+                        dev.patrickgold.florisboard.dictate.askai.AskAiActivity.intent(context, shot, fieldFocused),
+                    )
+                }
             } finally {
                 screenshotRunning = false
             }
